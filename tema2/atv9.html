@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Texto de Apoio — 1963: o plebiscito e a crise política | CERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#eef3f8;
+    --bg-alt:#dbe6f1;
+    --paper:#fbfdff;
+    --ink:#121f2c;
+    --ink-soft:#4e627a;
+    --verde:#1f4e79;
+    --verde-dark:#12354f;
+    --verde-2:#5b87b0;
+    --gold:#a6863f;
+    --gold-light:#ddc9a3;
+    --line:#c8dae9;
+    --shadow:0 10px 30px rgba(18,53,79,.16);
+    --radius:14px;
+    --font-title:'Playfair Display', serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-touch-callout:none;
+    user-select:none;
+  }
+  .selecionavel, main{user-select:text;}
+  .campo-resposta{user-select:text;}
+
+  /* ===== CAPA / GATE ===== */
+  #capa{
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(to bottom, #0a2233, #12354f, #3f719e);
+    padding:24px;
+  }
+  #capa .grade-centralizada{
+    position:absolute;
+    top:0; bottom:0; left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:896px;
+    pointer-events:none;
+    z-index:0;
+    opacity:.08;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px);
+    background-size:40px 40px;
+  }
+  .capa-card{
+    position:relative;
+    z-index:1;
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    max-width:480px;
+    width:100%;
+    padding:36px 32px;
+    text-align:center;
+  }
+  .capa-card .tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(31,78,121,.1); padding:5px 12px; border-radius:999px; margin-bottom:14px;
+  }
+  .capa-card h1{font-family:var(--font-title); font-size:1.6rem; margin:0 0 10px; color:var(--verde-dark);}
+  .capa-card p.desc{color:var(--ink-soft); font-size:.94rem; margin:0 0 22px;}
+  .capa-card input{
+    width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:1rem; margin-bottom:14px;
+  }
+  .capa-card button{
+    width:100%; padding:13px; border:none; border-radius:8px;
+    background:var(--verde); color:#fff; font-weight:600; font-size:1rem; cursor:pointer;
+    font-family:var(--font-body); transition:filter .15s ease;
+  }
+  .capa-card button:hover{filter:brightness(1.12);}
+  .capa-aviso{font-size:.78rem; color:#a33; margin-top:8px; display:none;}
+
+  /* ===== APP ===== */
+  #app{display:none;}
+  .sticky-header{
+    position:sticky; top:0; z-index:50;
+    background:var(--verde-dark); color:#e8f1f8;
+    padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:8px;
+    font-family:var(--font-mono); font-size:.82rem;
+  }
+  .sticky-header .aluno{font-family:var(--font-body); font-weight:600; font-size:.92rem;}
+  .barra-progresso-trilho{
+    flex:1; min-width:120px; height:8px; background:rgba(255,255,255,.2); border-radius:6px; overflow:hidden; margin:0 14px;
+  }
+  .barra-progresso-fill{height:100%; background:var(--gold); width:0%; transition:width .3s ease;}
+
+  .wrap{max-width:800px; margin:0 auto; padding:32px 24px 60px;}
+
+  header.topo{margin-bottom:28px;}
+  header.topo .hero-tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.72rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(31,78,121,.1); padding:5px 12px; border-radius:999px; margin-bottom:12px;
+  }
+  header.topo h1{font-family:var(--font-title); font-size:clamp(1.5rem,4vw,2rem); margin:0 0 8px; color:var(--ink);}
+  header.topo p.sub{color:var(--ink-soft); margin:0; font-size:.98rem;}
+  .descritor-bar{
+    font-family:var(--font-mono); font-size:.76rem; color:var(--ink-soft);
+    background:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:8px 14px; margin-bottom:14px; display:inline-block;
+  }
+  .ficha-id{
+    display:flex; flex-wrap:wrap; gap:10px 26px;
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; margin-top:12px; font-family:var(--font-mono); font-size:.84rem; color:var(--ink);
+  }
+  .ficha-id span b{color:var(--verde-dark);}
+
+  /* ===== TEXTO DE APOIO ===== */
+  .texto-apoio{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:28px 30px; margin-bottom:30px;
+  }
+  .texto-apoio h2{font-family:var(--font-title); font-size:1.25rem; color:var(--verde-dark); margin:0 0 4px;}
+  .texto-apoio .fonte-tag{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-bottom:16px; display:block;}
+  .texto-apoio p{margin:0 0 14px; color:var(--ink); text-align:justify;}
+  .texto-apoio p:last-of-type{margin-bottom:0;}
+
+  .destaque-dado{
+    background:var(--bg-alt); border-left:4px solid var(--verde-2); border-radius:0 10px 10px 0;
+    padding:14px 18px; margin:4px 0 16px;
+  }
+  .destaque-dado .rot-dado{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--verde-dark); display:block; margin-bottom:6px;
+  }
+  .destaque-dado p{margin:0; font-size:.92rem;}
+
+  .referencia-box{
+    margin-top:20px; padding:14px 16px;
+    background:var(--bg-alt); border-left:3px solid var(--gold); border-radius:0 8px 8px 0;
+  }
+  .referencia-box .rot{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--verde-dark); display:block; margin-bottom:6px;
+  }
+  .referencia-box p{margin:0; font-size:.86rem; color:var(--ink-soft); font-family:var(--font-mono); line-height:1.6; text-align:left;}
+
+  /* ===== QUESTOES ===== */
+  .questoes-titulo{
+    font-family:var(--font-title); font-size:1.2rem; color:var(--verde-dark);
+    margin:0 0 18px; display:flex; align-items:center; gap:10px;
+  }
+  .questao{
+    background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; margin-bottom:18px;
+  }
+  .questao .num-q{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:50%; background:var(--verde);
+    color:#fff; font-family:var(--font-mono); font-size:.78rem; margin-right:8px; flex-shrink:0;
+  }
+  .questao .enunciado{font-weight:600; color:var(--ink); margin-bottom:12px; display:flex; align-items:flex-start;}
+  .questao textarea{
+    width:100%; min-height:100px; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:.96rem; resize:vertical; color:var(--ink);
+  }
+  .questao textarea:focus{outline:2px solid var(--verde-2); outline-offset:1px;}
+  .contador-chars{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-top:6px; text-align:right;}
+
+  .comentario-prof{
+    display:none; margin-top:14px; padding:14px 16px;
+    background:#f7f1e3; border:1px solid #ddc9a3; border-radius:8px; font-size:.9rem; color:#5c481c;
+  }
+  .comentario-prof.show{display:block;}
+  .comentario-prof b{display:block; margin-bottom:4px; font-family:var(--font-title); font-size:.92rem;}
+
+  /* ===== ALERTA / FINALIZAR ===== */
+  .alerta-incompleto{
+    display:none; background:#fdf3e2; border:1px solid #f1d9a6; color:#8a5a10;
+    padding:12px 16px; border-radius:8px; font-size:.9rem; margin-bottom:16px;
+  }
+  .alerta-incompleto.show{display:block;}
+
+  .acoes-finais{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;}
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:.94rem; padding:12px 22px;
+    border-radius:8px; border:none; cursor:pointer; transition:filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn-primario{background:var(--verde); color:#fff;}
+  .btn-secundario{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn-pdf{background:var(--gold); color:#fff;}
+  .btn[disabled]{opacity:.5; cursor:not-allowed;}
+
+  /* ===== POPUP ===== */
+  .popup-overlay{
+    display:none; position:fixed; inset:0; background:rgba(10,34,51,.6);
+    align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .popup-overlay.show{display:flex;}
+  .popup-card{
+    background:var(--paper); border-radius:var(--radius); box-shadow:var(--shadow);
+    max-width:420px; width:100%; padding:32px 28px; text-align:center;
+  }
+  .popup-card .emoji{font-size:2.4rem; margin-bottom:10px;}
+  .popup-card h3{font-family:var(--font-title); margin:0 0 8px; color:var(--verde-dark);}
+  .popup-card p{color:var(--ink-soft); font-size:.94rem; margin:0 0 20px;}
+
+  footer.rodape{text-align:center; padding:24px; color:var(--ink-soft); font-family:var(--font-mono); font-size:.8rem;}
+
+  @media (max-width:600px){
+    .wrap{padding:24px 16px 50px;}
+    .texto-apoio, .questao{padding:18px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== CAPA ===== -->
+<div id="capa">
+  <div class="grade-centralizada"></div>
+  <div class="capa-card">
+    <span class="tag">9º ano · História · CERO</span>
+    <h1>1963: o plebiscito e a crise política</h1>
+    <p class="desc">Texto de apoio e questões dissertativas. Preencha os dados para começar.</p>
+    <input type="text" id="nome-aluno" placeholder="Seu nome completo">
+    <input type="text" id="turma-aluno" placeholder="Turma (ex.: 9º A)">
+    <button onclick="iniciarAtividade()">Iniciar atividade</button>
+    <div class="capa-aviso" id="capa-aviso">Por favor, digite seu nome para continuar.</div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+  <div class="sticky-header">
+    <span class="aluno" id="header-nome"></span>
+    <div class="barra-progresso-trilho"><div class="barra-progresso-fill" id="barra-fill"></div></div>
+    <span id="contador-geral">Respondidas: 0/5</span>
+  </div>
+
+  <div class="wrap">
+    <header class="topo selecionavel">
+      <span class="descritor-bar">História / 9º Ano do Ensino Fundamental &nbsp;|&nbsp; (GO-EF09HI17-A) – Populismo e Desenvolvimentismo</span>
+      <span class="hero-tag" style="display:block; margin-top:10px;">Texto de Apoio</span>
+      <h1>1963: o plebiscito e a crise política</h1>
+      <p class="sub">Leia o texto com atenção e responda às cinco questões a seguir.</p>
+      <div class="ficha-id" id="ficha-id">
+        <span><b>NOME:</b> <span id="ficha-nome"></span></span>
+        <span><b>DATA:</b> <span id="ficha-data"></span></span>
+        <span><b>TURMA:</b> <span id="ficha-turma"></span></span>
+      </div>
+    </header>
+
+    <main>
+      <section class="texto-apoio selecionavel">
+        <h2>Duas agendas para o país</h2>
+        <span class="fonte-tag">Lilia M. Schwarcz e Heloisa M. Starling, 2015</span>
+
+        <p>No final de 1962, [...] os acontecimentos pareciam se precipitar, e a solução parlamentarista mostrava desgaste — graças, inclusive, à indisfarçada colaboração do próprio presidente.</p>
+
+        <p>Jango assumiu seus poderes presidenciais, logo após o plebiscito aprovado em setembro de 1962 e realizado em 6 de janeiro de 1963, para que os brasileiros se manifestassem sobre a forma de governo. O resultado foi indiscutível: dos 11,5 milhões de eleitores, 9,5 milhões votaram a favor do retorno do regime presidencialista. Goulart entendeu a enxurrada de votos como uma nova eleição, e não estava de todo errado. Faltou, porém, considerar outro aspecto: a vitória foi sua, mas os votos eram pelo presidencialismo, e diversos partidos e lideranças políticas que se empenharam em consegui-los, simplesmente estavam de olho nas eleições presidenciais de 1965.</p>
+
+        <p>Em 1963, existiam duas agendas políticas, à esquerda e à direita, disputando para se transformar num projeto para o país — e a disputa seguiu seu curso sem disposição e sem capacidade de se resolver dentro das regras democráticas. Faltava ao governo habilidade de convencimento, e sobrava radicalismo às forças políticas que atuavam dentro e fora do Congresso Nacional.</p>
+
+        <div class="destaque-dado">
+          <span class="rot-dado">O plebiscito em números — 6 de janeiro de 1963</span>
+          <p>De <strong>11,5 milhões</strong> de eleitores, <strong>9,5 milhões</strong> votaram pelo retorno do presidencialismo.</p>
+        </div>
+
+        <div class="referencia-box">
+          <span class="rot">Referência (ABNT NBR 6023)</span>
+          <p>SCHWARCZ, Lilia M.; STARLING, Heloisa M. Brasil: uma biografia. São Paulo: Companhia das Letras, 2015. p. 441-443.</p>
+        </div>
+      </section>
+
+      <h2 class="questoes-titulo">✍️ Questões Dissertativas</h2>
+
+      <div class="questao" data-questao="1">
+        <div class="enunciado"><span class="num-q">1</span> O texto afirma que, em janeiro de 1963, um plebiscito foi realizado para que os brasileiros decidissem sobre a forma de governo do país. Explique o que estava em jogo nessa votação e qual foi o resultado apresentado pelo texto.</div>
+        <textarea id="resp-1" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Estava em jogo a escolha entre manter o parlamentarismo — adotado como saída de compromisso para permitir a posse de Jango, com poderes limitados e um primeiro-ministro dividindo o comando do governo — ou voltar ao presidencialismo, devolvendo ao presidente os poderes plenos. O resultado, segundo o texto, foi indiscutível: de 11,5 milhões de eleitores, 9,5 milhões votaram pelo retorno do presidencialismo. Logo após o plebiscito, realizado em 6 de janeiro de 1963, Jango assumiu seus poderes presidenciais.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="2">
+        <div class="enunciado"><span class="num-q">2</span> Segundo o texto, João Goulart (Jango) interpretou o resultado do plebiscito como uma espécie de "nova eleição" para si mesmo. Por que essa interpretação, de acordo com o texto, não considerava toda a complexidade da situação política da época?</div>
+        <textarea id="resp-2" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          As autoras reconhecem que Jango não estava de todo errado — a vitória foi sua e lhe devolveu os poderes. Mas os votos eram pelo presidencialismo, isto é, pela forma de governo, e não necessariamente um apoio pessoal a Jango ou ao seu programa. Muitos que fizeram campanha pelo "sim" defendiam o presidencialismo pensando em si mesmos, e não no presidente em exercício. Confundir a aprovação da forma de governo com apoio político ao governo levou Jango a superestimar a força de que dispunha.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="3">
+        <div class="enunciado"><span class="num-q">3</span> O texto menciona que "diversos partidos e lideranças políticas [...] simplesmente estavam de olho nas eleições presidenciais de 1965". Explique o que essa frase revela sobre os interesses políticos daquele momento, para além do resultado do plebiscito.</div>
+        <textarea id="resp-3" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Revela que boa parte da classe política agia por cálculo eleitoral: queria a volta do presidencialismo porque pretendia disputar — e exercer — a presidência com poderes plenos em 1965. O apoio ao "sim", portanto, não significava apoio ao governo Jango, e sim interesse na própria sucessão. Isso mostra como a base que produziu a vitória no plebiscito era circunstancial e frágil: assim que a disputa pela sucessão se aproximasse, esses mesmos aliados poderiam se voltar contra o presidente.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="4">
+        <div class="enunciado"><span class="num-q">4</span> De acordo com o texto, em 1963 existiam "duas agendas políticas, à esquerda e à direita, disputando para se transformar num projeto para o país". Descreva, com suas palavras, como o texto caracteriza essa disputa e por que ela não conseguia ser resolvida.</div>
+        <textarea id="resp-4" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          O texto descreve dois projetos de país em disputa — um à esquerda, outro à direita —, cada um tentando se impor como o único caminho possível. A disputa não se resolvia porque faltavam duas coisas ao mesmo tempo: <em>disposição</em>, ou seja, vontade de negociar e ceder, e <em>capacidade</em>, isto é, condições institucionais para arbitrar o conflito dentro das regras democráticas. Some-se a isso a falta de habilidade de convencimento do governo e o radicalismo das forças que atuavam dentro e fora do Congresso, e o impasse se tornou insolúvel pela via política.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="5">
+        <div class="enunciado"><span class="num-q">5</span> O texto conclui que "faltava ao governo habilidade de convencimento, e sobrava radicalismo às forças políticas". Na sua opinião, por que esse tipo de cenário — falta de diálogo e excesso de radicalismo — pode representar um risco para a democracia de um país?</div>
+        <textarea id="resp-5" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Não há uma única resposta certa; espera-se um posicionamento justificado. Alguns caminhos possíveis: a democracia depende de negociação, de eleições e de instituições capazes de arbitrar conflitos — quando ninguém aceita ceder, esses instrumentos deixam de funcionar; o adversário passa a ser tratado como inimigo a ser eliminado, e não como oponente legítimo; e, sem saída institucional, cresce a busca por soluções de força. Vale observar que foi exatamente esse o desfecho no Brasil: o impasse descrito pelas autoras desembocou no golpe civil-militar de 1964 e em vinte e um anos de ditadura.
+        </div>
+      </div>
+
+      <div class="alerta-incompleto" id="alerta-incompleto">
+        ⚠️ Ainda há questões incompletas (resposta mínima de 60 caracteres). Revise antes de finalizar.
+      </div>
+
+      <div class="acoes-finais">
+        <button class="btn btn-primario" onclick="finalizarAtividade()">Finalizar e ver comentários</button>
+        <button class="btn btn-secundario" onclick="refazerAtividade()">Refazer</button>
+        <button class="btn btn-pdf" onclick="exportarPDF()">Exportar em PDF</button>
+      </div>
+    </main>
+  </div>
+
+  <footer class="rodape">Colégio Estadual Rodolfo de Oliveira · CERO · 2026</footer>
+</div>
+
+<!-- ===== POPUP ===== -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-card">
+    <div class="emoji">🎉</div>
+    <h3>Atividade concluída!</h3>
+    <p>Suas cinco respostas foram registradas. Os comentários do professor já estão disponíveis abaixo de cada questão para você comparar com o que escreveu.</p>
+    <button class="btn btn-primario" onclick="fecharPopup()">Continuar</button>
+  </div>
+</div>
+
+<script>
+/* ===== GATE DE NOME ===== */
+function iniciarAtividade(){
+  const nome = document.getElementById('nome-aluno').value.trim();
+  const turma = document.getElementById('turma-aluno').value.trim();
+  const aviso = document.getElementById('capa-aviso');
+  if(!nome){
+    aviso.style.display = 'block';
+    return;
+  }
+  aviso.style.display = 'none';
+  const hoje = new Date();
+  const dataFormatada = String(hoje.getDate()).padStart(2,'0') + '/' + String(hoje.getMonth()+1).padStart(2,'0') + '/' + hoje.getFullYear();
+  document.getElementById('header-nome').textContent = nome;
+  document.getElementById('ficha-nome').textContent = nome;
+  document.getElementById('ficha-data').textContent = dataFormatada;
+  document.getElementById('ficha-turma').textContent = turma || '—';
+  document.getElementById('capa').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+/* ===== CONTADOR DE CARACTERES E PROGRESSO ===== */
+const textareas = document.querySelectorAll('textarea.dissertativa');
+
+function atualizarProgresso(){
+  let respondidas = 0;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length >= min) respondidas++;
+  });
+  document.getElementById('contador-geral').textContent = 'Respondidas: ' + respondidas + '/' + textareas.length;
+  document.getElementById('barra-fill').style.width = (respondidas / textareas.length * 100) + '%';
+}
+
+textareas.forEach(function(t){
+  const contadorEl = t.parentElement.querySelector('.contador-chars');
+  const min = parseInt(t.dataset.min, 10);
+  t.addEventListener('input', function(){
+    contadorEl.textContent = t.value.length + ' caracteres (mínimo ' + min + ')';
+    atualizarProgresso();
+  });
+});
+
+/* ===== FINALIZAR ===== */
+function finalizarAtividade(){
+  let completo = true;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length < min) completo = false;
+  });
+
+  const alerta = document.getElementById('alerta-incompleto');
+  if(!completo){
+    alerta.classList.add('show');
+    alerta.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  alerta.classList.remove('show');
+
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.add('show');
+  });
+
+  document.getElementById('popup-overlay').classList.add('show');
+}
+
+function fecharPopup(){
+  document.getElementById('popup-overlay').classList.remove('show');
+}
+
+function refazerAtividade(){
+  textareas.forEach(function(t){
+    t.value = '';
+    t.parentElement.querySelector('.contador-chars').textContent = '0 caracteres (mínimo ' + t.dataset.min + ')';
+  });
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.remove('show');
+  });
+  document.getElementById('alerta-incompleto').classList.remove('show');
+  atualizarProgresso();
+  window.scrollTo(0,0);
+}
+
+/* ===== EXPORTAR PDF ===== */
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+function esc(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML.replace(/\n/g, '<br>');
+}
+
+async function exportarPDF(){
+  const overlay = document.createElement('div');
+  overlay.id = 'pdf-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(10,34,51,.6);display:flex;align-items:center;justify-content:center;z-index:999;';
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;padding:32px 36px;text-align:center;max-width:300px;box-shadow:0 10px 30px rgba(18,53,79,.3);font-family:\'Source Serif 4\',serif;">' +
+      '<div style="font-size:2rem;margin-bottom:8px;">📄</div>' +
+      '<h4 style="margin:0 0 4px;color:#12354f;font-family:\'Playfair Display\',serif;">Gerando PDF…</h4>' +
+      '<p style="margin:0 0 14px;color:#4e627a;font-size:.86rem;">Aguarde alguns instantes.</p>' +
+      '<div style="background:#dbe6f1;border-radius:6px;overflow:hidden;height:8px;">' +
+        '<div id="pdf-prog" style="height:100%;width:0%;background:#1f4e79;transition:width .2s ease;"></div>' +
+      '</div>' +
+      '<div id="pdf-prog-txt" style="margin-top:8px;font-family:\'JetBrains Mono\',monospace;font-size:.74rem;color:#4e627a;">0%</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  await sleep(80);
+  function setP(pct, msg){
+    const pp = document.getElementById('pdf-prog'), pt = document.getElementById('pdf-prog-txt');
+    if(pp) pp.style.width = pct + '%';
+    if(pt) pt.textContent = msg || (pct + '%');
+  }
+
+  try{
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({orientation:'portrait', unit:'px', format:'a4', hotfixes:['px_scaling']});
+    const PW = pdf.internal.pageSize.getWidth(), PH = pdf.internal.pageSize.getHeight();
+    const ML = 28, CW = PW - ML*2;
+    let y = ML;
+
+    async function addImg(el){
+      const canvas = await html2canvas(el, {scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff', scrollX:0, scrollY:0, windowWidth:860});
+      const imgW = CW, imgH = (canvas.height / canvas.width) * imgW;
+      const dataUrl = canvas.toDataURL('image/jpeg', .92), avail = PH - ML*2;
+      if(imgH <= avail){
+        if(y + imgH > PH - ML){ pdf.addPage(); y = ML; }
+        pdf.addImage(dataUrl, 'JPEG', ML, y, imgW, imgH);
+        y += imgH + 8;
+      } else {
+        const pxPerPdfPt = canvas.width / imgW;
+        let srcY = 0;
+        while(srcY < canvas.height){
+          const availPt = PH - y - ML, sliceH_pt = Math.min(availPt, avail);
+          const sliceH_px = Math.round(sliceH_pt * pxPerPdfPt), actualH_px = Math.min(sliceH_px, canvas.height - srcY);
+          const tmp = document.createElement('canvas');
+          tmp.width = canvas.width; tmp.height = actualH_px;
+          tmp.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, actualH_px, 0, 0, canvas.width, actualH_px);
+          const sliceUrl = tmp.toDataURL('image/jpeg', .92), slicePt = (actualH_px / canvas.width) * imgW;
+          pdf.addImage(sliceUrl, 'JPEG', ML, y, imgW, slicePt);
+          srcY += actualH_px; y += slicePt;
+          if(srcY < canvas.height){ pdf.addPage(); y = ML; }
+        }
+        y += 8;
+      }
+    }
+
+    async function band(tag, txt){
+      const b = document.createElement('div');
+      b.style.cssText = 'width:860px;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      b.innerHTML = '<div style="background:linear-gradient(90deg,#1f4e79,#12354f);border-radius:8px;padding:12px 22px;display:flex;align-items:center;gap:12px">' +
+        '<span style="background:rgba(255,255,255,.2);color:#fff;font-weight:700;font-size:12px;letter-spacing:1px;border-radius:20px;padding:3px 12px">' + tag + '</span>' +
+        '<span style="color:#fff;font-size:15px;font-weight:700">' + txt + '</span></div>';
+      document.body.appendChild(b);
+      await sleep(20);
+      await addImg(b);
+      document.body.removeChild(b);
+    }
+
+    const nome = document.getElementById('header-nome').textContent || 'Aluno(a)';
+    const turma = document.getElementById('ficha-turma').textContent || '—';
+    const now = new Date();
+    const dtStr = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+
+    setP(5, 'Preparando capa…'); await sleep(40);
+    const coverEl = document.createElement('div');
+    coverEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;overflow:hidden;position:absolute;left:-9999px;top:0';
+    coverEl.innerHTML =
+      '<div style="background:linear-gradient(135deg,#0a2233 0%,#1f4e79 60%,#5b87b0 100%);padding:32px 48px 28px;color:white">' +
+        '<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;font-weight:700;margin-bottom:6px">História · 9º Ano do Ensino Fundamental · GO-EF09HI17-A</div>' +
+        '<div style="font-size:26px;font-weight:900;line-height:1.2;margin-bottom:5px">1963: o plebiscito e a crise política</div>' +
+        '<div style="font-size:13px;opacity:.8;font-style:italic">Texto de apoio · Governo João Goulart · 5 questões dissertativas</div>' +
+      '</div>' +
+      '<div style="background:#eef3f8;padding:22px 48px 26px;border-bottom:3px solid #ddc9a3">' +
+        '<div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#1f4e79;font-weight:700;margin-bottom:5px">Aluno(a)</div>' +
+        '<div style="font-size:20px;font-weight:700;color:#121f2c;border-bottom:2.5px solid #1f4e79;padding-bottom:6px;display:inline-block;margin-bottom:16px">' + esc(nome) + '</div>' +
+        '<div style="display:flex;gap:12px;flex-wrap:wrap">' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#1f4e79">' + esc(turma) + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Turma</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#a6863f">5</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Dissertativas</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:140px">' +
+            '<div style="font-size:13px;font-weight:700;color:#333">' + dtStr + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Gerado em</div></div>' +
+        '</div>' +
+        '<div style="font-size:9px;color:#bbb;margin-top:14px">Colégio Estadual Rodolfo de Oliveira · Goiás · 2026</div>' +
+      '</div>';
+    document.body.appendChild(coverEl); await sleep(60); await addImg(coverEl); document.body.removeChild(coverEl);
+
+    // TEXTO DE APOIO
+    setP(15, 'Preparando texto de apoio…'); await sleep(20);
+    await band('TEXTO DE APOIO', 'Duas agendas para o país');
+    const textoEl = document.createElement('div');
+    textoEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #c8dae9;border-radius:10px;position:absolute;left:-9999px;top:0';
+    textoEl.innerHTML =
+      '<div style="padding:18px 24px;background:#fbfdff">' +
+        '<p style="font-size:12.5px;color:#121f2c;line-height:1.8;margin:0 0 12px;text-align:justify">No final de 1962, [...] os acontecimentos pareciam se precipitar, e a solução parlamentarista mostrava desgaste — graças, inclusive, à indisfarçada colaboração do próprio presidente.</p>' +
+        '<p style="font-size:12.5px;color:#121f2c;line-height:1.8;margin:0 0 12px;text-align:justify">Jango assumiu seus poderes presidenciais, logo após o plebiscito aprovado em setembro de 1962 e realizado em 6 de janeiro de 1963, para que os brasileiros se manifestassem sobre a forma de governo. O resultado foi indiscutível: dos 11,5 milhões de eleitores, 9,5 milhões votaram a favor do retorno do regime presidencialista. Goulart entendeu a enxurrada de votos como uma nova eleição, e não estava de todo errado. Faltou, porém, considerar outro aspecto: a vitória foi sua, mas os votos eram pelo presidencialismo, e diversos partidos e lideranças políticas que se empenharam em consegui-los, simplesmente estavam de olho nas eleições presidenciais de 1965.</p>' +
+        '<p style="font-size:12.5px;color:#121f2c;line-height:1.8;margin:0 0 12px;text-align:justify">Em 1963, existiam duas agendas políticas, à esquerda e à direita, disputando para se transformar num projeto para o país — e a disputa seguiu seu curso sem disposição e sem capacidade de se resolver dentro das regras democráticas. Faltava ao governo habilidade de convencimento, e sobrava radicalismo às forças políticas que atuavam dentro e fora do Congresso Nacional.</p>' +
+        '<div style="border-left:4px solid #5b87b0;background:#dbe6f1;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:12px">' +
+          '<div style="font-size:10px;color:#12354f;font-family:monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">O plebiscito em números — 6 de janeiro de 1963</div>' +
+          '<div style="font-size:12.5px;color:#121f2c;line-height:1.7">De <b>11,5 milhões</b> de eleitores, <b>9,5 milhões</b> votaram pelo retorno do presidencialismo.</div>' +
+        '</div>' +
+        '<div style="font-size:10px;color:#4e627a;font-family:monospace;border-top:1px solid #eee;padding-top:10px">SCHWARCZ, Lilia M.; STARLING, Heloisa M. Brasil: uma biografia. São Paulo: Companhia das Letras, 2015. p. 441-443.</div>' +
+      '</div>';
+    document.body.appendChild(textoEl); await sleep(20); await addImg(textoEl); document.body.removeChild(textoEl);
+
+    // QUESTÕES DISSERTATIVAS
+    await band('QUESTÕES', 'Questões Dissertativas — Respostas e Orientações');
+
+    const QUESTOES = [
+      { num:'1', enunc:'O texto afirma que, em janeiro de 1963, um plebiscito foi realizado para que os brasileiros decidissem sobre a forma de governo do país. Explique o que estava em jogo nessa votação e qual foi o resultado apresentado pelo texto.', id:'resp-1',
+        coment:'Estava em jogo a escolha entre manter o parlamentarismo — adotado como saída de compromisso para permitir a posse de Jango, com poderes limitados e um primeiro-ministro dividindo o comando do governo — ou voltar ao presidencialismo, devolvendo ao presidente os poderes plenos. O resultado, segundo o texto, foi indiscutível: de 11,5 milhões de eleitores, 9,5 milhões votaram pelo retorno do presidencialismo. Logo após o plebiscito, realizado em 6 de janeiro de 1963, Jango assumiu seus poderes presidenciais.' },
+      { num:'2', enunc:'Segundo o texto, João Goulart (Jango) interpretou o resultado do plebiscito como uma espécie de "nova eleição" para si mesmo. Por que essa interpretação, de acordo com o texto, não considerava toda a complexidade da situação política da época?', id:'resp-2',
+        coment:'As autoras reconhecem que Jango não estava de todo errado — a vitória foi sua e lhe devolveu os poderes. Mas os votos eram pelo presidencialismo, isto é, pela forma de governo, e não necessariamente um apoio pessoal a Jango ou ao seu programa. Muitos que fizeram campanha pelo "sim" defendiam o presidencialismo pensando em si mesmos, e não no presidente em exercício. Confundir a aprovação da forma de governo com apoio político ao governo levou Jango a superestimar a força de que dispunha.' },
+      { num:'3', enunc:'O texto menciona que "diversos partidos e lideranças políticas [...] simplesmente estavam de olho nas eleições presidenciais de 1965". Explique o que essa frase revela sobre os interesses políticos daquele momento, para além do resultado do plebiscito.', id:'resp-3',
+        coment:'Revela que boa parte da classe política agia por cálculo eleitoral: queria a volta do presidencialismo porque pretendia disputar — e exercer — a presidência com poderes plenos em 1965. O apoio ao "sim", portanto, não significava apoio ao governo Jango, e sim interesse na própria sucessão. Isso mostra como a base que produziu a vitória no plebiscito era circunstancial e frágil: assim que a disputa pela sucessão se aproximasse, esses mesmos aliados poderiam se voltar contra o presidente.' },
+      { num:'4', enunc:'De acordo com o texto, em 1963 existiam "duas agendas políticas, à esquerda e à direita, disputando para se transformar num projeto para o país". Descreva, com suas palavras, como o texto caracteriza essa disputa e por que ela não conseguia ser resolvida.', id:'resp-4',
+        coment:'O texto descreve dois projetos de país em disputa — um à esquerda, outro à direita —, cada um tentando se impor como o único caminho possível. A disputa não se resolvia porque faltavam duas coisas ao mesmo tempo: disposição, ou seja, vontade de negociar e ceder, e capacidade, isto é, condições institucionais para arbitrar o conflito dentro das regras democráticas. Some-se a isso a falta de habilidade de convencimento do governo e o radicalismo das forças que atuavam dentro e fora do Congresso, e o impasse se tornou insolúvel pela via política.' },
+      { num:'5', enunc:'O texto conclui que "faltava ao governo habilidade de convencimento, e sobrava radicalismo às forças políticas". Na sua opinião, por que esse tipo de cenário — falta de diálogo e excesso de radicalismo — pode representar um risco para a democracia de um país?', id:'resp-5',
+        coment:'Não há uma única resposta certa; espera-se um posicionamento justificado. Alguns caminhos possíveis: a democracia depende de negociação, de eleições e de instituições capazes de arbitrar conflitos — quando ninguém aceita ceder, esses instrumentos deixam de funcionar; o adversário passa a ser tratado como inimigo a ser eliminado, e não como oponente legítimo; e, sem saída institucional, cresce a busca por soluções de força. Vale observar que foi exatamente esse o desfecho no Brasil: o impasse descrito pelas autoras desembocou no golpe civil-militar de 1964 e em vinte e um anos de ditadura.' }
+    ];
+
+    for(let i=0; i<QUESTOES.length; i++){
+      const q = QUESTOES[i];
+      setP(20 + Math.round(i/QUESTOES.length*65), 'Questão ' + q.num + '/5…'); await sleep(12);
+
+      const valor = document.getElementById(q.id) ? document.getElementById(q.id).value : '';
+      const qEl = document.createElement('div');
+      qEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #c8dae9;border-radius:10px;position:absolute;left:-9999px;top:0';
+      qEl.innerHTML =
+        '<div style="background:linear-gradient(90deg,#1f4e79,#12354f);padding:10px 22px;display:flex;justify-content:space-between;align-items:center">' +
+          '<span style="color:white;font-weight:700;font-size:13px;letter-spacing:.8px">QUESTÃO ' + q.num + '</span>' +
+          '<span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:11px;padding:3px 12px;border-radius:20px;font-weight:600">Dissertativa</span></div>' +
+        '<div style="padding:18px 24px 16px;background:#fbfdff">' +
+          '<div style="font-size:13px;font-weight:700;color:#121f2c;line-height:1.6;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #eee">' + esc(q.enunc) + '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+            '<div style="width:4px;height:15px;background:#1f4e79;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#1f4e79;text-transform:uppercase;letter-spacing:1.5px">Resposta do Aluno(a)</div></div>' +
+          '<div style="background:#e8f1f8;border:1.5px solid #a9c8de;border-radius:8px;padding:13px 16px;min-height:50px;margin-bottom:12px">' +
+            '<div style="font-size:12.5px;color:#121f2c;line-height:1.8;white-space:pre-wrap">' + (esc(valor) || '<span style=\"color:#aaa\">(sem resposta)</span>') + '</div></div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">' +
+            '<div style="width:4px;height:15px;background:#a6863f;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#8a6f2f;text-transform:uppercase;letter-spacing:1.5px">Comentário do Professor</div></div>' +
+          '<div style="background:#f7f1e3;border:1.5px solid #ddc9a3;border-radius:8px;padding:13px 16px">' +
+            '<div style="font-size:12px;color:#4a3a10;line-height:1.8">' + esc(q.coment) + '</div></div>' +
+        '</div>';
+      document.body.appendChild(qEl); await sleep(12); await addImg(qEl); document.body.removeChild(qEl);
+    }
+
+    // RODAPÉ EM TODAS AS PÁGINAS
+    setP(92, 'Finalizando…'); await sleep(30);
+    const totalPages = pdf.getNumberOfPages();
+    for(let p=1; p<=totalPages; p++){
+      pdf.setPage(p);
+      const fEl = document.createElement('div');
+      fEl.style.cssText = 'width:' + Math.round(CW) + 'px;height:22px;background:#eef3f8;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:10px;color:#888;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      fEl.innerHTML = '<span>1963: o plebiscito e a crise política · ' + esc(nome) + '</span><span>Página ' + p + ' de ' + totalPages + '</span>';
+      document.body.appendChild(fEl);
+      const fc = await html2canvas(fEl, {scale:2, logging:false, backgroundColor:'#eef3f8'});
+      document.body.removeChild(fEl);
+      const fUrl = fc.toDataURL('image/jpeg', .9), fH = (fc.height / fc.width) * CW;
+      pdf.setFillColor(238,243,248); pdf.rect(ML, PH-fH, CW, fH, 'F');
+      pdf.addImage(fUrl, 'JPEG', ML, PH-fH, CW, fH);
+    }
+
+    setP(100, 'Salvando…'); await sleep(200);
+    const safeName = nome.replace(/[^a-zA-Z0-9_\-]/g, '_');
+    pdf.save('1963_Plebiscito_Crise_Politica_' + safeName + '.pdf');
+
+  } catch(err){
+    console.error(err);
+    alert('Erro ao gerar PDF: ' + err.message);
+  } finally {
+    const ov = document.getElementById('pdf-overlay');
+    if(ov) document.body.removeChild(ov);
+  }
+}
+
+/* ===== PROTEÇÃO ANTI-COLA ===== */
+(function () {
+  const CAMPOS_PROTEGIDOS = document.querySelectorAll('textarea.dissertativa, .campo-resposta');
+  const LIMITE_BLOCO = 25;
+
+  function bloquear(e) {
+    e.preventDefault();
+    mostrarToast('Colar não permitido nesta atividade.');
+  }
+
+  CAMPOS_PROTEGIDOS.forEach(function (campo) {
+    ['paste', 'copy', 'cut', 'drop', 'dragover', 'contextmenu'].forEach(function (evt) {
+      campo.addEventListener(evt, bloquear);
+    });
+
+    campo.addEventListener('beforeinput', function (e) {
+      if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') {
+        e.preventDefault();
+        mostrarToast('Colar não permitido nesta atividade.');
+      }
+    });
+
+    let valorAnterior = campo.value;
+    campo.addEventListener('input', function (e) {
+      const diferenca = campo.value.length - valorAnterior.length;
+      if (diferenca >= LIMITE_BLOCO && e.inputType !== 'insertReplacementText') {
+        campo.value = valorAnterior;
+        mostrarToast('Colar não permitido nesta atividade.');
+      } else {
+        valorAnterior = campo.value;
+      }
+    });
+  });
+
+  function mostrarToast(mensagem) {
+    let toast = document.getElementById('anti-cola-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'anti-cola-toast';
+      toast.style.cssText =
+        'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);' +
+        'background:#333;color:#fff;padding:10px 20px;border-radius:8px;' +
+        'font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = mensagem;
+    toast.style.opacity = '1';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(function () {
+      toast.style.opacity = '0';
+    }, 2500);
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Texto de Apoio — A Marcha da Família com Deus pela Liberdade | CERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f2f3f5;
+    --bg-alt:#e2e5e9;
+    --paper:#fcfcfd;
+    --ink:#1c1f24;
+    --ink-soft:#5a616b;
+    --verde:#414a57;
+    --verde-dark:#272d36;
+    --verde-2:#7d8794;
+    --gold:#a3452f;
+    --gold-light:#e0b4a8;
+    --line:#d5d9de;
+    --shadow:0 10px 30px rgba(39,45,54,.16);
+    --radius:14px;
+    --font-title:'Playfair Display', serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-touch-callout:none;
+    user-select:none;
+  }
+  .selecionavel, main{user-select:text;}
+  .campo-resposta{user-select:text;}
+
+  /* ===== CAPA / GATE ===== */
+  #capa{
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(to bottom, #15181d, #272d36, #5c6673);
+    padding:24px;
+  }
+  #capa .grade-centralizada{
+    position:absolute;
+    top:0; bottom:0; left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:896px;
+    pointer-events:none;
+    z-index:0;
+    opacity:.08;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px);
+    background-size:40px 40px;
+  }
+  .capa-card{
+    position:relative;
+    z-index:1;
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    max-width:480px;
+    width:100%;
+    padding:36px 32px;
+    text-align:center;
+  }
+  .capa-card .tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(65,74,87,.1); padding:5px 12px; border-radius:999px; margin-bottom:14px;
+  }
+  .capa-card h1{font-family:var(--font-title); font-size:1.5rem; margin:0 0 10px; color:var(--verde-dark);}
+  .capa-card p.desc{color:var(--ink-soft); font-size:.94rem; margin:0 0 22px;}
+  .capa-card input{
+    width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:1rem; margin-bottom:14px;
+  }
+  .capa-card button{
+    width:100%; padding:13px; border:none; border-radius:8px;
+    background:var(--verde); color:#fff; font-weight:600; font-size:1rem; cursor:pointer;
+    font-family:var(--font-body); transition:filter .15s ease;
+  }
+  .capa-card button:hover{filter:brightness(1.15);}
+  .capa-aviso{font-size:.78rem; color:#a33; margin-top:8px; display:none;}
+
+  /* ===== APP ===== */
+  #app{display:none;}
+  .sticky-header{
+    position:sticky; top:0; z-index:50;
+    background:var(--verde-dark); color:#eef0f2;
+    padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:8px;
+    font-family:var(--font-mono); font-size:.82rem;
+  }
+  .sticky-header .aluno{font-family:var(--font-body); font-weight:600; font-size:.92rem;}
+  .barra-progresso-trilho{
+    flex:1; min-width:120px; height:8px; background:rgba(255,255,255,.2); border-radius:6px; overflow:hidden; margin:0 14px;
+  }
+  .barra-progresso-fill{height:100%; background:var(--gold-light); width:0%; transition:width .3s ease;}
+
+  .wrap{max-width:800px; margin:0 auto; padding:32px 24px 60px;}
+
+  header.topo{margin-bottom:28px;}
+  header.topo .hero-tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.72rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(65,74,87,.1); padding:5px 12px; border-radius:999px; margin-bottom:12px;
+  }
+  header.topo h1{font-family:var(--font-title); font-size:clamp(1.4rem,4vw,1.9rem); margin:0 0 8px; color:var(--ink);}
+  header.topo p.sub{color:var(--ink-soft); margin:0; font-size:.98rem;}
+  .descritor-bar{
+    font-family:var(--font-mono); font-size:.76rem; color:var(--ink-soft);
+    background:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:8px 14px; margin-bottom:14px; display:inline-block;
+  }
+  .ficha-id{
+    display:flex; flex-wrap:wrap; gap:10px 26px;
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; margin-top:12px; font-family:var(--font-mono); font-size:.84rem; color:var(--ink);
+  }
+  .ficha-id span b{color:var(--verde-dark);}
+
+  /* ===== TEXTO DE APOIO ===== */
+  .texto-apoio{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:28px 30px; margin-bottom:30px;
+  }
+  .texto-apoio h2{font-family:var(--font-title); font-size:1.25rem; color:var(--verde-dark); margin:0 0 4px;}
+  .texto-apoio .fonte-tag{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-bottom:16px; display:block;}
+  .texto-apoio p{margin:0 0 14px; color:var(--ink); text-align:justify;}
+  .texto-apoio p:last-of-type{margin-bottom:0;}
+
+  .destaque-dado{
+    background:var(--bg-alt); border-left:4px solid var(--verde-2); border-radius:0 10px 10px 0;
+    padding:14px 18px; margin:4px 0 16px;
+  }
+  .destaque-dado .rot-dado{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--verde-dark); display:block; margin-bottom:6px;
+  }
+  .destaque-dado p{margin:0; font-size:.92rem;}
+
+  .referencia-box{
+    margin-top:20px; padding:14px 16px;
+    background:var(--bg-alt); border-left:3px solid var(--gold); border-radius:0 8px 8px 0;
+  }
+  .referencia-box .rot{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--verde-dark); display:block; margin-bottom:6px;
+  }
+  .referencia-box p{margin:0; font-size:.86rem; color:var(--ink-soft); font-family:var(--font-mono); line-height:1.6; text-align:left;}
+
+  /* ===== QUESTOES ===== */
+  .questoes-titulo{
+    font-family:var(--font-title); font-size:1.2rem; color:var(--verde-dark);
+    margin:0 0 18px; display:flex; align-items:center; gap:10px;
+  }
+  .questao{
+    background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; margin-bottom:18px;
+  }
+  .questao .num-q{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:50%; background:var(--verde);
+    color:#fff; font-family:var(--font-mono); font-size:.78rem; margin-right:8px; flex-shrink:0;
+  }
+  .questao .enunciado{font-weight:600; color:var(--ink); margin-bottom:12px; display:flex; align-items:flex-start;}
+  .questao textarea{
+    width:100%; min-height:100px; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:.96rem; resize:vertical; color:var(--ink);
+  }
+  .questao textarea:focus{outline:2px solid var(--verde-2); outline-offset:1px;}
+  .contador-chars{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-top:6px; text-align:right;}
+
+  .comentario-prof{
+    display:none; margin-top:14px; padding:14px 16px;
+    background:#faece8; border:1px solid #e4c2b7; border-radius:8px; font-size:.9rem; color:#7a3021;
+  }
+  .comentario-prof.show{display:block;}
+  .comentario-prof b{display:block; margin-bottom:4px; font-family:var(--font-title); font-size:.92rem;}
+
+  /* ===== ALERTA / FINALIZAR ===== */
+  .alerta-incompleto{
+    display:none; background:#fdf3e2; border:1px solid #f1d9a6; color:#8a5a10;
+    padding:12px 16px; border-radius:8px; font-size:.9rem; margin-bottom:16px;
+  }
+  .alerta-incompleto.show{display:block;}
+
+  .acoes-finais{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;}
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:.94rem; padding:12px 22px;
+    border-radius:8px; border:none; cursor:pointer; transition:filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn-primario{background:var(--verde); color:#fff;}
+  .btn-secundario{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn-pdf{background:var(--gold); color:#fff;}
+  .btn[disabled]{opacity:.5; cursor:not-allowed;}
+
+  /* ===== POPUP ===== */
+  .popup-overlay{
+    display:none; position:fixed; inset:0; background:rgba(21,24,29,.6);
+    align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .popup-overlay.show{display:flex;}
+  .popup-card{
+    background:var(--paper); border-radius:var(--radius); box-shadow:var(--shadow);
+    max-width:420px; width:100%; padding:32px 28px; text-align:center;
+  }
+  .popup-card .emoji{font-size:2.4rem; margin-bottom:10px;}
+  .popup-card h3{font-family:var(--font-title); margin:0 0 8px; color:var(--verde-dark);}
+  .popup-card p{color:var(--ink-soft); font-size:.94rem; margin:0 0 20px;}
+
+  footer.rodape{text-align:center; padding:24px; color:var(--ink-soft); font-family:var(--font-mono); font-size:.8rem;}
+
+  @media (max-width:600px){
+    .wrap{padding:24px 16px 50px;}
+    .texto-apoio, .questao{padding:18px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== CAPA ===== -->
+<div id="capa">
+  <div class="grade-centralizada"></div>
+  <div class="capa-card">
+    <span class="tag">9º ano · História · CERO</span>
+    <h1>A Marcha da Família com Deus pela Liberdade</h1>
+    <p class="desc">Texto de apoio e questões dissertativas. Preencha os dados para começar.</p>
+    <input type="text" id="nome-aluno" placeholder="Seu nome completo">
+    <input type="text" id="turma-aluno" placeholder="Turma (ex.: 9º A)">
+    <button onclick="iniciarAtividade()">Iniciar atividade</button>
+    <div class="capa-aviso" id="capa-aviso">Por favor, digite seu nome para continuar.</div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+  <div class="sticky-header">
+    <span class="aluno" id="header-nome"></span>
+    <div class="barra-progresso-trilho"><div class="barra-progresso-fill" id="barra-fill"></div></div>
+    <span id="contador-geral">Respondidas: 0/5</span>
+  </div>
+
+  <div class="wrap">
+    <header class="topo selecionavel">
+      <span class="descritor-bar">História / 9º Ano do Ensino Fundamental &nbsp;|&nbsp; (GO-EF09HI17-A) – Populismo e Desenvolvimentismo</span>
+      <span class="hero-tag" style="display:block; margin-top:10px;">Texto de Apoio</span>
+      <h1>A Marcha da Família com Deus pela Liberdade</h1>
+      <p class="sub">Leia o texto com atenção e responda às cinco questões a seguir.</p>
+      <div class="ficha-id" id="ficha-id">
+        <span><b>NOME:</b> <span id="ficha-nome"></span></span>
+        <span><b>DATA:</b> <span id="ficha-data"></span></span>
+        <span><b>TURMA:</b> <span id="ficha-turma"></span></span>
+      </div>
+    </header>
+
+    <main>
+      <section class="texto-apoio selecionavel">
+        <h2>Ruas divididas às vésperas do golpe</h2>
+        <span class="fonte-tag">Jorge Ferreira, 2003</span>
+
+        <p>No dia [...] de São José, padroeiro da família, foi realizado, na cidade de São Paulo, um ato que mereceu o desprezo das esquerdas, mas que foi, no entanto, profundamente significativo, demonstrando a divisão e a radicalização política do país: a Marcha da Família com Deus pela Liberdade. Os discursos contra Goulart foram a tônica do comício que se seguiu. Cálculos falam em 500 mil pessoas presentes à Marcha. Outros, considerando os que assistiram nas ruas de acesso, chegaram à cifra de 800 mil [...]. As esquerdas, no entanto, não levaram o ato a sério por dois motivos. Primeiro, por tratar-se de uma manifestação de classe média. "Isto não é povo", disseram alguns com irreverência. Segundo, pelo caráter religioso do movimento, algo merecedor de desprezo.</p>
+
+        <p>Nos dois dias que antecederam a Semana Santa, Goulart e seus aliados de esquerda continuaram avançando na estratégia adotada para implementar as reformas. A programação dos novos comícios foi fechada, todos para abril: dia 3 em Santos; 10 em Santo André; 11 em Salvador; 17 em Ribeirão Preto; 19, homenageando Vargas, em Belo Horizonte; 21 em Brasília. O último, marcado não casualmente para 1º de maio, seria na capital paulista. No mesmo dia, contudo, o general Castelo Branco, chefe do Estado-Maior do Exército, fez um pronunciamento, denunciando "as agitações generalizadas do ilegal poder do CGT". Deveriam, perguntou, as Forças Armadas apoiar uma revolução "para garantir a plenitude a um grupo pseudossindical, cuja cúpula vive na agitação subversiva cada vez mais onerosa aos cofres públicos? Para talvez submeter a nação ao comunismo de Moscou?" [...]</p>
+
+        <div class="destaque-dado">
+          <span class="rot-dado">A disputa das ruas — o calendário de comícios de abril</span>
+          <p>3 — Santos &nbsp;·&nbsp; 10 — Santo André &nbsp;·&nbsp; 11 — Salvador &nbsp;·&nbsp; 17 — Ribeirão Preto &nbsp;·&nbsp; 19 — Belo Horizonte (homenagem a Vargas) &nbsp;·&nbsp; 21 — Brasília &nbsp;·&nbsp; <strong>1º de maio — São Paulo</strong></p>
+        </div>
+
+        <div class="referencia-box">
+          <span class="rot">Referência (ABNT NBR 6023)</span>
+          <p>FERREIRA, Jorge. O governo Goulart e o golpe civil-militar de 1964. In: FERREIRA, Jorge; DELGADO, Lucília de Almeida Neves (org.). O tempo da experiência democrática: da democratização de 1945 ao golpe civil-militar de 1964. Rio de Janeiro: Civilização Brasileira, 2003. (O Brasil republicano, v. 3, p. 386-387).</p>
+        </div>
+      </section>
+
+      <h2 class="questoes-titulo">✍️ Questões Dissertativas</h2>
+
+      <div class="questao" data-questao="1">
+        <div class="enunciado"><span class="num-q">1</span> O texto descreve a "Marcha da Família com Deus pela Liberdade" como um ato "profundamente significativo", mesmo tendo sido desprezado pelas esquerdas. Explique, com base no texto, o que era essa Marcha e qual era o seu principal objetivo político.</div>
+        <textarea id="resp-1" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          A Marcha foi uma grande manifestação de rua realizada em São Paulo, no dia de São José, padroeiro da família, seguida de um comício em que os discursos contra Goulart foram a tônica. Os cálculos de público variam entre 500 mil e 800 mil pessoas. Seu objetivo político era demonstrar a força da oposição ao governo João Goulart e às reformas de base, reunindo setores conservadores, religiosos e de classe média. Para o autor, o ato é significativo justamente porque expõe a divisão e a radicalização política do país. (Contexto que o trecho não informa: a Marcha ocorreu em 19 de março de 1964, poucos dias antes do golpe.)
+        </div>
+      </div>
+
+      <div class="questao" data-questao="2">
+        <div class="enunciado"><span class="num-q">2</span> Segundo o texto, as esquerdas não levaram a Marcha a sério por dois motivos principais. Identifique e explique, com suas palavras, esses dois motivos apontados pelo autor.</div>
+        <textarea id="resp-2" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          O primeiro motivo foi o perfil social dos participantes: por ser uma manifestação de classe média, não foi reconhecida como mobilização popular legítima — daí a frase irônica "Isto não é povo". O segundo foi o caráter religioso do movimento, tratado com desprezo por parte das esquerdas, que não viam na fé uma força política a ser levada a sério. O resultado dessa dupla desqualificação foi grave: subestimaram a capacidade de mobilização dos adversários justamente no momento em que ela se tornava decisiva.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="3">
+        <div class="enunciado"><span class="num-q">3</span> O texto afirma que a frase "Isto não é povo" foi dita por alguns para desqualificar os participantes da Marcha. Reflita e explique: por que essa forma de julgar quem "é" ou "não é" povo pode ser um problema quando pensamos sobre democracia e representação política?</div>
+        <textarea id="resp-3" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Numa democracia, todos os cidadãos formam o povo, independentemente da classe social, da religião ou da opinião política. Quando um grupo se atribui o direito de decidir quem conta como povo, ele exclui do jogo político quem pensa diferente e passa a tratar o adversário como ilegítimo, e não como oponente. Além do problema de princípio, há um problema prático evidente no próprio texto: ao dizer "isto não é povo", as esquerdas deixaram de enxergar a dimensão real do movimento que se organizava contra o governo. Vale notar que esse tipo de desqualificação pode ser usado por qualquer lado do espectro político.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="4">
+        <div class="enunciado"><span class="num-q">4</span> Enquanto os opositores organizavam a Marcha, o texto mostra que Goulart e seus aliados continuavam agendando novos comícios pelo país. O que essa disputa de atos públicos (marchas de um lado, comícios de outro) revela sobre o clima político do Brasil naquele momento?</div>
+        <textarea id="resp-4" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Revela um país profundamente dividido, em que a disputa política havia migrado das instituições para as ruas. Cada lado media forças pelo tamanho das multidões que conseguia reunir, e não pela negociação no Congresso ou pelas eleições. O calendário de comícios — Santos, Santo André, Salvador, Ribeirão Preto, Belo Horizonte, Brasília e São Paulo no 1º de maio — mostra uma escalada planejada, uma resposta à Marcha. É o clima de confronto e radicalização que o autor descreve: dois campos que já não buscavam acordo, mas a demonstração de superioridade.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="5">
+        <div class="enunciado"><span class="num-q">5</span> No pronunciamento citado no texto, o general Castelo Branco questiona se as Forças Armadas deveriam apoiar uma "revolução" ou se isso levaria o país ao "comunismo de Moscou". Explique por que esse tipo de discurso, vindo de uma liderança militar, pode ser considerado um sinal de alerta para a democracia de um país.</div>
+        <textarea id="resp-5" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Numa democracia, as Forças Armadas estão subordinadas ao poder civil eleito e não cabe a elas arbitrar disputas políticas. Quando o chefe do Estado-Maior do Exército se pronuncia publicamente contra o governo e discute se os militares devem ou não apoiar uma "revolução", ele sinaliza que parte da corporação já cogita intervir pela força. O uso do medo do "comunismo de Moscou" — argumento típico da Guerra Fria — funciona como justificativa antecipada para essa intervenção: transforma o adversário político em ameaça externa. E foi o que aconteceu: o golpe veio em 31 de março de 1964, e Castelo Branco tornou-se o primeiro presidente da ditadura militar.
+        </div>
+      </div>
+
+      <div class="alerta-incompleto" id="alerta-incompleto">
+        ⚠️ Ainda há questões incompletas (resposta mínima de 60 caracteres). Revise antes de finalizar.
+      </div>
+
+      <div class="acoes-finais">
+        <button class="btn btn-primario" onclick="finalizarAtividade()">Finalizar e ver comentários</button>
+        <button class="btn btn-secundario" onclick="refazerAtividade()">Refazer</button>
+        <button class="btn btn-pdf" onclick="exportarPDF()">Exportar em PDF</button>
+      </div>
+    </main>
+  </div>
+
+  <footer class="rodape">Colégio Estadual Rodolfo de Oliveira · CERO · 2026</footer>
+</div>
+
+<!-- ===== POPUP ===== -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-card">
+    <div class="emoji">🎉</div>
+    <h3>Atividade concluída!</h3>
+    <p>Suas cinco respostas foram registradas. Os comentários do professor já estão disponíveis abaixo de cada questão para você comparar com o que escreveu.</p>
+    <button class="btn btn-primario" onclick="fecharPopup()">Continuar</button>
+  </div>
+</div>
+
+<script>
+/* ===== GATE DE NOME ===== */
+function iniciarAtividade(){
+  const nome = document.getElementById('nome-aluno').value.trim();
+  const turma = document.getElementById('turma-aluno').value.trim();
+  const aviso = document.getElementById('capa-aviso');
+  if(!nome){
+    aviso.style.display = 'block';
+    return;
+  }
+  aviso.style.display = 'none';
+  const hoje = new Date();
+  const dataFormatada = String(hoje.getDate()).padStart(2,'0') + '/' + String(hoje.getMonth()+1).padStart(2,'0') + '/' + hoje.getFullYear();
+  document.getElementById('header-nome').textContent = nome;
+  document.getElementById('ficha-nome').textContent = nome;
+  document.getElementById('ficha-data').textContent = dataFormatada;
+  document.getElementById('ficha-turma').textContent = turma || '—';
+  document.getElementById('capa').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+/* ===== CONTADOR DE CARACTERES E PROGRESSO ===== */
+const textareas = document.querySelectorAll('textarea.dissertativa');
+
+function atualizarProgresso(){
+  let respondidas = 0;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length >= min) respondidas++;
+  });
+  document.getElementById('contador-geral').textContent = 'Respondidas: ' + respondidas + '/' + textareas.length;
+  document.getElementById('barra-fill').style.width = (respondidas / textareas.length * 100) + '%';
+}
+
+textareas.forEach(function(t){
+  const contadorEl = t.parentElement.querySelector('.contador-chars');
+  const min = parseInt(t.dataset.min, 10);
+  t.addEventListener('input', function(){
+    contadorEl.textContent = t.value.length + ' caracteres (mínimo ' + min + ')';
+    atualizarProgresso();
+  });
+});
+
+/* ===== FINALIZAR ===== */
+function finalizarAtividade(){
+  let completo = true;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length < min) completo = false;
+  });
+
+  const alerta = document.getElementById('alerta-incompleto');
+  if(!completo){
+    alerta.classList.add('show');
+    alerta.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  alerta.classList.remove('show');
+
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.add('show');
+  });
+
+  document.getElementById('popup-overlay').classList.add('show');
+}
+
+function fecharPopup(){
+  document.getElementById('popup-overlay').classList.remove('show');
+}
+
+function refazerAtividade(){
+  textareas.forEach(function(t){
+    t.value = '';
+    t.parentElement.querySelector('.contador-chars').textContent = '0 caracteres (mínimo ' + t.dataset.min + ')';
+  });
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.remove('show');
+  });
+  document.getElementById('alerta-incompleto').classList.remove('show');
+  atualizarProgresso();
+  window.scrollTo(0,0);
+}
+
+/* ===== EXPORTAR PDF ===== */
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+function esc(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML.replace(/\n/g, '<br>');
+}
+
+async function exportarPDF(){
+  const overlay = document.createElement('div');
+  overlay.id = 'pdf-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(21,24,29,.6);display:flex;align-items:center;justify-content:center;z-index:999;';
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;padding:32px 36px;text-align:center;max-width:300px;box-shadow:0 10px 30px rgba(39,45,54,.3);font-family:\'Source Serif 4\',serif;">' +
+      '<div style="font-size:2rem;margin-bottom:8px;">📄</div>' +
+      '<h4 style="margin:0 0 4px;color:#272d36;font-family:\'Playfair Display\',serif;">Gerando PDF…</h4>' +
+      '<p style="margin:0 0 14px;color:#5a616b;font-size:.86rem;">Aguarde alguns instantes.</p>' +
+      '<div style="background:#e2e5e9;border-radius:6px;overflow:hidden;height:8px;">' +
+        '<div id="pdf-prog" style="height:100%;width:0%;background:#414a57;transition:width .2s ease;"></div>' +
+      '</div>' +
+      '<div id="pdf-prog-txt" style="margin-top:8px;font-family:\'JetBrains Mono\',monospace;font-size:.74rem;color:#5a616b;">0%</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  await sleep(80);
+  function setP(pct, msg){
+    const pp = document.getElementById('pdf-prog'), pt = document.getElementById('pdf-prog-txt');
+    if(pp) pp.style.width = pct + '%';
+    if(pt) pt.textContent = msg || (pct + '%');
+  }
+
+  try{
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({orientation:'portrait', unit:'px', format:'a4', hotfixes:['px_scaling']});
+    const PW = pdf.internal.pageSize.getWidth(), PH = pdf.internal.pageSize.getHeight();
+    const ML = 28, CW = PW - ML*2;
+    let y = ML;
+
+    async function addImg(el){
+      const canvas = await html2canvas(el, {scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff', scrollX:0, scrollY:0, windowWidth:860});
+      const imgW = CW, imgH = (canvas.height / canvas.width) * imgW;
+      const dataUrl = canvas.toDataURL('image/jpeg', .92), avail = PH - ML*2;
+      if(imgH <= avail){
+        if(y + imgH > PH - ML){ pdf.addPage(); y = ML; }
+        pdf.addImage(dataUrl, 'JPEG', ML, y, imgW, imgH);
+        y += imgH + 8;
+      } else {
+        const pxPerPdfPt = canvas.width / imgW;
+        let srcY = 0;
+        while(srcY < canvas.height){
+          const availPt = PH - y - ML, sliceH_pt = Math.min(availPt, avail);
+          const sliceH_px = Math.round(sliceH_pt * pxPerPdfPt), actualH_px = Math.min(sliceH_px, canvas.height - srcY);
+          const tmp = document.createElement('canvas');
+          tmp.width = canvas.width; tmp.height = actualH_px;
+          tmp.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, actualH_px, 0, 0, canvas.width, actualH_px);
+          const sliceUrl = tmp.toDataURL('image/jpeg', .92), slicePt = (actualH_px / canvas.width) * imgW;
+          pdf.addImage(sliceUrl, 'JPEG', ML, y, imgW, slicePt);
+          srcY += actualH_px; y += slicePt;
+          if(srcY < canvas.height){ pdf.addPage(); y = ML; }
+        }
+        y += 8;
+      }
+    }
+
+    async function band(tag, txt){
+      const b = document.createElement('div');
+      b.style.cssText = 'width:860px;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      b.innerHTML = '<div style="background:linear-gradient(90deg,#414a57,#272d36);border-radius:8px;padding:12px 22px;display:flex;align-items:center;gap:12px">' +
+        '<span style="background:rgba(255,255,255,.2);color:#fff;font-weight:700;font-size:12px;letter-spacing:1px;border-radius:20px;padding:3px 12px">' + tag + '</span>' +
+        '<span style="color:#fff;font-size:15px;font-weight:700">' + txt + '</span></div>';
+      document.body.appendChild(b);
+      await sleep(20);
+      await addImg(b);
+      document.body.removeChild(b);
+    }
+
+    const nome = document.getElementById('header-nome').textContent || 'Aluno(a)';
+    const turma = document.getElementById('ficha-turma').textContent || '—';
+    const now = new Date();
+    const dtStr = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+
+    setP(5, 'Preparando capa…'); await sleep(40);
+    const coverEl = document.createElement('div');
+    coverEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;overflow:hidden;position:absolute;left:-9999px;top:0';
+    coverEl.innerHTML =
+      '<div style="background:linear-gradient(135deg,#15181d 0%,#414a57 60%,#7d8794 100%);padding:32px 48px 28px;color:white">' +
+        '<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;font-weight:700;margin-bottom:6px">História · 9º Ano do Ensino Fundamental · GO-EF09HI17-A</div>' +
+        '<div style="font-size:25px;font-weight:900;line-height:1.2;margin-bottom:5px">A Marcha da Família com Deus pela Liberdade</div>' +
+        '<div style="font-size:13px;opacity:.8;font-style:italic">Texto de apoio · A crise de 1964 · 5 questões dissertativas</div>' +
+      '</div>' +
+      '<div style="background:#f2f3f5;padding:22px 48px 26px;border-bottom:3px solid #e0b4a8">' +
+        '<div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#414a57;font-weight:700;margin-bottom:5px">Aluno(a)</div>' +
+        '<div style="font-size:20px;font-weight:700;color:#1c1f24;border-bottom:2.5px solid #414a57;padding-bottom:6px;display:inline-block;margin-bottom:16px">' + esc(nome) + '</div>' +
+        '<div style="display:flex;gap:12px;flex-wrap:wrap">' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#414a57">' + esc(turma) + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Turma</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#a3452f">5</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Dissertativas</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:140px">' +
+            '<div style="font-size:13px;font-weight:700;color:#333">' + dtStr + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Gerado em</div></div>' +
+        '</div>' +
+        '<div style="font-size:9px;color:#bbb;margin-top:14px">Colégio Estadual Rodolfo de Oliveira · Goiás · 2026</div>' +
+      '</div>';
+    document.body.appendChild(coverEl); await sleep(60); await addImg(coverEl); document.body.removeChild(coverEl);
+
+    // TEXTO DE APOIO
+    setP(15, 'Preparando texto de apoio…'); await sleep(20);
+    await band('TEXTO DE APOIO', 'Ruas divididas às vésperas do golpe');
+    const textoEl = document.createElement('div');
+    textoEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #d5d9de;border-radius:10px;position:absolute;left:-9999px;top:0';
+    textoEl.innerHTML =
+      '<div style="padding:18px 24px;background:#fcfcfd">' +
+        '<p style="font-size:12.5px;color:#1c1f24;line-height:1.8;margin:0 0 12px;text-align:justify">No dia [...] de São José, padroeiro da família, foi realizado, na cidade de São Paulo, um ato que mereceu o desprezo das esquerdas, mas que foi, no entanto, profundamente significativo, demonstrando a divisão e a radicalização política do país: a Marcha da Família com Deus pela Liberdade. Os discursos contra Goulart foram a tônica do comício que se seguiu. Cálculos falam em 500 mil pessoas presentes à Marcha. Outros, considerando os que assistiram nas ruas de acesso, chegaram à cifra de 800 mil [...]. As esquerdas, no entanto, não levaram o ato a sério por dois motivos. Primeiro, por tratar-se de uma manifestação de classe média. "Isto não é povo", disseram alguns com irreverência. Segundo, pelo caráter religioso do movimento, algo merecedor de desprezo.</p>' +
+        '<p style="font-size:12.5px;color:#1c1f24;line-height:1.8;margin:0 0 12px;text-align:justify">Nos dois dias que antecederam a Semana Santa, Goulart e seus aliados de esquerda continuaram avançando na estratégia adotada para implementar as reformas. A programação dos novos comícios foi fechada, todos para abril: dia 3 em Santos; 10 em Santo André; 11 em Salvador; 17 em Ribeirão Preto; 19, homenageando Vargas, em Belo Horizonte; 21 em Brasília. O último, marcado não casualmente para 1º de maio, seria na capital paulista. No mesmo dia, contudo, o general Castelo Branco, chefe do Estado-Maior do Exército, fez um pronunciamento, denunciando "as agitações generalizadas do ilegal poder do CGT". Deveriam, perguntou, as Forças Armadas apoiar uma revolução "para garantir a plenitude a um grupo pseudossindical, cuja cúpula vive na agitação subversiva cada vez mais onerosa aos cofres públicos? Para talvez submeter a nação ao comunismo de Moscou?" [...]</p>' +
+        '<div style="border-left:4px solid #7d8794;background:#e2e5e9;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:12px">' +
+          '<div style="font-size:10px;color:#272d36;font-family:monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">A disputa das ruas — o calendário de comícios de abril</div>' +
+          '<div style="font-size:12px;color:#1c1f24;line-height:1.7">3 — Santos · 10 — Santo André · 11 — Salvador · 17 — Ribeirão Preto · 19 — Belo Horizonte (homenagem a Vargas) · 21 — Brasília · <b>1º de maio — São Paulo</b></div>' +
+        '</div>' +
+        '<div style="font-size:10px;color:#5a616b;font-family:monospace;border-top:1px solid #eee;padding-top:10px">FERREIRA, Jorge. O governo Goulart e o golpe civil-militar de 1964. In: FERREIRA, Jorge; DELGADO, Lucília de Almeida Neves (org.). O tempo da experiência democrática: da democratização de 1945 ao golpe civil-militar de 1964. Rio de Janeiro: Civilização Brasileira, 2003. (O Brasil republicano, v. 3, p. 386-387).</div>' +
+      '</div>';
+    document.body.appendChild(textoEl); await sleep(20); await addImg(textoEl); document.body.removeChild(textoEl);
+
+    // QUESTÕES DISSERTATIVAS
+    await band('QUESTÕES', 'Questões Dissertativas — Respostas e Orientações');
+
+    const QUESTOES = [
+      { num:'1', enunc:'O texto descreve a "Marcha da Família com Deus pela Liberdade" como um ato "profundamente significativo", mesmo tendo sido desprezado pelas esquerdas. Explique, com base no texto, o que era essa Marcha e qual era o seu principal objetivo político.', id:'resp-1',
+        coment:'A Marcha foi uma grande manifestação de rua realizada em São Paulo, no dia de São José, padroeiro da família, seguida de um comício em que os discursos contra Goulart foram a tônica. Os cálculos de público variam entre 500 mil e 800 mil pessoas. Seu objetivo político era demonstrar a força da oposição ao governo João Goulart e às reformas de base, reunindo setores conservadores, religiosos e de classe média. Para o autor, o ato é significativo justamente porque expõe a divisão e a radicalização política do país. (Contexto que o trecho não informa: a Marcha ocorreu em 19 de março de 1964, poucos dias antes do golpe.)' },
+      { num:'2', enunc:'Segundo o texto, as esquerdas não levaram a Marcha a sério por dois motivos principais. Identifique e explique, com suas palavras, esses dois motivos apontados pelo autor.', id:'resp-2',
+        coment:'O primeiro motivo foi o perfil social dos participantes: por ser uma manifestação de classe média, não foi reconhecida como mobilização popular legítima — daí a frase irônica "Isto não é povo". O segundo foi o caráter religioso do movimento, tratado com desprezo por parte das esquerdas, que não viam na fé uma força política a ser levada a sério. O resultado dessa dupla desqualificação foi grave: subestimaram a capacidade de mobilização dos adversários justamente no momento em que ela se tornava decisiva.' },
+      { num:'3', enunc:'O texto afirma que a frase "Isto não é povo" foi dita por alguns para desqualificar os participantes da Marcha. Reflita e explique: por que essa forma de julgar quem "é" ou "não é" povo pode ser um problema quando pensamos sobre democracia e representação política?', id:'resp-3',
+        coment:'Numa democracia, todos os cidadãos formam o povo, independentemente da classe social, da religião ou da opinião política. Quando um grupo se atribui o direito de decidir quem conta como povo, ele exclui do jogo político quem pensa diferente e passa a tratar o adversário como ilegítimo, e não como oponente. Além do problema de princípio, há um problema prático evidente no próprio texto: ao dizer "isto não é povo", as esquerdas deixaram de enxergar a dimensão real do movimento que se organizava contra o governo. Vale notar que esse tipo de desqualificação pode ser usado por qualquer lado do espectro político.' },
+      { num:'4', enunc:'Enquanto os opositores organizavam a Marcha, o texto mostra que Goulart e seus aliados continuavam agendando novos comícios pelo país. O que essa disputa de atos públicos (marchas de um lado, comícios de outro) revela sobre o clima político do Brasil naquele momento?', id:'resp-4',
+        coment:'Revela um país profundamente dividido, em que a disputa política havia migrado das instituições para as ruas. Cada lado media forças pelo tamanho das multidões que conseguia reunir, e não pela negociação no Congresso ou pelas eleições. O calendário de comícios — Santos, Santo André, Salvador, Ribeirão Preto, Belo Horizonte, Brasília e São Paulo no 1º de maio — mostra uma escalada planejada, uma resposta à Marcha. É o clima de confronto e radicalização que o autor descreve: dois campos que já não buscavam acordo, mas a demonstração de superioridade.' },
+      { num:'5', enunc:'No pronunciamento citado no texto, o general Castelo Branco questiona se as Forças Armadas deveriam apoiar uma "revolução" ou se isso levaria o país ao "comunismo de Moscou". Explique por que esse tipo de discurso, vindo de uma liderança militar, pode ser considerado um sinal de alerta para a democracia de um país.', id:'resp-5',
+        coment:'Numa democracia, as Forças Armadas estão subordinadas ao poder civil eleito e não cabe a elas arbitrar disputas políticas. Quando o chefe do Estado-Maior do Exército se pronuncia publicamente contra o governo e discute se os militares devem ou não apoiar uma "revolução", ele sinaliza que parte da corporação já cogita intervir pela força. O uso do medo do "comunismo de Moscou" — argumento típico da Guerra Fria — funciona como justificativa antecipada para essa intervenção: transforma o adversário político em ameaça externa. E foi o que aconteceu: o golpe veio em 31 de março de 1964, e Castelo Branco tornou-se o primeiro presidente da ditadura militar.' }
+    ];
+
+    for(let i=0; i<QUESTOES.length; i++){
+      const q = QUESTOES[i];
+      setP(20 + Math.round(i/QUESTOES.length*65), 'Questão ' + q.num + '/5…'); await sleep(12);
+
+      const valor = document.getElementById(q.id) ? document.getElementById(q.id).value : '';
+      const qEl = document.createElement('div');
+      qEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #d5d9de;border-radius:10px;position:absolute;left:-9999px;top:0';
+      qEl.innerHTML =
+        '<div style="background:linear-gradient(90deg,#414a57,#272d36);padding:10px 22px;display:flex;justify-content:space-between;align-items:center">' +
+          '<span style="color:white;font-weight:700;font-size:13px;letter-spacing:.8px">QUESTÃO ' + q.num + '</span>' +
+          '<span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:11px;padding:3px 12px;border-radius:20px;font-weight:600">Dissertativa</span></div>' +
+        '<div style="padding:18px 24px 16px;background:#fcfcfd">' +
+          '<div style="font-size:13px;font-weight:700;color:#1c1f24;line-height:1.6;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #eee">' + esc(q.enunc) + '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+            '<div style="width:4px;height:15px;background:#414a57;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#414a57;text-transform:uppercase;letter-spacing:1.5px">Resposta do Aluno(a)</div></div>' +
+          '<div style="background:#eef0f2;border:1.5px solid #c2c8cf;border-radius:8px;padding:13px 16px;min-height:50px;margin-bottom:12px">' +
+            '<div style="font-size:12.5px;color:#1c1f24;line-height:1.8;white-space:pre-wrap">' + (esc(valor) || '<span style=\"color:#aaa\">(sem resposta)</span>') + '</div></div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">' +
+            '<div style="width:4px;height:15px;background:#a3452f;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#a3452f;text-transform:uppercase;letter-spacing:1.5px">Comentário do Professor</div></div>' +
+          '<div style="background:#faece8;border:1.5px solid #e4c2b7;border-radius:8px;padding:13px 16px">' +
+            '<div style="font-size:12px;color:#7a3021;line-height:1.8">' + esc(q.coment) + '</div></div>' +
+        '</div>';
+      document.body.appendChild(qEl); await sleep(12); await addImg(qEl); document.body.removeChild(qEl);
+    }
+
+    // RODAPÉ EM TODAS AS PÁGINAS
+    setP(92, 'Finalizando…'); await sleep(30);
+    const totalPages = pdf.getNumberOfPages();
+    for(let p=1; p<=totalPages; p++){
+      pdf.setPage(p);
+      const fEl = document.createElement('div');
+      fEl.style.cssText = 'width:' + Math.round(CW) + 'px;height:22px;background:#f2f3f5;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:10px;color:#888;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      fEl.innerHTML = '<span>A Marcha da Família com Deus pela Liberdade · ' + esc(nome) + '</span><span>Página ' + p + ' de ' + totalPages + '</span>';
+      document.body.appendChild(fEl);
+      const fc = await html2canvas(fEl, {scale:2, logging:false, backgroundColor:'#f2f3f5'});
+      document.body.removeChild(fEl);
+      const fUrl = fc.toDataURL('image/jpeg', .9), fH = (fc.height / fc.width) * CW;
+      pdf.setFillColor(242,243,245); pdf.rect(ML, PH-fH, CW, fH, 'F');
+      pdf.addImage(fUrl, 'JPEG', ML, PH-fH, CW, fH);
+    }
+
+    setP(100, 'Salvando…'); await sleep(200);
+    const safeName = nome.replace(/[^a-zA-Z0-9_\-]/g, '_');
+    pdf.save('Marcha_da_Familia_' + safeName + '.pdf');
+
+  } catch(err){
+    console.error(err);
+    alert('Erro ao gerar PDF: ' + err.message);
+  } finally {
+    const ov = document.getElementById('pdf-overlay');
+    if(ov) document.body.removeChild(ov);
+  }
+}
+
+/* ===== PROTEÇÃO ANTI-COLA ===== */
+(function () {
+  const CAMPOS_PROTEGIDOS = document.querySelectorAll('textarea.dissertativa, .campo-resposta');
+  const LIMITE_BLOCO = 25;
+
+  function bloquear(e) {
+    e.preventDefault();
+    mostrarToast('Colar não permitido nesta atividade.');
+  }
+
+  CAMPOS_PROTEGIDOS.forEach(function (campo) {
+    ['paste', 'copy', 'cut', 'drop', 'dragover', 'contextmenu'].forEach(function (evt) {
+      campo.addEventListener(evt, bloquear);
+    });
+
+    campo.addEventListener('beforeinput', function (e) {
+      if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') {
+        e.preventDefault();
+        mostrarToast('Colar não permitido nesta atividade.');
+      }
+    });
+
+    let valorAnterior = campo.value;
+    campo.addEventListener('input', function (e) {
+      const diferenca = campo.value.length - valorAnterior.length;
+      if (diferenca >= LIMITE_BLOCO && e.inputType !== 'insertReplacementText') {
+        campo.value = valorAnterior;
+        mostrarToast('Colar não permitido nesta atividade.');
+      } else {
+        valorAnterior = campo.value;
+      }
+    });
+  });
+
+  function mostrarToast(mensagem) {
+    let toast = document.getElementById('anti-cola-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'anti-cola-toast';
+      toast.style.cssText =
+        'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);' +
+        'background:#333;color:#fff;padding:10px 20px;border-radius:8px;' +
+        'font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = mensagem;
+    toast.style.opacity = '1';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(function () {
+      toast.style.opacity = '0';
+    }, 2500);
+  }
+})();
+</script>
+
+</body>
+</html>

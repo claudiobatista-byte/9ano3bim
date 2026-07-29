@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afinal, o que é populismo? | CERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fbf1f5;
+    --bg-alt:#f5e0eb;
+    --paper:#fffbfd;
+    --ink:#2b1520;
+    --ink-soft:#6b4a58;
+    --verde:#a01a5c;
+    --verde-dark:#6b1140;
+    --verde-2:#c94a82;
+    --gold:#a6863f;
+    --gold-light:#ddc9a3;
+    --line:#eccddd;
+    --shadow:0 10px 30px rgba(107,17,64,.16);
+    --radius:14px;
+    --font-title:'Playfair Display', serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-touch-callout:none;
+    user-select:none;
+  }
+  .selecionavel, main{user-select:text;}
+  .campo-resposta{user-select:text;}
+
+  /* ===== CAPA / GATE ===== */
+  #capa{
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(to bottom, #3d0a26, #6b1140, #a83a72);
+    padding:24px;
+  }
+  #capa .grade-centralizada{
+    position:absolute;
+    top:0; bottom:0; left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:896px;
+    pointer-events:none;
+    z-index:0;
+    opacity:.08;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px);
+    background-size:40px 40px;
+  }
+  .capa-card{
+    position:relative;
+    z-index:1;
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    max-width:480px;
+    width:100%;
+    padding:36px 32px;
+    text-align:center;
+  }
+  .capa-card .tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(31,107,63,.1); padding:5px 12px; border-radius:999px; margin-bottom:14px;
+  }
+  .capa-card h1{font-family:var(--font-title); font-size:1.6rem; margin:0 0 10px; color:var(--verde-dark);}
+  .capa-card p.desc{color:var(--ink-soft); font-size:.94rem; margin:0 0 22px;}
+  .capa-card input{
+    width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:1rem; margin-bottom:14px;
+  }
+  .capa-card button{
+    width:100%; padding:13px; border:none; border-radius:8px;
+    background:var(--verde); color:#fff; font-weight:600; font-size:1rem; cursor:pointer;
+    font-family:var(--font-body); transition:filter .15s ease;
+  }
+  .capa-card button:hover{filter:brightness(1.08);}
+  .capa-aviso{font-size:.78rem; color:#a33; margin-top:8px; display:none;}
+
+  /* ===== APP ===== */
+  #app{display:none;}
+  .sticky-header{
+    position:sticky; top:0; z-index:50;
+    background:var(--verde-dark); color:#eafaf0;
+    padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:8px;
+    font-family:var(--font-mono); font-size:.82rem;
+  }
+  .sticky-header .aluno{font-family:var(--font-body); font-weight:600; font-size:.92rem;}
+  .barra-progresso-trilho{
+    flex:1; min-width:120px; height:8px; background:rgba(255,255,255,.2); border-radius:6px; overflow:hidden; margin:0 14px;
+  }
+  .barra-progresso-fill{height:100%; background:var(--gold); width:0%; transition:width .3s ease;}
+
+  .wrap{max-width:800px; margin:0 auto; padding:32px 24px 60px;}
+
+  header.topo{margin-bottom:28px;}
+  header.topo .hero-tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.72rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(31,107,63,.1); padding:5px 12px; border-radius:999px; margin-bottom:12px;
+  }
+  header.topo h1{font-family:var(--font-title); font-size:clamp(1.5rem,4vw,2rem); margin:0 0 8px; color:var(--ink);}
+  header.topo p.sub{color:var(--ink-soft); margin:0; font-size:.98rem;}
+  .descritor-bar{
+    font-family:var(--font-mono); font-size:.76rem; color:var(--ink-soft);
+    background:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:8px 14px; margin-bottom:14px; display:inline-block;
+  }
+  .ficha-id{
+    display:flex; flex-wrap:wrap; gap:10px 26px;
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; margin-top:12px; font-family:var(--font-mono); font-size:.84rem; color:var(--ink);
+  }
+  .ficha-id span b{color:var(--verde-dark);}
+
+  /* ===== TEXTO DE APOIO ===== */
+  .texto-apoio{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:28px 30px; margin-bottom:30px;
+  }
+  .texto-apoio h2{font-family:var(--font-title); font-size:1.25rem; color:var(--verde-dark); margin:0 0 4px;}
+  .texto-apoio .fonte-tag{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-bottom:16px; display:block;}
+  .texto-apoio p{margin:0 0 14px; color:var(--ink);}
+  .texto-apoio p:last-of-type{margin-bottom:0;}
+  .destaque-termo{background:var(--bg-alt); padding:1px 5px; border-radius:4px; font-weight:600;}
+
+  .referencia-box{
+    margin-top:20px; padding:14px 16px;
+    background:var(--bg-alt); border-left:3px solid var(--gold); border-radius:0 8px 8px 0;
+  }
+  .referencia-box .rot{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--verde-dark); display:block; margin-bottom:6px;
+  }
+  .referencia-box p{margin:0 0 6px; font-size:.86rem; color:var(--ink-soft); font-family:var(--font-mono); line-height:1.6;}
+  .referencia-box p:last-child{margin-bottom:0;}
+
+  /* ===== BOX DE DEFINIÇÃO ===== */
+  .box-conceito{
+    background:linear-gradient(135deg, #6b1140, #a01a5c);
+    color:#fff5fa; border-radius:var(--radius); box-shadow:var(--shadow);
+    border-left:6px solid var(--gold); padding:26px 30px; margin-bottom:30px;
+  }
+  .box-conceito .rot{
+    font-family:var(--font-mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--gold-light); display:block; margin-bottom:8px;
+  }
+  .box-conceito h2{font-family:var(--font-title); font-size:1.25rem; margin:0 0 12px; color:#fff;}
+  .box-conceito p{margin:0 0 10px; font-size:.98rem;}
+  .box-conceito p:last-of-type{margin-bottom:0;}
+  .box-conceito .fonte-mini{
+    display:block; font-family:var(--font-mono); font-size:.74rem; color:var(--gold-light);
+    margin-top:14px; opacity:.9;
+  }
+
+  /* ===== QUESTOES ===== */
+  .questoes-titulo{
+    font-family:var(--font-title); font-size:1.2rem; color:var(--verde-dark);
+    margin:0 0 18px; display:flex; align-items:center; gap:10px;
+  }
+  .questao{
+    background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; margin-bottom:18px;
+  }
+  .questao .num-q{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:50%; background:var(--verde);
+    color:#fff; font-family:var(--font-mono); font-size:.78rem; margin-right:8px; flex-shrink:0;
+  }
+  .questao .enunciado{font-weight:600; color:var(--ink); margin-bottom:12px; display:flex; align-items:flex-start;}
+  .questao textarea{
+    width:100%; min-height:100px; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:.96rem; resize:vertical; color:var(--ink);
+  }
+  .questao textarea:focus{outline:2px solid var(--verde-2); outline-offset:1px;}
+  .contador-chars{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-top:6px; text-align:right;}
+
+  .comentario-prof{
+    display:none; margin-top:14px; padding:14px 16px;
+    background:#eaf6ee; border:1px solid #bfe3c8; border-radius:8px; font-size:.9rem; color:var(--verde-dark);
+  }
+  .comentario-prof.show{display:block;}
+  .comentario-prof b{display:block; margin-bottom:4px; font-family:var(--font-title); font-size:.92rem;}
+
+  /* ===== ALERTA / FINALIZAR ===== */
+  .alerta-incompleto{
+    display:none; background:#fdf3e2; border:1px solid #f1d9a6; color:#8a5a10;
+    padding:12px 16px; border-radius:8px; font-size:.9rem; margin-bottom:16px;
+  }
+  .alerta-incompleto.show{display:block;}
+
+  .acoes-finais{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;}
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:.94rem; padding:12px 22px;
+    border-radius:8px; border:none; cursor:pointer; transition:filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn-primario{background:var(--verde); color:#fff;}
+  .btn-secundario{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn-pdf{background:var(--gold); color:#fff;}
+  .btn[disabled]{opacity:.5; cursor:not-allowed;}
+
+  /* ===== POPUP ===== */
+  .popup-overlay{
+    display:none; position:fixed; inset:0; background:rgba(60,10,38,.6);
+    align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .popup-overlay.show{display:flex;}
+  .popup-card{
+    background:var(--paper); border-radius:var(--radius); box-shadow:var(--shadow);
+    max-width:420px; width:100%; padding:32px 28px; text-align:center;
+  }
+  .popup-card .emoji{font-size:2.4rem; margin-bottom:10px;}
+  .popup-card h3{font-family:var(--font-title); margin:0 0 8px; color:var(--verde-dark);}
+  .popup-card p{color:var(--ink-soft); font-size:.94rem; margin:0 0 20px;}
+
+  /* ===== REFERÊNCIAS ===== */
+  .bibliografia{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:24px 30px; margin-bottom:30px;
+  }
+  .bibliografia h2{font-family:var(--font-title); font-size:1.15rem; color:var(--verde-dark); margin:0 0 14px;}
+  .bibliografia ul{list-style:none; margin:0; padding:0;}
+  .bibliografia li{
+    font-size:.88rem; color:var(--ink-soft); padding-left:2.2em; text-indent:-2.2em;
+    margin-bottom:12px; line-height:1.6;
+  }
+  .bibliografia li:last-child{margin-bottom:0;}
+
+  footer.rodape{text-align:center; padding:24px; color:var(--ink-soft); font-family:var(--font-mono); font-size:.8rem;}
+
+  @media (max-width:600px){
+    .wrap{padding:24px 16px 50px;}
+    .texto-apoio, .box-conceito, .bibliografia, .questao{padding:18px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== CAPA ===== -->
+<div id="capa">
+  <div class="grade-centralizada"></div>
+  <div class="capa-card">
+    <span class="tag">9º ano · História · CERO</span>
+    <h1>Afinal, o que é populismo?</h1>
+    <p class="desc">Texto de apoio, box de definição e questões dissertativas. Preencha os dados para começar.</p>
+    <input type="text" id="nome-aluno" placeholder="Seu nome completo">
+    <input type="text" id="turma-aluno" placeholder="Turma (ex.: 9º A)">
+    <button onclick="iniciarAtividade()">Iniciar atividade</button>
+    <div class="capa-aviso" id="capa-aviso">Por favor, digite seu nome para continuar.</div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+  <div class="sticky-header">
+    <span class="aluno" id="header-nome"></span>
+    <div class="barra-progresso-trilho"><div class="barra-progresso-fill" id="barra-fill"></div></div>
+    <span id="contador-geral">Respondidas: 0/5</span>
+  </div>
+
+  <div class="wrap">
+    <header class="topo selecionavel">
+      <span class="descritor-bar">História / 9º Ano do Ensino Fundamental &nbsp;|&nbsp; (GO-EF09HI17-A) – Populismo e Desenvolvimentismo</span>
+      <span class="hero-tag" style="display:block; margin-top:10px;">Texto de apoio</span>
+      <h1>Afinal, o que é populismo?</h1>
+      <p class="sub">Leia com atenção cada parte do texto e responda à questão que vem logo depois dela. São cinco questões dissertativas ao todo.</p>
+      <div class="ficha-id" id="ficha-id">
+        <span><b>NOME:</b> <span id="ficha-nome"></span></span>
+        <span><b>DATA:</b> <span id="ficha-data"></span></span>
+        <span><b>TURMA:</b> <span id="ficha-turma"></span></span>
+      </div>
+    </header>
+
+    <main>
+      <section class="texto-apoio selecionavel">
+        <h2>1. O que a gente costuma pensar sobre populismo</h2>
+        <span class="fonte-tag">Texto de apoio</span>
+        <p>Você provavelmente já ouviu alguém chamar um político de <span class="destaque-termo">"populista"</span> — geralmente como uma crítica, quase um xingamento. A ideia mais comum é a seguinte: o populista seria aquele político que <strong>engana o povo</strong>, fazendo promessas que não pretende cumprir, só para conquistar votos ou se manter no poder.</p>
+        <p>Nessa visão do senso comum, o povo aparece como uma massa homogênea, fácil de manipular, incapaz de perceber quando está sendo enganada por um discurso vazio — o que os historiadores chamam de <span class="destaque-termo">demagogia</span>: a simulação de boas intenções com o único objetivo de conquistar o poder.</p>
+      </section>
+
+      <h2 class="questoes-titulo">✍️ Questões Dissertativas</h2>
+
+      <div class="questao" data-questao="1">
+        <div class="enunciado"><span class="num-q">1</span> Segundo a explicação mais comum (o "senso comum"), qual é a relação entre um político populista e o povo? Você concorda com essa forma de pensar? Justifique sua resposta.</div>
+        <textarea id="resp-1" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          No senso comum, o populista é visto como alguém que engana o povo com promessas que não pretende cumprir, apenas para conquistar votos ou se manter no poder — prática que recebe o nome de demagogia. Nessa visão, o povo aparece como uma massa homogênea e facilmente manipulável. A segunda parte da questão é opinativa: o importante é que a resposta apresente uma justificativa coerente, concordando ou discordando dessa forma de enxergar a população.
+        </div>
+      </div>
+
+      <div class="box-conceito selecionavel">
+        <span class="rot">Box · Definição</span>
+        <h2>Populismo</h2>
+        <p>Conceito historiográfico e político usado para descrever um <strong>conjunto de práticas de líderes carismáticos</strong> que buscam se aproximar diretamente do povo — sobretudo dos trabalhadores urbanos — apresentando-se como representantes diretos de seus interesses, muitas vezes acima dos partidos e das instituições tradicionais.</p>
+        <p>No Brasil, o termo costuma ser associado ao período entre 1930 e 1964, marcado por líderes como Getúlio Vargas. É importante saber que esse conceito é <strong>polissêmico</strong> (tem vários sentidos possíveis) e é debatido até hoje por historiadores, que discordam sobre até que ponto ele explica bem a política daquela época — e sobre se ainda faz sentido usá-lo para falar de políticos do presente.</p>
+        <span class="fonte-mini">Definição elaborada a partir de KARNAL et al., 2022 (ver referências).</span>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>2. Um conceito revisto pelos historiadores</h2>
+        <span class="fonte-tag">Texto de apoio</span>
+        <p>Nas últimas décadas, essa ideia de "manipulação do povo" tem sido revista e questionada por historiadores e cientistas políticos. Por quê? Porque essa explicação parte do princípio de que a população seria <em>incapaz</em> de diferenciar uma proposta séria de uma simples demagogia — como se as pessoas fossem só vítimas passivas, sem capacidade de julgamento próprio.</p>
+        <p>Além disso, essa visão não leva em conta que o termo <span class="destaque-termo">populismo</span> nem sempre foi entendido dessa forma tão negativa. O sentido que damos a ele hoje é resultado de uma longa disputa de interpretações ao longo do século XX.</p>
+      </section>
+
+      <div class="questao" data-questao="2">
+        <div class="enunciado"><span class="num-q">2</span> Por que muitos historiadores e cientistas políticos passaram a questionar a ideia de que o povo é apenas "enganado" ou "manipulado" pelos líderes populistas?</div>
+        <textarea id="resp-2" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Porque essa explicação supõe que a população seria incapaz de distinguir uma proposta séria de uma demagogia, tratando as pessoas como vítimas passivas, sem capacidade de julgamento próprio. Os pesquisadores passaram a reconhecer que os grupos populares também faziam escolhas e negociavam seus interesses. Além disso, o termo nem sempre teve o sentido negativo que tem hoje: esse significado é resultado de uma disputa de interpretações ao longo do século XX.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>3. De onde vem essa palavra?</h2>
+        <span class="fonte-tag">Texto de apoio</span>
+        <p>No início do século XX, quando a palavra <span class="destaque-termo">populista</span> se espalhou pela América Latina, ela tinha um sentido bem diferente do atual. Era usada para descrever um político que procurava estar <strong>próximo da população</strong>, ouvir seus problemas e demonstrar compreensão com suas dificuldades — o contrário do distanciamento das elites que governavam a região até então.</p>
+        <p>Com o tempo, o termo passou a designar um conjunto de práticas políticas de lideranças carismáticas que buscavam se aproximar dos grupos populares, principalmente dos trabalhadores urbanos. Esse fenômeno estava diretamente ligado aos processos de <strong>urbanização e industrialização</strong> pelos quais passavam países como o Brasil, a Argentina e o México — processos cheios de contradições, já que o crescimento das cidades nem sempre significou melhora na vida das pessoas, e sim êxodo rural, pobreza urbana e conflitos sociais.</p>
+      </section>
+
+      <div class="questao" data-questao="3">
+        <div class="enunciado"><span class="num-q">3</span> Explique por que o termo "populista" surgiu associado à aproximação entre líderes políticos e a população urbana e trabalhadora na América Latina do início do século XX.</div>
+        <textarea id="resp-3" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Porque, naquele momento, "populista" descrevia o político que procurava estar próximo da população, ouvir seus problemas e demonstrar compreensão com suas dificuldades — o oposto do distanciamento das elites que governavam a América Latina até então. Esse movimento acompanhou a urbanização e a industrialização de países como Brasil, Argentina e México: com o crescimento das cidades e o aumento do número de trabalhadores urbanos, tornou-se necessário que as lideranças dialogassem diretamente com esse novo grupo social.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>4. Um conceito com muitos sentidos</h2>
+        <span class="fonte-tag">Texto de apoio</span>
+        <p>O cientista político Emerson Urizzi Cervi escreveu um artigo chamado <em>"As sete vidas do populismo"</em>, no qual mostra que esse termo passou por várias fases de significado ao longo da história das ciências humanas — daí a ideia de "sete vidas". Cervi chama isso de <span class="destaque-termo">polissemia conceitual</span>: um mesmo conceito com múltiplos sentidos possíveis, que mudam de acordo com a época, o autor e o contexto político em que é usado.</p>
+        <p>É por isso que, hoje em dia, o adjetivo "populista" costuma ser usado de forma pejorativa (negativa) por adversários políticos para desqualificar um governante — mas essa não é a única forma de entender o conceito, nem foi sempre assim ao longo da história.</p>
+
+        <div class="referencia-box">
+          <span class="rot">Referência (ABNT NBR 6023)</span>
+          <p>CERVI, Emerson Urizzi. As sete vidas do populismo. Revista de Sociologia e Política, Curitiba, n. 17, p. 151-156, nov. 2001.</p>
+        </div>
+      </section>
+
+      <div class="questao" data-questao="4">
+        <div class="enunciado"><span class="num-q">4</span> O que significa dizer que o populismo é um conceito "polissêmico"? Dê um exemplo de como esse termo pode ser usado de formas diferentes nos dias de hoje.</div>
+        <textarea id="resp-4" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Dizer que o conceito é polissêmico significa que ele tem vários sentidos possíveis, que mudam conforme a época, o autor e o contexto político em que é empregado — é o que Cervi chama de "as sete vidas do populismo". Nos dias de hoje, o termo pode aparecer como acusação, quando adversários chamam um governante de populista para desqualificá-lo, e também como descrição analítica, quando pesquisadores o utilizam para caracterizar um estilo de liderança que se dirige diretamente ao povo, sem passar pelos partidos e pelas instituições.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="5">
+        <div class="enunciado"><span class="num-q">5</span> Na sua opinião, por que é importante conhecer a história de um conceito — como o populismo — antes de usá-lo para classificar um político? Se possível, relacione com um exemplo que você conheça, do passado ou do presente.</div>
+        <textarea id="resp-5" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Não há uma única resposta correta aqui — espera-se que a resposta reconheça que conhecer a trajetória de um conceito evita que ele seja usado apenas como xingamento ou rótulo automático. Quem sabe de onde vem a palavra consegue perceber quando ela está sendo empregada para analisar de fato uma prática política e quando está sendo usada só para desqualificar um adversário. Exemplos válidos podem vir do período de 1930 a 1964 no Brasil ou de debates políticos atuais, desde que a escolha seja justificada.
+        </div>
+      </div>
+
+      <section class="bibliografia selecionavel">
+        <h2>Referências</h2>
+        <ul>
+          <li>CERVI, Emerson Urizzi. As sete vidas do populismo. <em>Revista de Sociologia e Política</em>, Curitiba, n. 17, p. 151-156, nov. 2001.</li>
+          <li>GOMES, Angela Maria de Castro. <em>A invenção do trabalhismo</em>. Rio de Janeiro: FGV, 2005.</li>
+          <li>KARNAL, Leandro; VIEIRA, Felipe de Paula Góis; FERNANDES, Luiz Estevam de Oliveira; BACKX, Isabela; ABREU, Marcelo. <em>Viver História</em>: 9º ano. 1. ed. São Paulo: Moderna, 2022.</li>
+        </ul>
+      </section>
+
+      <div class="alerta-incompleto" id="alerta-incompleto">
+        ⚠️ Ainda há questões incompletas (resposta mínima de 60 caracteres). Revise antes de finalizar.
+      </div>
+
+      <div class="acoes-finais">
+        <button class="btn btn-primario" onclick="finalizarAtividade()">Finalizar e ver comentários</button>
+        <button class="btn btn-secundario" onclick="refazerAtividade()">Refazer</button>
+        <button class="btn btn-pdf" onclick="exportarPDF()">Exportar em PDF</button>
+      </div>
+    </main>
+  </div>
+
+  <footer class="rodape">Colégio Estadual Rodolfo de Oliveira · CERO · 2026</footer>
+</div>
+
+<!-- ===== POPUP ===== -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-card">
+    <div class="emoji">🎉</div>
+    <h3>Atividade concluída!</h3>
+    <p>Suas cinco respostas foram registradas. Os comentários do professor já estão disponíveis abaixo de cada questão para você comparar com o que escreveu.</p>
+    <button class="btn btn-primario" onclick="fecharPopup()">Continuar</button>
+  </div>
+</div>
+
+<script>
+/* ===== GATE DE NOME ===== */
+function iniciarAtividade(){
+  const nome = document.getElementById('nome-aluno').value.trim();
+  const turma = document.getElementById('turma-aluno').value.trim();
+  const aviso = document.getElementById('capa-aviso');
+  if(!nome){
+    aviso.style.display = 'block';
+    return;
+  }
+  aviso.style.display = 'none';
+  const hoje = new Date();
+  const dataFormatada = String(hoje.getDate()).padStart(2,'0') + '/' + String(hoje.getMonth()+1).padStart(2,'0') + '/' + hoje.getFullYear();
+  document.getElementById('header-nome').textContent = nome;
+  document.getElementById('ficha-nome').textContent = nome;
+  document.getElementById('ficha-data').textContent = dataFormatada;
+  document.getElementById('ficha-turma').textContent = turma || '—';
+  document.getElementById('capa').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+/* ===== CONTADOR DE CARACTERES E PROGRESSO ===== */
+const textareas = document.querySelectorAll('textarea.dissertativa');
+
+function atualizarProgresso(){
+  let respondidas = 0;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length >= min) respondidas++;
+  });
+  document.getElementById('contador-geral').textContent = 'Respondidas: ' + respondidas + '/' + textareas.length;
+  document.getElementById('barra-fill').style.width = (respondidas / textareas.length * 100) + '%';
+}
+
+textareas.forEach(function(t){
+  const contadorEl = t.parentElement.querySelector('.contador-chars');
+  const min = parseInt(t.dataset.min, 10);
+  t.addEventListener('input', function(){
+    contadorEl.textContent = t.value.length + ' caracteres (mínimo ' + min + ')';
+    atualizarProgresso();
+  });
+});
+
+/* ===== FINALIZAR ===== */
+function finalizarAtividade(){
+  let completo = true;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length < min) completo = false;
+  });
+
+  const alerta = document.getElementById('alerta-incompleto');
+  if(!completo){
+    alerta.classList.add('show');
+    alerta.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  alerta.classList.remove('show');
+
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.add('show');
+  });
+
+  document.getElementById('popup-overlay').classList.add('show');
+}
+
+function fecharPopup(){
+  document.getElementById('popup-overlay').classList.remove('show');
+}
+
+function refazerAtividade(){
+  textareas.forEach(function(t){
+    t.value = '';
+    t.parentElement.querySelector('.contador-chars').textContent = '0 caracteres (mínimo ' + t.dataset.min + ')';
+  });
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.remove('show');
+  });
+  document.getElementById('alerta-incompleto').classList.remove('show');
+  atualizarProgresso();
+  window.scrollTo(0,0);
+}
+
+/* ===== EXPORTAR PDF ===== */
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+function esc(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML.replace(/\n/g, '<br>');
+}
+
+async function exportarPDF(){
+  const overlay = document.createElement('div');
+  overlay.id = 'pdf-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(60,10,38,.6);display:flex;align-items:center;justify-content:center;z-index:999;';
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;padding:32px 36px;text-align:center;max-width:300px;box-shadow:0 10px 30px rgba(107,17,64,.3);font-family:\'Source Serif 4\',serif;">' +
+      '<div style="font-size:2rem;margin-bottom:8px;">📄</div>' +
+      '<h4 style="margin:0 0 4px;color:#6b1140;font-family:\'Playfair Display\',serif;">Gerando PDF…</h4>' +
+      '<p style="margin:0 0 14px;color:#6b4a58;font-size:.86rem;">Aguarde alguns instantes.</p>' +
+      '<div style="background:#f5e0eb;border-radius:6px;overflow:hidden;height:8px;">' +
+        '<div id="pdf-prog" style="height:100%;width:0%;background:#a01a5c;transition:width .2s ease;"></div>' +
+      '</div>' +
+      '<div id="pdf-prog-txt" style="margin-top:8px;font-family:\'JetBrains Mono\',monospace;font-size:.74rem;color:#6b4a58;">0%</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  await sleep(80);
+  function setP(pct, msg){
+    const pp = document.getElementById('pdf-prog'), pt = document.getElementById('pdf-prog-txt');
+    if(pp) pp.style.width = pct + '%';
+    if(pt) pt.textContent = msg || (pct + '%');
+  }
+
+  try{
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({orientation:'portrait', unit:'px', format:'a4', hotfixes:['px_scaling']});
+    const PW = pdf.internal.pageSize.getWidth(), PH = pdf.internal.pageSize.getHeight();
+    const ML = 28, CW = PW - ML*2;
+    let y = ML;
+
+    async function addImg(el){
+      const canvas = await html2canvas(el, {scale:2, useCORS:true, allowTaint:false, logging:false, backgroundColor:'#ffffff', scrollX:0, scrollY:0, windowWidth:860});
+      const imgW = CW, imgH = (canvas.height / canvas.width) * imgW;
+      let dataUrl;
+      try{
+        dataUrl = canvas.toDataURL('image/jpeg', .92);
+      } catch(taintErr){
+        console.warn('Bloco não pôde ser exportado (canvas bloqueado pelo navegador):', taintErr);
+        return;
+      }
+      const avail = PH - ML*2;
+      if(imgH <= avail){
+        if(y + imgH > PH - ML){ pdf.addPage(); y = ML; }
+        pdf.addImage(dataUrl, 'JPEG', ML, y, imgW, imgH);
+        y += imgH + 8;
+      } else {
+        const pxPerPdfPt = canvas.width / imgW;
+        let srcY = 0;
+        while(srcY < canvas.height){
+          const availPt = PH - y - ML, sliceH_pt = Math.min(availPt, avail);
+          const sliceH_px = Math.round(sliceH_pt * pxPerPdfPt), actualH_px = Math.min(sliceH_px, canvas.height - srcY);
+          const tmp = document.createElement('canvas');
+          tmp.width = canvas.width; tmp.height = actualH_px;
+          tmp.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, actualH_px, 0, 0, canvas.width, actualH_px);
+          const sliceUrl = tmp.toDataURL('image/jpeg', .92), slicePt = (actualH_px / canvas.width) * imgW;
+          pdf.addImage(sliceUrl, 'JPEG', ML, y, imgW, slicePt);
+          srcY += actualH_px; y += slicePt;
+          if(srcY < canvas.height){ pdf.addPage(); y = ML; }
+        }
+        y += 8;
+      }
+    }
+
+    async function band(tag, txt){
+      const b = document.createElement('div');
+      b.style.cssText = 'width:860px;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      b.innerHTML = '<div style="background:linear-gradient(90deg,#a01a5c,#6b1140);border-radius:8px;padding:12px 22px;display:flex;align-items:center;gap:12px">' +
+        '<span style="background:rgba(255,255,255,.2);color:#fff;font-weight:700;font-size:12px;letter-spacing:1px;border-radius:20px;padding:3px 12px">' + tag + '</span>' +
+        '<span style="color:#fff;font-size:15px;font-weight:700">' + txt + '</span></div>';
+      document.body.appendChild(b);
+      await sleep(20);
+      await addImg(b);
+      document.body.removeChild(b);
+    }
+
+    async function addBloco(html){
+      const el = document.createElement('div');
+      el.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #eccddd;border-radius:10px;position:absolute;left:-9999px;top:0';
+      el.innerHTML = '<div style="padding:18px 24px;background:#fdfdfa">' + html + '</div>';
+      document.body.appendChild(el); await sleep(16); await addImg(el); document.body.removeChild(el);
+    }
+
+    function par(txt){
+      return '<p style="font-size:12.5px;color:#2b1520;line-height:1.8;margin:0 0 12px">' + txt + '</p>';
+    }
+
+    const nome = document.getElementById('header-nome').textContent || 'Aluno(a)';
+    const turma = document.getElementById('ficha-turma').textContent || '—';
+    const now = new Date();
+    const dtStr = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+
+    setP(5, 'Preparando capa…'); await sleep(40);
+    const coverEl = document.createElement('div');
+    coverEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;overflow:hidden;position:absolute;left:-9999px;top:0';
+    coverEl.innerHTML =
+      '<div style="background:linear-gradient(135deg,#3d0a26 0%,#a01a5c 60%,#c94a82 100%);padding:32px 48px 28px;color:white">' +
+        '<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;font-weight:700;margin-bottom:6px">História · 9º Ano do Ensino Fundamental · GO-EF09HI17-A</div>' +
+        '<div style="font-size:26px;font-weight:900;line-height:1.2;margin-bottom:5px">Afinal, o que é populismo?</div>' +
+        '<div style="font-size:13px;opacity:.8;font-style:italic">Texto de apoio · box de definição · 5 questões dissertativas</div>' +
+      '</div>' +
+      '<div style="background:#fbf1f5;padding:22px 48px 26px;border-bottom:3px solid #ddc9a3">' +
+        '<div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#a01a5c;font-weight:700;margin-bottom:5px">Aluno(a)</div>' +
+        '<div style="font-size:20px;font-weight:700;color:#2b1520;border-bottom:2.5px solid #a01a5c;padding-bottom:6px;display:inline-block;margin-bottom:16px">' + esc(nome) + '</div>' +
+        '<div style="display:flex;gap:12px;flex-wrap:wrap">' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#a01a5c">' + esc(turma) + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Turma</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#a6863f">5</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Dissertativas</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:140px">' +
+            '<div style="font-size:13px;font-weight:700;color:#333">' + dtStr + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Gerado em</div></div>' +
+        '</div>' +
+        '<div style="font-size:9px;color:#bbb;margin-top:14px">Colégio Estadual Rodolfo de Oliveira · Goiás · 2026</div>' +
+      '</div>';
+    document.body.appendChild(coverEl); await sleep(60); await addImg(coverEl); document.body.removeChild(coverEl);
+
+    async function addQuestaoPDF(q, idx, total){
+      setP(20 + Math.round(idx/total*60), 'Questão ' + q.num + '/' + total + '…'); await sleep(12);
+      const valor = document.getElementById(q.id) ? document.getElementById(q.id).value : '';
+      const qEl = document.createElement('div');
+      qEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #eccddd;border-radius:10px;position:absolute;left:-9999px;top:0';
+      qEl.innerHTML =
+        '<div style="background:linear-gradient(90deg,#a01a5c,#6b1140);padding:10px 22px;display:flex;justify-content:space-between;align-items:center">' +
+          '<span style="color:white;font-weight:700;font-size:13px;letter-spacing:.8px">QUESTÃO ' + q.num + '</span>' +
+          '<span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:11px;padding:3px 12px;border-radius:20px;font-weight:600">Dissertativa</span></div>' +
+        '<div style="padding:18px 24px 16px;background:#fdfdfa">' +
+          '<div style="font-size:13px;font-weight:700;color:#2b1520;line-height:1.6;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #eee">' + esc(q.enunc) + '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+            '<div style="width:4px;height:15px;background:#a01a5c;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#a01a5c;text-transform:uppercase;letter-spacing:1.5px">Resposta do Aluno(a)</div></div>' +
+          '<div style="background:#f9edf3;border:1.5px solid #dba3c1;border-radius:8px;padding:13px 16px;min-height:50px;margin-bottom:12px">' +
+            '<div style="font-size:12.5px;color:#2b1520;line-height:1.8;white-space:pre-wrap">' + (esc(valor) || '<span style=\"color:#aaa\">(sem resposta)</span>') + '</div></div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">' +
+            '<div style="width:4px;height:15px;background:#a6863f;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#8a6f2f;text-transform:uppercase;letter-spacing:1.5px">Comentário do Professor</div></div>' +
+          '<div style="background:#f7f1e3;border:1.5px solid #ddc9a3;border-radius:8px;padding:13px 16px">' +
+            '<div style="font-size:12px;color:#4a3a10;line-height:1.8">' + esc(q.coment) + '</div></div>' +
+        '</div>';
+      document.body.appendChild(qEl); await sleep(12); await addImg(qEl); document.body.removeChild(qEl);
+    }
+
+    /* PARTE 1 */
+    setP(12, 'Preparando texto de apoio…'); await sleep(20);
+    await band('TEXTO', '1. O que a gente costuma pensar sobre populismo');
+    await addBloco(
+      par('Você provavelmente já ouviu alguém chamar um político de "populista" — geralmente como uma crítica, quase um xingamento. A ideia mais comum é a seguinte: o populista seria aquele político que engana o povo, fazendo promessas que não pretende cumprir, só para conquistar votos ou se manter no poder.') +
+      par('Nessa visão do senso comum, o povo aparece como uma massa homogênea, fácil de manipular, incapaz de perceber quando está sendo enganada por um discurso vazio — o que os historiadores chamam de demagogia: a simulação de boas intenções com o único objetivo de conquistar o poder.')
+    );
+
+    await addQuestaoPDF({ num:'1', id:'resp-1',
+      enunc:'Segundo a explicação mais comum (o "senso comum"), qual é a relação entre um político populista e o povo? Você concorda com essa forma de pensar? Justifique sua resposta.',
+      coment:'No senso comum, o populista é visto como alguém que engana o povo com promessas que não pretende cumprir, apenas para conquistar votos ou se manter no poder — prática que recebe o nome de demagogia. Nessa visão, o povo aparece como uma massa homogênea e facilmente manipulável. A segunda parte da questão é opinativa: o importante é que a resposta apresente uma justificativa coerente, concordando ou discordando dessa forma de enxergar a população.' }, 0, 5);
+
+    /* BOX DEFINIÇÃO */
+    setP(34, 'Preparando box de definição…'); await sleep(16);
+    await band('BOX', 'Definição — Populismo');
+    await addBloco(
+      par('Conceito historiográfico e político usado para descrever um conjunto de práticas de líderes carismáticos que buscam se aproximar diretamente do povo — sobretudo dos trabalhadores urbanos — apresentando-se como representantes diretos de seus interesses, muitas vezes acima dos partidos e das instituições tradicionais.') +
+      par('No Brasil, o termo costuma ser associado ao período entre 1930 e 1964, marcado por líderes como Getúlio Vargas. É importante saber que esse conceito é polissêmico (tem vários sentidos possíveis) e é debatido até hoje por historiadores, que discordam sobre até que ponto ele explica bem a política daquela época — e sobre se ainda faz sentido usá-lo para falar de políticos do presente.') +
+      '<div style="font-size:10px;color:#6b4a58;font-family:monospace;border-top:1px solid #eee;padding-top:10px">Definição elaborada a partir de KARNAL et al., 2022.</div>'
+    );
+
+    /* PARTE 2 */
+    await band('TEXTO', '2. Um conceito revisto pelos historiadores');
+    await addBloco(
+      par('Nas últimas décadas, essa ideia de "manipulação do povo" tem sido revista e questionada por historiadores e cientistas políticos. Por quê? Porque essa explicação parte do princípio de que a população seria incapaz de diferenciar uma proposta séria de uma simples demagogia — como se as pessoas fossem só vítimas passivas, sem capacidade de julgamento próprio.') +
+      par('Além disso, essa visão não leva em conta que o termo populismo nem sempre foi entendido dessa forma tão negativa. O sentido que damos a ele hoje é resultado de uma longa disputa de interpretações ao longo do século XX.')
+    );
+
+    await addQuestaoPDF({ num:'2', id:'resp-2',
+      enunc:'Por que muitos historiadores e cientistas políticos passaram a questionar a ideia de que o povo é apenas "enganado" ou "manipulado" pelos líderes populistas?',
+      coment:'Porque essa explicação supõe que a população seria incapaz de distinguir uma proposta séria de uma demagogia, tratando as pessoas como vítimas passivas, sem capacidade de julgamento próprio. Os pesquisadores passaram a reconhecer que os grupos populares também faziam escolhas e negociavam seus interesses. Além disso, o termo nem sempre teve o sentido negativo que tem hoje: esse significado é resultado de uma disputa de interpretações ao longo do século XX.' }, 1, 5);
+
+    /* PARTE 3 */
+    await band('TEXTO', '3. De onde vem essa palavra?');
+    await addBloco(
+      par('No início do século XX, quando a palavra populista se espalhou pela América Latina, ela tinha um sentido bem diferente do atual. Era usada para descrever um político que procurava estar próximo da população, ouvir seus problemas e demonstrar compreensão com suas dificuldades — o contrário do distanciamento das elites que governavam a região até então.') +
+      par('Com o tempo, o termo passou a designar um conjunto de práticas políticas de lideranças carismáticas que buscavam se aproximar dos grupos populares, principalmente dos trabalhadores urbanos. Esse fenômeno estava diretamente ligado aos processos de urbanização e industrialização pelos quais passavam países como o Brasil, a Argentina e o México — processos cheios de contradições, já que o crescimento das cidades nem sempre significou melhora na vida das pessoas, e sim êxodo rural, pobreza urbana e conflitos sociais.')
+    );
+
+    await addQuestaoPDF({ num:'3', id:'resp-3',
+      enunc:'Explique por que o termo "populista" surgiu associado à aproximação entre líderes políticos e a população urbana e trabalhadora na América Latina do início do século XX.',
+      coment:'Porque, naquele momento, "populista" descrevia o político que procurava estar próximo da população, ouvir seus problemas e demonstrar compreensão com suas dificuldades — o oposto do distanciamento das elites que governavam a América Latina até então. Esse movimento acompanhou a urbanização e a industrialização de países como Brasil, Argentina e México: com o crescimento das cidades e o aumento do número de trabalhadores urbanos, tornou-se necessário que as lideranças dialogassem diretamente com esse novo grupo social.' }, 2, 5);
+
+    /* PARTE 4 */
+    await band('TEXTO', '4. Um conceito com muitos sentidos');
+    await addBloco(
+      par('O cientista político Emerson Urizzi Cervi escreveu um artigo chamado "As sete vidas do populismo", no qual mostra que esse termo passou por várias fases de significado ao longo da história das ciências humanas — daí a ideia de "sete vidas". Cervi chama isso de polissemia conceitual: um mesmo conceito com múltiplos sentidos possíveis, que mudam de acordo com a época, o autor e o contexto político em que é usado.') +
+      par('É por isso que, hoje em dia, o adjetivo "populista" costuma ser usado de forma pejorativa (negativa) por adversários políticos para desqualificar um governante — mas essa não é a única forma de entender o conceito, nem foi sempre assim ao longo da história.') +
+      '<div style="font-size:10px;color:#6b4a58;font-family:monospace;border-top:1px solid #eee;padding-top:10px">CERVI, Emerson Urizzi. As sete vidas do populismo. Revista de Sociologia e Política, Curitiba, n. 17, p. 151-156, nov. 2001.</div>'
+    );
+
+    await addQuestaoPDF({ num:'4', id:'resp-4',
+      enunc:'O que significa dizer que o populismo é um conceito "polissêmico"? Dê um exemplo de como esse termo pode ser usado de formas diferentes nos dias de hoje.',
+      coment:'Dizer que o conceito é polissêmico significa que ele tem vários sentidos possíveis, que mudam conforme a época, o autor e o contexto político em que é empregado — é o que Cervi chama de "as sete vidas do populismo". Nos dias de hoje, o termo pode aparecer como acusação, quando adversários chamam um governante de populista para desqualificá-lo, e também como descrição analítica, quando pesquisadores o utilizam para caracterizar um estilo de liderança que se dirige diretamente ao povo, sem passar pelos partidos e pelas instituições.' }, 3, 5);
+
+    await addQuestaoPDF({ num:'5', id:'resp-5',
+      enunc:'Na sua opinião, por que é importante conhecer a história de um conceito — como o populismo — antes de usá-lo para classificar um político? Se possível, relacione com um exemplo que você conheça, do passado ou do presente.',
+      coment:'Não há uma única resposta correta aqui — espera-se que a resposta reconheça que conhecer a trajetória de um conceito evita que ele seja usado apenas como xingamento ou rótulo automático. Quem sabe de onde vem a palavra consegue perceber quando ela está sendo empregada para analisar de fato uma prática política e quando está sendo usada só para desqualificar um adversário. Exemplos válidos podem vir do período de 1930 a 1964 no Brasil ou de debates políticos atuais, desde que a escolha seja justificada.' }, 4, 5);
+
+    /* REFERÊNCIAS */
+    setP(88, 'Preparando referências…'); await sleep(16);
+    await band('REFERÊNCIAS', 'Obras consultadas (ABNT NBR 6023)');
+    await addBloco(
+      '<div style="font-size:11.5px;color:#4a3a4a;line-height:1.8">' +
+        '<p style="margin:0 0 10px">CERVI, Emerson Urizzi. As sete vidas do populismo. Revista de Sociologia e Política, Curitiba, n. 17, p. 151-156, nov. 2001.</p>' +
+        '<p style="margin:0 0 10px">GOMES, Angela Maria de Castro. A invenção do trabalhismo. Rio de Janeiro: FGV, 2005.</p>' +
+        '<p style="margin:0">KARNAL, Leandro; VIEIRA, Felipe de Paula Góis; FERNANDES, Luiz Estevam de Oliveira; BACKX, Isabela; ABREU, Marcelo. Viver História: 9º ano. 1. ed. São Paulo: Moderna, 2022.</p>' +
+      '</div>'
+    );
+
+    /* RODAPE EM TODAS AS PAGINAS */
+    setP(94, 'Finalizando…'); await sleep(30);
+    const totalPages = pdf.getNumberOfPages();
+    for(let p=1; p<=totalPages; p++){
+      pdf.setPage(p);
+      const fEl = document.createElement('div');
+      fEl.style.cssText = 'width:' + Math.round(CW) + 'px;height:22px;background:#fbf1f5;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:10px;color:#888;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      fEl.innerHTML = '<span>Afinal, o que é populismo? · ' + esc(nome) + '</span><span>Página ' + p + ' de ' + totalPages + '</span>';
+      document.body.appendChild(fEl);
+      const fc = await html2canvas(fEl, {scale:2, logging:false, backgroundColor:'#fbf1f5'});
+      document.body.removeChild(fEl);
+      const fUrl = fc.toDataURL('image/jpeg', .9), fH = (fc.height / fc.width) * CW;
+      pdf.setFillColor(251,241,245); pdf.rect(ML, PH-fH, CW, fH, 'F');
+      pdf.addImage(fUrl, 'JPEG', ML, PH-fH, CW, fH);
+    }
+
+    setP(100, 'Salvando…'); await sleep(200);
+    const safeName = nome.replace(/[^a-zA-Z0-9_\-]/g, '_');
+    pdf.save('Populismo_Texto_Apoio_' + safeName + '.pdf');
+
+  } catch(err){
+    console.error(err);
+    alert('Erro ao gerar PDF: ' + err.message);
+  } finally {
+    const ov = document.getElementById('pdf-overlay');
+    if(ov) document.body.removeChild(ov);
+  }
+}
+
+/* ===== PROTEÇÃO ANTI-COLA ===== */
+(function () {
+  const CAMPOS_PROTEGIDOS = document.querySelectorAll('textarea.dissertativa, .campo-resposta');
+  const LIMITE_BLOCO = 25;
+
+  function bloquear(e) {
+    e.preventDefault();
+    mostrarToast('Colar não permitido nesta atividade.');
+  }
+
+  CAMPOS_PROTEGIDOS.forEach(function (campo) {
+    ['paste', 'copy', 'cut', 'drop', 'dragover', 'contextmenu'].forEach(function (evt) {
+      campo.addEventListener(evt, bloquear);
+    });
+
+    campo.addEventListener('beforeinput', function (e) {
+      if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') {
+        e.preventDefault();
+        mostrarToast('Colar não permitido nesta atividade.');
+      }
+    });
+
+    let valorAnterior = campo.value;
+    campo.addEventListener('input', function (e) {
+      const diferenca = campo.value.length - valorAnterior.length;
+      if (diferenca >= LIMITE_BLOCO && e.inputType !== 'insertReplacementText') {
+        campo.value = valorAnterior;
+        mostrarToast('Colar não permitido nesta atividade.');
+      } else {
+        valorAnterior = campo.value;
+      }
+    });
+  });
+
+  function mostrarToast(mensagem) {
+    let toast = document.getElementById('anti-cola-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'anti-cola-toast';
+      toast.style.cssText =
+        'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);' +
+        'background:#333;color:#fff;padding:10px 20px;border-radius:8px;' +
+        'font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = mensagem;
+    toast.style.opacity = '1';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(function () {
+      toast.style.opacity = '0';
+    }, 2500);
+  }
+})();
+</script>
+
+</body>
+</html>

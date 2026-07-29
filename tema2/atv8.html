@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Texto de Apoio — 1960: a vitória de Jânio | CERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f3f6ec;
+    --bg-alt:#e5edd6;
+    --paper:#fcfdf8;
+    --ink:#1f2612;
+    --ink-soft:#586646;
+    --verde:#4f6b2a;
+    --verde-dark:#33471a;
+    --verde-2:#82a24f;
+    --gold:#a1662f;
+    --gold-light:#e0c1a2;
+    --line:#d8e4c5;
+    --shadow:0 10px 30px rgba(51,71,26,.16);
+    --radius:14px;
+    --font-title:'Playfair Display', serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-touch-callout:none;
+    user-select:none;
+  }
+  .selecionavel, main{user-select:text;}
+  .campo-resposta{user-select:text;}
+
+  /* ===== CAPA / GATE ===== */
+  #capa{
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(to bottom, #1c2a0c, #33471a, #6d8c40);
+    padding:24px;
+  }
+  #capa .grade-centralizada{
+    position:absolute;
+    top:0; bottom:0; left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:896px;
+    pointer-events:none;
+    z-index:0;
+    opacity:.08;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px);
+    background-size:40px 40px;
+  }
+  .capa-card{
+    position:relative;
+    z-index:1;
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    max-width:480px;
+    width:100%;
+    padding:36px 32px;
+    text-align:center;
+  }
+  .capa-card .tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(79,107,42,.12); padding:5px 12px; border-radius:999px; margin-bottom:14px;
+  }
+  .capa-card h1{font-family:var(--font-title); font-size:1.6rem; margin:0 0 10px; color:var(--verde-dark);}
+  .capa-card p.desc{color:var(--ink-soft); font-size:.94rem; margin:0 0 22px;}
+  .capa-card input{
+    width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:1rem; margin-bottom:14px;
+  }
+  .capa-card button{
+    width:100%; padding:13px; border:none; border-radius:8px;
+    background:var(--verde); color:#fff; font-weight:600; font-size:1rem; cursor:pointer;
+    font-family:var(--font-body); transition:filter .15s ease;
+  }
+  .capa-card button:hover{filter:brightness(1.08);}
+  .capa-aviso{font-size:.78rem; color:#a33; margin-top:8px; display:none;}
+
+  /* ===== APP ===== */
+  #app{display:none;}
+  .sticky-header{
+    position:sticky; top:0; z-index:50;
+    background:var(--verde-dark); color:#eef4e3;
+    padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:8px;
+    font-family:var(--font-mono); font-size:.82rem;
+  }
+  .sticky-header .aluno{font-family:var(--font-body); font-weight:600; font-size:.92rem;}
+  .barra-progresso-trilho{
+    flex:1; min-width:120px; height:8px; background:rgba(255,255,255,.2); border-radius:6px; overflow:hidden; margin:0 14px;
+  }
+  .barra-progresso-fill{height:100%; background:var(--gold-light); width:0%; transition:width .3s ease;}
+
+  .wrap{max-width:800px; margin:0 auto; padding:32px 24px 60px;}
+
+  header.topo{margin-bottom:28px;}
+  header.topo .hero-tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.72rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(79,107,42,.12); padding:5px 12px; border-radius:999px; margin-bottom:12px;
+  }
+  header.topo h1{font-family:var(--font-title); font-size:clamp(1.5rem,4vw,2rem); margin:0 0 8px; color:var(--ink);}
+  header.topo p.sub{color:var(--ink-soft); margin:0; font-size:.98rem;}
+  .descritor-bar{
+    font-family:var(--font-mono); font-size:.76rem; color:var(--ink-soft);
+    background:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:8px 14px; margin-bottom:14px; display:inline-block;
+  }
+  .ficha-id{
+    display:flex; flex-wrap:wrap; gap:10px 26px;
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; margin-top:12px; font-family:var(--font-mono); font-size:.84rem; color:var(--ink);
+  }
+  .ficha-id span b{color:var(--verde-dark);}
+
+  /* ===== TEXTO DE APOIO ===== */
+  .texto-apoio{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:28px 30px; margin-bottom:22px;
+  }
+  .texto-apoio h2{font-family:var(--font-title); font-size:1.25rem; color:var(--verde-dark); margin:0 0 4px;}
+  .texto-apoio .fonte-tag{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-bottom:16px; display:block;}
+  .texto-apoio p{margin:0 0 14px; color:var(--ink); text-align:justify;}
+  .texto-apoio p:last-of-type{margin-bottom:0;}
+
+  /* ===== FIGURA ===== */
+  .figura{
+    margin:4px 0 16px; background:var(--bg-alt); border:1px solid var(--line);
+    border-radius:10px; padding:12px 12px 10px;
+  }
+  .figura img{
+    width:100%; max-width:420px; height:auto; display:block; margin:0 auto;
+    border-radius:6px; box-shadow:0 3px 10px rgba(31,38,18,.18);
+  }
+  .figura figcaption{
+    font-size:.84rem; color:var(--ink-soft); line-height:1.6; margin-top:12px; padding:0 4px; text-align:justify;
+  }
+  .figura figcaption b{
+    font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--verde-dark); display:block; margin-bottom:4px; text-align:left;
+  }
+  .figura figcaption .credito{
+    display:block; margin-top:6px; font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); text-align:left;
+  }
+
+  .dialogo{
+    background:#fbfdf5; border-left:4px solid var(--verde-2); border-radius:0 10px 10px 0;
+    padding:16px 18px; margin:0 0 16px;
+  }
+  .dialogo .rot-dial{
+    font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--verde-dark); display:block; margin-bottom:10px;
+  }
+  .dialogo p{margin:0 0 8px; font-style:italic; text-align:left;}
+  .dialogo p:last-child{margin-bottom:0;}
+  .dialogo p b{font-style:normal; color:var(--verde-dark);}
+
+  .referencia-box{
+    margin-top:20px; padding:14px 16px;
+    background:var(--bg-alt); border-left:3px solid var(--gold); border-radius:0 8px 8px 0;
+  }
+  .referencia-box .rot{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--verde-dark); display:block; margin-bottom:6px;
+  }
+  .referencia-box p{margin:0; font-size:.86rem; color:var(--ink-soft); font-family:var(--font-mono); line-height:1.6; text-align:left;}
+
+  /* ===== QUESTOES ===== */
+  .questoes-titulo{
+    font-family:var(--font-title); font-size:1.15rem; color:var(--verde-dark);
+    margin:26px 0 16px; display:flex; align-items:center; gap:10px;
+  }
+  .questao{
+    background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; margin-bottom:18px;
+  }
+  .questao .num-q{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:50%; background:var(--verde);
+    color:#fff; font-family:var(--font-mono); font-size:.78rem; margin-right:8px; flex-shrink:0;
+  }
+  .questao .enunciado{font-weight:600; color:var(--ink); margin-bottom:12px; display:flex; align-items:flex-start;}
+  .questao textarea{
+    width:100%; min-height:100px; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:.96rem; resize:vertical; color:var(--ink);
+  }
+  .questao textarea:focus{outline:2px solid var(--verde-2); outline-offset:1px;}
+  .contador-chars{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-top:6px; text-align:right;}
+
+  .comentario-prof{
+    display:none; margin-top:14px; padding:14px 16px;
+    background:#faf1e6; border:1px solid #e3c9a9; border-radius:8px; font-size:.9rem; color:#6b431c;
+  }
+  .comentario-prof.show{display:block;}
+  .comentario-prof b{display:block; margin-bottom:4px; font-family:var(--font-title); font-size:.92rem;}
+
+  /* ===== ALERTA / FINALIZAR ===== */
+  .alerta-incompleto{
+    display:none; background:#fdf3e2; border:1px solid #f1d9a6; color:#8a5a10;
+    padding:12px 16px; border-radius:8px; font-size:.9rem; margin-bottom:16px;
+  }
+  .alerta-incompleto.show{display:block;}
+
+  .acoes-finais{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;}
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:.94rem; padding:12px 22px;
+    border-radius:8px; border:none; cursor:pointer; transition:filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn-primario{background:var(--verde); color:#fff;}
+  .btn-secundario{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn-pdf{background:var(--gold); color:#fff;}
+  .btn[disabled]{opacity:.5; cursor:not-allowed;}
+
+  /* ===== POPUP ===== */
+  .popup-overlay{
+    display:none; position:fixed; inset:0; background:rgba(28,42,12,.6);
+    align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .popup-overlay.show{display:flex;}
+  .popup-card{
+    background:var(--paper); border-radius:var(--radius); box-shadow:var(--shadow);
+    max-width:420px; width:100%; padding:32px 28px; text-align:center;
+  }
+  .popup-card .emoji{font-size:2.4rem; margin-bottom:10px;}
+  .popup-card h3{font-family:var(--font-title); margin:0 0 8px; color:var(--verde-dark);}
+  .popup-card p{color:var(--ink-soft); font-size:.94rem; margin:0 0 20px;}
+
+  footer.rodape{text-align:center; padding:24px; color:var(--ink-soft); font-family:var(--font-mono); font-size:.8rem;}
+
+  @media (max-width:600px){
+    .wrap{padding:24px 16px 50px;}
+    .texto-apoio, .questao{padding:18px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== CAPA ===== -->
+<div id="capa">
+  <div class="grade-centralizada"></div>
+  <div class="capa-card">
+    <span class="tag">9º ano · História · CERO</span>
+    <h1>1960: a vitória de Jânio</h1>
+    <p class="desc">Texto de apoio, charge da revista Careta e questões dissertativas. Preencha os dados para começar.</p>
+    <input type="text" id="nome-aluno" placeholder="Seu nome completo">
+    <input type="text" id="turma-aluno" placeholder="Turma (ex.: 9º A)">
+    <button onclick="iniciarAtividade()">Iniciar atividade</button>
+    <div class="capa-aviso" id="capa-aviso">Por favor, digite seu nome para continuar.</div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+  <div class="sticky-header">
+    <span class="aluno" id="header-nome"></span>
+    <div class="barra-progresso-trilho"><div class="barra-progresso-fill" id="barra-fill"></div></div>
+    <span id="contador-geral">Respondidas: 0/5</span>
+  </div>
+
+  <div class="wrap">
+    <header class="topo selecionavel">
+      <span class="descritor-bar">História / 9º Ano do Ensino Fundamental &nbsp;|&nbsp; (GO-EF09HI17-A) – Populismo e Desenvolvimentismo</span>
+      <span class="hero-tag" style="display:block; margin-top:10px;">Texto de Apoio · Charge</span>
+      <h1>1960: a vitória de Jânio e a quebra do sistema partidário</h1>
+      <p class="sub">Leia o texto, observe a charge e responda às cinco questões a seguir.</p>
+      <div class="ficha-id" id="ficha-id">
+        <span><b>NOME:</b> <span id="ficha-nome"></span></span>
+        <span><b>DATA:</b> <span id="ficha-data"></span></span>
+        <span><b>TURMA:</b> <span id="ficha-turma"></span></span>
+      </div>
+    </header>
+
+    <main>
+      <section class="texto-apoio selecionavel">
+        <h2>1960: a vitória de Jânio e a quebra do sistema partidário</h2>
+        <span class="fonte-tag">Maria Vitória Benevides, 1982</span>
+
+        <p>Os janistas exaltavam a "revolução pelo voto". Um sociólogo chegou a falar de "rebelião eleitoral". O que significava tal fenômeno, justamente após um governo marcado pelo desenvolvimento, pelo otimismo generalizado e pela tolerância política? Na realidade, a ascensão de Jânio Quadros, candidato ao mesmo tempo do povo e das elites, evidenciava tanto a falência do sistema partidário quanto o "esgotamento das virtualidades" do brilhante governo Kubitschek.</p>
+
+        <p>[...] O desenvolvimento do período Kubitschek despertara camadas sociais para demandas que não apenas se exprimiam em obras públicas ou empregos, mas no alargamento efetivo dos limites da participação — econômica, social e política. A legitimidade do sistema político começava a ser posta em xeque pelas camadas emergentes na medida em que o governo revelava-se incapaz de as absorver institucionalmente.</p>
+
+        <p>Jânio Quadros surge com força total nesse aparente vácuo institucional e caos partidário, agravados pela crise econômica. Sua postura tradicionalmente suprapartidária será, ao mesmo tempo, causa e consequência do esfacelamento do sistema partidário. Não se trata apenas da famosa "crise do poder", como também da crise de representatividade dos partidos políticos. Jânio apresenta-se como o candidato independente, "acima dos partidos", prometendo um governo "sem donos e sem influências".</p>
+
+        <div class="referencia-box">
+          <span class="rot">Referência (ABNT NBR 6023)</span>
+          <p>BENEVIDES, Maria Vitória. O governo Jânio Quadros. São Paulo: Brasiliense, 1982. p. 20-21.</p>
+        </div>
+      </section>
+
+      <h2 class="questoes-titulo">✍️ Questões sobre o texto</h2>
+
+      <div class="questao" data-questao="1">
+        <div class="enunciado"><span class="num-q">1</span> O texto afirma que a vitória de Jânio Quadros evidenciava "tanto a falência do sistema partidário quanto o esgotamento das virtualidades do brilhante governo Kubitschek". Explique, com suas palavras, por que a eleição de Jânio representava uma crise nos partidos políticos da época.</div>
+        <textarea id="resp-1" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Jânio venceu apresentando-se como candidato independente, "acima dos partidos", e não como representante de uma legenda ou de um programa partidário. Isso mostra que os partidos já não conseguiam representar os interesses e as demandas dos eleitores — é o que a autora chama de crise de representatividade. O eleitor passou a votar na figura pessoal do candidato, e não no partido. Por isso a postura suprapartidária de Jânio é, ao mesmo tempo, causa e consequência do esfacelamento do sistema partidário: ele se beneficiou da fragilidade dos partidos e, ao vencer sem eles, enfraqueceu-os ainda mais.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="2">
+        <div class="enunciado"><span class="num-q">2</span> Segundo a autora do texto, o governo Kubitschek despertou nas camadas sociais um desejo de "alargamento efetivo dos limites da participação — econômica, social e política". Explique o que essa frase quer dizer e por que essa demanda não foi totalmente atendida pelo governo.</div>
+        <textarea id="resp-2" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          A frase significa que os grupos sociais despertados pelo crescimento do período JK — trabalhadores urbanos e setores médios — já não se contentavam com obras públicas e empregos: queriam participar dos resultados econômicos (melhores salários e distribuição da riqueza), ter direitos sociais garantidos (educação, saúde, moradia) e ter voz nas decisões políticas. Essa demanda não foi atendida porque o sistema político era incapaz de absorver institucionalmente essas camadas emergentes: os partidos e as instituições continuavam controlados por grupos tradicionais. Somando-se a crise econômica do fim do governo — inflação e dívida —, a legitimidade do sistema passou a ser questionada.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>"Uma ideia" — capa da revista Careta</h2>
+        <span class="fonte-tag">Charge · 9 de janeiro de 1960</span>
+
+        <figure class="figura">
+          <img src="careta2.jpg" alt="Capa colorida da revista Careta de 9 de janeiro de 1960. Dois personagens caricaturados seguram vassouras e varrem uma enorme pilha de palavras escritas em letras grandes e coloridas, entre elas politicagem, fraudes, burocracia, demagogia, negociatas, subornos, sinecuras, comissões, empreguismo, nepotismo, desfalque, privilégios, financiamentos e Brasília. À esquerda, um homem idoso de cabelos brancos; à direita, um homem de terno verde, óculos e cabelo repartido, representando Jânio Quadros.">
+          <figcaption>
+            <b>Uma ideia — capa da revista Careta, 9 jan. 1960</b>
+            Armados de vassouras, os personagens varrem uma montanha de palavras — politicagem, fraudes, burocracia, demagogia, negociatas, subornos, sinecuras, comissões, nepotismo —, ironizando a promessa de limpeza que elegeria Jânio naquele ano. A vassoura era o símbolo da campanha, e a pilha desenhada é tão alta que ocupa a capa inteira: a própria imagem sugere que a sujeira é maior do que a promessa de varrê-la.
+            <span class="credito">CARETA, Rio de Janeiro, ano LII, n. 2689, 9 jan. 1960. Capa.</span>
+          </figcaption>
+        </figure>
+
+        <div class="dialogo">
+          <span class="rot-dial">Diálogo impresso no rodapé da capa</span>
+          <p><b>Leandro:</b> — É muita sujeira, seu Jânio! São cordilheiras!</p>
+          <p><b>Jânio:</b> — Com a industrialização de todo esse lixo, quem sabe, seu Leandro, se não salvaremos as finanças nacionais!</p>
+        </div>
+      </section>
+
+      <h2 class="questoes-titulo">✍️ Questões sobre a charge</h2>
+
+      <div class="questao" data-questao="3">
+        <div class="enunciado"><span class="num-q">3</span> Observe a capa da revista Careta de 1960. Descreva a cena representada na charge, identificando os elementos (as palavras escritas na "sujeira", os personagens e as vassouras) e explique qual crítica ou mensagem essa imagem pretende transmitir.</div>
+        <textarea id="resp-3" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          A charge mostra dois personagens caricaturados — Leandro e Jânio Quadros, de terno e óculos — segurando vassouras diante de uma pilha imensa de palavras que representam os vícios da política: politicagem, fraudes, burocracia, demagogia, negociatas, subornos, sinecuras, comissões, nepotismo, empreguismo, desfalque, privilégios. A vassoura era o símbolo da campanha de Jânio, que prometia "varrer" a corrupção. A crítica está no tamanho da pilha: ela é tão grande que ocupa toda a capa e é chamada de "cordilheiras". A revista ironiza a promessa, sugerindo que a corrupção é um problema estrutural, muito maior do que uma vassoura pode resolver.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="4">
+        <div class="enunciado"><span class="num-q">4</span> Na charge, Jânio responde a Leandro que, "com a industrialização de todo esse lixo", seria possível "salvar as finanças nacionais". Interprete essa fala: que tipo de promessa de campanha ela representa, e como ela se relaciona com a frase do texto de que Jânio prometia um governo "sem donos e sem influências"?</div>
+        <textarea id="resp-4" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          A fala é uma piada que junta os dois grandes temas do período: a moralização da política e a industrialização, palavra de ordem herdada do desenvolvimentismo. Ao dizer que transformaria o lixo em riqueza, Jânio aparece como o candidato das soluções milagrosas — promessas grandiosas, otimistas e vagas, sem explicar como seriam cumpridas. É esse mesmo tipo de discurso que sustenta a promessa de um governo "sem donos e sem influências": Jânio se apresentava como alguém de fora do jogo, que não devia favores a partidos nem a grupos econômicos. A charge desconfia da promessa — trata-a como exagero de campanha.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="5">
+        <div class="enunciado"><span class="num-q">5</span> Relacionando o texto escrito e a charge, explique como as duas fontes, juntas, ajudam a compreender por que Jânio Quadros foi visto, ao mesmo tempo, como "candidato do povo e das elites". Em sua opinião, era possível cumprir a promessa de "limpar" a política do jeito que a charge sugere? Justifique sua resposta.</div>
+        <textarea id="resp-5" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          O texto explica a condição política: com os partidos desacreditados, um candidato "acima dos partidos" podia ser apoiado por grupos muito diferentes ao mesmo tempo. A charge mostra o mecanismo disso na prática: combater a corrupção é uma bandeira que não obriga ninguém a escolher lado nos conflitos entre patrões e trabalhadores — o povo via nela a esperança de moralizar o país, e as elites, uma alternativa aos partidos ligados a Vargas e a JK. Sobre a segunda parte, não há uma única resposta certa. Espera-se que o aluno perceba que a corrupção retratada é estrutural, ligada a instituições e a interesses poderosos, e não uma sujeira que se varre — a própria charge sugere isso ao desenhar "cordilheiras". Uma resposta contrária, bem justificada, também é válida.
+        </div>
+      </div>
+
+      <div class="alerta-incompleto" id="alerta-incompleto">
+        ⚠️ Ainda há questões incompletas (resposta mínima de 60 caracteres). Revise antes de finalizar.
+      </div>
+
+      <div class="acoes-finais">
+        <button class="btn btn-primario" onclick="finalizarAtividade()">Finalizar e ver comentários</button>
+        <button class="btn btn-secundario" onclick="refazerAtividade()">Refazer</button>
+        <button class="btn btn-pdf" onclick="exportarPDF()">Exportar em PDF</button>
+      </div>
+    </main>
+  </div>
+
+  <footer class="rodape">Colégio Estadual Rodolfo de Oliveira · CERO · 2026</footer>
+</div>
+
+<!-- ===== POPUP ===== -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-card">
+    <div class="emoji">🎉</div>
+    <h3>Atividade concluída!</h3>
+    <p>Suas cinco respostas foram registradas. Os comentários do professor já estão disponíveis abaixo de cada questão para você comparar com o que escreveu.</p>
+    <button class="btn btn-primario" onclick="fecharPopup()">Continuar</button>
+  </div>
+</div>
+
+<script>
+/* ===== GATE DE NOME ===== */
+function iniciarAtividade(){
+  const nome = document.getElementById('nome-aluno').value.trim();
+  const turma = document.getElementById('turma-aluno').value.trim();
+  const aviso = document.getElementById('capa-aviso');
+  if(!nome){
+    aviso.style.display = 'block';
+    return;
+  }
+  aviso.style.display = 'none';
+  const hoje = new Date();
+  const dataFormatada = String(hoje.getDate()).padStart(2,'0') + '/' + String(hoje.getMonth()+1).padStart(2,'0') + '/' + hoje.getFullYear();
+  document.getElementById('header-nome').textContent = nome;
+  document.getElementById('ficha-nome').textContent = nome;
+  document.getElementById('ficha-data').textContent = dataFormatada;
+  document.getElementById('ficha-turma').textContent = turma || '—';
+  document.getElementById('capa').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+/* ===== CONTADOR DE CARACTERES E PROGRESSO ===== */
+const textareas = document.querySelectorAll('textarea.dissertativa');
+
+function atualizarProgresso(){
+  let respondidas = 0;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length >= min) respondidas++;
+  });
+  document.getElementById('contador-geral').textContent = 'Respondidas: ' + respondidas + '/' + textareas.length;
+  document.getElementById('barra-fill').style.width = (respondidas / textareas.length * 100) + '%';
+}
+
+textareas.forEach(function(t){
+  const contadorEl = t.parentElement.querySelector('.contador-chars');
+  const min = parseInt(t.dataset.min, 10);
+  t.addEventListener('input', function(){
+    contadorEl.textContent = t.value.length + ' caracteres (mínimo ' + min + ')';
+    atualizarProgresso();
+  });
+});
+
+/* ===== FINALIZAR ===== */
+function finalizarAtividade(){
+  let completo = true;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length < min) completo = false;
+  });
+
+  const alerta = document.getElementById('alerta-incompleto');
+  if(!completo){
+    alerta.classList.add('show');
+    alerta.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  alerta.classList.remove('show');
+
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.add('show');
+  });
+
+  document.getElementById('popup-overlay').classList.add('show');
+}
+
+function fecharPopup(){
+  document.getElementById('popup-overlay').classList.remove('show');
+}
+
+function refazerAtividade(){
+  textareas.forEach(function(t){
+    t.value = '';
+    t.parentElement.querySelector('.contador-chars').textContent = '0 caracteres (mínimo ' + t.dataset.min + ')';
+  });
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.remove('show');
+  });
+  document.getElementById('alerta-incompleto').classList.remove('show');
+  atualizarProgresso();
+  window.scrollTo(0,0);
+}
+
+/* ===== EXPORTAR PDF ===== */
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+function esc(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML.replace(/\n/g, '<br>');
+}
+
+async function exportarPDF(){
+  const overlay = document.createElement('div');
+  overlay.id = 'pdf-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(28,42,12,.6);display:flex;align-items:center;justify-content:center;z-index:999;';
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;padding:32px 36px;text-align:center;max-width:300px;box-shadow:0 10px 30px rgba(51,71,26,.3);font-family:\'Source Serif 4\',serif;">' +
+      '<div style="font-size:2rem;margin-bottom:8px;">📄</div>' +
+      '<h4 style="margin:0 0 4px;color:#33471a;font-family:\'Playfair Display\',serif;">Gerando PDF…</h4>' +
+      '<p style="margin:0 0 14px;color:#586646;font-size:.86rem;">Aguarde alguns instantes.</p>' +
+      '<div style="background:#e5edd6;border-radius:6px;overflow:hidden;height:8px;">' +
+        '<div id="pdf-prog" style="height:100%;width:0%;background:#4f6b2a;transition:width .2s ease;"></div>' +
+      '</div>' +
+      '<div id="pdf-prog-txt" style="margin-top:8px;font-family:\'JetBrains Mono\',monospace;font-size:.74rem;color:#586646;">0%</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  await sleep(80);
+  function setP(pct, msg){
+    const pp = document.getElementById('pdf-prog'), pt = document.getElementById('pdf-prog-txt');
+    if(pp) pp.style.width = pct + '%';
+    if(pt) pt.textContent = msg || (pct + '%');
+  }
+
+  try{
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({orientation:'portrait', unit:'px', format:'a4', hotfixes:['px_scaling']});
+    const PW = pdf.internal.pageSize.getWidth(), PH = pdf.internal.pageSize.getHeight();
+    const ML = 28, CW = PW - ML*2;
+    let y = ML;
+
+    async function addImg(el){
+      const canvas = await html2canvas(el, {scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff', scrollX:0, scrollY:0, windowWidth:860});
+      const imgW = CW, imgH = (canvas.height / canvas.width) * imgW;
+      const dataUrl = canvas.toDataURL('image/jpeg', .92), avail = PH - ML*2;
+      if(imgH <= avail){
+        if(y + imgH > PH - ML){ pdf.addPage(); y = ML; }
+        pdf.addImage(dataUrl, 'JPEG', ML, y, imgW, imgH);
+        y += imgH + 8;
+      } else {
+        const pxPerPdfPt = canvas.width / imgW;
+        let srcY = 0;
+        while(srcY < canvas.height){
+          const availPt = PH - y - ML, sliceH_pt = Math.min(availPt, avail);
+          const sliceH_px = Math.round(sliceH_pt * pxPerPdfPt), actualH_px = Math.min(sliceH_px, canvas.height - srcY);
+          const tmp = document.createElement('canvas');
+          tmp.width = canvas.width; tmp.height = actualH_px;
+          tmp.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, actualH_px, 0, 0, canvas.width, actualH_px);
+          const sliceUrl = tmp.toDataURL('image/jpeg', .92), slicePt = (actualH_px / canvas.width) * imgW;
+          pdf.addImage(sliceUrl, 'JPEG', ML, y, imgW, slicePt);
+          srcY += actualH_px; y += slicePt;
+          if(srcY < canvas.height){ pdf.addPage(); y = ML; }
+        }
+        y += 8;
+      }
+    }
+
+    async function band(tag, txt){
+      const b = document.createElement('div');
+      b.style.cssText = 'width:860px;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      b.innerHTML = '<div style="background:linear-gradient(90deg,#4f6b2a,#33471a);border-radius:8px;padding:12px 22px;display:flex;align-items:center;gap:12px">' +
+        '<span style="background:rgba(255,255,255,.2);color:#fff;font-weight:700;font-size:12px;letter-spacing:1px;border-radius:20px;padding:3px 12px">' + tag + '</span>' +
+        '<span style="color:#fff;font-size:15px;font-weight:700">' + txt + '</span></div>';
+      document.body.appendChild(b);
+      await sleep(20);
+      await addImg(b);
+      document.body.removeChild(b);
+    }
+
+    const nome = document.getElementById('header-nome').textContent || 'Aluno(a)';
+    const turma = document.getElementById('ficha-turma').textContent || '—';
+    const now = new Date();
+    const dtStr = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+
+    setP(5, 'Preparando capa…'); await sleep(40);
+    const coverEl = document.createElement('div');
+    coverEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;overflow:hidden;position:absolute;left:-9999px;top:0';
+    coverEl.innerHTML =
+      '<div style="background:linear-gradient(135deg,#1c2a0c 0%,#4f6b2a 60%,#82a24f 100%);padding:32px 48px 28px;color:white">' +
+        '<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;font-weight:700;margin-bottom:6px">História · 9º Ano do Ensino Fundamental · GO-EF09HI17-A</div>' +
+        '<div style="font-size:26px;font-weight:900;line-height:1.2;margin-bottom:5px">1960: a vitória de Jânio e a quebra do sistema partidário</div>' +
+        '<div style="font-size:13px;opacity:.8;font-style:italic">Texto de apoio · Charge da revista Careta · 5 questões dissertativas</div>' +
+      '</div>' +
+      '<div style="background:#f3f6ec;padding:22px 48px 26px;border-bottom:3px solid #e0c1a2">' +
+        '<div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#4f6b2a;font-weight:700;margin-bottom:5px">Aluno(a)</div>' +
+        '<div style="font-size:20px;font-weight:700;color:#1f2612;border-bottom:2.5px solid #4f6b2a;padding-bottom:6px;display:inline-block;margin-bottom:16px">' + esc(nome) + '</div>' +
+        '<div style="display:flex;gap:12px;flex-wrap:wrap">' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#4f6b2a">' + esc(turma) + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Turma</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#a1662f">5</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Dissertativas</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:140px">' +
+            '<div style="font-size:13px;font-weight:700;color:#333">' + dtStr + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Gerado em</div></div>' +
+        '</div>' +
+        '<div style="font-size:9px;color:#bbb;margin-top:14px">Colégio Estadual Rodolfo de Oliveira · Goiás · 2026</div>' +
+      '</div>';
+    document.body.appendChild(coverEl); await sleep(60); await addImg(coverEl); document.body.removeChild(coverEl);
+
+    // TEXTO DE APOIO
+    setP(14, 'Preparando texto de apoio…'); await sleep(20);
+    await band('TEXTO DE APOIO', '1960: a vitória de Jânio e a quebra do sistema partidário');
+    const textoEl = document.createElement('div');
+    textoEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #d8e4c5;border-radius:10px;position:absolute;left:-9999px;top:0';
+    textoEl.innerHTML =
+      '<div style="padding:18px 24px;background:#fcfdf8">' +
+        '<p style="font-size:12.5px;color:#1f2612;line-height:1.8;margin:0 0 12px;text-align:justify">Os janistas exaltavam a "revolução pelo voto". Um sociólogo chegou a falar de "rebelião eleitoral". O que significava tal fenômeno, justamente após um governo marcado pelo desenvolvimento, pelo otimismo generalizado e pela tolerância política? Na realidade, a ascensão de Jânio Quadros, candidato ao mesmo tempo do povo e das elites, evidenciava tanto a falência do sistema partidário quanto o "esgotamento das virtualidades" do brilhante governo Kubitschek.</p>' +
+        '<p style="font-size:12.5px;color:#1f2612;line-height:1.8;margin:0 0 12px;text-align:justify">[...] O desenvolvimento do período Kubitschek despertara camadas sociais para demandas que não apenas se exprimiam em obras públicas ou empregos, mas no alargamento efetivo dos limites da participação — econômica, social e política. A legitimidade do sistema político começava a ser posta em xeque pelas camadas emergentes na medida em que o governo revelava-se incapaz de as absorver institucionalmente.</p>' +
+        '<p style="font-size:12.5px;color:#1f2612;line-height:1.8;margin:0 0 12px;text-align:justify">Jânio Quadros surge com força total nesse aparente vácuo institucional e caos partidário, agravados pela crise econômica. Sua postura tradicionalmente suprapartidária será, ao mesmo tempo, causa e consequência do esfacelamento do sistema partidário. Não se trata apenas da famosa "crise do poder", como também da crise de representatividade dos partidos políticos. Jânio apresenta-se como o candidato independente, "acima dos partidos", prometendo um governo "sem donos e sem influências".</p>' +
+        '<div style="font-size:10px;color:#586646;font-family:monospace;border-top:1px solid #eee;padding-top:10px">BENEVIDES, Maria Vitória. O governo Jânio Quadros. São Paulo: Brasiliense, 1982. p. 20-21.</div>' +
+      '</div>';
+    document.body.appendChild(textoEl); await sleep(20); await addImg(textoEl); document.body.removeChild(textoEl);
+
+    // CHARGE
+    setP(20, 'Preparando a charge…'); await sleep(20);
+    await band('CHARGE', '"Uma ideia" — capa da revista Careta, 9 jan. 1960');
+    const chargeEl = document.createElement('div');
+    chargeEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #d8e4c5;border-radius:10px;position:absolute;left:-9999px;top:0';
+    chargeEl.innerHTML =
+      '<div style="padding:18px 24px;background:#fcfdf8">' +
+        '<div style="background:#e5edd6;border:1px solid #d8e4c5;border-radius:10px;padding:12px;margin-bottom:14px;text-align:center">' +
+          '<img src="tema2/careta2.jpg" style="max-width:330px;width:100%;height:auto;display:inline-block;border-radius:5px">' +
+        '</div>' +
+        '<div style="font-size:11px;color:#586646;line-height:1.7;text-align:justify;margin-bottom:12px">Armados de vassouras, os personagens varrem uma montanha de palavras — politicagem, fraudes, burocracia, demagogia, negociatas, subornos, sinecuras, comissões, nepotismo —, ironizando a promessa de limpeza que elegeria Jânio naquele ano. A vassoura era o símbolo da campanha, e a pilha desenhada é tão alta que ocupa a capa inteira: a própria imagem sugere que a sujeira é maior do que a promessa de varrê-la.</div>' +
+        '<div style="border-left:4px solid #82a24f;background:#fbfdf5;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:12px">' +
+          '<div style="font-size:10px;color:#33471a;font-family:monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Diálogo impresso no rodapé da capa</div>' +
+          '<p style="font-size:12.5px;color:#1f2612;line-height:1.8;margin:0 0 6px;font-style:italic"><b style="font-style:normal;color:#33471a">Leandro:</b> — É muita sujeira, seu Jânio! São cordilheiras!</p>' +
+          '<p style="font-size:12.5px;color:#1f2612;line-height:1.8;margin:0;font-style:italic"><b style="font-style:normal;color:#33471a">Jânio:</b> — Com a industrialização de todo esse lixo, quem sabe, seu Leandro, se não salvaremos as finanças nacionais!</p>' +
+        '</div>' +
+        '<div style="font-size:10px;color:#586646;font-family:monospace;border-top:1px solid #eee;padding-top:10px">CARETA, Rio de Janeiro, ano LII, n. 2689, 9 jan. 1960. Capa.</div>' +
+      '</div>';
+    document.body.appendChild(chargeEl); await sleep(20); await addImg(chargeEl); document.body.removeChild(chargeEl);
+
+    // QUESTÕES DISSERTATIVAS
+    await band('QUESTÕES', 'Questões Dissertativas — Respostas e Orientações');
+
+    const QUESTOES = [
+      { num:'1', enunc:'O texto afirma que a vitória de Jânio Quadros evidenciava "tanto a falência do sistema partidário quanto o esgotamento das virtualidades do brilhante governo Kubitschek". Explique, com suas palavras, por que a eleição de Jânio representava uma crise nos partidos políticos da época.', id:'resp-1',
+        coment:'Jânio venceu apresentando-se como candidato independente, "acima dos partidos", e não como representante de uma legenda ou de um programa partidário. Isso mostra que os partidos já não conseguiam representar os interesses e as demandas dos eleitores — é o que a autora chama de crise de representatividade. O eleitor passou a votar na figura pessoal do candidato, e não no partido. Por isso a postura suprapartidária de Jânio é, ao mesmo tempo, causa e consequência do esfacelamento do sistema partidário: ele se beneficiou da fragilidade dos partidos e, ao vencer sem eles, enfraqueceu-os ainda mais.' },
+      { num:'2', enunc:'Segundo a autora do texto, o governo Kubitschek despertou nas camadas sociais um desejo de "alargamento efetivo dos limites da participação — econômica, social e política". Explique o que essa frase quer dizer e por que essa demanda não foi totalmente atendida pelo governo.', id:'resp-2',
+        coment:'A frase significa que os grupos sociais despertados pelo crescimento do período JK — trabalhadores urbanos e setores médios — já não se contentavam com obras públicas e empregos: queriam participar dos resultados econômicos (melhores salários e distribuição da riqueza), ter direitos sociais garantidos (educação, saúde, moradia) e ter voz nas decisões políticas. Essa demanda não foi atendida porque o sistema político era incapaz de absorver institucionalmente essas camadas emergentes: os partidos e as instituições continuavam controlados por grupos tradicionais. Somando-se a crise econômica do fim do governo — inflação e dívida —, a legitimidade do sistema passou a ser questionada.' },
+      { num:'3', enunc:'Observe a capa da revista Careta de 1960. Descreva a cena representada na charge, identificando os elementos (as palavras escritas na "sujeira", os personagens e as vassouras) e explique qual crítica ou mensagem essa imagem pretende transmitir.', id:'resp-3',
+        coment:'A charge mostra dois personagens caricaturados — Leandro e Jânio Quadros, de terno e óculos — segurando vassouras diante de uma pilha imensa de palavras que representam os vícios da política: politicagem, fraudes, burocracia, demagogia, negociatas, subornos, sinecuras, comissões, nepotismo, empreguismo, desfalque, privilégios. A vassoura era o símbolo da campanha de Jânio, que prometia "varrer" a corrupção. A crítica está no tamanho da pilha: ela é tão grande que ocupa toda a capa e é chamada de "cordilheiras". A revista ironiza a promessa, sugerindo que a corrupção é um problema estrutural, muito maior do que uma vassoura pode resolver.' },
+      { num:'4', enunc:'Na charge, Jânio responde a Leandro que, "com a industrialização de todo esse lixo", seria possível "salvar as finanças nacionais". Interprete essa fala: que tipo de promessa de campanha ela representa, e como ela se relaciona com a frase do texto de que Jânio prometia um governo "sem donos e sem influências"?', id:'resp-4',
+        coment:'A fala é uma piada que junta os dois grandes temas do período: a moralização da política e a industrialização, palavra de ordem herdada do desenvolvimentismo. Ao dizer que transformaria o lixo em riqueza, Jânio aparece como o candidato das soluções milagrosas — promessas grandiosas, otimistas e vagas, sem explicar como seriam cumpridas. É esse mesmo tipo de discurso que sustenta a promessa de um governo "sem donos e sem influências": Jânio se apresentava como alguém de fora do jogo, que não devia favores a partidos nem a grupos econômicos. A charge desconfia da promessa — trata-a como exagero de campanha.' },
+      { num:'5', enunc:'Relacionando o texto escrito e a charge, explique como as duas fontes, juntas, ajudam a compreender por que Jânio Quadros foi visto, ao mesmo tempo, como "candidato do povo e das elites". Em sua opinião, era possível cumprir a promessa de "limpar" a política do jeito que a charge sugere? Justifique sua resposta.', id:'resp-5',
+        coment:'O texto explica a condição política: com os partidos desacreditados, um candidato "acima dos partidos" podia ser apoiado por grupos muito diferentes ao mesmo tempo. A charge mostra o mecanismo disso na prática: combater a corrupção é uma bandeira que não obriga ninguém a escolher lado nos conflitos entre patrões e trabalhadores — o povo via nela a esperança de moralizar o país, e as elites, uma alternativa aos partidos ligados a Vargas e a JK. Sobre a segunda parte, não há uma única resposta certa. Espera-se que o aluno perceba que a corrupção retratada é estrutural, ligada a instituições e a interesses poderosos, e não uma sujeira que se varre — a própria charge sugere isso ao desenhar "cordilheiras". Uma resposta contrária, bem justificada, também é válida.' }
+    ];
+
+    for(let i=0; i<QUESTOES.length; i++){
+      const q = QUESTOES[i];
+      setP(26 + Math.round(i/QUESTOES.length*60), 'Questão ' + q.num + '/5…'); await sleep(12);
+
+      const valor = document.getElementById(q.id) ? document.getElementById(q.id).value : '';
+      const qEl = document.createElement('div');
+      qEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #d8e4c5;border-radius:10px;position:absolute;left:-9999px;top:0';
+      qEl.innerHTML =
+        '<div style="background:linear-gradient(90deg,#4f6b2a,#33471a);padding:10px 22px;display:flex;justify-content:space-between;align-items:center">' +
+          '<span style="color:white;font-weight:700;font-size:13px;letter-spacing:.8px">QUESTÃO ' + q.num + '</span>' +
+          '<span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:11px;padding:3px 12px;border-radius:20px;font-weight:600">Dissertativa</span></div>' +
+        '<div style="padding:18px 24px 16px;background:#fcfdf8">' +
+          '<div style="font-size:13px;font-weight:700;color:#1f2612;line-height:1.6;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #eee">' + esc(q.enunc) + '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+            '<div style="width:4px;height:15px;background:#4f6b2a;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#4f6b2a;text-transform:uppercase;letter-spacing:1.5px">Resposta do Aluno(a)</div></div>' +
+          '<div style="background:#eef4e3;border:1.5px solid #c3d6a5;border-radius:8px;padding:13px 16px;min-height:50px;margin-bottom:12px">' +
+            '<div style="font-size:12.5px;color:#1f2612;line-height:1.8;white-space:pre-wrap">' + (esc(valor) || '<span style=\"color:#aaa\">(sem resposta)</span>') + '</div></div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">' +
+            '<div style="width:4px;height:15px;background:#a1662f;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#8a5527;text-transform:uppercase;letter-spacing:1.5px">Comentário do Professor</div></div>' +
+          '<div style="background:#faf1e6;border:1.5px solid #e3c9a9;border-radius:8px;padding:13px 16px">' +
+            '<div style="font-size:12px;color:#6b431c;line-height:1.8">' + esc(q.coment) + '</div></div>' +
+        '</div>';
+      document.body.appendChild(qEl); await sleep(12); await addImg(qEl); document.body.removeChild(qEl);
+    }
+
+    // RODAPÉ EM TODAS AS PÁGINAS
+    setP(92, 'Finalizando…'); await sleep(30);
+    const totalPages = pdf.getNumberOfPages();
+    for(let p=1; p<=totalPages; p++){
+      pdf.setPage(p);
+      const fEl = document.createElement('div');
+      fEl.style.cssText = 'width:' + Math.round(CW) + 'px;height:22px;background:#f3f6ec;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:10px;color:#888;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      fEl.innerHTML = '<span>1960: a vitória de Jânio · ' + esc(nome) + '</span><span>Página ' + p + ' de ' + totalPages + '</span>';
+      document.body.appendChild(fEl);
+      const fc = await html2canvas(fEl, {scale:2, logging:false, backgroundColor:'#f3f6ec'});
+      document.body.removeChild(fEl);
+      const fUrl = fc.toDataURL('image/jpeg', .9), fH = (fc.height / fc.width) * CW;
+      pdf.setFillColor(243,246,236); pdf.rect(ML, PH-fH, CW, fH, 'F');
+      pdf.addImage(fUrl, 'JPEG', ML, PH-fH, CW, fH);
+    }
+
+    setP(100, 'Salvando…'); await sleep(200);
+    const safeName = nome.replace(/[^a-zA-Z0-9_\-]/g, '_');
+    pdf.save('1960_A_Vitoria_de_Janio_' + safeName + '.pdf');
+
+  } catch(err){
+    console.error(err);
+    alert('Erro ao gerar PDF: ' + err.message);
+  } finally {
+    const ov = document.getElementById('pdf-overlay');
+    if(ov) document.body.removeChild(ov);
+  }
+}
+
+/* ===== PROTEÇÃO ANTI-COLA ===== */
+(function () {
+  const CAMPOS_PROTEGIDOS = document.querySelectorAll('textarea.dissertativa, .campo-resposta');
+  const LIMITE_BLOCO = 25;
+
+  function bloquear(e) {
+    e.preventDefault();
+    mostrarToast('Colar não permitido nesta atividade.');
+  }
+
+  CAMPOS_PROTEGIDOS.forEach(function (campo) {
+    ['paste', 'copy', 'cut', 'drop', 'dragover', 'contextmenu'].forEach(function (evt) {
+      campo.addEventListener(evt, bloquear);
+    });
+
+    campo.addEventListener('beforeinput', function (e) {
+      if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') {
+        e.preventDefault();
+        mostrarToast('Colar não permitido nesta atividade.');
+      }
+    });
+
+    let valorAnterior = campo.value;
+    campo.addEventListener('input', function (e) {
+      const diferenca = campo.value.length - valorAnterior.length;
+      if (diferenca >= LIMITE_BLOCO && e.inputType !== 'insertReplacementText') {
+        campo.value = valorAnterior;
+        mostrarToast('Colar não permitido nesta atividade.');
+      } else {
+        valorAnterior = campo.value;
+      }
+    });
+  });
+
+  function mostrarToast(mensagem) {
+    let toast = document.getElementById('anti-cola-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'anti-cola-toast';
+      toast.style.cssText =
+        'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);' +
+        'background:#333;color:#fff;padding:10px 20px;border-radius:8px;' +
+        'font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = mensagem;
+    toast.style.opacity = '1';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(function () {
+      toast.style.opacity = '0';
+    }, 2500);
+  }
+})();
+</script>
+
+</body>
+</html>
