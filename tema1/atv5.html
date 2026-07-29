@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Regime Nazista e as Pessoas com Deficiência | CERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f6f2fa;
+    --bg-alt:#ece0f3;
+    --paper:#fffdff;
+    --ink:#241c30;
+    --ink-soft:#5a4d6b;
+    --verde:#5a2d82;
+    --verde-dark:#3a1c56;
+    --verde-2:#7a3fa8;
+    --gold:#a6863f;
+    --gold-light:#ddc9a3;
+    --line:#ddd0e8;
+    --shadow:0 10px 30px rgba(58,28,86,.16);
+    --radius:14px;
+    --font-title:'Playfair Display', serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-touch-callout:none;
+    user-select:none;
+  }
+  .selecionavel, main{user-select:text;}
+  .campo-resposta{user-select:text;}
+
+  /* ===== CAPA / GATE ===== */
+  #capa{
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(to bottom, #2a1440, #43215c, #6b3999);
+    padding:24px;
+  }
+  #capa .grade-centralizada{
+    position:absolute;
+    top:0; bottom:0; left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:896px;
+    pointer-events:none;
+    z-index:0;
+    opacity:.08;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px);
+    background-size:40px 40px;
+  }
+  .capa-card{
+    position:relative;
+    z-index:1;
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    max-width:480px;
+    width:100%;
+    padding:36px 32px;
+    text-align:center;
+  }
+  .capa-card .tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(31,107,63,.1); padding:5px 12px; border-radius:999px; margin-bottom:14px;
+  }
+  .capa-card h1{font-family:var(--font-title); font-size:1.6rem; margin:0 0 10px; color:var(--verde-dark);}
+  .capa-card p.desc{color:var(--ink-soft); font-size:.94rem; margin:0 0 22px;}
+  .capa-card input{
+    width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:1rem; margin-bottom:14px;
+  }
+  .capa-card button{
+    width:100%; padding:13px; border:none; border-radius:8px;
+    background:var(--verde); color:#fff; font-weight:600; font-size:1rem; cursor:pointer;
+    font-family:var(--font-body); transition:filter .15s ease;
+  }
+  .capa-card button:hover{filter:brightness(1.08);}
+  .capa-aviso{font-size:.78rem; color:#a33; margin-top:8px; display:none;}
+
+  /* ===== APP ===== */
+  #app{display:none;}
+  .sticky-header{
+    position:sticky; top:0; z-index:50;
+    background:var(--verde-dark); color:#eafaf0;
+    padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:8px;
+    font-family:var(--font-mono); font-size:.82rem;
+  }
+  .sticky-header .aluno{font-family:var(--font-body); font-weight:600; font-size:.92rem;}
+  .barra-progresso-trilho{
+    flex:1; min-width:120px; height:8px; background:rgba(255,255,255,.2); border-radius:6px; overflow:hidden; margin:0 14px;
+  }
+  .barra-progresso-fill{height:100%; background:var(--gold); width:0%; transition:width .3s ease;}
+
+  .wrap{max-width:800px; margin:0 auto; padding:32px 24px 60px;}
+
+  header.topo{margin-bottom:28px;}
+  header.topo .hero-tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.72rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(31,107,63,.1); padding:5px 12px; border-radius:999px; margin-bottom:12px;
+  }
+  header.topo h1{font-family:var(--font-title); font-size:clamp(1.5rem,4vw,2rem); margin:0 0 8px; color:var(--ink);}
+  header.topo p.sub{color:var(--ink-soft); margin:0; font-size:.98rem;}
+  header.topo .aluno-info{
+    font-family:var(--font-mono); font-size:.82rem; color:var(--verde-dark);
+    background:var(--bg-alt); display:inline-block; padding:6px 12px; border-radius:8px; margin-top:12px;
+  }
+  .descritor-bar{
+    font-family:var(--font-mono); font-size:.76rem; color:var(--ink-soft);
+    background:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:8px 14px; margin-bottom:14px; display:inline-block;
+  }
+  .ficha-id{
+    display:flex; flex-wrap:wrap; gap:10px 26px;
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; margin-top:12px; font-family:var(--font-mono); font-size:.84rem; color:var(--ink);
+  }
+  .ficha-id span b{color:var(--verde-dark);}
+
+  /* ===== TEXTO DE APOIO ===== */
+  .texto-apoio{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:28px 30px; margin-bottom:30px;
+  }
+  .texto-apoio h2{font-family:var(--font-title); font-size:1.25rem; color:var(--verde-dark); margin:0 0 4px;}
+  .texto-apoio .fonte-tag{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-bottom:16px; display:block;}
+  .texto-apoio p{margin:0 0 14px; color:var(--ink);}
+  .texto-apoio p:last-of-type{margin-bottom:0;}
+
+  .referencia-box{
+    margin-top:20px; padding:14px 16px;
+    background:var(--bg-alt); border-left:3px solid var(--gold); border-radius:0 8px 8px 0;
+  }
+  .referencia-box .rot{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--verde-dark); display:block; margin-bottom:6px;
+  }
+  .referencia-box p{margin:0 0 6px; font-size:.86rem; color:var(--ink-soft); font-family:var(--font-mono); line-height:1.6;}
+  .referencia-box p:last-child{margin-bottom:0;}
+
+  .documento-fonte{
+    background:var(--bg-alt);
+    border-left:3px solid var(--verde);
+    border-radius:0 8px 8px 0;
+    padding:16px 20px;
+    margin:16px 0;
+  }
+  .documento-fonte ul{margin:0; padding-left:20px;}
+  .documento-fonte li{margin-bottom:12px; font-style:italic; color:var(--ink);}
+  .documento-fonte li:last-child{margin-bottom:0;}
+
+  /* ===== QUESTOES ===== */
+  .questoes-titulo{
+    font-family:var(--font-title); font-size:1.2rem; color:var(--verde-dark);
+    margin:0 0 18px; display:flex; align-items:center; gap:10px;
+  }
+  .questao{
+    background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; margin-bottom:18px;
+  }
+  .questao .num-q{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:50%; background:var(--verde);
+    color:#fff; font-family:var(--font-mono); font-size:.78rem; margin-right:8px; flex-shrink:0;
+  }
+  .questao .enunciado{font-weight:600; color:var(--ink); margin-bottom:12px; display:flex; align-items:flex-start;}
+  .questao textarea{
+    width:100%; min-height:100px; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:.96rem; resize:vertical; color:var(--ink);
+  }
+  .questao textarea:focus{outline:2px solid var(--verde-2); outline-offset:1px;}
+  .contador-chars{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-top:6px; text-align:right;}
+
+  .subitem{margin-top:16px;}
+  .subitem:first-of-type{margin-top:14px;}
+  .subitem-label{display:block; font-weight:600; color:var(--ink); margin-bottom:8px; font-size:.94rem;}
+
+  .comentario-prof{
+    display:none; margin-top:14px; padding:14px 16px;
+    background:#eaf6ee; border:1px solid #bfe3c8; border-radius:8px; font-size:.9rem; color:var(--verde-dark);
+  }
+  .comentario-prof.show{display:block;}
+  .comentario-prof b{display:block; margin-bottom:4px; font-family:var(--font-title); font-size:.92rem;}
+
+  /* ===== ALERTA / FINALIZAR ===== */
+  .alerta-incompleto{
+    display:none; background:#fdf3e2; border:1px solid #f1d9a6; color:#8a5a10;
+    padding:12px 16px; border-radius:8px; font-size:.9rem; margin-bottom:16px;
+  }
+  .alerta-incompleto.show{display:block;}
+
+  .acoes-finais{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;}
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:.94rem; padding:12px 22px;
+    border-radius:8px; border:none; cursor:pointer; transition:filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn-primario{background:var(--verde); color:#fff;}
+  .btn-secundario{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn-pdf{background:var(--gold); color:#fff;}
+  .btn[disabled]{opacity:.5; cursor:not-allowed;}
+
+  /* ===== POPUP ===== */
+  .popup-overlay{
+    display:none; position:fixed; inset:0; background:rgba(42,20,64,.6);
+    align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .popup-overlay.show{display:flex;}
+  .popup-card{
+    background:var(--paper); border-radius:var(--radius); box-shadow:var(--shadow);
+    max-width:420px; width:100%; padding:32px 28px; text-align:center;
+  }
+  .popup-card .emoji{font-size:2.4rem; margin-bottom:10px;}
+  .popup-card h3{font-family:var(--font-title); margin:0 0 8px; color:var(--verde-dark);}
+  .popup-card p{color:var(--ink-soft); font-size:.94rem; margin:0 0 20px;}
+
+  footer.rodape{text-align:center; padding:24px; color:var(--ink-soft); font-family:var(--font-mono); font-size:.8rem;}
+
+  @media (max-width:600px){
+    .wrap{padding:24px 16px 50px;}
+    .texto-apoio, .questao{padding:18px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== CAPA ===== -->
+<div id="capa">
+  <div class="grade-centralizada"></div>
+  <div class="capa-card">
+    <span class="tag">9º ano · História · CERO</span>
+    <h1>O Regime Nazista e as Pessoas com Deficiência</h1>
+    <p class="desc">Texto de apoio e questões dissertativas. Preencha os dados para começar.</p>
+    <input type="text" id="nome-aluno" placeholder="Seu nome completo">
+    <input type="text" id="turma-aluno" placeholder="Turma (ex.: 9º A)">
+    <button onclick="iniciarAtividade()">Iniciar atividade</button>
+    <div class="capa-aviso" id="capa-aviso">Por favor, digite seu nome para continuar.</div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+  <div class="sticky-header">
+    <span class="aluno" id="header-nome"></span>
+    <div class="barra-progresso-trilho"><div class="barra-progresso-fill" id="barra-fill"></div></div>
+    <span id="contador-geral">Respondidas: 0/5</span>
+  </div>
+
+  <div class="wrap">
+    <header class="topo selecionavel">
+      <span class="descritor-bar">História / 9º Ano do Ensino Fundamental &nbsp;|&nbsp; (GO-EF09HI13-A) – Totalitarismo e 2ª Guerra Mundial</span>
+      <span class="hero-tag" style="display:block; margin-top:10px;">Ler e Compreender Documento</span>
+      <h1>O Regime Nazista e as Pessoas com Deficiência</h1>
+      <p class="sub">Leia os textos com atenção e responda às cinco questões a seguir.</p>
+      <div class="ficha-id" id="ficha-id">
+        <span><b>NOME:</b> <span id="ficha-nome"></span></span>
+        <span><b>DATA:</b> <span id="ficha-data"></span></span>
+        <span><b>TURMA:</b> <span id="ficha-turma"></span></span>
+      </div>
+    </header>
+
+    <main>
+      <section class="texto-apoio selecionavel">
+        <h2>O Regime Nazista e as Pessoas com Deficiência</h2>
+        <span class="fonte-tag">Texto de apoio — leitura para o 9º ano</span>
+
+        <p>O regime nazista tratou as pessoas com deficiências físicas e mentais como inferiores. A ideologia racista do Terceiro Reich, que buscava uma suposta perfeição ariana, impôs a cultura da exclusão e da morte. Para compreender melhor esse assunto, leia o texto a seguir.</p>
+
+        <div class="documento-fonte">
+          <ul>
+            <li>A política de esterilização compulsória e de eutanásia dos deficientes físicos e mentais foi considerada parte integrante do programa de solução final da questão social, tendo sido abraçada por círculos acadêmicos formados por médicos e juristas com um meio para a redução da pobreza. Deficientes físicos e mentais foram submetidos a um genocídio organizado em escala industrial. [...]</li>
+            <li>O programa de eutanásia dos deficientes físicos e mentais vigorou oficialmente de 1939 a 1941 [...].</li>
+            <li>[...] O número de vítimas ainda pode ter sido, de acordo com o Processo dos Médicos de Nurembergue, de 1947, de cerca de 275 mil pessoas, incluindo os deficientes físicos e mentais executados para liberar leitos hospitalares nas regiões ocupadas da Europa Oriental. Os encarregados da eutanásia de deficientes físicos e mentais tornaram-se posteriormente especialistas em assassinatos em massa nos campos de extermínio da Europa Oriental.</li>
+          </ul>
+        </div>
+
+        <p><strong>Esterilização</strong> — Cirurgia que torna uma pessoa ou animal incapazes de procriar.<br><strong>Eutanásia</strong> — Ato de proporcionar morte sem sofrimento a um doente.</p>
+
+        <div class="referencia-box">
+          <span class="rot">Referência (ABNT NBR 6023)</span>
+          <p>ALBUQUERQUE, Roberto Chacón de. A Lei de Prevenção de Doenças Hereditárias e o programa de eutanásia durante a Segunda Guerra Mundial. Revista CEJ, Brasília, ano XVII, v. 12, n. 40, jan./mar. 2008. p. 44-49.</p>
+        </div>
+      </section>
+
+      <section class="texto-apoio selecionavel">
+        <h2>A Constituição Federal e os Direitos das Pessoas com Deficiência</h2>
+        <span class="fonte-tag">Texto complementar — leitura para o 9º ano</span>
+
+        <p>Leia o que estabelece a nossa Constituição no que diz respeito aos direitos das pessoas com deficiência.</p>
+
+        <div class="documento-fonte">
+          <ul>
+            <li><strong>Art. 23.</strong> É competência comum da União, dos estados, do Distrito Federal e dos municípios: II – cuidar da saúde e assistência pública, da proteção e garantia das pessoas portadoras de deficiência; [...]</li>
+            <li><strong>Art. 24.</strong> Compete à União, aos estados e ao Distrito Federal legislar [...] sobre: XIV – proteção e integração social das pessoas portadoras de deficiência; [...]</li>
+            <li><strong>Art. 227, II.</strong> Criação de programas de prevenção e atendimento especializado para os portadores de deficiência física, sensorial ou mental, bem como de integração social do adolescente portador de deficiência, mediante o treinamento para o trabalho e a convivência, e a facilitação do acesso aos bens e serviços coletivos, com a eliminação de obstáculos arquitetônicos e de todas as formas de discriminação.</li>
+          </ul>
+        </div>
+
+        <div class="referencia-box">
+          <span class="rot">Referência (ABNT NBR 6023)</span>
+          <p>BRASIL. Constituição (1988). Disponível em: planalto.gov.br. Acesso em: 14 mar. 2018.</p>
+        </div>
+      </section>
+
+      <h2 class="questoes-titulo">✍️ Questões Dissertativas</h2>
+
+      <div class="questao" data-questao="1">
+        <div class="enunciado"><span class="num-q">1</span> De acordo com o texto, como o regime nazista justificava a perseguição às pessoas com deficiência? Explique quais eram os objetivos dessa política e por que ela fazia parte da ideologia nazista.</div>
+        <textarea id="resp-1" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          O regime nazista justificava a perseguição com base na busca por uma suposta "perfeição ariana": pessoas com deficiência eram vistas como inferiores e um "peso" para a sociedade. Os objetivos incluíam a "redução da pobreza" e da "questão social" — na prática, o extermínio de quem não se encaixava no ideal racial nazista. Essa política fazia parte da ideologia porque o nazismo defendia a purificação da "raça" como um projeto de Estado, tratando a vida de certos grupos como descartável.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="2">
+        <div class="enunciado"><span class="num-q">2</span> O texto afirma que pessoas com deficiência foram submetidas à esterilização compulsória e à eutanásia. Explique o significado dessas duas práticas e descreva como elas violavam os direitos humanos.</div>
+        <textarea id="resp-2" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Esterilização é a cirurgia que torna uma pessoa incapaz de procriar; eutanásia é o ato de provocar a morte de um doente, supostamente sem sofrimento. No contexto nazista, as duas práticas eram impostas sem consentimento, violando o direito à integridade física, à liberdade reprodutiva e, no caso da eutanásia, o próprio direito à vida — direitos hoje reconhecidos como fundamentais e invioláveis.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="3">
+        <div class="enunciado"><span class="num-q">3</span> Compare as ações do regime nazista em relação às pessoas com deficiência com o que determina a Constituição Brasileira de 1988. Quais são as principais diferenças entre essas duas formas de tratar esse grupo da população?</div>
+        <textarea id="resp-3" class="campo-resposta dissertativa" data-min="80" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 80)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Enquanto o regime nazista perseguia, esterilizava e matava pessoas com deficiência em nome de uma ideologia de "pureza racial", a Constituição de 1988 garante proteção, assistência à saúde, integração social e programas especializados para essa população, além de determinar a eliminação de obstáculos e de todas as formas de discriminação. A diferença central é que o nazismo tratava a deficiência como motivo de exclusão e extermínio, enquanto a Constituição brasileira a trata como uma condição que exige inclusão e garantia de direitos.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="4">
+        <div class="enunciado"><span class="num-q">4</span> Segundo o texto, muitos profissionais, como médicos e juristas, participaram da implementação das políticas nazistas contra pessoas com deficiência. Na sua opinião, qual deve ser a responsabilidade desses profissionais diante de leis ou ordens que desrespeitem a dignidade humana? Justifique sua resposta.</div>
+        <textarea id="resp-4" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Resposta pessoal — espera-se que o aluno reflita sobre a responsabilidade ética e ética profissional acima da obediência cega a leis ou ordens: médicos e juristas têm o dever de recusar participar de políticas que violem a dignidade humana, mesmo quando amparadas por lei, já que a legalidade de um regime não torna suas ações moralmente aceitáveis.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="5">
+        <div class="enunciado"><span class="num-q">5</span> O estudo do Holocausto e das políticas de perseguição adotadas pelo nazismo contribui para a defesa dos direitos humanos na atualidade. Explique por que conhecer esse período histórico é importante para combater o preconceito, a discriminação e promover o respeito à diversidade e à inclusão das pessoas com deficiência.</div>
+        <textarea id="resp-5" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno reconheça que conhecer esse período ajuda a identificar sinais de discurso de ódio e discriminação antes que se transformem em políticas de exclusão, reforçando a importância de valorizar a diversidade humana e de defender ativamente os direitos das pessoas com deficiência, evitando que atrocidades semelhantes se repitam.
+        </div>
+      </div>
+
+      <div class="alerta-incompleto" id="alerta-incompleto">
+        ⚠️ Ainda há campos incompletos (respeite o mínimo de caracteres indicado em cada um). Revise antes de finalizar.
+      </div>
+
+      <div class="acoes-finais">
+        <button class="btn btn-primario" onclick="finalizarAtividade()">Finalizar e ver comentários</button>
+        <button class="btn btn-secundario" onclick="refazerAtividade()">Refazer</button>
+        <button class="btn btn-pdf" onclick="exportarPDF()">Exportar em PDF</button>
+      </div>
+    </main>
+  </div>
+
+  <footer class="rodape">Colégio Estadual Rodolfo de Oliveira · CERO · 2026</footer>
+</div>
+
+<!-- ===== POPUP ===== -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-card">
+    <div class="emoji">🎉</div>
+    <h3>Atividade concluída!</h3>
+    <p>Suas respostas foram registradas. Os comentários do professor já estão disponíveis abaixo de cada questão para você comparar com o que escreveu.</p>
+    <button class="btn btn-primario" onclick="fecharPopup()">Continuar</button>
+  </div>
+</div>
+
+<script>
+/* ===== GATE DE NOME ===== */
+function iniciarAtividade(){
+  const nome = document.getElementById('nome-aluno').value.trim();
+  const turma = document.getElementById('turma-aluno').value.trim();
+  const aviso = document.getElementById('capa-aviso');
+  if(!nome){
+    aviso.style.display = 'block';
+    return;
+  }
+  aviso.style.display = 'none';
+  const hoje = new Date();
+  const dataFormatada = String(hoje.getDate()).padStart(2,'0') + '/' + String(hoje.getMonth()+1).padStart(2,'0') + '/' + hoje.getFullYear();
+  document.getElementById('header-nome').textContent = nome;
+  document.getElementById('ficha-nome').textContent = nome;
+  document.getElementById('ficha-data').textContent = dataFormatada;
+  document.getElementById('ficha-turma').textContent = turma || '—';
+  document.getElementById('capa').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+/* ===== CONTADOR DE CARACTERES E PROGRESSO ===== */
+const textareas = document.querySelectorAll('textarea.dissertativa');
+
+function atualizarProgresso(){
+  let respondidas = 0;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length >= min) respondidas++;
+  });
+  document.getElementById('contador-geral').textContent = 'Respondidas: ' + respondidas + '/' + textareas.length;
+  document.getElementById('barra-fill').style.width = (respondidas / textareas.length * 100) + '%';
+}
+
+textareas.forEach(function(t){
+  const contadorEl = t.parentElement.querySelector('.contador-chars');
+  const min = parseInt(t.dataset.min, 10);
+  t.addEventListener('input', function(){
+    contadorEl.textContent = t.value.length + ' caracteres (mínimo ' + min + ')';
+    atualizarProgresso();
+  });
+});
+
+/* ===== FINALIZAR ===== */
+function finalizarAtividade(){
+  let completo = true;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length < min) completo = false;
+  });
+
+  const alerta = document.getElementById('alerta-incompleto');
+  if(!completo){
+    alerta.classList.add('show');
+    alerta.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  alerta.classList.remove('show');
+
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.add('show');
+  });
+
+  document.getElementById('popup-overlay').classList.add('show');
+}
+
+function fecharPopup(){
+  document.getElementById('popup-overlay').classList.remove('show');
+}
+
+function refazerAtividade(){
+  textareas.forEach(function(t){
+    t.value = '';
+    t.parentElement.querySelector('.contador-chars').textContent = '0 caracteres (mínimo ' + t.dataset.min + ')';
+  });
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.remove('show');
+  });
+  document.getElementById('alerta-incompleto').classList.remove('show');
+  atualizarProgresso();
+  window.scrollTo(0,0);
+}
+
+/* ===== EXPORTAR PDF ===== */
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+function esc(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML.replace(/\n/g, '<br>');
+}
+
+async function exportarPDF(){
+  const overlay = document.createElement('div');
+  overlay.id = 'pdf-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(42,20,64,.6);display:flex;align-items:center;justify-content:center;z-index:999;';
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;padding:32px 36px;text-align:center;max-width:300px;box-shadow:0 10px 30px rgba(58,28,86,.3);font-family:\'Source Serif 4\',serif;">' +
+      '<div style="font-size:2rem;margin-bottom:8px;">📄</div>' +
+      '<h4 style="margin:0 0 4px;color:#3a1c56;font-family:\'Playfair Display\',serif;">Gerando PDF…</h4>' +
+      '<p style="margin:0 0 14px;color:#5a4d6b;font-size:.86rem;">Aguarde alguns instantes.</p>' +
+      '<div style="background:#ece0f3;border-radius:6px;overflow:hidden;height:8px;">' +
+        '<div id="pdf-prog" style="height:100%;width:0%;background:#5a2d82;transition:width .2s ease;"></div>' +
+      '</div>' +
+      '<div id="pdf-prog-txt" style="margin-top:8px;font-family:\'JetBrains Mono\',monospace;font-size:.74rem;color:#5a4d6b;">0%</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  await sleep(80);
+  function setP(pct, msg){
+    const pp = document.getElementById('pdf-prog'), pt = document.getElementById('pdf-prog-txt');
+    if(pp) pp.style.width = pct + '%';
+    if(pt) pt.textContent = msg || (pct + '%');
+  }
+
+  try{
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({orientation:'portrait', unit:'px', format:'a4', hotfixes:['px_scaling']});
+    const PW = pdf.internal.pageSize.getWidth(), PH = pdf.internal.pageSize.getHeight();
+    const ML = 28, CW = PW - ML*2;
+    let y = ML;
+
+    async function addImg(el){
+      const canvas = await html2canvas(el, {scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff', scrollX:0, scrollY:0, windowWidth:860});
+      const imgW = CW, imgH = (canvas.height / canvas.width) * imgW;
+      const dataUrl = canvas.toDataURL('image/jpeg', .92), avail = PH - ML*2;
+      if(imgH <= avail){
+        if(y + imgH > PH - ML){ pdf.addPage(); y = ML; }
+        pdf.addImage(dataUrl, 'JPEG', ML, y, imgW, imgH);
+        y += imgH + 8;
+      } else {
+        const pxPerPdfPt = canvas.width / imgW;
+        let srcY = 0;
+        while(srcY < canvas.height){
+          const availPt = PH - y - ML, sliceH_pt = Math.min(availPt, avail);
+          const sliceH_px = Math.round(sliceH_pt * pxPerPdfPt), actualH_px = Math.min(sliceH_px, canvas.height - srcY);
+          const tmp = document.createElement('canvas');
+          tmp.width = canvas.width; tmp.height = actualH_px;
+          tmp.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, actualH_px, 0, 0, canvas.width, actualH_px);
+          const sliceUrl = tmp.toDataURL('image/jpeg', .92), slicePt = (actualH_px / canvas.width) * imgW;
+          pdf.addImage(sliceUrl, 'JPEG', ML, y, imgW, slicePt);
+          srcY += actualH_px; y += slicePt;
+          if(srcY < canvas.height){ pdf.addPage(); y = ML; }
+        }
+        y += 8;
+      }
+    }
+
+    async function band(tag, txt){
+      const b = document.createElement('div');
+      b.style.cssText = 'width:860px;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      b.innerHTML = '<div style="background:linear-gradient(90deg,#5a2d82,#3a1c56);border-radius:8px;padding:12px 22px;display:flex;align-items:center;gap:12px">' +
+        '<span style="background:rgba(255,255,255,.2);color:#fff;font-weight:700;font-size:12px;letter-spacing:1px;border-radius:20px;padding:3px 12px">' + tag + '</span>' +
+        '<span style="color:#fff;font-size:15px;font-weight:700">' + txt + '</span></div>';
+      document.body.appendChild(b);
+      await sleep(20);
+      await addImg(b);
+      document.body.removeChild(b);
+    }
+
+    const nome = document.getElementById('header-nome').textContent || 'Aluno(a)';
+    const turma = document.getElementById('ficha-turma').textContent || '—';
+    const now = new Date();
+    const dtStr = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+
+    setP(5, 'Preparando capa…'); await sleep(40);
+    const coverEl = document.createElement('div');
+    coverEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;overflow:hidden;position:absolute;left:-9999px;top:0';
+    coverEl.innerHTML =
+      '<div style="background:linear-gradient(135deg,#2a1440 0%,#5a2d82 60%,#7a3fa8 100%);padding:32px 48px 28px;color:white">' +
+        '<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;font-weight:700;margin-bottom:6px">História · 9º Ano do Ensino Fundamental · GO-EF09HI13-A</div>' +
+        '<div style="font-size:26px;font-weight:900;line-height:1.2;margin-bottom:5px">O Regime Nazista e as Pessoas com Deficiência</div>' +
+        '<div style="font-size:13px;opacity:.8;font-style:italic">Ler e compreender textos · Esterilização e eutanásia · Constituição de 1988 · 5 questões dissertativas</div>' +
+      '</div>' +
+      '<div style="background:#f6f2fa;padding:22px 48px 26px;border-bottom:3px solid #ddc9a3">' +
+        '<div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#5a2d82;font-weight:700;margin-bottom:5px">Aluno(a)</div>' +
+        '<div style="font-size:20px;font-weight:700;color:#241c30;border-bottom:2.5px solid #5a2d82;padding-bottom:6px;display:inline-block;margin-bottom:16px">' + esc(nome) + '</div>' +
+        '<div style="display:flex;gap:12px;flex-wrap:wrap">' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#5a2d82">' + esc(turma) + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Turma</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#a6863f">5</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Dissertativas</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:140px">' +
+            '<div style="font-size:13px;font-weight:700;color:#333">' + dtStr + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Gerado em</div></div>' +
+        '</div>' +
+        '<div style="font-size:9px;color:#bbb;margin-top:14px">Colégio Estadual Rodolfo de Oliveira · Goiás · 2026</div>' +
+      '</div>';
+    document.body.appendChild(coverEl); await sleep(60); await addImg(coverEl); document.body.removeChild(coverEl);
+
+    // TEXTO DE APOIO
+    setP(15, 'Preparando texto de apoio…'); await sleep(20);
+    await band('TEXTO', 'O Regime Nazista e as Pessoas com Deficiência');
+    const textoEl = document.createElement('div');
+    textoEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #ddd0e8;border-radius:10px;position:absolute;left:-9999px;top:0';
+    textoEl.innerHTML =
+      '<div style="padding:18px 24px;background:#fdfdfa">' +
+        '<p style="font-size:12.5px;color:#241c30;line-height:1.8;margin:0 0 12px">O regime nazista tratou as pessoas com deficiências físicas e mentais como inferiores. A ideologia racista do Terceiro Reich, que buscava uma suposta perfeição ariana, impôs a cultura da exclusão e da morte.</p>' +
+        '<div style="background:#ece0f3;border-left:3px solid #5a2d82;border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:14px">' +
+          '<div style="font-size:11.5px;color:#241c30;line-height:1.8;font-style:italic;margin-bottom:10px">A política de esterilização compulsória e de eutanásia dos deficientes físicos e mentais foi considerada parte integrante do programa de solução final da questão social, tendo sido abraçada por círculos acadêmicos formados por médicos e juristas com um meio para a redução da pobreza. Deficientes físicos e mentais foram submetidos a um genocídio organizado em escala industrial. (...)</div>' +
+          '<div style="font-size:11.5px;color:#241c30;line-height:1.8;font-style:italic;margin-bottom:10px">O programa de eutanásia dos deficientes físicos e mentais vigorou oficialmente de 1939 a 1941 (...).</div>' +
+          '<div style="font-size:11.5px;color:#241c30;line-height:1.8;font-style:italic">(...) O número de vítimas ainda pode ter sido, de acordo com o Processo dos Médicos de Nurembergue, de 1947, de cerca de 275 mil pessoas, incluindo os deficientes físicos e mentais executados para liberar leitos hospitalares nas regiões ocupadas da Europa Oriental.</div>' +
+        '</div>' +
+        '<div style="font-size:10px;color:#5a4d6b;font-family:monospace;border-top:1px solid #eee;padding-top:10px">ALBUQUERQUE, Roberto Chacón de. A Lei de Prevenção de Doenças Hereditárias e o programa de eutanásia durante a Segunda Guerra Mundial. Revista CEJ, Brasília, ano XVII, v. 12, n. 40, jan./mar. 2008. p. 44-49.</div>' +
+      '</div>';
+    document.body.appendChild(textoEl); await sleep(20); await addImg(textoEl); document.body.removeChild(textoEl);
+
+    await band('CONSTITUIÇÃO', 'Direitos das Pessoas com Deficiência (CF/1988)');
+    const textoEl2 = document.createElement('div');
+    textoEl2.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #ddd0e8;border-radius:10px;position:absolute;left:-9999px;top:0';
+    textoEl2.innerHTML =
+      '<div style="padding:18px 24px;background:#fdfdfa">' +
+        '<p style="font-size:12.5px;color:#241c30;line-height:1.8;margin:0 0 12px">Leia o que estabelece a nossa Constituição no que diz respeito aos direitos das pessoas com deficiência.</p>' +
+        '<div style="background:#ece0f3;border-left:3px solid #5a2d82;border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:14px">' +
+          '<div style="font-size:11.5px;color:#241c30;line-height:1.8;font-style:italic;margin-bottom:10px"><b>Art. 23.</b> É competência comum da União, dos estados, do Distrito Federal e dos municípios: II – cuidar da saúde e assistência pública, da proteção e garantia das pessoas portadoras de deficiência; (...)</div>' +
+          '<div style="font-size:11.5px;color:#241c30;line-height:1.8;font-style:italic;margin-bottom:10px"><b>Art. 24.</b> Compete à União, aos estados e ao Distrito Federal legislar (...) sobre: XIV – proteção e integração social das pessoas portadoras de deficiência; (...)</div>' +
+          '<div style="font-size:11.5px;color:#241c30;line-height:1.8;font-style:italic"><b>Art. 227, II.</b> Criação de programas de prevenção e atendimento especializado para os portadores de deficiência física, sensorial ou mental, com a eliminação de obstáculos arquitetônicos e de todas as formas de discriminação.</div>' +
+        '</div>' +
+        '<div style="font-size:10px;color:#5a4d6b;font-family:monospace;border-top:1px solid #eee;padding-top:10px">BRASIL. Constituição (1988). Disponível em: planalto.gov.br. Acesso em: 14 mar. 2018.</div>' +
+      '</div>';
+    document.body.appendChild(textoEl2); await sleep(20); await addImg(textoEl2); document.body.removeChild(textoEl2);
+
+    // QUESTÕES DISSERTATIVAS
+    await band('QUESTÕES', 'Questões Dissertativas — Respostas e Orientações');
+
+    const QUESTOES = [
+      { num:'1', enunc:'De acordo com o texto, como o regime nazista justificava a perseguição às pessoas com deficiência? Explique os objetivos dessa política.',
+        partes:[{label:null, id:'resp-1'}],
+        coment:'O regime justificava com base na busca por uma suposta "perfeição ariana": pessoas com deficiência eram vistas como inferiores. Os objetivos incluíam a "redução da pobreza" e da "questão social" — na prática, o extermínio de quem não se encaixava no ideal racial nazista.' },
+      { num:'2', enunc:'Explique o significado de esterilização compulsória e eutanásia, e como elas violavam os direitos humanos.',
+        partes:[{label:null, id:'resp-2'}],
+        coment:'Esterilização é a cirurgia que impede a procriação; eutanásia é provocar a morte de um doente. Ambas eram impostas sem consentimento, violando o direito à integridade física, à liberdade reprodutiva e à própria vida.' },
+      { num:'3', enunc:'Compare as ações do regime nazista com o que determina a Constituição Brasileira de 1988 em relação às pessoas com deficiência.',
+        partes:[{label:null, id:'resp-3'}],
+        coment:'O nazismo perseguia, esterilizava e matava; a Constituição de 1988 garante proteção, saúde, integração social e eliminação de obstáculos e discriminação — tratando a deficiência como condição que exige inclusão, e não exclusão.' },
+      { num:'4', enunc:'Qual deve ser a responsabilidade de profissionais como médicos e juristas diante de leis ou ordens que desrespeitem a dignidade humana?',
+        partes:[{label:null, id:'resp-4'}],
+        coment:'Resposta pessoal — espera-se reflexão sobre a responsabilidade ética acima da obediência cega: profissionais devem recusar participar de políticas que violem a dignidade humana, mesmo quando amparadas por lei.' },
+      { num:'5', enunc:'Por que conhecer o Holocausto e as políticas de perseguição do nazismo é importante para combater o preconceito hoje?',
+        partes:[{label:null, id:'resp-5'}],
+        coment:'Espera-se que o aluno reconheça que conhecer esse período ajuda a identificar discurso de ódio antes que vire política de exclusão, reforçando a defesa dos direitos das pessoas com deficiência.' }
+    ];
+
+    for(let i=0; i<QUESTOES.length; i++){
+      const q = QUESTOES[i];
+      setP(25 + Math.round(i/QUESTOES.length*60), 'Questão ' + q.num + '/4…'); await sleep(12);
+
+      let respostasHTML = '';
+      q.partes.forEach(function(parte){
+        const valor = document.getElementById(parte.id) ? document.getElementById(parte.id).value : '';
+        respostasHTML +=
+          '<div style="margin-bottom:10px">' +
+            (parte.label ? '<div style="font-size:10px;font-weight:700;color:#5a2d82;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">' + parte.label + '</div>' : '') +
+            '<div style="background:#f3ecf7;border:1.5px solid #c9a8e0;border-radius:8px;padding:12px 15px;min-height:40px">' +
+              '<div style="font-size:12px;color:#241c30;line-height:1.75;white-space:pre-wrap">' + (esc(valor) || '<span style=\"color:#aaa\">(sem resposta)</span>') + '</div>' +
+            '</div>' +
+          '</div>';
+      });
+
+      const qEl = document.createElement('div');
+      qEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #ddd0e8;border-radius:10px;position:absolute;left:-9999px;top:0';
+      qEl.innerHTML =
+        '<div style="background:linear-gradient(90deg,#5a2d82,#3a1c56);padding:10px 22px;display:flex;justify-content:space-between;align-items:center">' +
+          '<span style="color:white;font-weight:700;font-size:13px;letter-spacing:.8px">QUESTÃO ' + q.num + '</span>' +
+          '<span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:11px;padding:3px 12px;border-radius:20px;font-weight:600">Dissertativa</span></div>' +
+        '<div style="padding:18px 24px 16px;background:#fdfdfa">' +
+          '<div style="font-size:13px;font-weight:700;color:#241c30;line-height:1.6;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #eee">' + esc(q.enunc) + '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+            '<div style="width:4px;height:15px;background:#5a2d82;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#5a2d82;text-transform:uppercase;letter-spacing:1.5px">Resposta do Aluno(a)</div></div>' +
+          respostasHTML +
+          '<div style="display:flex;align-items:center;gap:8px;margin:12px 0 7px">' +
+            '<div style="width:4px;height:15px;background:#a6863f;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#8a6f2f;text-transform:uppercase;letter-spacing:1.5px">Comentário do Professor</div></div>' +
+          '<div style="background:#f7f1e3;border:1.5px solid #ddc9a3;border-radius:8px;padding:13px 16px">' +
+            '<div style="font-size:12px;color:#4a3a10;line-height:1.8">' + esc(q.coment) + '</div></div>' +
+        '</div>';
+      document.body.appendChild(qEl); await sleep(12); await addImg(qEl); document.body.removeChild(qEl);
+    }
+
+    // RODAPÉ EM TODAS AS PÁGINAS
+    setP(92, 'Finalizando…'); await sleep(30);
+    const totalPages = pdf.getNumberOfPages();
+    for(let p=1; p<=totalPages; p++){
+      pdf.setPage(p);
+      const fEl = document.createElement('div');
+      fEl.style.cssText = 'width:' + Math.round(CW) + 'px;height:22px;background:#f6f2fa;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:10px;color:#888;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      fEl.innerHTML = '<span>O Regime Nazista e as Pessoas com Deficiência · ' + esc(nome) + '</span><span>Página ' + p + ' de ' + totalPages + '</span>';
+      document.body.appendChild(fEl);
+      const fc = await html2canvas(fEl, {scale:2, logging:false, backgroundColor:'#f6f2fa'});
+      document.body.removeChild(fEl);
+      const fUrl = fc.toDataURL('image/jpeg', .9), fH = (fc.height / fc.width) * CW;
+      pdf.setFillColor(246,242,250); pdf.rect(ML, PH-fH, CW, fH, 'F');
+      pdf.addImage(fUrl, 'JPEG', ML, PH-fH, CW, fH);
+    }
+
+    setP(100, 'Salvando…'); await sleep(200);
+    const safeName = nome.replace(/[^a-zA-Z0-9_\-]/g, '_');
+    pdf.save('Regime_Nazista_Pessoas_Deficiencia_' + safeName + '.pdf');
+
+  } catch(err){
+    console.error(err);
+    alert('Erro ao gerar PDF: ' + err.message);
+  } finally {
+    const ov = document.getElementById('pdf-overlay');
+    if(ov) document.body.removeChild(ov);
+  }
+}
+
+/* ===== PROTEÇÃO ANTI-COLA ===== */
+(function () {
+  const CAMPOS_PROTEGIDOS = document.querySelectorAll('textarea.dissertativa, .campo-resposta');
+  const LIMITE_BLOCO = 25;
+
+  function bloquear(e) {
+    e.preventDefault();
+    mostrarToast('Colar não permitido nesta atividade.');
+  }
+
+  CAMPOS_PROTEGIDOS.forEach(function (campo) {
+    ['paste', 'copy', 'cut', 'drop', 'dragover', 'contextmenu'].forEach(function (evt) {
+      campo.addEventListener(evt, bloquear);
+    });
+
+    campo.addEventListener('beforeinput', function (e) {
+      if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') {
+        e.preventDefault();
+        mostrarToast('Colar não permitido nesta atividade.');
+      }
+    });
+
+    let valorAnterior = campo.value;
+    campo.addEventListener('input', function (e) {
+      const diferenca = campo.value.length - valorAnterior.length;
+      if (diferenca >= LIMITE_BLOCO && e.inputType !== 'insertReplacementText') {
+        campo.value = valorAnterior;
+        mostrarToast('Colar não permitido nesta atividade.');
+      } else {
+        valorAnterior = campo.value;
+      }
+    });
+  });
+
+  function mostrarToast(mensagem) {
+    let toast = document.getElementById('anti-cola-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'anti-cola-toast';
+      toast.style.cssText =
+        'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);' +
+        'background:#333;color:#fff;padding:10px 20px;border-radius:8px;' +
+        'font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = mensagem;
+    toast.style.opacity = '1';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(function () {
+      toast.style.opacity = '0';
+    }, 2500);
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossário Geral | 9º Ano · História · CERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f2ea;
+    --bg-alt:#eae5d6;
+    --paper:#fffdf8;
+    --ink:#25231c;
+    --ink-soft:#5c5748;
+    --accent:#3a4a52; /* neutro — referência/enciclopédia */
+    --accent-dark:#232e33;
+    --gold:#b8862f;
+    --gold-light:#e6d3a3;
+    --t1:#8c1f28; /* tema 1 — totalitarismo */
+    --t2:#1f6b3f; /* tema 2 — populismo */
+    --t3:#5c3a2e; /* tema 3 — ditadura */
+    --line:#d9cdb0;
+    --shadow:0 10px 30px rgba(36,28,20,.12);
+    --radius:14px;
+    --font-title:'Playfair Display', serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--font-body); line-height:1.7;
+    -webkit-touch-callout:none; user-select:none;
+  }
+  main, .selecionavel{user-select:text;}
+
+  /* ===== MINI-TRILHA ===== */
+  .mini-trilha{
+    position:relative; display:flex; justify-content:center; align-items:flex-start;
+    gap:0; max-width:960px; margin:0 auto; padding:16px 24px 12px;
+    background:var(--paper); border-bottom:1px solid var(--line);
+    font-family:var(--font-mono); overflow-x:auto; -webkit-overflow-scrolling:touch;
+  }
+  .mini-trilha::before{
+    content:""; position:absolute; top:30px; left:14%; right:14%; height:2px;
+    background:repeating-linear-gradient(90deg, var(--gold) 0 8px, transparent 8px 13px);
+    z-index:0;
+  }
+  .mini-trilha a{
+    position:relative; z-index:1; display:flex; flex-direction:column; align-items:center;
+    text-decoration:none; color:var(--ink); width:210px; flex:none; padding:0 8px;
+  }
+  .mini-trilha a .medalhao{
+    width:40px; height:40px; border-radius:50%; background:var(--bg); border:2px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-title); font-weight:700; font-size:.98rem; color:var(--ink-soft);
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .mini-trilha a .rotulo{margin-top:7px; font-size:.66rem; font-weight:600; text-align:center; line-height:1.25; color:var(--ink-soft); max-width:180px;}
+  .mini-trilha a .codigo{font-size:.58rem; color:var(--ink-soft); font-weight:500; margin-top:2px; opacity:.7; letter-spacing:.02em;}
+  .mini-trilha a.ativo .medalhao{background:var(--accent); border-color:var(--accent-dark); color:#fff;}
+  .mini-trilha a.ativo .rotulo{color:var(--accent-dark); font-weight:700;}
+  .mini-trilha a:hover .medalhao{border-color:var(--accent);}
+  @media (max-width:560px){
+    .mini-trilha{padding:12px 10px 10px;}
+    .mini-trilha::before{left:34px; right:34px; top:24px;}
+    .mini-trilha a{width:78px;}
+    .mini-trilha a .medalhao{width:34px; height:34px; font-size:.85rem;}
+    .mini-trilha a .rotulo{font-size:.56rem; margin-top:5px;}
+    .mini-trilha a .codigo{display:none;}
+  }
+
+  /* ===== CABECALHO ===== */
+  .cabecalho-tema{background:var(--bg); border-bottom:1px solid var(--line); padding:36px 24px 30px;}
+  .eyebrow{
+    display:inline-block; font-family:var(--font-mono); font-size:.72rem; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--accent-dark); background:var(--bg-alt);
+    border:1px solid var(--line); padding:6px 12px; border-radius:999px; margin-bottom:18px;
+  }
+  .hero-tema{display:flex; gap:18px; align-items:center; margin-bottom:16px;}
+  .medalhao-grande{
+    flex:none; width:60px; height:60px; border-radius:50%; background:var(--accent); color:#fff;
+    border:3px solid var(--gold); display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-title); font-weight:800; font-size:1.5rem;
+  }
+  .hero-tema h1{font-family:var(--font-title); font-size:clamp(1.6rem, 3.6vw, 2.4rem); line-height:1.18; margin:0; color:var(--ink); max-width:740px;}
+  .lead-tema{font-size:1.05rem; max-width:700px; color:var(--ink-soft); margin:0 0 20px;}
+  .hero-meta{display:flex; flex-wrap:wrap; gap:10px; font-family:var(--font-mono); font-size:.78rem; color:var(--ink-soft);}
+  .hero-meta span{background:var(--paper); border:1px solid var(--line); padding:6px 10px; border-radius:8px;}
+  @media (max-width:560px){.cabecalho-tema{padding:26px 18px 24px;} .medalhao-grande{width:48px; height:48px; font-size:1.15rem;}}
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px;}
+
+  /* ===== BUSCA ===== */
+  .busca-box{
+    position:sticky; top:0; z-index:40; background:var(--bg);
+    padding:18px 0 14px; border-bottom:1px solid var(--line);
+  }
+  .busca-input-wrap{
+    position:relative; max-width:872px; margin:0 auto;
+  }
+  .busca-input-wrap input{
+    width:100%; padding:14px 46px 14px 46px; border:1px solid var(--line); border-radius:12px;
+    font-family:var(--font-body); font-size:1rem; background:var(--paper); color:var(--ink);
+  }
+  .busca-input-wrap input:focus{outline:2px solid var(--accent); outline-offset:1px;}
+  .busca-icone{position:absolute; left:16px; top:50%; transform:translateY(-50%); font-size:1.1rem; color:var(--ink-soft); pointer-events:none;}
+  .busca-limpar{
+    position:absolute; right:10px; top:50%; transform:translateY(-50%);
+    background:transparent; border:none; color:var(--ink-soft); font-size:1.3rem; cursor:pointer;
+    padding:6px 10px; display:none; line-height:1;
+  }
+  .busca-limpar.show{display:block;}
+  .busca-contador{
+    max-width:872px; margin:10px auto 0; font-family:var(--font-mono); font-size:.78rem; color:var(--ink-soft);
+  }
+  .legenda-tags{max-width:872px; margin:10px auto 0; display:flex; gap:10px; flex-wrap:wrap; font-family:var(--font-mono); font-size:.7rem;}
+  .legenda-tags span{display:inline-flex; align-items:center; gap:5px; color:var(--ink-soft);}
+  .legenda-tags i{width:9px; height:9px; border-radius:50%; display:inline-block;}
+  .legenda-tags .dot-t1{background:var(--t1);}
+  .legenda-tags .dot-t2{background:var(--t2);}
+  .legenda-tags .dot-t3{background:var(--t3);}
+
+  /* ===== INDICE ALFABETICO ===== */
+  .indice-az{
+    max-width:872px; margin:16px auto 0; display:flex; flex-wrap:wrap; gap:6px;
+    font-family:var(--font-mono); font-size:.74rem;
+  }
+  .indice-az a{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:6px; background:var(--paper);
+    border:1px solid var(--line); color:var(--ink-soft); text-decoration:none;
+  }
+  .indice-az a:hover, .indice-az a.disp{background:var(--accent); border-color:var(--accent-dark); color:#fff;}
+  .indice-az a.indisp{opacity:.32; pointer-events:none;}
+
+  /* ===== LISTA DE TERMOS ===== */
+  main{padding:26px 0 60px;}
+  .letra-titulo{
+    font-family:var(--font-title); font-size:1.15rem; color:var(--accent-dark);
+    margin:34px 0 14px; padding-bottom:6px; border-bottom:2px solid var(--gold-light);
+  }
+  .letra-titulo:first-of-type{margin-top:6px;}
+  .termo-card{
+    background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    padding:18px 20px; margin-bottom:12px; box-shadow:0 2px 8px rgba(36,28,20,.05);
+  }
+  .termo-cabecalho{display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin-bottom:8px;}
+  .termo-card h3{font-family:var(--font-title); font-size:1.06rem; margin:0; color:var(--ink);}
+  .termo-tags{display:flex; gap:6px; flex-wrap:wrap;}
+  .tema-tag{
+    font-family:var(--font-mono); font-size:.64rem; text-transform:uppercase; letter-spacing:.04em;
+    padding:3px 9px; border-radius:999px; color:#fff; white-space:nowrap;
+  }
+  .tema-tag.t1{background:var(--t1);}
+  .tema-tag.t2{background:var(--t2);}
+  .tema-tag.t3{background:var(--t3);}
+  .termo-card p{margin:0; color:var(--ink-soft); font-size:.95rem;}
+  .termo-card.oculto{display:none;}
+  .letra-titulo.oculto{display:none;}
+
+  .sem-resultado{
+    display:none; text-align:center; padding:40px 20px; color:var(--ink-soft);
+    font-family:var(--font-body); font-size:1rem;
+  }
+  .sem-resultado.show{display:block;}
+
+  /* ===== RODAPE NAV ===== */
+  .rodape-nav{text-align:center; margin:20px 0 20px; display:flex; flex-wrap:wrap; justify-content:center; gap:8px;}
+  .rodape-nav a{
+    display:inline-block; background:transparent; color:var(--accent-dark); text-decoration:none;
+    padding:12px 22px; border-radius:10px; font-weight:600; border:1px solid var(--accent);
+    font-size:.9rem;
+  }
+  .rodape-nav a:hover{background:var(--accent); color:#fff;}
+
+  footer.rodape{
+    background:var(--ink); color:#cfc6b3; text-align:center; padding:24px;
+    margin-top:20px; font-size:.82rem; font-family:var(--font-mono);
+  }
+
+  @media (max-width:600px){
+    .wrap{padding:0 16px;}
+    .termo-card{padding:16px 16px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="mini-trilha">
+  <a href="tema1.html" target="_parent">
+    <span class="medalhao">1</span>
+    <span class="rotulo">Regimes Totalitários</span>
+    <span class="codigo">GO-EF09HI13-A</span>
+  </a>
+  <a href="tema2.html" target="_parent">
+    <span class="medalhao">2</span>
+    <span class="rotulo">Populismo e Desenvolvimentismo</span>
+    <span class="codigo">GO-EF09HI17-A</span>
+  </a>
+  <a href="tema3.html" target="_parent">
+    <span class="medalhao">3</span>
+    <span class="rotulo">Ditadura Militar</span>
+    <span class="codigo">GO-EF09HI19-A</span>
+  </a>
+  <a class="ativo" href="glossario.html" target="_parent">
+    <span class="medalhao">✦</span>
+    <span class="rotulo">Glossário Geral</span>
+    <span class="codigo">Temas 1–3</span>
+  </a>
+</nav>
+
+<header class="cabecalho-tema">
+  <div class="wrap">
+    <span class="eyebrow">9º ano · Ensino Fundamental · História</span>
+    <div class="hero-tema">
+      <div class="medalhao-grande">✦</div>
+      <h1>Glossário Geral</h1>
+    </div>
+    <p class="lead-tema">Reúne os principais conceitos, siglas, eventos e personagens estudados nos três temas — Regimes Totalitários, Populismo/Desenvolvimentismo e Ditadura Militar. Use a busca abaixo para encontrar rapidamente qualquer termo.</p>
+    <div class="hero-meta">
+      <span>125 termos</span>
+      <span>Ordem alfabética</span>
+      <span>Busca em tempo real</span>
+    </div>
+  </div>
+</header>
+
+<div class="busca-box">
+  <div class="busca-input-wrap">
+    <span class="busca-icone">🔎</span>
+    <input type="text" id="busca-input" placeholder="Buscar termo (ex.: AI-5, pré-sal, trabalhismo, Blitzkrieg...)" autocomplete="off">
+    <button class="busca-limpar" id="busca-limpar" onclick="limparBusca()">×</button>
+  </div>
+  <div class="busca-contador" id="busca-contador">125 termos encontrados</div>
+  <div class="legenda-tags">
+    <span><i class="dot-t1"></i> Tema 1 · Totalitarismo</span>
+    <span><i class="dot-t2"></i> Tema 2 · Populismo</span>
+    <span><i class="dot-t3"></i> Tema 3 · Ditadura</span>
+  </div>
+  <div class="indice-az" id="indice-az"></div>
+</div>
+
+<div class="wrap">
+  <main id="lista-termos" class="selecionavel">
+      <h2 class="letra-titulo" data-letra="A">A</h2>
+      <div class="termo-card" data-busca="abertura &quot;lenta, gradual e segura&quot; estratégia do general ernesto geisel (1974–1979) de devolver o poder aos civis aos poucos, sem ruptura brusca com o regime militar — reduzindo a censura e permitindo eleições diretas para o legislativo, mas mantendo o controle político nas mãos dos militares.">
+        <div class="termo-cabecalho">
+          <h3>Abertura "lenta, gradual e segura"</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Estratégia do general Ernesto Geisel (1974–1979) de devolver o poder aos civis aos poucos, sem ruptura brusca com o regime militar — reduzindo a censura e permitindo eleições diretas para o Legislativo, mas mantendo o controle político nas mãos dos militares.</p>
+      </div>
+      <div class="termo-card" data-busca="ai-5 (ato institucional nº 5) decretado em dezembro de 1968, foi o instrumento mais autoritário da ditadura militar: suspendeu o habeas corpus, fechou o congresso nacional, permitiu prisões sem justificativa e impôs censura prévia a jornais, livros, músicas, teatro e televisão.">
+        <div class="termo-cabecalho">
+          <h3>AI-5 (Ato Institucional nº 5)</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Decretado em dezembro de 1968, foi o instrumento mais autoritário da ditadura militar: suspendeu o habeas corpus, fechou o Congresso Nacional, permitiu prisões sem justificativa e impôs censura prévia a jornais, livros, músicas, teatro e televisão.</p>
+      </div>
+      <div class="termo-card" data-busca="anistia (lei da anistia) lei aprovada em 1979, no governo figueiredo, que permitiu o retorno de exilados políticos ao brasil e devolveu direitos políticos a pessoas cassadas — mas também absolveu militares acusados de tortura e assassinato, sem que fossem julgados por esses crimes.">
+        <div class="termo-cabecalho">
+          <h3>Anistia (Lei da Anistia)</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Lei aprovada em 1979, no governo Figueiredo, que permitiu o retorno de exilados políticos ao Brasil e devolveu direitos políticos a pessoas cassadas — mas também absolveu militares acusados de tortura e assassinato, sem que fossem julgados por esses crimes.</p>
+      </div>
+      <div class="termo-card" data-busca="anos de chumbo expressão usada para descrever o período mais repressivo da ditadura militar, durante o governo médici (1969–1974), marcado pelo auge da tortura e da perseguição política, ainda que coincidindo com o &quot;milagre econômico&quot;.">
+        <div class="termo-cabecalho">
+          <h3>Anos de Chumbo</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Expressão usada para descrever o período mais repressivo da ditadura militar, durante o governo Médici (1969–1974), marcado pelo auge da tortura e da perseguição política, ainda que coincidindo com o "milagre econômico".</p>
+      </div>
+      <div class="termo-card" data-busca="anschluss termo alemão para &quot;união&quot;: nome dado à anexação da áustria pela alemanha nazista em março de 1938, confirmada por um plebiscito — o próprio hitler era austríaco de nascimento.">
+        <div class="termo-cabecalho">
+          <h3>Anschluss</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Termo alemão para "união": nome dado à anexação da Áustria pela Alemanha nazista em março de 1938, confirmada por um plebiscito — o próprio Hitler era austríaco de nascimento.</p>
+      </div>
+      <div class="termo-card" data-busca="antissemitismo perseguição e discriminação sistemática contra judeus. foi a base ideológica do nazismo e culminou no holocausto, o extermínio de cerca de seis milhões de judeus durante a segunda guerra mundial.">
+        <div class="termo-cabecalho">
+          <h3>Antissemitismo</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Perseguição e discriminação sistemática contra judeus. Foi a base ideológica do nazismo e culminou no Holocausto, o extermínio de cerca de seis milhões de judeus durante a Segunda Guerra Mundial.</p>
+      </div>
+      <div class="termo-card" data-busca="apaziguamento política adotada por reino unido e frança nos anos 1930 de ceder às exigências territoriais de hitler (como na conferência de munique, em 1938) na esperança de evitar uma nova guerra — o que, na prática, deu tempo e confiança para o avanço nazista.">
+        <div class="termo-cabecalho">
+          <h3>Apaziguamento</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Política adotada por Reino Unido e França nos anos 1930 de ceder às exigências territoriais de Hitler (como na Conferência de Munique, em 1938) na esperança de evitar uma nova guerra — o que, na prática, deu tempo e confiança para o avanço nazista.</p>
+      </div>
+      <div class="termo-card" data-busca="arrocho salarial política econômica do governo médici que manteve os salários dos trabalhadores baixos para conter a inflação durante o &quot;milagre econômico&quot;, enquanto sindicatos permaneciam sob vigilância policial constante.">
+        <div class="termo-cabecalho">
+          <h3>Arrocho salarial</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Política econômica do governo Médici que manteve os salários dos trabalhadores baixos para conter a inflação durante o "milagre econômico", enquanto sindicatos permaneciam sob vigilância policial constante.</p>
+      </div>
+      <div class="termo-card" data-busca="ato institucional nome dado aos decretos editados pelos governos militares, com força de lei e acima da constituição, usados para reorganizar o poder do estado e restringir direitos políticos — o mais conhecido foi o ai-5.">
+        <div class="termo-cabecalho">
+          <h3>Ato Institucional</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Nome dado aos decretos editados pelos governos militares, com força de lei e acima da Constituição, usados para reorganizar o poder do Estado e restringir direitos políticos — o mais conhecido foi o AI-5.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="B">B</h2>
+      <div class="termo-card" data-busca="belém-brasília (rodovia) rodovia construída durante o governo de juscelino kubitschek ligando são paulo, goiás, maranhão e pará à nova capital federal — rompeu décadas de isolamento do interior goiano e o ligou aos grandes centros do país.">
+        <div class="termo-cabecalho">
+          <h3>Belém-Brasília (rodovia)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Rodovia construída durante o governo de Juscelino Kubitschek ligando São Paulo, Goiás, Maranhão e Pará à nova capital federal — rompeu décadas de isolamento do interior goiano e o ligou aos grandes centros do país.</p>
+      </div>
+      <div class="termo-card" data-busca="bipartidarismo sistema político imposto pela ditadura em que só existiam dois partidos: a arena (situação, governista) e o mdb (oposição consentida). terminou em 1979, permitindo a criação de novas legendas como o pt, o pmdb, o pdt e o pds.">
+        <div class="termo-cabecalho">
+          <h3>Bipartidarismo</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Sistema político imposto pela ditadura em que só existiam dois partidos: a Arena (situação, governista) e o MDB (oposição consentida). Terminou em 1979, permitindo a criação de novas legendas como o PT, o PMDB, o PDT e o PDS.</p>
+      </div>
+      <div class="termo-card" data-busca="blitzkrieg (guerra-relâmpago) estratégia militar alemã de ataques rápidos e coordenados: primeiro tanques blindados (panzers) e aviação (luftwaffe) abriam caminho, depois a infantaria ocupava o território. foi assim que a alemanha dominou a polônia e, em 1940, também dinamarca, noruega, holanda, bélgica e frança.">
+        <div class="termo-cabecalho">
+          <h3>Blitzkrieg (guerra-relâmpago)</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Estratégia militar alemã de ataques rápidos e coordenados: primeiro tanques blindados (Panzers) e aviação (Luftwaffe) abriam caminho, depois a infantaria ocupava o território. Foi assim que a Alemanha dominou a Polônia e, em 1940, também Dinamarca, Noruega, Holanda, Bélgica e França.</p>
+      </div>
+      <div class="termo-card" data-busca="brasília (construção) nova capital federal erguida no planalto central entre 1956 e 1960, com plano urbanístico de lúcio costa e arquitetura de oscar niemeyer, inaugurada em 21 de abril de 1960. era a obra mais lembrada do governo jk, embora não integrasse nenhum dos cinco setores do plano de metas.">
+        <div class="termo-cabecalho">
+          <h3>Brasília (construção)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Nova capital federal erguida no Planalto Central entre 1956 e 1960, com plano urbanístico de Lúcio Costa e arquitetura de Oscar Niemeyer, inaugurada em 21 de abril de 1960. Era a obra mais lembrada do governo JK, embora não integrasse nenhum dos cinco setores do Plano de Metas.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="C">C</h2>
+      <div class="termo-card" data-busca="camisas negras (fasci di combattimento) grupo paramilitar fundado por ex-combatentes, desempregados e ex-socialistas, liderado por benito mussolini, que combatia comunistas, a democracia liberal e as organizações operárias — a base armada do fascismo italiano.">
+        <div class="termo-cabecalho">
+          <h3>Camisas Negras (Fasci di Combattimento)</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Grupo paramilitar fundado por ex-combatentes, desempregados e ex-socialistas, liderado por Benito Mussolini, que combatia comunistas, a democracia liberal e as organizações operárias — a base armada do fascismo italiano.</p>
+      </div>
+      <div class="termo-card" data-busca="candangos nome dado aos milhares de trabalhadores vindos de todo o brasil, especialmente do nordeste, que construíram brasília entre o final dos anos 1950 e a inauguração da capital, em 21 de abril de 1960.">
+        <div class="termo-cabecalho">
+          <h3>Candangos</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Nome dado aos milhares de trabalhadores vindos de todo o Brasil, especialmente do Nordeste, que construíram Brasília entre o final dos anos 1950 e a inauguração da capital, em 21 de abril de 1960.</p>
+      </div>
+      <div class="termo-card" data-busca="carlos lacerda jornalista e político da udn, um dos maiores opositores de getúlio vargas. o atentado contra ele em agosto de 1954, que matou um major da aeronáutica, foi associado à guarda pessoal do presidente e desencadeou a crise que terminou no suicídio de vargas.">
+        <div class="termo-cabecalho">
+          <h3>Carlos Lacerda</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Jornalista e político da UDN, um dos maiores opositores de Getúlio Vargas. O atentado contra ele em agosto de 1954, que matou um major da Aeronáutica, foi associado à guarda pessoal do presidente e desencadeou a crise que terminou no suicídio de Vargas.</p>
+      </div>
+      <div class="termo-card" data-busca="carta-testamento documento deixado por getúlio vargas em 24 de agosto de 1954, dirigido ao povo brasileiro. denuncia a ação de &quot;grupos internacionais&quot; e de &quot;aves de rapina&quot; contra a petrobras, a eletrobras e as leis trabalhistas, e termina com a frase &quot;saio da vida para entrar na história&quot;.">
+        <div class="termo-cabecalho">
+          <h3>Carta-testamento</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Documento deixado por Getúlio Vargas em 24 de agosto de 1954, dirigido ao povo brasileiro. Denuncia a ação de "grupos internacionais" e de "aves de rapina" contra a Petrobras, a Eletrobras e as leis trabalhistas, e termina com a frase "saio da vida para entrar na história".</p>
+      </div>
+      <div class="termo-card" data-busca="caso vladimir herzog em 1975, o jornalista vladimir herzog morreu sob tortura nas dependências do exército em são paulo, durante o governo geisel — um episódio que escandalizou parte da sociedade e expôs os limites da &quot;abertura&quot; política prometida pelo regime.">
+        <div class="termo-cabecalho">
+          <h3>Caso Vladimir Herzog</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Em 1975, o jornalista Vladimir Herzog morreu sob tortura nas dependências do Exército em São Paulo, durante o governo Geisel — um episódio que escandalizou parte da sociedade e expôs os limites da "abertura" política prometida pelo regime.</p>
+      </div>
+      <div class="termo-card" data-busca="castelo branco (humberto de alencar) general que chefiava o estado-maior do exército em 1964. em março daquele ano denunciou publicamente as &quot;agitações generalizadas do ilegal poder do cgt&quot; e insinuou o risco do &quot;comunismo de moscou&quot;; depois do golpe de 1º de abril, tornou-se o primeiro presidente do regime militar.">
+        <div class="termo-cabecalho">
+          <h3>Castelo Branco (Humberto de Alencar)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>General que chefiava o Estado-Maior do Exército em 1964. Em março daquele ano denunciou publicamente as "agitações generalizadas do ilegal poder do CGT" e insinuou o risco do "comunismo de Moscou"; depois do golpe de 1º de abril, tornou-se o primeiro presidente do regime militar.</p>
+      </div>
+      <div class="termo-card" data-busca="censura prévia prática pela qual jornais, livros, músicas e programas de tv precisavam ser aprovados por censores do governo antes de chegar ao público — muitas vezes deixando espaços em branco ou trechos cortados como forma de protesto silencioso.">
+        <div class="termo-cabecalho">
+          <h3>Censura prévia</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Prática pela qual jornais, livros, músicas e programas de TV precisavam ser aprovados por censores do governo antes de chegar ao público — muitas vezes deixando espaços em branco ou trechos cortados como forma de protesto silencioso.</p>
+      </div>
+      <div class="termo-card" data-busca="cgt (comando geral dos trabalhadores) central sindical criada em 1962 que organizava greves e pressionava pelas reformas de base no governo goulart. sua força era apresentada pelos opositores e por lideranças militares como prova de &quot;agitação subversiva&quot;, argumento usado para justificar o golpe de 1964.">
+        <div class="termo-cabecalho">
+          <h3>CGT (Comando Geral dos Trabalhadores)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Central sindical criada em 1962 que organizava greves e pressionava pelas reformas de base no governo Goulart. Sua força era apresentada pelos opositores e por lideranças militares como prova de "agitação subversiva", argumento usado para justificar o golpe de 1964.</p>
+      </div>
+      <div class="termo-card" data-busca="charge (fonte histórica) desenho de humor publicado na imprensa que critica pessoas e acontecimentos por meio do exagero e da ironia. para o historiador, vale menos como registro do fato e mais como registro do que se debatia na época — caso de &quot;catrapuz!&quot; (1946) e &quot;uma ideia&quot; (1960), ambas da revista careta.">
+        <div class="termo-cabecalho">
+          <h3>Charge (fonte histórica)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Desenho de humor publicado na imprensa que critica pessoas e acontecimentos por meio do exagero e da ironia. Para o historiador, vale menos como registro do fato e mais como registro do que se debatia na época — caso de "Catrapuz!" (1946) e "Uma ideia" (1960), ambas da revista Careta.</p>
+      </div>
+      <div class="termo-card" data-busca="clt (consolidação das leis do trabalho) código aprovado em 1943 que reuniu num só texto direitos como jornada de oito horas, férias, descanso semanal remunerado, carteira de trabalho e proteção ao trabalho da mulher e do menor. símbolo do trabalhismo varguista, veio acompanhada de forte controle do estado sobre os sindicatos.">
+        <div class="termo-cabecalho">
+          <h3>CLT (Consolidação das Leis do Trabalho)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Código aprovado em 1943 que reuniu num só texto direitos como jornada de oito horas, férias, descanso semanal remunerado, carteira de trabalho e proteção ao trabalho da mulher e do menor. Símbolo do trabalhismo varguista, veio acompanhada de forte controle do Estado sobre os sindicatos.</p>
+      </div>
+      <div class="termo-card" data-busca="colégio eleitoral órgão formado por deputados e senadores que escolhia o presidente da república de forma indireta durante a ditadura. foi por meio dele que tancredo neves foi eleito em 1985, encerrando formalmente o regime militar.">
+        <div class="termo-cabecalho">
+          <h3>Colégio Eleitoral</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Órgão formado por deputados e senadores que escolhia o presidente da República de forma indireta durante a ditadura. Foi por meio dele que Tancredo Neves foi eleito em 1985, encerrando formalmente o regime militar.</p>
+      </div>
+      <div class="termo-card" data-busca="constituição de 1946 carta que reabriu o período democrático depois do estado novo: previa eleições diretas para o executivo e o legislativo nas três esferas da federação, garantia liberdade de imprensa e de opinião e reconhecia os partidos políticos, mantendo as conquistas sociais obtidas desde 1930.">
+        <div class="termo-cabecalho">
+          <h3>Constituição de 1946</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Carta que reabriu o período democrático depois do Estado Novo: previa eleições diretas para o Executivo e o Legislativo nas três esferas da federação, garantia liberdade de imprensa e de opinião e reconhecia os partidos políticos, mantendo as conquistas sociais obtidas desde 1930.</p>
+      </div>
+      <div class="termo-card" data-busca="constituição de 1967 nova constituição elaborada pelo governo castelo branco que fortaleceu a presidência da república e enfraqueceu os poderes legislativo e judiciário, formalizando juridicamente o regime militar.">
+        <div class="termo-cabecalho">
+          <h3>Constituição de 1967</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Nova Constituição elaborada pelo governo Castelo Branco que fortaleceu a Presidência da República e enfraqueceu os poderes Legislativo e Judiciário, formalizando juridicamente o regime militar.</p>
+      </div>
+      <div class="termo-card" data-busca="crimes contra a humanidade conceito jurídico consagrado pelo tribunal de nuremberg (1945–1946) para responsabilizar individualmente líderes políticos e militares por atrocidades cometidas em nome do estado — até hoje orienta o direito internacional.">
+        <div class="termo-cabecalho">
+          <h3>Crimes contra a humanidade</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Conceito jurídico consagrado pelo Tribunal de Nuremberg (1945–1946) para responsabilizar individualmente líderes políticos e militares por atrocidades cometidas em nome do Estado — até hoje orienta o Direito Internacional.</p>
+      </div>
+      <div class="termo-card" data-busca="crise de representatividade situação em que os partidos deixam de expressar as demandas da população e perdem legitimidade. a eleição de jânio quadros em 1960, como candidato &quot;acima dos partidos&quot;, é lida por maria vitória benevides como sintoma dessa crise — e não apenas como uma &quot;crise do poder&quot;.">
+        <div class="termo-cabecalho">
+          <h3>Crise de representatividade</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Situação em que os partidos deixam de expressar as demandas da população e perdem legitimidade. A eleição de Jânio Quadros em 1960, como candidato "acima dos partidos", é lida por Maria Vitória Benevides como sintoma dessa crise — e não apenas como uma "crise do poder".</p>
+      </div>
+      <div class="termo-card" data-busca="culto à personalidade uso da propaganda para construir uma imagem quase divina de um líder político — como stálin, apresentado como &quot;grande irmão&quot; e &quot;pai do povo&quot; — reforçando a obediência da população ao regime.">
+        <div class="termo-cabecalho">
+          <h3>Culto à personalidade</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Uso da propaganda para construir uma imagem quase divina de um líder político — como Stálin, apresentado como "grande irmão" e "pai do povo" — reforçando a obediência da população ao regime.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="D">D</h2>
+      <div class="termo-card" data-busca="demagogia simulação de boas intenções com o único objetivo de conquistar o poder. é o sentido pejorativo que o senso comum atribui ao populismo — leitura criticada por historiadores porque supõe um povo incapaz de distinguir uma proposta séria de um discurso vazio.">
+        <div class="termo-cabecalho">
+          <h3>Demagogia</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Simulação de boas intenções com o único objetivo de conquistar o poder. É o sentido pejorativo que o senso comum atribui ao populismo — leitura criticada por historiadores porque supõe um povo incapaz de distinguir uma proposta séria de um discurso vazio.</p>
+      </div>
+      <div class="termo-card" data-busca="dependência econômica diagnóstico de que o brasil exportava produtos agrícolas de baixo valor (café, açúcar, algodão) e importava máquinas, remédios e automóveis muito mais caros — uma troca desigual em que o país trabalhava muito e enriquecia pouco. foi a justificativa central do desenvolvimentismo.">
+        <div class="termo-cabecalho">
+          <h3>Dependência econômica</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Diagnóstico de que o Brasil exportava produtos agrícolas de baixo valor (café, açúcar, algodão) e importava máquinas, remédios e automóveis muito mais caros — uma troca desigual em que o país trabalhava muito e enriquecia pouco. Foi a justificativa central do desenvolvimentismo.</p>
+      </div>
+      <div class="termo-card" data-busca="deposição de vargas (1945) em outubro de 1945, o exército, a marinha e a aeronáutica afastaram getúlio vargas do poder no primeiro golpe planejado em conjunto pelas três forças — para o qual foi criado o embrião do emfa. foi também a primeira vez que a corporação militar agiu politicamente como um todo.">
+        <div class="termo-cabecalho">
+          <h3>Deposição de Vargas (1945)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Em outubro de 1945, o Exército, a Marinha e a Aeronáutica afastaram Getúlio Vargas do poder no primeiro golpe planejado em conjunto pelas três forças — para o qual foi criado o embrião do EMFA. Foi também a primeira vez que a corporação militar agiu politicamente como um todo.</p>
+      </div>
+      <div class="termo-card" data-busca="desenvolvimentismo modelo econômico que orientou governos como os de vargas e jk entre os anos 1930 e 1960. parte da ideia de que o desenvolvimento não acontece sozinho, por obra do mercado: precisa ser planejado e conduzido pelo estado, por meio de planos de governo, empresas estatais, infraestrutura e proteção à indústria nacional.">
+        <div class="termo-cabecalho">
+          <h3>Desenvolvimentismo</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Modelo econômico que orientou governos como os de Vargas e JK entre os anos 1930 e 1960. Parte da ideia de que o desenvolvimento não acontece sozinho, por obra do mercado: precisa ser planejado e conduzido pelo Estado, por meio de planos de governo, empresas estatais, infraestrutura e proteção à indústria nacional.</p>
+      </div>
+      <div class="termo-card" data-busca="desenvolvimentismo associado vertente adotada por juscelino kubitschek: aceitava e buscava o capital estrangeiro, oferecendo incentivos para que multinacionais se instalassem no país — como aconteceu com a indústria automobilística. acelerou a industrialização ao custo de inflação e dívida externa.">
+        <div class="termo-cabecalho">
+          <h3>Desenvolvimentismo associado</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Vertente adotada por Juscelino Kubitschek: aceitava e buscava o capital estrangeiro, oferecendo incentivos para que multinacionais se instalassem no país — como aconteceu com a indústria automobilística. Acelerou a industrialização ao custo de inflação e dívida externa.</p>
+      </div>
+      <div class="termo-card" data-busca="desenvolvimentismo nacionalista vertente adotada por getúlio vargas: apostava no estado e no capital nacional, desconfiando das empresas estrangeiras. deu origem a estatais como a petrobras e ao projeto da eletrobras.">
+        <div class="termo-cabecalho">
+          <h3>Desenvolvimentismo nacionalista</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Vertente adotada por Getúlio Vargas: apostava no Estado e no capital nacional, desconfiando das empresas estrangeiras. Deu origem a estatais como a Petrobras e ao projeto da Eletrobras.</p>
+      </div>
+      <div class="termo-card" data-busca="desnacionalizadora (política) crítica feita por grupos nacionalistas ao projeto de juscelino kubitschek: embora modernizadora, sua abertura ao capital estrangeiro aumentava a presença de empresas de fora na economia brasileira e ampliava a dívida externa do país.">
+        <div class="termo-cabecalho">
+          <h3>Desnacionalizadora (política)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Crítica feita por grupos nacionalistas ao projeto de Juscelino Kubitschek: embora modernizadora, sua abertura ao capital estrangeiro aumentava a presença de empresas de fora na economia brasileira e ampliava a dívida externa do país.</p>
+      </div>
+      <div class="termo-card" data-busca="diretas já! campanha popular de 1983–1984 que reuniu milhões de pessoas em manifestações por todo o brasil, pedindo eleições diretas para presidente. a emenda constitucional que institucionalizaria isso foi derrotada no congresso por poucos votos em abril de 1984.">
+        <div class="termo-cabecalho">
+          <h3>Diretas Já!</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Campanha popular de 1983–1984 que reuniu milhões de pessoas em manifestações por todo o Brasil, pedindo eleições diretas para presidente. A emenda constitucional que institucionalizaria isso foi derrotada no Congresso por poucos votos em abril de 1984.</p>
+      </div>
+      <div class="termo-card" data-busca="dívida externa dinheiro que o país deve a bancos, empresas e governos estrangeiros. cresceu com o financiamento do plano de metas e, junto com a inflação e a concentração dos investimentos no sudeste, foi um dos problemas herdados pelos governos do início dos anos 1960.">
+        <div class="termo-cabecalho">
+          <h3>Dívida externa</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Dinheiro que o país deve a bancos, empresas e governos estrangeiros. Cresceu com o financiamento do Plano de Metas e, junto com a inflação e a concentração dos investimentos no Sudeste, foi um dos problemas herdados pelos governos do início dos anos 1960.</p>
+      </div>
+      <div class="termo-card" data-busca="doi-codi destacamento de operações de informações – centro de operações de defesa interna: principal órgão de prisão, interrogatório e tortura de opositores durante a ditadura, criado a partir da antiga operação bandeirantes (oban).">
+        <div class="termo-cabecalho">
+          <h3>DOI-Codi</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Destacamento de Operações de Informações – Centro de Operações de Defesa Interna: principal órgão de prisão, interrogatório e tortura de opositores durante a ditadura, criado a partir da antiga Operação Bandeirantes (Oban).</p>
+      </div>
+      <div class="termo-card" data-busca="dops delegacias de ordem política e social: polícia estadual voltada à repressão política durante a ditadura. em goiás, a dops-go produzia dossiês sobre professores, estudantes e movimentos sociais considerados suspeitos.">
+        <div class="termo-cabecalho">
+          <h3>DOPS</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Delegacias de Ordem Política e Social: polícia estadual voltada à repressão política durante a ditadura. Em Goiás, a DOPS-GO produzia dossiês sobre professores, estudantes e movimentos sociais considerados suspeitos.</p>
+      </div>
+      <div class="termo-card" data-busca="duce título assumido por benito mussolini como líder do fascismo italiano, significando &quot;o condutor&quot; — reforçava o culto à sua figura como guia supremo da nação.">
+        <div class="termo-cabecalho">
+          <h3>Duce</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Título assumido por Benito Mussolini como líder do fascismo italiano, significando "o Condutor" — reforçava o culto à sua figura como guia supremo da nação.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="E">E</h2>
+      <div class="termo-card" data-busca="eixo (pacto tripartite) aliança militar formada em 1940 entre alemanha nazista, itália fascista e japão, por meio do pacto tripartite — as três potências que se opunham aos aliados na segunda guerra mundial.">
+        <div class="termo-cabecalho">
+          <h3>Eixo (Pacto Tripartite)</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Aliança militar formada em 1940 entre Alemanha nazista, Itália fascista e Japão, por meio do Pacto Tripartite — as três potências que se opunham aos Aliados na Segunda Guerra Mundial.</p>
+      </div>
+      <div class="termo-card" data-busca="eletrobras empresa estatal de energia elétrica proposta por vargas no início dos anos 1950 e só criada em 1962. na carta-testamento, vargas afirma que o projeto foi &quot;obstaculado até o desespero&quot; pelos grupos que se opunham à ampliação do papel do estado na economia.">
+        <div class="termo-cabecalho">
+          <h3>Eletrobras</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Empresa estatal de energia elétrica proposta por Vargas no início dos anos 1950 e só criada em 1962. Na carta-testamento, Vargas afirma que o projeto foi "obstaculado até o desespero" pelos grupos que se opunham à ampliação do papel do Estado na economia.</p>
+      </div>
+      <div class="termo-card" data-busca="emfa (estado-maior das forças armadas) órgão de coordenação entre exército, marinha e aeronáutica. seu embrião foi criado em outubro de 1945 justamente para viabilizar a deposição de vargas, marcando o momento em que os militares passaram a agir politicamente de forma unificada.">
+        <div class="termo-cabecalho">
+          <h3>EMFA (Estado-Maior das Forças Armadas)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Órgão de coordenação entre Exército, Marinha e Aeronáutica. Seu embrião foi criado em outubro de 1945 justamente para viabilizar a deposição de Vargas, marcando o momento em que os militares passaram a agir politicamente de forma unificada.</p>
+      </div>
+      <div class="termo-card" data-busca="empresa estatal companhia controlada pelo estado, criada em setores que exigiam investimento muito alto e davam retorno lento — casos da petrobras, da eletrobras, da vale e da csn. era uma das principais ferramentas do desenvolvimentismo.">
+        <div class="termo-cabecalho">
+          <h3>Empresa estatal</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Companhia controlada pelo Estado, criada em setores que exigiam investimento muito alto e davam retorno lento — casos da Petrobras, da Eletrobras, da Vale e da CSN. Era uma das principais ferramentas do desenvolvimentismo.</p>
+      </div>
+      <div class="termo-card" data-busca="estado novo regime ditatorial de getúlio vargas (1937–1945), cujo fim, em 1945, deu início ao período de redemocratização e eleições diretas estudado no tema do populismo e do desenvolvimentismo.">
+        <div class="termo-cabecalho">
+          <h3>Estado Novo</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Regime ditatorial de Getúlio Vargas (1937–1945), cujo fim, em 1945, deu início ao período de redemocratização e eleições diretas estudado no tema do populismo e do desenvolvimentismo.</p>
+      </div>
+      <div class="termo-card" data-busca="eurico gaspar dutra general eleito presidente em 1945 com apoio de vargas, governou de 1946 a 1951. alinhado aos estados unidos na guerra fria, rompeu relações com a urss e pôs o pcb na ilegalidade; na economia liberou importações e criou o plano salte, o primeiro planejamento de governo do país.">
+        <div class="termo-cabecalho">
+          <h3>Eurico Gaspar Dutra</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>General eleito presidente em 1945 com apoio de Vargas, governou de 1946 a 1951. Alinhado aos Estados Unidos na Guerra Fria, rompeu relações com a URSS e pôs o PCB na ilegalidade; na economia liberou importações e criou o Plano Salte, o primeiro planejamento de governo do país.</p>
+      </div>
+      <div class="termo-card" data-busca="expansionismo (política expansionista) política de conquista de novos territórios praticada por alemanha, itália e japão nas décadas de 1930 e 1940, justificada por ideologias nacionalistas e raciais — um dos principais fatores que levaram à segunda guerra mundial.">
+        <div class="termo-cabecalho">
+          <h3>Expansionismo (política expansionista)</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Política de conquista de novos territórios praticada por Alemanha, Itália e Japão nas décadas de 1930 e 1940, justificada por ideologias nacionalistas e raciais — um dos principais fatores que levaram à Segunda Guerra Mundial.</p>
+      </div>
+      <div class="termo-card" data-busca="expurgos perseguições políticas promovidas por stálin na década de 1930, nas quais opositores (reais ou apenas suspeitos) eram torturados até confessarem crimes que não haviam cometido e depois executados ou enviados aos gulags.">
+        <div class="termo-cabecalho">
+          <h3>Expurgos</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Perseguições políticas promovidas por Stálin na década de 1930, nas quais opositores (reais ou apenas suspeitos) eram torturados até confessarem crimes que não haviam cometido e depois executados ou enviados aos Gulags.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="F">F</h2>
+      <div class="termo-card" data-busca="fascismo regime totalitário criado por benito mussolini na itália a partir de 1922, que pregava a supremacia do estado sobre o indivíduo, resumida no lema &quot;tudo pelo estado, nada fora do estado, nada contra o estado&quot;.">
+        <div class="termo-cabecalho">
+          <h3>Fascismo</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Regime totalitário criado por Benito Mussolini na Itália a partir de 1922, que pregava a supremacia do Estado sobre o indivíduo, resumida no lema "Tudo pelo Estado, nada fora do Estado, nada contra o Estado".</p>
+      </div>
+      <div class="termo-card" data-busca="fonte oral (história oral) depoimento colhido de quem viveu o acontecimento estudado. permite conhecer a experiência de pessoas comuns que raramente deixam documentos escritos — como o candango erondiles guerra de queiroz —, exigindo do historiador atenção à memória e ao ponto de vista de quem fala.">
+        <div class="termo-cabecalho">
+          <h3>Fonte oral (história oral)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Depoimento colhido de quem viveu o acontecimento estudado. Permite conhecer a experiência de pessoas comuns que raramente deixam documentos escritos — como o candango Erondiles Guerra de Queiroz —, exigindo do historiador atenção à memória e ao ponto de vista de quem fala.</p>
+      </div>
+      <div class="termo-card" data-busca="fonte primária documento produzido no próprio momento estudado, como a carta-testamento de vargas ou as capas da revista careta. difere dos textos de historiadores, que interpretam o passado depois e são chamados de fontes secundárias.">
+        <div class="termo-cabecalho">
+          <h3>Fonte primária</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Documento produzido no próprio momento estudado, como a carta-testamento de Vargas ou as capas da revista Careta. Difere dos textos de historiadores, que interpretam o passado depois e são chamados de fontes secundárias.</p>
+      </div>
+      <div class="termo-card" data-busca="foz do amazonas (margem equatorial) nova fronteira exploratória da petrobras no litoral norte e nordeste, com autorização de perfuração obtida em 2025, depois de licença negada pelo ibama em 2023. a região é geologicamente promissora, mas abriga ecossistemas frágeis, e o projeto é criticado por ambientalistas.">
+        <div class="termo-cabecalho">
+          <h3>Foz do Amazonas (Margem Equatorial)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Nova fronteira exploratória da Petrobras no litoral Norte e Nordeste, com autorização de perfuração obtida em 2025, depois de licença negada pelo Ibama em 2023. A região é geologicamente promissora, mas abriga ecossistemas frágeis, e o projeto é criticado por ambientalistas.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="G">G</h2>
+      <div class="termo-card" data-busca="getúlio vargas presidente do brasil entre 1930 e 1945, incluindo a ditadura do estado novo, e novamente entre 1951 e 1954, dessa vez eleito pelo voto. associado ao trabalhismo, à clt e à criação da petrobras, suicidou-se em 24 de agosto de 1954, deixando a carta-testamento.">
+        <div class="termo-cabecalho">
+          <h3>Getúlio Vargas</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Presidente do Brasil entre 1930 e 1945, incluindo a ditadura do Estado Novo, e novamente entre 1951 e 1954, dessa vez eleito pelo voto. Associado ao trabalhismo, à CLT e à criação da Petrobras, suicidou-se em 24 de agosto de 1954, deixando a carta-testamento.</p>
+      </div>
+      <div class="termo-card" data-busca="golpe civil-militar de 1964 movimento das forças armadas, apoiado por políticos civis de oposição, que depôs o presidente joão goulart em 31 de março / 1º de abril de 1964, encerrando o período democrático-populista e dando início a 21 anos de regime militar.">
+        <div class="termo-cabecalho">
+          <h3>Golpe civil-militar de 1964</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Movimento das Forças Armadas, apoiado por políticos civis de oposição, que depôs o presidente João Goulart em 31 de março / 1º de abril de 1964, encerrando o período democrático-populista e dando início a 21 anos de regime militar.</p>
+      </div>
+      <div class="termo-card" data-busca="guerra fria confronto político, econômico e ideológico entre o bloco liderado pelos estados unidos (capitalista) e o liderado pela união soviética (socialista), que influenciou fortemente a política brasileira entre 1946 e 1964 — e também o clima que antecedeu o golpe de 1964.">
+        <div class="termo-cabecalho">
+          <h3>Guerra Fria</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Confronto político, econômico e ideológico entre o bloco liderado pelos Estados Unidos (capitalista) e o liderado pela União Soviética (socialista), que influenciou fortemente a política brasileira entre 1946 e 1964 — e também o clima que antecedeu o golpe de 1964.</p>
+      </div>
+      <div class="termo-card" data-busca="guerrilha do araguaia foco de resistência armada organizado por militantes na região amazônica durante a ditadura militar, duramente reprimido pelo exército — a mais conhecida ação de luta armada rural contra o regime.">
+        <div class="termo-cabecalho">
+          <h3>Guerrilha do Araguaia</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Foco de resistência armada organizado por militantes na região amazônica durante a ditadura militar, duramente reprimido pelo Exército — a mais conhecida ação de luta armada rural contra o regime.</p>
+      </div>
+      <div class="termo-card" data-busca="gulag rede de campos de trabalho forçado na união soviética, muitos deles na sibéria, para onde eram enviados opositores do regime stalinista ou qualquer pessoa suspeita de oposição ao partido comunista.">
+        <div class="termo-cabecalho">
+          <h3>Gulag</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Rede de campos de trabalho forçado na União Soviética, muitos deles na Sibéria, para onde eram enviados opositores do regime stalinista ou qualquer pessoa suspeita de oposição ao Partido Comunista.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="H">H</h2>
+      <div class="termo-card" data-busca="habeas corpus instrumento legal que protege alguém de prisão arbitrária, garantindo o direito de recorrer à justiça. foi suspenso pelo ai-5 em 1968, permitindo prisões sem necessidade de justificativa.">
+        <div class="termo-cabecalho">
+          <h3>Habeas corpus</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Instrumento legal que protege alguém de prisão arbitrária, garantindo o direito de recorrer à Justiça. Foi suspenso pelo AI-5 em 1968, permitindo prisões sem necessidade de justificativa.</p>
+      </div>
+      <div class="termo-card" data-busca="hannah arendt filósofa alemã que viveu o período do nazismo e precisou fugir da perseguição aos judeus. sua obra origens do totalitarismo (1951) é até hoje uma das principais referências para entender como esses regimes conseguiram controlar milhões de pessoas.">
+        <div class="termo-cabecalho">
+          <h3>Hannah Arendt</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Filósofa alemã que viveu o período do nazismo e precisou fugir da perseguição aos judeus. Sua obra Origens do totalitarismo (1951) é até hoje uma das principais referências para entender como esses regimes conseguiram controlar milhões de pessoas.</p>
+      </div>
+      <div class="termo-card" data-busca="holocausto extermínio sistemático de cerca de seis milhões de judeus e outros grupos perseguidos pelo regime nazista durante a segunda guerra mundial, planejado a partir da chamada &quot;solução final&quot;.">
+        <div class="termo-cabecalho">
+          <h3>Holocausto</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Extermínio sistemático de cerca de seis milhões de judeus e outros grupos perseguidos pelo regime nazista durante a Segunda Guerra Mundial, planejado a partir da chamada "Solução Final".</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="I">I</h2>
+      <div class="termo-card" data-busca="industrialização por substituição de importações estratégia de produzir dentro do país aquilo que antes se comprava de fora, sustentada por tarifas sobre importados, crédito subsidiado e isenções para atrair fábricas. era o caminho apontado pelo desenvolvimentismo para superar a dependência econômica.">
+        <div class="termo-cabecalho">
+          <h3>Industrialização por substituição de importações</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Estratégia de produzir dentro do país aquilo que antes se comprava de fora, sustentada por tarifas sobre importados, crédito subsidiado e isenções para atrair fábricas. Era o caminho apontado pelo desenvolvimentismo para superar a dependência econômica.</p>
+      </div>
+      <div class="termo-card" data-busca="inflação alta generalizada e contínua dos preços, que reduz o poder de compra sobretudo de quem vive de salário. foi um dos custos do crescimento acelerado do plano de metas e uma das principais fontes de tensão social no início dos anos 1960.">
+        <div class="termo-cabecalho">
+          <h3>Inflação</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Alta generalizada e contínua dos preços, que reduz o poder de compra sobretudo de quem vive de salário. Foi um dos custos do crescimento acelerado do Plano de Metas e uma das principais fontes de tensão social no início dos anos 1960.</p>
+      </div>
+      <div class="termo-card" data-busca="internacionalismo (projeto internacionalista) projeto econômico de juscelino kubitschek de atrair capital e empresas multinacionais para acelerar a industrialização do brasil, concedendo incentivos e isenção de impostos a investidores estrangeiros — o oposto do projeto nacionalista de vargas.">
+        <div class="termo-cabecalho">
+          <h3>Internacionalismo (projeto internacionalista)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Projeto econômico de Juscelino Kubitschek de atrair capital e empresas multinacionais para acelerar a industrialização do Brasil, concedendo incentivos e isenção de impostos a investidores estrangeiros — o oposto do projeto nacionalista de Vargas.</p>
+      </div>
+      <div class="termo-card" data-busca="intervenção federal em goiás (1964) ação do governo castelo branco que depôs o governador goiano mauro borges teixeira em novembro de 1964, acusando-o de manter uma suposta &quot;base de subversão&quot; — um dos primeiros exemplos, no brasil, de como o regime trataria governadores considerados incômodos.">
+        <div class="termo-cabecalho">
+          <h3>Intervenção Federal em Goiás (1964)</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Ação do governo Castelo Branco que depôs o governador goiano Mauro Borges Teixeira em novembro de 1964, acusando-o de manter uma suposta "base de subversão" — um dos primeiros exemplos, no Brasil, de como o regime trataria governadores considerados incômodos.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="J">J</h2>
+      <div class="termo-card" data-busca="jânio quadros eleito presidente em 1960 com a vassoura como símbolo do combate à corrupção, prometendo um governo &quot;sem donos e sem influências&quot;. candidato ao mesmo tempo do povo e das elites, bateu de frente com o congresso, a imprensa e a própria udn, e renunciou em agosto de 1961.">
+        <div class="termo-cabecalho">
+          <h3>Jânio Quadros</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Eleito presidente em 1960 com a vassoura como símbolo do combate à corrupção, prometendo um governo "sem donos e sem influências". Candidato ao mesmo tempo do povo e das elites, bateu de frente com o Congresso, a imprensa e a própria UDN, e renunciou em agosto de 1961.</p>
+      </div>
+      <div class="termo-card" data-busca="joão goulart (jango) vice-presidente de jk e de jânio quadros, assumiu a presidência em 1961 com poderes reduzidos pelo parlamentarismo. recuperou poderes plenos com o plebiscito de 1963 e passou a defender as reformas de base, sendo deposto pelo golpe civil-militar de 1964.">
+        <div class="termo-cabecalho">
+          <h3>João Goulart (Jango)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Vice-presidente de JK e de Jânio Quadros, assumiu a presidência em 1961 com poderes reduzidos pelo parlamentarismo. Recuperou poderes plenos com o plebiscito de 1963 e passou a defender as reformas de base, sendo deposto pelo golpe civil-militar de 1964.</p>
+      </div>
+      <div class="termo-card" data-busca="junta militar de 1969 grupo de três ministros militares que governou interinamente o brasil por cerca de dois meses em 1969, após costa e silva deixar a presidência por motivos de saúde — período em que chegou a ser aprovada uma emenda incluindo pena de morte para casos de &quot;subversão&quot;.">
+        <div class="termo-cabecalho">
+          <h3>Junta Militar de 1969</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Grupo de três ministros militares que governou interinamente o Brasil por cerca de dois meses em 1969, após Costa e Silva deixar a Presidência por motivos de saúde — período em que chegou a ser aprovada uma emenda incluindo pena de morte para casos de "subversão".</p>
+      </div>
+      <div class="termo-card" data-busca="juscelino kubitschek (jk) presidente de 1956 a 1961, autor do lema &quot;50 anos em 5&quot;. conduziu o plano de metas, atraiu multinacionais para o país e construiu brasília, num governo lembrado tanto pelo otimismo e pelo crescimento industrial quanto pela inflação e pela dívida externa que deixou.">
+        <div class="termo-cabecalho">
+          <h3>Juscelino Kubitschek (JK)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Presidente de 1956 a 1961, autor do lema "50 anos em 5". Conduziu o Plano de Metas, atraiu multinacionais para o país e construiu Brasília, num governo lembrado tanto pelo otimismo e pelo crescimento industrial quanto pela inflação e pela dívida externa que deixou.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="L">L</h2>
+      <div class="termo-card" data-busca="lebensraum (espaço vital) conceito nazista de &quot;espaço vital&quot;: a crença de que povos considerados &quot;inferiores&quot; deveriam ser dominados, garantindo território — principalmente no leste europeu — para que a &quot;raça ariana&quot; pudesse se expandir livremente.">
+        <div class="termo-cabecalho">
+          <h3>Lebensraum (Espaço vital)</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Conceito nazista de "espaço vital": a crença de que povos considerados "inferiores" deveriam ser dominados, garantindo território — principalmente no Leste Europeu — para que a "raça ariana" pudesse se expandir livremente.</p>
+      </div>
+      <div class="termo-card" data-busca="lei de segurança nacional lei criada pelo governo castelo branco que permitia tratar opositores do regime militar como &quot;inimigos da pátria&quot;, servindo de base jurídica para perseguições políticas.">
+        <div class="termo-cabecalho">
+          <h3>Lei de Segurança Nacional</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Lei criada pelo governo Castelo Branco que permitia tratar opositores do regime militar como "inimigos da pátria", servindo de base jurídica para perseguições políticas.</p>
+      </div>
+      <div class="termo-card" data-busca="lei falcão lei decretada por geisel em 1976 que restringia fortemente a propaganda eleitoral na tv e no rádio, dificultando a divulgação das propostas dos candidatos de oposição.">
+        <div class="termo-cabecalho">
+          <h3>Lei Falcão</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Lei decretada por Geisel em 1976 que restringia fortemente a propaganda eleitoral na TV e no rádio, dificultando a divulgação das propostas dos candidatos de oposição.</p>
+      </div>
+      <div class="termo-card" data-busca="leis de nuremberg leis nazistas de 1935 que retiraram a cidadania dos judeus alemães e proibiram seu convívio com &quot;arianos puros&quot; — o primeiro grande passo institucional rumo às perseguições que culminariam no holocausto.">
+        <div class="termo-cabecalho">
+          <h3>Leis de Nuremberg</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Leis nazistas de 1935 que retiraram a cidadania dos judeus alemães e proibiram seu convívio com "arianos puros" — o primeiro grande passo institucional rumo às perseguições que culminariam no Holocausto.</p>
+      </div>
+      <div class="termo-card" data-busca="ligas camponesas organizações de trabalhadores rurais que se mobilizaram nos anos 1950 e 1960 por reforma agrária, fazendo parte da base social que pressionava por reformas de base no governo joão goulart.">
+        <div class="termo-cabecalho">
+          <h3>Ligas Camponesas</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Organizações de trabalhadores rurais que se mobilizaram nos anos 1950 e 1960 por reforma agrária, fazendo parte da base social que pressionava por reformas de base no governo João Goulart.</p>
+      </div>
+      <div class="termo-card" data-busca="luta armada (aln, vpr, mr-8) movimentos de resistência que defendiam a via armada para derrubar a ditadura, como a ação libertadora nacional (aln), a vanguarda popular revolucionária (vpr) e o movimento revolucionário 8 de outubro (mr-8), responsáveis por assaltos a bancos e sequestros de diplomatas para trocá-los por presos políticos.">
+        <div class="termo-cabecalho">
+          <h3>Luta armada (ALN, VPR, MR-8)</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Movimentos de resistência que defendiam a via armada para derrubar a ditadura, como a Ação Libertadora Nacional (ALN), a Vanguarda Popular Revolucionária (VPR) e o Movimento Revolucionário 8 de Outubro (MR-8), responsáveis por assaltos a bancos e sequestros de diplomatas para trocá-los por presos políticos.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="M">M</h2>
+      <div class="termo-card" data-busca="marcha da família com deus pela liberdade manifestações de rua organizadas por setores conservadores em 1964, em oposição às reformas de base propostas por joão goulart — parte da mobilização que precedeu o golpe civil-militar.">
+        <div class="termo-cabecalho">
+          <h3>Marcha da Família com Deus pela Liberdade</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Manifestações de rua organizadas por setores conservadores em 1964, em oposição às reformas de base propostas por João Goulart — parte da mobilização que precedeu o golpe civil-militar.</p>
+      </div>
+      <div class="termo-card" data-busca="marcha sobre roma mobilização de outubro de 1922 em que esquadrões fascistas (camisas negras) ocuparam pontos estratégicos da itália e marcharam rumo à capital, pressionando o rei vítor emanuel iii a convocar mussolini como primeiro-ministro.">
+        <div class="termo-cabecalho">
+          <h3>Marcha sobre Roma</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Mobilização de outubro de 1922 em que esquadrões fascistas (Camisas Negras) ocuparam pontos estratégicos da Itália e marcharam rumo à capital, pressionando o rei Vítor Emanuel III a convocar Mussolini como primeiro-ministro.</p>
+      </div>
+      <div class="termo-card" data-busca="migração interna deslocamento de brasileiros entre regiões do país em busca de trabalho, intensificado pelas políticas desenvolvimentistas: entre 1950 e 1960, cerca de um milhão de nordestinos migraram só para são paulo. foram essenciais ao crescimento das cidades, mas enfrentaram preconceito e moradia precária nas periferias.">
+        <div class="termo-cabecalho">
+          <h3>Migração interna</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Deslocamento de brasileiros entre regiões do país em busca de trabalho, intensificado pelas políticas desenvolvimentistas: entre 1950 e 1960, cerca de um milhão de nordestinos migraram só para São Paulo. Foram essenciais ao crescimento das cidades, mas enfrentaram preconceito e moradia precária nas periferias.</p>
+      </div>
+      <div class="termo-card" data-busca="milagre econômico período de forte crescimento econômico durante o governo médici (1969–1974), sustentado por aumento da produção industrial, exportações e empréstimos externos — mas acompanhado de arrocho salarial e forte repressão política.">
+        <div class="termo-cabecalho">
+          <h3>Milagre econômico</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Período de forte crescimento econômico durante o governo Médici (1969–1974), sustentado por aumento da produção industrial, exportações e empréstimos externos — mas acompanhado de arrocho salarial e forte repressão política.</p>
+      </div>
+      <div class="termo-card" data-busca="militarismo japonês regime totalitário instalado no japão nas décadas de 1930 e 1940, combinando disciplina militar extrema, culto ao imperador hirohito e expansão territorial na ásia em busca de matérias-primas e mercados.">
+        <div class="termo-cabecalho">
+          <h3>Militarismo japonês</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Regime totalitário instalado no Japão nas décadas de 1930 e 1940, combinando disciplina militar extrema, culto ao imperador Hirohito e expansão territorial na Ásia em busca de matérias-primas e mercados.</p>
+      </div>
+      <div class="termo-card" data-busca="monopólio estatal do petróleo regime pelo qual apenas o estado, por meio da petrobras criada em 1953, podia pesquisar e extrair petróleo em território brasileiro. era a principal bandeira da campanha &quot;o petróleo é nosso&quot;.">
+        <div class="termo-cabecalho">
+          <h3>Monopólio estatal do petróleo</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Regime pelo qual apenas o Estado, por meio da Petrobras criada em 1953, podia pesquisar e extrair petróleo em território brasileiro. Era a principal bandeira da campanha "O petróleo é nosso".</p>
+      </div>
+      <div class="termo-card" data-busca="movimento negro unificado (mnu) organização fundada em 1978, ainda durante a ditadura, que teria papel importante na luta pela redemocratização e pelos direitos da população negra brasileira — e que segue ativa até hoje.">
+        <div class="termo-cabecalho">
+          <h3>Movimento Negro Unificado (MNU)</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Organização fundada em 1978, ainda durante a ditadura, que teria papel importante na luta pela redemocratização e pelos direitos da população negra brasileira — e que segue ativa até hoje.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="N">N</h2>
+      <div class="termo-card" data-busca="nacionalismo (projeto nacionalista) projeto político-econômico, defendido sobretudo por getúlio vargas, segundo o qual o estado deveria controlar setores estratégicos como o petróleo, restringir o capital estrangeiro e proteger a indústria nacional da concorrência externa.">
+        <div class="termo-cabecalho">
+          <h3>Nacionalismo (projeto nacionalista)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Projeto político-econômico, defendido sobretudo por Getúlio Vargas, segundo o qual o Estado deveria controlar setores estratégicos como o petróleo, restringir o capital estrangeiro e proteger a indústria nacional da concorrência externa.</p>
+      </div>
+      <div class="termo-card" data-busca="nazismo regime totalitário liderado por adolf hitler na alemanha a partir de 1933, que colocou o racismo de estado no centro de sua ideologia, combinando expansionismo, militarismo e nacionalismo radical — o principal responsável por desencadear a segunda guerra mundial na europa.">
+        <div class="termo-cabecalho">
+          <h3>Nazismo</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Regime totalitário liderado por Adolf Hitler na Alemanha a partir de 1933, que colocou o racismo de Estado no centro de sua ideologia, combinando expansionismo, militarismo e nacionalismo radical — o principal responsável por desencadear a Segunda Guerra Mundial na Europa.</p>
+      </div>
+      <div class="termo-card" data-busca="nomenklatura elite de dirigentes do partido comunista, militares e técnicos que, na união soviética stalinista, concentrava benefícios e privilégios que o restante da população não tinha.">
+        <div class="termo-cabecalho">
+          <h3>Nomenklatura</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Elite de dirigentes do Partido Comunista, militares e técnicos que, na União Soviética stalinista, concentrava benefícios e privilégios que o restante da população não tinha.</p>
+      </div>
+      <div class="termo-card" data-busca="nova república nome dado ao período iniciado em 1985, com a posse do vice-presidente josé sarney após a morte de tancredo neves, marcando o fim formal do regime militar e o retorno de presidentes civis ao poder.">
+        <div class="termo-cabecalho">
+          <h3>Nova República</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Nome dado ao período iniciado em 1985, com a posse do vice-presidente José Sarney após a morte de Tancredo Neves, marcando o fim formal do regime militar e o retorno de presidentes civis ao poder.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="O">O</h2>
+      <div class="termo-card" data-busca="&quot;o petróleo é nosso&quot; campanha popular do início dos anos 1950 pela exploração estatal do petróleo, que resultou na criação da petrobras em 1953. o debate era intenso mesmo com o petróleo respondendo então por apenas cerca de 10% dos gastos energéticos do país: o que estava em jogo era quem controlaria as riquezas nacionais.">
+        <div class="termo-cabecalho">
+          <h3>"O petróleo é nosso"</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Campanha popular do início dos anos 1950 pela exploração estatal do petróleo, que resultou na criação da Petrobras em 1953. O debate era intenso mesmo com o petróleo respondendo então por apenas cerca de 10% dos gastos energéticos do país: o que estava em jogo era quem controlaria as riquezas nacionais.</p>
+      </div>
+      <div class="termo-card" data-busca="operação barbarossa nome dado à invasão alemã da união soviética em 1941, conduzida como uma &quot;guerra de extermínio&quot; contra os povos eslavos, considerados racialmente inferiores pela ideologia nazista — resultou em um número de mortes muito superior ao de qualquer outra frente do conflito.">
+        <div class="termo-cabecalho">
+          <h3>Operação Barbarossa</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Nome dado à invasão alemã da União Soviética em 1941, conduzida como uma "guerra de extermínio" contra os povos eslavos, considerados racialmente inferiores pela ideologia nazista — resultou em um número de mortes muito superior ao de qualquer outra frente do conflito.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="P">P</h2>
+      <div class="termo-card" data-busca="pacto de não agressão (molotov-ribbentrop) acordo assinado em agosto de 1939 entre alemanha e união soviética, que incluía um pacto secreto para dividir a polônia entre os dois países — abriu caminho para a invasão que daria início à segunda guerra mundial.">
+        <div class="termo-cabecalho">
+          <h3>Pacto de Não Agressão (Molotov-Ribbentrop)</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Acordo assinado em agosto de 1939 entre Alemanha e União Soviética, que incluía um pacto secreto para dividir a Polônia entre os dois países — abriu caminho para a invasão que daria início à Segunda Guerra Mundial.</p>
+      </div>
+      <div class="termo-card" data-busca="pangermanismo ideia nazista de que o estado alemão deveria incorporar todos os territórios europeus habitados por populações de origem alemã, formando uma grande nação ariana.">
+        <div class="termo-cabecalho">
+          <h3>Pangermanismo</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Ideia nazista de que o Estado alemão deveria incorporar todos os territórios europeus habitados por populações de origem alemã, formando uma grande nação ariana.</p>
+      </div>
+      <div class="termo-card" data-busca="paramilitar grupo armado, geralmente fardado, organizado como se fosse um exército — mas que não pertence oficialmente às forças militares regulares de um país, como os camisas negras fascistas.">
+        <div class="termo-cabecalho">
+          <h3>Paramilitar</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Grupo armado, geralmente fardado, organizado como se fosse um exército — mas que não pertence oficialmente às forças militares regulares de um país, como os Camisas Negras fascistas.</p>
+      </div>
+      <div class="termo-card" data-busca="parlamentarismo sistema de governo adotado no brasil entre 1961 e 1963 como solução de compromisso para viabilizar a posse de joão goulart, no qual o presidente tinha poderes reduzidos e um primeiro-ministro escolhido pelo congresso chefiava o governo.">
+        <div class="termo-cabecalho">
+          <h3>Parlamentarismo</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Sistema de governo adotado no Brasil entre 1961 e 1963 como solução de compromisso para viabilizar a posse de João Goulart, no qual o presidente tinha poderes reduzidos e um primeiro-ministro escolhido pelo Congresso chefiava o governo.</p>
+      </div>
+      <div class="termo-card" data-busca="partido comunista brasileiro (pcb) partido colocado na ilegalidade pelo governo dutra em 1947, no contexto do alinhamento brasileiro aos estados unidos durante a guerra fria — seus parlamentares eleitos tiveram os mandatos cassados.">
+        <div class="termo-cabecalho">
+          <h3>Partido Comunista Brasileiro (PCB)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Partido colocado na ilegalidade pelo governo Dutra em 1947, no contexto do alinhamento brasileiro aos Estados Unidos durante a Guerra Fria — seus parlamentares eleitos tiveram os mandatos cassados.</p>
+      </div>
+      <div class="termo-card" data-busca="passeata dos cem mil manifestação de junho de 1968, no rio de janeiro, com mais de 100 mil pessoas protestando contra a morte do estudante secundarista edson luís, assassinado pela polícia — um dos episódios que precederam o ai-5.">
+        <div class="termo-cabecalho">
+          <h3>Passeata dos Cem Mil</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Manifestação de junho de 1968, no Rio de Janeiro, com mais de 100 mil pessoas protestando contra a morte do estudante secundarista Edson Luís, assassinado pela polícia — um dos episódios que precederam o AI-5.</p>
+      </div>
+      <div class="termo-card" data-busca="pearl harbor base naval norte-americana atacada pelo japão em dezembro de 1941, ampliando a segunda guerra mundial para o oceano pacífico e trazendo os estados unidos definitivamente para o conflito.">
+        <div class="termo-cabecalho">
+          <h3>Pearl Harbor</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Base naval norte-americana atacada pelo Japão em dezembro de 1941, ampliando a Segunda Guerra Mundial para o Oceano Pacífico e trazendo os Estados Unidos definitivamente para o conflito.</p>
+      </div>
+      <div class="termo-card" data-busca="petrobras empresa estatal brasileira criada em 1953, após a campanha popular &quot;o petróleo é nosso&quot;, para monopolizar a extração de petróleo no país — um símbolo do projeto nacionalista de getúlio vargas.">
+        <div class="termo-cabecalho">
+          <h3>Petrobras</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Empresa estatal brasileira criada em 1953, após a campanha popular "O petróleo é nosso", para monopolizar a extração de petróleo no país — um símbolo do projeto nacionalista de Getúlio Vargas.</p>
+      </div>
+      <div class="termo-card" data-busca="plano de metas programa de investimentos públicos do governo juscelino kubitschek (1956–1961), organizado em cinco áreas — energia, transporte, indústria, alimentação e educação —, resumido no lema &quot;50 anos em 5&quot;.">
+        <div class="termo-cabecalho">
+          <h3>Plano de Metas</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Programa de investimentos públicos do governo Juscelino Kubitschek (1956–1961), organizado em cinco áreas — energia, transporte, indústria, alimentação e educação —, resumido no lema "50 anos em 5".</p>
+      </div>
+      <div class="termo-card" data-busca="plano salte primeiro planejamento de governo da história do brasil, criado por eurico gaspar dutra e organizado em quatro áreas: saúde, alimentação, transporte e energia — executado apenas parcialmente.">
+        <div class="termo-cabecalho">
+          <h3>Plano Salte</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Primeiro planejamento de governo da história do Brasil, criado por Eurico Gaspar Dutra e organizado em quatro áreas: Saúde, Alimentação, Transporte e Energia — executado apenas parcialmente.</p>
+      </div>
+      <div class="termo-card" data-busca="plebiscito de 1963 consulta realizada em 6 de janeiro de 1963 para que os brasileiros escolhessem a forma de governo. dos 11,5 milhões de eleitores, 9,5 milhões votaram pelo retorno do presidencialismo, devolvendo poderes plenos a joão goulart — que interpretou o resultado como uma nova eleição.">
+        <div class="termo-cabecalho">
+          <h3>Plebiscito de 1963</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Consulta realizada em 6 de janeiro de 1963 para que os brasileiros escolhessem a forma de governo. Dos 11,5 milhões de eleitores, 9,5 milhões votaram pelo retorno do presidencialismo, devolvendo poderes plenos a João Goulart — que interpretou o resultado como uma nova eleição.</p>
+      </div>
+      <div class="termo-card" data-busca="polissemia conceitual propriedade de um mesmo conceito ter vários sentidos possíveis, que mudam conforme a época, o autor e o contexto político. emerson urizzi cervi usa a ideia para explicar as várias fases de significado do populismo em &quot;as sete vidas do populismo&quot;.">
+        <div class="termo-cabecalho">
+          <h3>Polissemia conceitual</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Propriedade de um mesmo conceito ter vários sentidos possíveis, que mudam conforme a época, o autor e o contexto político. Emerson Urizzi Cervi usa a ideia para explicar as várias fases de significado do populismo em "As sete vidas do populismo".</p>
+      </div>
+      <div class="termo-card" data-busca="populismo estilo de governar, entre 1930 e 1964, marcado pelo vínculo direto entre líderes e trabalhadores urbanos, construído por meio de leis trabalhistas e discursos emocionados, sem necessariamente passar por partidos políticos fortes.">
+        <div class="termo-cabecalho">
+          <h3>Populismo</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Estilo de governar, entre 1930 e 1964, marcado pelo vínculo direto entre líderes e trabalhadores urbanos, construído por meio de leis trabalhistas e discursos emocionados, sem necessariamente passar por partidos políticos fortes.</p>
+      </div>
+      <div class="termo-card" data-busca="pré-sal camada de petróleo situada a milhares de metros abaixo do fundo do mar, sob uma espessa parede de sal. responde hoje por cerca de dois terços da produção da petrobras e exige tecnologia de águas profundas que poucos países no mundo dominam.">
+        <div class="termo-cabecalho">
+          <h3>Pré-sal</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Camada de petróleo situada a milhares de metros abaixo do fundo do mar, sob uma espessa parede de sal. Responde hoje por cerca de dois terços da produção da Petrobras e exige tecnologia de águas profundas que poucos países no mundo dominam.</p>
+      </div>
+      <div class="termo-card" data-busca="presidencialismo sistema de governo em que o presidente é ao mesmo tempo chefe de estado e chefe de governo, com poderes plenos. foi restabelecido no brasil pelo plebiscito de janeiro de 1963, encerrando a experiência parlamentarista iniciada em 1961.">
+        <div class="termo-cabecalho">
+          <h3>Presidencialismo</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Sistema de governo em que o presidente é ao mesmo tempo chefe de Estado e chefe de governo, com poderes plenos. Foi restabelecido no Brasil pelo plebiscito de janeiro de 1963, encerrando a experiência parlamentarista iniciada em 1961.</p>
+      </div>
+      <div class="termo-card" data-busca="propaganda (política) ferramenta usada pelos regimes totalitários para controlar jornais, rádio, cinema e escolas, moldando a opinião pública em favor do governo e construindo o culto à personalidade dos líderes.">
+        <div class="termo-cabecalho">
+          <h3>Propaganda (política)</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Ferramenta usada pelos regimes totalitários para controlar jornais, rádio, cinema e escolas, moldando a opinião pública em favor do governo e construindo o culto à personalidade dos líderes.</p>
+      </div>
+      <div class="termo-card" data-busca="psd (partido social democrático) partido criado em 1945 a partir das estruturas políticas montadas durante o estado novo. foi a base de apoio dos governos dutra e jk e costumava aliar-se ao ptb, formando a principal coalizão do período democrático de 1946 a 1964.">
+        <div class="termo-cabecalho">
+          <h3>PSD (Partido Social Democrático)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Partido criado em 1945 a partir das estruturas políticas montadas durante o Estado Novo. Foi a base de apoio dos governos Dutra e JK e costumava aliar-se ao PTB, formando a principal coalizão do período democrático de 1946 a 1964.</p>
+      </div>
+      <div class="termo-card" data-busca="ptb (partido trabalhista brasileiro) partido criado por vargas em 1945 para organizar o apoio dos trabalhadores urbanos beneficiados pela legislação trabalhista. foi a legenda de vargas em 1950 e de joão goulart, e o principal veículo do trabalhismo na política brasileira.">
+        <div class="termo-cabecalho">
+          <h3>PTB (Partido Trabalhista Brasileiro)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Partido criado por Vargas em 1945 para organizar o apoio dos trabalhadores urbanos beneficiados pela legislação trabalhista. Foi a legenda de Vargas em 1950 e de João Goulart, e o principal veículo do trabalhismo na política brasileira.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="R">R</h2>
+      <div class="termo-card" data-busca="&quot;raça ariana&quot; classificação sem nenhuma base científica, criada no século xix, que os nazistas usaram para se referir aos povos germânicos, apresentados pela propaganda oficial como fisicamente e moralmente &quot;superiores&quot; aos demais.">
+        <div class="termo-cabecalho">
+          <h3>"Raça ariana"</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Classificação sem nenhuma base científica, criada no século XIX, que os nazistas usaram para se referir aos povos germânicos, apresentados pela propaganda oficial como fisicamente e moralmente "superiores" aos demais.</p>
+      </div>
+      <div class="termo-card" data-busca="reformas de base conjunto de mudanças estruturais — reforma agrária, tributária, eleitoral e educacional — anunciado por joão goulart em março de 1964, que radicalizou a polarização política e acabou servindo de estopim para o golpe civil-militar.">
+        <div class="termo-cabecalho">
+          <h3>Reformas de base</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Conjunto de mudanças estruturais — reforma agrária, tributária, eleitoral e educacional — anunciado por João Goulart em março de 1964, que radicalizou a polarização política e acabou servindo de estopim para o golpe civil-militar.</p>
+      </div>
+      <div class="termo-card" data-busca="reichstag parlamento alemão. em 1932, o partido nazista venceu as eleições para o reichstag; um incêndio em seu prédio, em 1933, serviu de pretexto para os nazistas decretarem estado de emergência e instalarem a ditadura.">
+        <div class="termo-cabecalho">
+          <h3>Reichstag</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Parlamento alemão. Em 1932, o Partido Nazista venceu as eleições para o Reichstag; um incêndio em seu prédio, em 1933, serviu de pretexto para os nazistas decretarem estado de emergência e instalarem a ditadura.</p>
+      </div>
+      <div class="termo-card" data-busca="renúncia de jânio quadros saída do presidente em agosto de 1961, após sete meses de governo e atritos com o congresso, a imprensa, o funcionalismo e a própria udn. abriu uma crise institucional que só se resolveu com a posse de joão goulart sob o regime parlamentarista.">
+        <div class="termo-cabecalho">
+          <h3>Renúncia de Jânio Quadros</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Saída do presidente em agosto de 1961, após sete meses de governo e atritos com o Congresso, a imprensa, o funcionalismo e a própria UDN. Abriu uma crise institucional que só se resolveu com a posse de João Goulart sob o regime parlamentarista.</p>
+      </div>
+      <div class="termo-card" data-busca="revolução meiji processo de modernização e industrialização acelerada do japão a partir de 1868, que transformou o país em uma potência militar na ásia e abriu caminho para o expansionismo japonês do século xx.">
+        <div class="termo-cabecalho">
+          <h3>Revolução Meiji</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Processo de modernização e industrialização acelerada do Japão a partir de 1868, que transformou o país em uma potência militar na Ásia e abriu caminho para o expansionismo japonês do século XX.</p>
+      </div>
+      <div class="termo-card" data-busca="&quot;revolução pelo voto&quot; expressão usada pelos apoiadores de jânio quadros para descrever sua vitória eleitoral de 1960 — que um sociólogo chamou de &quot;rebelião eleitoral&quot;. a ideia revelava menos uma revolução do que o esgotamento do sistema partidário e a busca de um candidato fora dele.">
+        <div class="termo-cabecalho">
+          <h3>"Revolução pelo voto"</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Expressão usada pelos apoiadores de Jânio Quadros para descrever sua vitória eleitoral de 1960 — que um sociólogo chamou de "rebelião eleitoral". A ideia revelava menos uma revolução do que o esgotamento do sistema partidário e a busca de um candidato fora dele.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="S">S</h2>
+      <div class="termo-card" data-busca="senadores biônicos nome popular dado a um terço das vagas do senado que, a partir de 1977, passou a ser escolhido diretamente pelo presidente da república, e não pelo voto popular — uma manobra de geisel para conter o avanço da oposição.">
+        <div class="termo-cabecalho">
+          <h3>Senadores biônicos</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Nome popular dado a um terço das vagas do Senado que, a partir de 1977, passou a ser escolhido diretamente pelo presidente da República, e não pelo voto popular — uma manobra de Geisel para conter o avanço da oposição.</p>
+      </div>
+      <div class="termo-card" data-busca="sni (serviço nacional de informações) órgão responsável por coordenar a espionagem e o monitoramento de opositores durante a ditadura militar, um dos pilares do aparato de repressão do estado.">
+        <div class="termo-cabecalho">
+          <h3>SNI (Serviço Nacional de Informações)</h3>
+          <div class="termo-tags"><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Órgão responsável por coordenar a espionagem e o monitoramento de opositores durante a ditadura militar, um dos pilares do aparato de repressão do Estado.</p>
+      </div>
+      <div class="termo-card" data-busca="solução final nome dado pelos nazistas ao plano de assassinato em massa dos judeus da europa, colocado em prática a partir de 1941–1942 com a construção de campos de extermínio como auschwitz-birkenau.">
+        <div class="termo-cabecalho">
+          <h3>Solução Final</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Nome dado pelos nazistas ao plano de assassinato em massa dos judeus da Europa, colocado em prática a partir de 1941–1942 com a construção de campos de extermínio como Auschwitz-Birkenau.</p>
+      </div>
+      <div class="termo-card" data-busca="stalinismo regime de partido único liderado por josef stálin na união soviética (1924–1953), marcado por planejamento econômico centralizado, coletivização forçada da agricultura, gulags e expurgos contra opositores.">
+        <div class="termo-cabecalho">
+          <h3>Stalinismo</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Regime de partido único liderado por Josef Stálin na União Soviética (1924–1953), marcado por planejamento econômico centralizado, coletivização forçada da agricultura, Gulags e expurgos contra opositores.</p>
+      </div>
+      <div class="termo-card" data-busca="sudene superintendência do desenvolvimento do nordeste, criada no fim de 1959 com participação do economista celso furtado. foi a resposta do governo jk à pressão por políticas que reduzissem as desigualdades entre as regiões, agravadas pela seca de 1958 e 1959.">
+        <div class="termo-cabecalho">
+          <h3>Sudene</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Superintendência do Desenvolvimento do Nordeste, criada no fim de 1959 com participação do economista Celso Furtado. Foi a resposta do governo JK à pressão por políticas que reduzissem as desigualdades entre as regiões, agravadas pela seca de 1958 e 1959.</p>
+      </div>
+      <div class="termo-card" data-busca="suicídio de vargas (1954) isolado politicamente e diante da ameaça de um golpe militar após o atentado contra carlos lacerda, getúlio vargas matou-se no palácio do catete em 24 de agosto de 1954. o gesto comoveu a população e, paradoxalmente, adiou o golpe que a oposição preparava.">
+        <div class="termo-cabecalho">
+          <h3>Suicídio de Vargas (1954)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Isolado politicamente e diante da ameaça de um golpe militar após o atentado contra Carlos Lacerda, Getúlio Vargas matou-se no Palácio do Catete em 24 de agosto de 1954. O gesto comoveu a população e, paradoxalmente, adiou o golpe que a oposição preparava.</p>
+      </div>
+      <div class="termo-card" data-busca="supermercado junto com a televisão, uma das grandes novidades da década de 1950 a mudar os hábitos dos brasileiros. o novo formato de comércio acompanhou a industrialização concentrada no centro-sul e beneficiou principalmente as camadas urbanas com poder de compra.">
+        <div class="termo-cabecalho">
+          <h3>Supermercado</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Junto com a televisão, uma das grandes novidades da década de 1950 a mudar os hábitos dos brasileiros. O novo formato de comércio acompanhou a industrialização concentrada no Centro-Sul e beneficiou principalmente as camadas urbanas com poder de compra.</p>
+      </div>
+      <div class="termo-card" data-busca="suprapartidário postura de quem se apresenta acima dos partidos, como fez jânio quadros ao prometer um governo &quot;sem donos e sem influências&quot;. segundo maria vitória benevides, essa postura foi ao mesmo tempo causa e consequência do esfacelamento do sistema partidário.">
+        <div class="termo-cabecalho">
+          <h3>Suprapartidário</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Postura de quem se apresenta acima dos partidos, como fez Jânio Quadros ao prometer um governo "sem donos e sem influências". Segundo Maria Vitória Benevides, essa postura foi ao mesmo tempo causa e consequência do esfacelamento do sistema partidário.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="T">T</h2>
+      <div class="termo-card" data-busca="totalitarismo regime político em que o estado busca controlar todas as esferas da vida social, econômica e cultural, suprimindo liberdades individuais — características comuns ao fascismo, ao nazismo, ao stalinismo e ao militarismo japonês.">
+        <div class="termo-cabecalho">
+          <h3>Totalitarismo</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Regime político em que o Estado busca controlar todas as esferas da vida social, econômica e cultural, suprimindo liberdades individuais — características comuns ao fascismo, ao nazismo, ao stalinismo e ao militarismo japonês.</p>
+      </div>
+      <div class="termo-card" data-busca="trabalhismo conjunto de leis, instituições e discursos com que vargas organizou a relação entre estado, patrões e trabalhadores urbanos: ministério do trabalho nos anos 1930, salário mínimo em 1940 e clt em 1943. concedia direitos e, ao mesmo tempo, mantinha os sindicatos sob controle do estado.">
+        <div class="termo-cabecalho">
+          <h3>Trabalhismo</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Conjunto de leis, instituições e discursos com que Vargas organizou a relação entre Estado, patrões e trabalhadores urbanos: Ministério do Trabalho nos anos 1930, salário mínimo em 1940 e CLT em 1943. Concedia direitos e, ao mesmo tempo, mantinha os sindicatos sob controle do Estado.</p>
+      </div>
+      <div class="termo-card" data-busca="tribunal de nuremberg tribunal que julgou líderes fascistas e nazistas sobreviventes entre 1945 e 1946, responsabilizando indivíduos por &quot;crimes contra a humanidade&quot; — um marco histórico e jurídico que até hoje orienta o direito internacional.">
+        <div class="termo-cabecalho">
+          <h3>Tribunal de Nuremberg</h3>
+          <div class="termo-tags"><span class="tema-tag t1">Tema 1 · Totalitarismo</span></div>
+        </div>
+        <p>Tribunal que julgou líderes fascistas e nazistas sobreviventes entre 1945 e 1946, responsabilizando indivíduos por "crimes contra a humanidade" — um marco histórico e jurídico que até hoje orienta o Direito Internacional.</p>
+      </div>
+      <div class="termo-card" data-busca="tv tupi primeira emissora de televisão do brasil, de assis chateaubriand, inaugurada em são paulo em 1950 e no rio em 1951. transmitia ao vivo e em preto e branco, com longos intervalos e fórmulas herdadas do rádio; a primeira transmissão em cores no país só ocorreu em 1972.">
+        <div class="termo-cabecalho">
+          <h3>TV Tupi</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span></div>
+        </div>
+        <p>Primeira emissora de televisão do Brasil, de Assis Chateaubriand, inaugurada em São Paulo em 1950 e no Rio em 1951. Transmitia ao vivo e em preto e branco, com longos intervalos e fórmulas herdadas do rádio; a primeira transmissão em cores no país só ocorreu em 1972.</p>
+      </div>
+      <h2 class="letra-titulo" data-letra="U">U</h2>
+      <div class="termo-card" data-busca="udn (união democrática nacional) partido de oposição a getúlio vargas e a joão goulart, que combateu duramente as políticas nacionalistas e trabalhistas dos governos populistas e apoiou o golpe civil-militar de 1964.">
+        <div class="termo-cabecalho">
+          <h3>UDN (União Democrática Nacional)</h3>
+          <div class="termo-tags"><span class="tema-tag t2">Tema 2 · Populismo</span><span class="tema-tag t3">Tema 3 · Ditadura</span></div>
+        </div>
+        <p>Partido de oposição a Getúlio Vargas e a João Goulart, que combateu duramente as políticas nacionalistas e trabalhistas dos governos populistas e apoiou o golpe civil-militar de 1964.</p>
+      </div>
+    <p class="sem-resultado" id="sem-resultado">Nenhum termo encontrado para essa busca. Tente outra palavra-chave.</p>
+  </main>
+
+  <div class="rodape-nav">
+    <a href="tema1.html" target="_parent">← Tema 1 — Regimes Totalitários</a>
+    <a href="tema2.html" target="_parent">← Tema 2 — Populismo</a>
+    <a href="tema3.html" target="_parent">← Tema 3 — Ditadura Militar</a>
+  </div>
+</div>
+
+<footer class="rodape">
+  Colégio Estadual Rodolfo de Oliveira · CERO · 2026
+</footer>
+
+<script>
+(function(){
+  const input = document.getElementById('busca-input');
+  const limparBtn = document.getElementById('busca-limpar');
+  const contador = document.getElementById('busca-contador');
+  const semResultado = document.getElementById('sem-resultado');
+  const cards = Array.from(document.querySelectorAll('.termo-card'));
+  const letras = Array.from(document.querySelectorAll('.letra-titulo'));
+  const totalTermos = cards.length;
+
+  function normalizar(str){
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+
+  function filtrar(){
+    const q = normalizar(input.value.trim());
+    limparBtn.classList.toggle('show', q.length > 0);
+    let visiveis = 0;
+
+    cards.forEach(function(card){
+      const alvo = normalizar(card.dataset.busca || '');
+      const bate = q === '' || alvo.indexOf(q) !== -1;
+      card.classList.toggle('oculto', !bate);
+      if(bate) visiveis++;
+    });
+
+    letras.forEach(function(titulo){
+      let el = titulo.nextElementSibling;
+      let temVisivel = false;
+      while(el && !el.classList.contains('letra-titulo')){
+        if(el.classList.contains('termo-card') && !el.classList.contains('oculto')){
+          temVisivel = true;
+          break;
+        }
+        el = el.nextElementSibling;
+      }
+      titulo.classList.toggle('oculto', !temVisivel);
+    });
+
+    contador.textContent = visiveis + ' de ' + totalTermos + ' termos';
+    semResultado.classList.toggle('show', visiveis === 0);
+  }
+
+  function limparBusca(){
+    input.value = '';
+    filtrar();
+    input.focus();
+  }
+  window.limparBusca = limparBusca;
+
+  input.addEventListener('input', filtrar);
+
+  /* indice A-Z */
+  const disponiveis = new Set(letras.map(function(l){ return l.dataset.letra; }));
+  const alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const indiceEl = document.getElementById('indice-az');
+  alfabeto.forEach(function(letra){
+    const a = document.createElement('a');
+    a.textContent = letra;
+    if(disponiveis.has(letra)){
+      a.href = '#letra-' + letra;
+      a.classList.add('disp');
+    } else {
+      a.href = 'javascript:void(0)';
+      a.classList.add('indisp');
+    }
+    indiceEl.appendChild(a);
+  });
+  letras.forEach(function(l){ l.id = 'letra-' + l.dataset.letra; });
+
+  filtrar();
+})();
+</script>
+
+</body>
+</html>

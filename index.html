@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brasil e o Mundo no Século XX — 9º Ano | História CERO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            font-family: 'Source Serif 4', serif; 
+            /* Degradê invertido: começa mais escuro no topo e clareia levemente na base */
+            background: linear-gradient(to bottom, #0A1930, #0F2A4D, #16406E);
+            min-height: 100vh;
+        }
+        
+        /* Contêiner da grade posicionado apenas no meio da tela */
+        .grade-centralizada {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 896px; /* Limita os quadrados apenas na área central (max-w-4xl) */
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.08;
+            background: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.5) 39px, rgba(255,255,255,0.5) 40px),
+                        repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.5) 39px, rgba(255,255,255,0.5) 40px);
+            background-size: 40px 40px;
+        }
+
+        .font-titulo{ font-family:'Playfair Display', serif; }
+        .bg-brand-azul{ background-color:#123A63; }
+        .text-brand-azul{ color:#123A63; }
+        .bg-brand-cian{ background-color:#3E8ED0; }
+        .text-brand-cian{ color:#8EC5F2; }
+        .border-brand-cian{ border-color:#3E8ED0; }
+
+        /* Estilo da linha pontilhada que serpenteia ao fundo no desktop */
+        @media (min-width: 768px) {
+            .trilha-vertical::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 50%;
+                width: 4px;
+                transform: translateX(-50%);
+                background: repeating-linear-gradient(to bottom, #3E8ED0 0, #3E8ED0 10px, transparent 10px, transparent 20px);
+                z-index: 0;
+                opacity: 0.4;
+            }
+        }
+        /* No mobile a linha fica encostada na esquerda */
+        @media (max-width: 767px) {
+            .trilha-vertical::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 32px;
+                width: 4px;
+                background: repeating-linear-gradient(to bottom, #3E8ED0 0, #3E8ED0 10px, transparent 10px, transparent 20px);
+                z-index: 0;
+                opacity: 0.3;
+            }
+        }
+    </style>
+</head>
+<body class="text-white flex flex-col min-h-screen antialiased selection:bg-[#3E8ED0] selection:text-[#0A1930] relative">
+
+    <!-- Elemento que renderiza os quadrados grandes somente no meio -->
+    <div class="grade-centralizada"></div>
+
+    <!-- Cabeçalho de Apresentação (Hero) integrado -->
+    <section class="text-center pt-16 pb-8 px-4 relative z-10">
+        <div class="max-w-3xl mx-auto">
+            <span class="bg-brand-cian text-[#0A1930] text-[10px] md:text-xs font-bold uppercase px-3 py-1 rounded-full inline-block mb-4 shadow">
+                9º Ano · Ensino Fundamental
+            </span>
+            <h2 class="text-3xl md:text-5xl font-titulo font-extrabold mb-4 leading-tight">
+                Brasil e o Mundo no Século XX
+            </h2>
+            <p class="text-sm md:text-lg text-gray-300 max-w-xl mx-auto font-sans font-light">
+                Toque em uma das estações abaixo para abrir o conteúdo e iniciar sua jornada pela história.
+            </p>
+        </div>
+    </section>
+
+    <!-- Seção da Trilha Serpenteante -->
+    <main class="container mx-auto px-4 py-12 flex-grow max-w-4xl relative z-10">
+        <div class="trilha-vertical relative space-y-12 md:space-y-20">
+
+            <!-- Estação 1 (Esquerda) -->
+            <div class="flex flex-col md:flex-row items-start md:items-center relative z-10 w-full md:w-1/2 mr-auto md:pr-8 md:text-right">
+                <div class="flex items-center gap-4 md:flex-row-reverse w-full">
+                    <a href="tema1.html" target="_blank" class="w-16 h-16 rounded-full bg-[#F6FAFF] border-4 border-[#2E6DA4] flex items-center justify-center text-[#0A1930] font-titulo font-black text-xl shadow-xl flex-none transform hover:scale-110 active:scale-95 transition-all duration-200 ring-4 ring-[#3E8ED0]">
+                        1
+                    </a>
+                    <div class="space-y-1">
+                        <span class="font-sans text-[10px] bg-[#2E6DA4] text-[#DCEBFB] px-2 py-0.5 rounded font-bold tracking-wider uppercase">GO-EF09HI13-A</span>
+                        <h3 class="text-lg font-titulo font-bold text-[#8EC5F2]">
+                            <a href="tema1.html" target="_blank" class="hover:underline">Tema 1 — Totalitarismos e a 2ª Guerra Mundial</a>
+                        </h3>
+                        <p class="text-xs text-gray-300 max-w-sm font-sans font-light">Como fascismo, nazismo, stalinismo e militarismo concentraram o poder absoluto e arrastaram o mundo ao conflito mais destrutivo do século XX.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estação 2 (Direita) -->
+            <div class="flex flex-col md:flex-row items-start md:items-center relative z-10 w-full md:w-1/2 ml-auto md:pl-8">
+                <div class="flex items-center gap-4 w-full">
+                    <a href="tema2.html" target="_blank" class="w-14 h-14 rounded-full bg-[#F6FAFF] border-4 border-[#2E6DA4] flex items-center justify-center text-[#0A1930] font-titulo font-bold text-lg shadow-xl flex-none transform hover:scale-110 active:scale-95 transition-all duration-200 hover:ring-4 hover:ring-[#3E8ED0]/50">
+                        2
+                    </a>
+                    <div class="space-y-1">
+                        <span class="font-sans text-[10px] bg-[#2E6DA4] text-[#DCEBFB] px-2 py-0.5 rounded font-bold tracking-wider uppercase">GO-EF09HI17-A</span>
+                        <h3 class="text-lg font-titulo font-bold text-white">
+                            <a href="tema2.html" target="_blank" class="hover:text-[#8EC5F2] transition-colors">Tema 2 — Populismo e Desenvolvimentismo (1946–1964)</a>
+                        </h3>
+                        <p class="text-xs text-gray-300 max-w-sm font-sans font-light">Entre a queda de Vargas e o golpe de 1964, quase vinte anos de democracia e o debate entre fechar-se para proteger ou abrir-se para acelerar o progresso.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estação 3 (Esquerda) -->
+            <div class="flex flex-col md:flex-row items-start md:items-center relative z-10 w-full md:w-1/2 mr-auto md:pr-8 md:text-right">
+                <div class="flex items-center gap-4 md:flex-row-reverse w-full">
+                    <a href="tema3.html" target="_blank" class="w-14 h-14 rounded-full bg-[#F6FAFF] border-4 border-[#2E6DA4] flex items-center justify-center text-[#0A1930] font-titulo font-bold text-lg shadow-xl flex-none transform hover:scale-110 active:scale-95 transition-all duration-200 hover:ring-4 hover:ring-[#3E8ED0]/50">
+                        3
+                    </a>
+                    <div class="space-y-1">
+                        <span class="font-sans text-[10px] bg-[#2E6DA4] text-[#DCEBFB] px-2 py-0.5 rounded font-bold tracking-wider uppercase">GO-EF09HI19-A</span>
+                        <h3 class="text-lg font-titulo font-bold text-white">
+                            <a href="tema3.html" target="_blank" class="hover:text-[#8EC5F2] transition-colors">Tema 3 — A Ditadura Militar no Brasil (1964–1985)</a>
+                        </h3>
+                        <p class="text-xs text-gray-300 max-w-sm font-sans font-light">21 anos de regime militar — repressão e censura, "milagre econômico", resistência popular e a lenta reabertura democrática.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Rodapé integrado -->
+    <footer class="py-6 text-center text-xs relative z-10 mt-8">
+        <div class="container mx-auto px-4 font-sans opacity-80 space-y-1">
+            <p class="font-medium text-white">Colégio Estadual Rodolfo de Oliveira</p>
+            <p class="text-[11px] text-[#8EC5F2] opacity-70">SEDUC-GO · Material de apoio — uso em sala de aula</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão Geral — Tema 1: Regimes Totalitários e a 2ª Guerra Mundial | CERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fdf4f2;
+    --bg-alt:#f7e0dc;
+    --paper:#fffdff;
+    --ink:#2a1a18;
+    --ink-soft:#5d4642;
+    --verde:#d64545;
+    --verde-dark:#a52f2f;
+    --verde-2:#e8746a;
+    --gold:#c99a1d;
+    --gold-light:#f0d896;
+    --line:#e8d2cc;
+    --shadow:0 10px 30px rgba(58,28,86,.16);
+    --radius:14px;
+    --font-title:'Playfair Display', serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-touch-callout:none;
+    user-select:none;
+  }
+  .selecionavel, main{user-select:text;}
+  .campo-resposta{user-select:text;}
+
+  /* ===== CAPA / GATE ===== */
+  #capa{
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(to bottom, #5c1f1f, #d64545, #e8746a);
+    padding:24px;
+  }
+  #capa .grade-centralizada{
+    position:absolute;
+    top:0; bottom:0; left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:896px;
+    pointer-events:none;
+    z-index:0;
+    opacity:.08;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px);
+    background-size:40px 40px;
+  }
+  .capa-card{
+    position:relative;
+    z-index:1;
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    max-width:480px;
+    width:100%;
+    padding:36px 32px;
+    text-align:center;
+  }
+  .capa-card .tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(31,107,63,.1); padding:5px 12px; border-radius:999px; margin-bottom:14px;
+  }
+  .capa-card h1{font-family:var(--font-title); font-size:1.6rem; margin:0 0 10px; color:var(--verde-dark);}
+  .capa-card p.desc{color:var(--ink-soft); font-size:.94rem; margin:0 0 22px;}
+  .capa-card input{
+    width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:1rem; margin-bottom:14px;
+  }
+  .capa-card button{
+    width:100%; padding:13px; border:none; border-radius:8px;
+    background:var(--verde); color:#fff; font-weight:600; font-size:1rem; cursor:pointer;
+    font-family:var(--font-body); transition:filter .15s ease;
+  }
+  .capa-card button:hover{filter:brightness(1.08);}
+  .capa-aviso{font-size:.78rem; color:#a33; margin-top:8px; display:none;}
+
+  /* ===== APP ===== */
+  #app{display:none;}
+  .sticky-header{
+    position:sticky; top:0; z-index:50;
+    background:var(--verde-dark); color:#eafaf0;
+    padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:8px;
+    font-family:var(--font-mono); font-size:.82rem;
+  }
+  .sticky-header .aluno{font-family:var(--font-body); font-weight:600; font-size:.92rem;}
+  .barra-progresso-trilho{
+    flex:1; min-width:120px; height:8px; background:rgba(255,255,255,.2); border-radius:6px; overflow:hidden; margin:0 14px;
+  }
+  .barra-progresso-fill{height:100%; background:var(--gold); width:0%; transition:width .3s ease;}
+
+  .wrap{max-width:800px; margin:0 auto; padding:32px 24px 60px;}
+
+  header.topo{margin-bottom:28px;}
+  header.topo .hero-tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.72rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(31,107,63,.1); padding:5px 12px; border-radius:999px; margin-bottom:12px;
+  }
+  header.topo h1{font-family:var(--font-title); font-size:clamp(1.5rem,4vw,2rem); margin:0 0 8px; color:var(--ink);}
+  header.topo p.sub{color:var(--ink-soft); margin:0; font-size:.98rem;}
+  header.topo .aluno-info{
+    font-family:var(--font-mono); font-size:.82rem; color:var(--verde-dark);
+    background:var(--bg-alt); display:inline-block; padding:6px 12px; border-radius:8px; margin-top:12px;
+  }
+  .descritor-bar{
+    font-family:var(--font-mono); font-size:.76rem; color:var(--ink-soft);
+    background:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:8px 14px; margin-bottom:14px; display:inline-block;
+  }
+  .ficha-id{
+    display:flex; flex-wrap:wrap; gap:10px 26px;
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; margin-top:12px; font-family:var(--font-mono); font-size:.84rem; color:var(--ink);
+  }
+  .ficha-id span b{color:var(--verde-dark);}
+
+  /* ===== TEXTO DE APOIO ===== */
+  .texto-apoio{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:28px 30px; margin-bottom:30px;
+  }
+  .texto-apoio h2{font-family:var(--font-title); font-size:1.25rem; color:var(--verde-dark); margin:0 0 4px;}
+  .texto-apoio .fonte-tag{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-bottom:16px; display:block;}
+  .texto-apoio p{margin:0 0 14px; color:var(--ink);}
+  .texto-apoio p:last-of-type{margin-bottom:0;}
+
+  .referencia-box{
+    margin-top:20px; padding:14px 16px;
+    background:var(--bg-alt); border-left:3px solid var(--gold); border-radius:0 8px 8px 0;
+  }
+  .referencia-box .rot{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--verde-dark); display:block; margin-bottom:6px;
+  }
+  .referencia-box p{margin:0 0 6px; font-size:.86rem; color:var(--ink-soft); font-family:var(--font-mono); line-height:1.6;}
+  .referencia-box p:last-child{margin-bottom:0;}
+
+  .documento-fonte{
+    background:var(--bg-alt);
+    border-left:3px solid var(--verde);
+    border-radius:0 8px 8px 0;
+    padding:16px 20px;
+    margin:16px 0;
+  }
+  .documento-fonte ul{margin:0; padding-left:20px;}
+  .documento-fonte li{margin-bottom:12px; font-style:italic; color:var(--ink);}
+  .documento-fonte li:last-child{margin-bottom:0;}
+
+  /* ===== QUESTOES ===== */
+  .questoes-titulo{
+    font-family:var(--font-title); font-size:1.2rem; color:var(--verde-dark);
+    margin:0 0 18px; display:flex; align-items:center; gap:10px;
+  }
+  .questao{
+    background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; margin-bottom:18px;
+  }
+  .questao .num-q{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:50%; background:var(--verde);
+    color:#fff; font-family:var(--font-mono); font-size:.78rem; margin-right:8px; flex-shrink:0;
+  }
+  .questao .enunciado{font-weight:600; color:var(--ink); margin-bottom:12px; display:flex; align-items:flex-start;}
+  .questao textarea{
+    width:100%; min-height:100px; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:.96rem; resize:vertical; color:var(--ink);
+  }
+  .questao textarea:focus{outline:2px solid var(--verde-2); outline-offset:1px;}
+  .contador-chars{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-top:6px; text-align:right;}
+
+  .subitem{margin-top:16px;}
+  .subitem:first-of-type{margin-top:14px;}
+  .subitem-label{display:block; font-weight:600; color:var(--ink); margin-bottom:8px; font-size:.94rem;}
+
+  /* ===== OPCOES (OBJETIVAS) ===== */
+  .opcao{
+    display:flex; gap:12px; align-items:flex-start;
+    padding:12px 14px; border:1.5px solid var(--line); border-radius:8px;
+    margin-bottom:8px; cursor:pointer; transition:all .15s ease; background:var(--paper);
+  }
+  .opcao:hover{border-color:var(--verde); background:var(--bg-alt);}
+  .opcao.sel{border-color:var(--verde); background:var(--bg-alt);}
+  .opcao.correta{border-color:var(--verde-2); background:#e9faf0;}
+  .opcao.errada{border-color:#c0392b; background:#fdeeee;}
+  .opcao.travada{cursor:default;}
+  .opcao-letra{
+    flex:0 0 auto; width:26px; height:26px; border-radius:50%;
+    background:var(--bg-alt); color:var(--ink-soft);
+    font-family:var(--font-mono); font-weight:700; font-size:.78rem;
+    display:flex; align-items:center; justify-content:center; transition:all .15s ease;
+  }
+  .opcao.sel .opcao-letra{background:var(--verde); color:#fff;}
+  .opcao.correta .opcao-letra{background:var(--verde-2); color:#fff;}
+  .opcao.errada .opcao-letra{background:#c0392b; color:#fff;}
+  .opcao-txt{font-size:.94rem; color:var(--ink); line-height:1.6; padding-top:2px;}
+  .opcao-marca{margin-left:auto; font-size:1rem; align-self:center; display:none; flex:0 0 auto;}
+  .gabarito-info{
+    display:none; margin-top:12px; padding:12px 16px;
+    background:#f7f1e3; border:1px solid var(--gold-light); border-radius:8px;
+    font-size:.88rem; color:#5c4415;
+  }
+  .gabarito-info.show{display:block;}
+  .gabarito-info b{color:#8a6f2f;}
+  .questao .badge-resultado{
+    display:none; font-family:var(--font-mono); font-size:.68rem; font-weight:700;
+    padding:2px 10px; border-radius:20px; margin-left:8px; color:#fff;
+  }
+  .questao .badge-resultado.ok{display:inline-block; background:var(--verde-2);}
+  .questao .badge-resultado.no{display:inline-block; background:#c0392b;}
+
+  .comentario-prof{
+    display:none; margin-top:14px; padding:14px 16px;
+    background:#eaf6ee; border:1px solid #bfe3c8; border-radius:8px; font-size:.9rem; color:var(--verde-dark);
+  }
+  .comentario-prof.show{display:block;}
+  .comentario-prof b{display:block; margin-bottom:4px; font-family:var(--font-title); font-size:.92rem;}
+
+  /* ===== ALERTA / FINALIZAR ===== */
+  .alerta-incompleto{
+    display:none; background:#fdf3e2; border:1px solid #f1d9a6; color:#8a5a10;
+    padding:12px 16px; border-radius:8px; font-size:.9rem; margin-bottom:16px;
+  }
+  .alerta-incompleto.show{display:block;}
+
+  .acoes-finais{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;}
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:.94rem; padding:12px 22px;
+    border-radius:8px; border:none; cursor:pointer; transition:filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn-primario{background:var(--verde); color:#fff;}
+  .btn-secundario{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn-pdf{background:var(--gold); color:#fff;}
+  .btn[disabled]{opacity:.5; cursor:not-allowed;}
+
+  /* ===== POPUP ===== */
+  .popup-overlay{
+    display:none; position:fixed; inset:0; background:rgba(42,20,64,.6);
+    align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .popup-overlay.show{display:flex;}
+  .popup-card{
+    background:var(--paper); border-radius:var(--radius); box-shadow:var(--shadow);
+    max-width:420px; width:100%; padding:32px 28px; text-align:center;
+  }
+  .popup-card .emoji{font-size:2.4rem; margin-bottom:10px;}
+  .popup-card h3{font-family:var(--font-title); margin:0 0 8px; color:var(--verde-dark);}
+  .popup-card p{color:var(--ink-soft); font-size:.94rem; margin:0 0 20px;}
+
+  footer.rodape{text-align:center; padding:24px; color:var(--ink-soft); font-family:var(--font-mono); font-size:.8rem;}
+
+  @media (max-width:600px){
+    .wrap{padding:24px 16px 50px;}
+    .texto-apoio, .questao{padding:18px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== CAPA ===== -->
+<div id="capa">
+  <div class="grade-centralizada"></div>
+  <div class="capa-card">
+    <span class="tag">9º ano · História · CERO</span>
+    <h1>Revisão Geral — Tema 1</h1>
+    <p class="desc">Regimes Totalitários e a 2ª Guerra Mundial. Textos de revisão, 10 questões dissertativas e 10 questões objetivas. Preencha os dados para começar.</p>
+    <input type="text" id="nome-aluno" placeholder="Seu nome completo">
+    <input type="text" id="turma-aluno" placeholder="Turma (ex.: 9º A)">
+    <button onclick="iniciarAtividade()">Iniciar atividade</button>
+    <div class="capa-aviso" id="capa-aviso">Por favor, digite seu nome para continuar.</div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+  <div class="sticky-header">
+    <span class="aluno" id="header-nome"></span>
+    <div class="barra-progresso-trilho"><div class="barra-progresso-fill" id="barra-fill"></div></div>
+    <span id="contador-geral">Respondidas: 0/20</span>
+  </div>
+
+  <div class="wrap">
+    <header class="topo selecionavel">
+      <span class="descritor-bar">História / 9º Ano do Ensino Fundamental &nbsp;|&nbsp; (GO-EF09HI13-A) – Totalitarismo e 2ª Guerra Mundial</span>
+      <span class="hero-tag" style="display:block; margin-top:10px;">Revisão Geral do Tema</span>
+      <h1>Revisão Geral — Tema 1</h1>
+      <p class="sub">Revise cada tópico abaixo e responda às 10 questões dissertativas e às 10 questões objetivas.</p>
+      <div class="ficha-id" id="ficha-id">
+        <span><b>NOME:</b> <span id="ficha-nome"></span></span>
+        <span><b>DATA:</b> <span id="ficha-data"></span></span>
+        <span><b>TURMA:</b> <span id="ficha-turma"></span></span>
+      </div>
+    </header>
+
+    <main>
+      <h2 class="questoes-titulo">✍️ Revisão e Questões Dissertativas</h2>
+
+      <section class="texto-apoio selecionavel">
+        <h2>1. O Conceito de Totalitarismo</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Totalitarismo é o regime político em que o Estado busca controlar todas as esferas da vida social, econômica e cultural, suprimindo as liberdades individuais. Os quatro regimes totalitários estudados neste tema — fascismo italiano, nazismo alemão, stalinismo soviético e militarismo japonês — tinham ideologias diferentes, mas compartilhavam esse mesmo projeto de controle absoluto sobre a sociedade: partido único, culto ao líder e supressão das liberdades.</p>
+      </section>
+
+      <div class="questao" data-questao="1">
+        <div class="enunciado"><span class="num-q">1</span> Explique, com suas palavras, o que é um regime totalitário. Cite pelo menos duas características que os quatro regimes estudados neste tema tinham em comum.</div>
+        <textarea id="resp-1" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno defina totalitarismo como o regime em que o Estado controla todas as esferas da vida social, econômica e cultural, suprimindo liberdades individuais, e cite características comuns como partido único, culto ao líder, uso da propaganda e supressão de liberdades.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>2. O Contexto de Ascensão</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Os regimes totalitários não surgiram do nada: se aproveitaram de crises profundas que as democracias liberais não conseguiram resolver. A herança humilhante do Tratado de Versalhes, a Crise de 1929 (com desemprego em massa) e o medo do comunismo, após a Revolução Russa de 1917, se somaram para abrir caminho ao autoritarismo na Europa.</p>
+      </section>
+
+      <div class="questao" data-questao="2">
+        <div class="enunciado"><span class="num-q">2</span> Cite as três crises que abriram caminho para o totalitarismo na Europa após a Primeira Guerra Mundial, e explique brevemente uma delas.</div>
+        <textarea id="resp-2" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno cite a herança humilhante do Tratado de Versalhes, a Crise de 1929 e o medo do comunismo como as três crises, explicando brevemente como uma delas minou a confiança nos governos liberais.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>3. O Fascismo Italiano</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Criado por Benito Mussolini a partir de 1922, o fascismo pregava a superioridade do Estado sobre o indivíduo, resumida no lema "Tudo pelo Estado, nada fora do Estado, nada contra o Estado". Depois da Marcha sobre Roma (1922), Mussolini — o Duce — extinguiu os partidos de oposição e organizou patrões e trabalhadores em "corporações" sob supervisão estatal.</p>
+      </section>
+
+      <div class="questao" data-questao="3">
+        <div class="enunciado"><span class="num-q">3</span> O que foi a Marcha sobre Roma e qual foi sua consequência imediata para Mussolini? O que o lema "Tudo pelo Estado" revela sobre a relação entre indivíduo e Estado no fascismo?</div>
+        <textarea id="resp-3" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique que a Marcha sobre Roma foi a mobilização de esquadrões fascistas que pressionou o rei Vítor Emanuel III a convocar Mussolini como primeiro-ministro, e que o lema revela a superioridade do Estado sobre o indivíduo.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>4. O Nazismo Alemão</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Liderado por Adolf Hitler a partir de 1933, o nazismo colocou o racismo de Estado no centro de sua ideologia, culpando judeus, comunistas e as potências vencedoras pela derrota alemã na Primeira Guerra. Em 1935, as Leis de Nuremberg retiraram a cidadania dos judeus alemães — o primeiro passo institucional rumo ao Holocausto.</p>
+      </section>
+
+      <div class="questao" data-questao="4">
+        <div class="enunciado"><span class="num-q">4</span> Como o nazismo usou o racismo como base ideológica de seu projeto político? Cite um exemplo institucional (uma lei ou medida) que comprove essa afirmação.</div>
+        <textarea id="resp-4" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique que o nazismo culpava os judeus pela derrota alemã e pela crise econômica, e cite as Leis de Nuremberg (1935), que retiraram a cidadania dos judeus alemães, como exemplo institucional desse racismo de Estado.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>5. Pangermanismo e Espaço Vital</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>A ideologia nazista combinava dois conceitos centrais: o Pangermanismo, a ideia de unir todos os territórios europeus de população de origem alemã, e o Lebensraum ("espaço vital"), a crença de que povos considerados "inferiores" deveriam ser dominados para que a "raça ariana" pudesse se expandir, principalmente no Leste Europeu.</p>
+      </section>
+
+      <div class="questao" data-questao="5">
+        <div class="enunciado"><span class="num-q">5</span> Diferencie os conceitos de Pangermanismo e Lebensraum (Espaço Vital), explicando como os dois se relacionam com o projeto de expansão territorial nazista.</div>
+        <textarea id="resp-5" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno diferencie o Pangermanismo (unir territórios de população alemã) do Lebensraum (dominar povos "inferiores" para abrir espaço à expansão ariana), explicando que os dois se somam para justificar a conquista territorial.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>6. O Stalinismo na União Soviética</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Após a morte de Lênin em 1924, Josef Stálin consolidou um regime de partido único marcado por planejamento econômico centralizado e coletivização forçada da agricultura. Qualquer suspeita de oposição podia levar aos Gulags (campos de trabalho forçado) ou aos Expurgos, julgamentos forjados contra opositores.</p>
+      </section>
+
+      <div class="questao" data-questao="6">
+        <div class="enunciado"><span class="num-q">6</span> Cite duas características do regime stalinista que o aproximam dos regimes de extrema-direita (fascismo e nazismo), mesmo partindo de uma ideologia oposta.</div>
+        <textarea id="resp-6" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno cite características como partido único, perseguição a opositores (Gulags, Expurgos), culto à personalidade e censura, mostrando que o totalitarismo não é exclusividade de um único lado político.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>7. O Militarismo Japonês</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Na Ásia, o poder militar japonês assumiu cada vez mais o controle do governo, sempre em nome do imperador Hirohito, tratado pela propaganda oficial como uma figura quase divina. O expansionismo japonês levou à invasão da Manchúria (1931) e da China; em 1940, Japão, Alemanha e Itália formaram oficialmente o Eixo.</p>
+      </section>
+
+      <div class="questao" data-questao="7">
+        <div class="enunciado"><span class="num-q">7</span> Explique de que forma o culto ao imperador Hirohito e o expansionismo militar se combinaram no militarismo japonês. Cite um território invadido pelo Japão nesse processo.</div>
+        <textarea id="resp-7" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique que o poder militar governava em nome do imperador Hirohito, tratado como figura quase divina, justificando a expansão pela necessidade de matérias-primas e mercados — e cite a Manchúria ou a China.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>8. Expansionismo e o Caminho até a Guerra</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Entre 1931 e 1939, uma sequência de agressões territoriais foi tolerada pelas potências democráticas, numa política conhecida como apaziguamento — como na Conferência de Munique (1938). Essa hesitação deu tempo e confiança para que os regimes totalitários avançassem, até a invasão da Polônia, em setembro de 1939, dar início à guerra.</p>
+      </section>
+
+      <div class="questao" data-questao="8">
+        <div class="enunciado"><span class="num-q">8</span> O que foi a política de apaziguamento praticada por Reino Unido e França nos anos 1930? Ela ajudou a evitar ou a facilitar o avanço dos regimes totalitários? Justifique com um exemplo.</div>
+        <textarea id="resp-8" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique o apaziguamento como a tolerância às exigências territoriais de Hitler (como na Conferência de Munique), argumentando que essa política deu tempo e confiança ao avanço totalitário, em vez de conter a guerra.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>9. Como as Ideologias Guiaram o Conflito</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>A Segunda Guerra Mundial não foi apenas uma disputa por território: as ideologias totalitárias definiram como a guerra foi travada. A Operação Barbarossa (1941) foi conduzida como uma "guerra de extermínio" contra os povos eslavos; nos territórios ocupados, a perseguição aos judeus culminou na chamada "Solução Final".</p>
+      </section>
+
+      <div class="questao" data-questao="9">
+        <div class="enunciado"><span class="num-q">9</span> Explique por que os historiadores afirmam que a ideologia nazista "guiou" a Segunda Guerra Mundial, e não apenas a acompanhou. Use a Operação Barbarossa ou a "Solução Final" para justificar.</div>
+        <textarea id="resp-9" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique que as ideologias totalitárias definiram como a guerra foi travada — a Operação Barbarossa como "guerra de extermínio" contra povos eslavos, e a "Solução Final" como o plano de assassinato em massa de judeus.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>10. A Queda dos Regimes Totalitários</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>O fim da guerra, em 1945, encerrou o ciclo do fascismo, do nazismo e do militarismo japonês — mas não do totalitarismo como fenômeno histórico, já que o stalinismo saiu fortalecido e deu início à Guerra Fria. Os líderes fascistas e nazistas sobreviventes foram julgados no Tribunal de Nuremberg (1945–1946), que consagrou o conceito de "crimes contra a humanidade".</p>
+      </section>
+
+      <div class="questao" data-questao="10">
+        <div class="enunciado"><span class="num-q">10</span> Compare o destino do fascismo e do nazismo, ao final da guerra, com o destino do stalinismo. Por que se diz que a União Soviética foi "a exceção" entre os regimes totalitários no pós-guerra?</div>
+        <textarea id="resp-10" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique que Itália, Alemanha e Japão tiveram seus regimes derrotados militarmente em 1945, enquanto a União Soviética, apesar de também totalitária, lutou ao lado dos Aliados e saiu da guerra fortalecida, dando início à Guerra Fria.
+        </div>
+      </div>
+
+      <h2 class="questoes-titulo">📝 Questões Objetivas</h2>
+      <div class="questao objetiva" data-questao="obj-1" data-correta="2">
+        <div class="enunciado"><span class="num-q">1</span> O que caracteriza, de forma geral, um regime totalitário, segundo o conceito estudado no Tema 1? <span class="badge-resultado" id="badge-obj-1"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(1,0)"><div class="opcao-letra">A</div><div class="opcao-txt">Um governo eleito democraticamente, com liberdade para a organização de vários partidos políticos.</div><div class="opcao-marca" id="marca-1-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(1,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Um sistema econômico liberal, baseado exclusivamente na livre iniciativa e sem qualquer intervenção do Estado.</div><div class="opcao-marca" id="marca-1-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(1,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Um Estado que controla as esferas social, econômica e cultural da vida, suprimindo liberdades individuais.</div><div class="opcao-marca" id="marca-1-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(1,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Um regime militar temporário, formado apenas para administrar uma única crise econômica pontual.</div><div class="opcao-marca" id="marca-1-3"></div></div>
+        <div class="gabarito-info" id="gab-1"><b>Gabarito: C.</b> Totalitarismo é o regime em que o Estado busca controlar todas as esferas da vida social, econômica e cultural, suprimindo as liberdades individuais.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-2" data-correta="1">
+        <div class="enunciado"><span class="num-q">2</span> Quais foram as três crises que, somadas, abriram caminho para a ascensão dos regimes totalitários na Europa? <span class="badge-resultado" id="badge-obj-2"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(2,0)"><div class="opcao-letra">A</div><div class="opcao-txt">A independência das colônias africanas, a Guerra da Criméia e o processo de unificação do território alemão.</div><div class="opcao-marca" id="marca-2-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(2,1)"><div class="opcao-letra">B</div><div class="opcao-txt">A herança humilhante de Versalhes, a Crise de 1929 e o medo do comunismo após a Revolução Russa de 1917.</div><div class="opcao-marca" id="marca-2-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(2,2)"><div class="opcao-letra">C</div><div class="opcao-txt">A Revolução Industrial inglesa, o Congresso de Viena de 1815 e a Guerra Franco-Prussiana de 1870.</div><div class="opcao-marca" id="marca-2-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(2,3)"><div class="opcao-letra">D</div><div class="opcao-txt">A Grande Depressão americana de 1893, a Guerra Civil Espanhola e a Revolução Chinesa de 1949.</div><div class="opcao-marca" id="marca-2-3"></div></div>
+        <div class="gabarito-info" id="gab-2"><b>Gabarito: B.</b> O Tratado de Versalhes (percebido como humilhante pela Alemanha), a Crise de 1929 e o medo do comunismo, após a Revolução Russa, se somaram para minar a confiança nas democracias liberais europeias.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-3" data-correta="3">
+        <div class="enunciado"><span class="num-q">3</span> O que foi a "Marcha sobre Roma", em outubro de 1922? <span class="badge-resultado" id="badge-obj-3"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(3,0)"><div class="opcao-letra">A</div><div class="opcao-txt">Uma manifestação pacífica organizada por trabalhadores italianos pedindo reformas trabalhistas ao governo liberal.</div><div class="opcao-marca" id="marca-3-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(3,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Um desfile militar oficial promovido pelo rei Vítor Emanuel III para comemorar o fim da Primeira Guerra Mundial.</div><div class="opcao-marca" id="marca-3-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(3,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Uma peregrinação religiosa realizada todos os anos pela Igreja Católica na capital italiana, Roma.</div><div class="opcao-marca" id="marca-3-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(3,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Uma mobilização de esquadrões fascistas, os Camisas Negras, que pressionou o rei a convocar Mussolini.</div><div class="opcao-marca" id="marca-3-3"></div></div>
+        <div class="gabarito-info" id="gab-3"><b>Gabarito: D.</b> Na Marcha sobre Roma, esquadrões conhecidos como Camisas Negras ocuparam pontos estratégicos do país e marcharam rumo à capital, pressionando o rei Vítor Emanuel III a convocar Mussolini para primeiro-ministro.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-4" data-correta="0">
+        <div class="enunciado"><span class="num-q">4</span> As Leis de Nuremberg (1935) são um exemplo de como o nazismo transformou o racismo em política de Estado. O que essas leis estabeleceram? <span class="badge-resultado" id="badge-obj-4"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(4,0)"><div class="opcao-letra">A</div><div class="opcao-txt">Retiraram a cidadania dos judeus alemães e proibiram seu convívio com os chamados "arianos puros".</div><div class="opcao-marca" id="marca-4-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(4,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Concediam cidadania plena e igualitária a todos os habitantes do território alemão, sem qualquer distinção.</div><div class="opcao-marca" id="marca-4-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(4,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Criavam um sistema de cotas para garantir a representação de minorias étnicas no Parlamento alemão.</div><div class="opcao-marca" id="marca-4-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(4,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Estabeleciam a liberdade religiosa plena como princípio fundamental do novo Estado nazista.</div><div class="opcao-marca" id="marca-4-3"></div></div>
+        <div class="gabarito-info" id="gab-4"><b>Gabarito: A.</b> As Leis de Nuremberg retiraram a cidadania dos judeus alemães e proibiram seu convívio com "arianos puros" — o primeiro passo institucional rumo às perseguições que culminariam no Holocausto.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-5" data-correta="2">
+        <div class="enunciado"><span class="num-q">5</span> O conceito nazista de Lebensraum ("espaço vital") estava relacionado a qual ideia? <span class="badge-resultado" id="badge-obj-5"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(5,0)"><div class="opcao-letra">A</div><div class="opcao-txt">À construção de espaços públicos de lazer, esporte e convivência nas grandes cidades alemãs, promovendo o bem-estar coletivo.</div><div class="opcao-marca" id="marca-5-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(5,1)"><div class="opcao-letra">B</div><div class="opcao-txt">À criação de reservas florestais protegidas em todo o território alemão.</div><div class="opcao-marca" id="marca-5-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(5,2)"><div class="opcao-letra">C</div><div class="opcao-txt">À dominação de povos "inferiores" para abrir espaço de expansão à "raça ariana" no Leste Europeu.</div><div class="opcao-marca" id="marca-5-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(5,3)"><div class="opcao-letra">D</div><div class="opcao-txt">À redução do território alemão como forma de pagar as indenizações da Primeira Guerra.</div><div class="opcao-marca" id="marca-5-3"></div></div>
+        <div class="gabarito-info" id="gab-5"><b>Gabarito: C.</b> O Lebensraum era a crença de que os povos considerados "inferiores" deveriam ser dominados, garantindo território — principalmente no Leste Europeu — para que a "raça ariana" pudesse se expandir.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-6" data-correta="1">
+        <div class="enunciado"><span class="num-q">6</span> Qual alternativa descreve corretamente uma característica do regime stalinista? <span class="badge-resultado" id="badge-obj-6"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(6,0)"><div class="opcao-letra">A</div><div class="opcao-txt">A livre organização de múltiplos partidos políticos, incluindo partidos de oposição ao comunismo soviético.</div><div class="opcao-marca" id="marca-6-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(6,1)"><div class="opcao-letra">B</div><div class="opcao-txt">A existência de Gulags, campos de trabalho forçado para onde eram enviados suspeitos de oposição.</div><div class="opcao-marca" id="marca-6-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(6,2)"><div class="opcao-letra">C</div><div class="opcao-txt">A ausência total de controle estatal sobre a economia, que era regulada apenas pelas forças de mercado.</div><div class="opcao-marca" id="marca-6-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(6,3)"><div class="opcao-letra">D</div><div class="opcao-txt">A garantia constitucional plena de liberdade de imprensa para todos os cidadãos da União Soviética.</div><div class="opcao-marca" id="marca-6-3"></div></div>
+        <div class="gabarito-info" id="gab-6"><b>Gabarito: B.</b> Qualquer suspeita de oposição ao regime stalinista era suficiente para que a pessoa fosse enviada aos Gulags, campos de trabalho forçado, muitos deles na Sibéria.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-7" data-correta="3">
+        <div class="enunciado"><span class="num-q">7</span> No militarismo japonês, a expansão territorial na Ásia era justificada, sobretudo, pela necessidade de: <span class="badge-resultado" id="badge-obj-7"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(7,0)"><div class="opcao-letra">A</div><div class="opcao-txt">Reduzir a densidade populacional do próprio arquipélago japonês, considerado pequeno demais para sua população.</div><div class="opcao-marca" id="marca-7-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(7,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Cumprir acordos comerciais bilaterais assinados anteriormente entre Japão e China.</div><div class="opcao-marca" id="marca-7-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(7,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Estabelecer bases navais estratégicas para proteger antigas rotas de peregrinação religiosa.</div><div class="opcao-marca" id="marca-7-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(7,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Obter matérias-primas e mercados para a indústria japonesa, sob o culto ao imperador Hirohito.</div><div class="opcao-marca" id="marca-7-3"></div></div>
+        <div class="gabarito-info" id="gab-7"><b>Gabarito: D.</b> O regime combinava disciplina militar extrema, culto ao imperador Hirohito e um projeto de expansão territorial justificado pela necessidade de matérias-primas e mercados para a indústria japonesa.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-8" data-correta="0">
+        <div class="enunciado"><span class="num-q">8</span> O que foi a política de "apaziguamento", praticada por Reino Unido e França nos anos 1930? <span class="badge-resultado" id="badge-obj-8"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(8,0)"><div class="opcao-letra">A</div><div class="opcao-txt">A tolerância às exigências territoriais de Hitler, como na Conferência de Munique, para evitar a guerra.</div><div class="opcao-marca" id="marca-8-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(8,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Um acordo militar conjunto entre várias potências para invadir a Alemanha antes que ela pudesse se rearmar por completo.</div><div class="opcao-marca" id="marca-8-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(8,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Uma aliança militar formal entre França, Reino Unido e União Soviética contra o fascismo italiano.</div><div class="opcao-marca" id="marca-8-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(8,3)"><div class="opcao-letra">D</div><div class="opcao-txt">O boicote comercial total e imediato à Alemanha nazista, decretado logo em 1933.</div><div class="opcao-marca" id="marca-8-3"></div></div>
+        <div class="gabarito-info" id="gab-8"><b>Gabarito: A.</b> O apaziguamento foi a tolerância às exigências territoriais de Hitler — como na Conferência de Munique —, o que acabou dando tempo e confiança para o avanço totalitário.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-9" data-correta="2">
+        <div class="enunciado"><span class="num-q">9</span> A tática alemã de "guerra-relâmpago" (Blitzkrieg), usada na invasão da Polônia em 1939, se baseava em quê? <span class="badge-resultado" id="badge-obj-9"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(9,0)"><div class="opcao-letra">A</div><div class="opcao-txt">Longos cercos prolongados a cidades fortificadas, realizados sem qualquer uso de forças aéreas.</div><div class="opcao-marca" id="marca-9-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(9,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Negociações diplomáticas discretas, seguidas de ocupação pacífica dos territórios vizinhos.</div><div class="opcao-marca" id="marca-9-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(9,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Ataques rápidos de tanques, aviação e infantaria, ocupando o território em sequência coordenada.</div><div class="opcao-marca" id="marca-9-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(9,3)"><div class="opcao-letra">D</div><div class="opcao-txt">O uso quase exclusivo de submarinos alemães para bloquear os principais portos dos países inimigos próximos.</div><div class="opcao-marca" id="marca-9-3"></div></div>
+        <div class="gabarito-info" id="gab-9"><b>Gabarito: C.</b> Na Blitzkrieg, tanques (Panzers) e aviação (Luftwaffe) abriam caminho, e depois a infantaria ocupava o território — foi assim que a Alemanha dominou a Polônia rapidamente.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-10" data-correta="1">
+        <div class="enunciado"><span class="num-q">10</span> Por que a União Soviética é considerada "a exceção" entre os regimes totalitários no desfecho da Segunda Guerra Mundial? <span class="badge-resultado" id="badge-obj-10"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(10,0)"><div class="opcao-letra">A</div><div class="opcao-txt">Porque foi o único regime totalitário que aboliu voluntariamente o partido único antes do fim da guerra.</div><div class="opcao-marca" id="marca-10-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(10,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Porque, diferente de Itália, Alemanha e Japão, o stalinismo saiu fortalecido da guerra e iniciou a Guerra Fria.</div><div class="opcao-marca" id="marca-10-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(10,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Porque Stálin foi deposto de seu cargo e julgado no Tribunal de Nuremberg, assim como os nazistas.</div><div class="opcao-marca" id="marca-10-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(10,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Porque a URSS se rendeu formalmente aos Aliados em 1945, encerrando também seu próprio regime totalitário interno no país.</div><div class="opcao-marca" id="marca-10-3"></div></div>
+        <div class="gabarito-info" id="gab-10"><b>Gabarito: B.</b> Diferente dos regimes do Eixo, o stalinismo não caiu com a guerra — saiu fortalecido, controlando boa parte do Leste Europeu e dando início à Guerra Fria, com Stálin no poder até 1953.</div>
+      </div>
+
+      <div class="alerta-incompleto" id="alerta-incompleto">
+        ⚠️ Ainda há questões incompletas (dissertativas com o mínimo de caracteres e todas as 10 objetivas marcadas). Revise antes de finalizar.
+      </div>
+
+      <div class="acoes-finais">
+        <button class="btn btn-primario" onclick="finalizarAtividade()">Finalizar e corrigir</button>
+        <button class="btn btn-secundario" onclick="refazerAtividade()">Refazer</button>
+        <button class="btn btn-pdf" onclick="exportarPDF()">Exportar em PDF</button>
+      </div>
+    </main>
+  </div>
+
+  <footer class="rodape">Colégio Estadual Rodolfo de Oliveira · CERO · 2026</footer>
+</div>
+
+<!-- ===== POPUP ===== -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-card">
+    <div class="emoji">🎉</div>
+    <h3>Atividade concluída!</h3>
+    <p id="popup-nota" style="font-family:var(--font-mono); font-weight:700; color:var(--verde-dark); font-size:1rem; margin:0 0 12px;"></p>
+    <p>Suas respostas foram registradas. Os comentários do professor e o gabarito comentado já estão disponíveis abaixo de cada questão para você comparar com o que escreveu.</p>
+    <button class="btn btn-primario" onclick="fecharPopup()">Continuar</button>
+  </div>
+</div>
+
+<script>
+/* ===== GATE DE NOME ===== */
+function iniciarAtividade(){
+  const nome = document.getElementById('nome-aluno').value.trim();
+  const turma = document.getElementById('turma-aluno').value.trim();
+  const aviso = document.getElementById('capa-aviso');
+  if(!nome){
+    aviso.style.display = 'block';
+    return;
+  }
+  aviso.style.display = 'none';
+  const hoje = new Date();
+  const dataFormatada = String(hoje.getDate()).padStart(2,'0') + '/' + String(hoje.getMonth()+1).padStart(2,'0') + '/' + hoje.getFullYear();
+  document.getElementById('header-nome').textContent = nome;
+  document.getElementById('ficha-nome').textContent = nome;
+  document.getElementById('ficha-data').textContent = dataFormatada;
+  document.getElementById('ficha-turma').textContent = turma || '—';
+  document.getElementById('capa').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+/* ===== CONTADOR DE CARACTERES E PROGRESSO ===== */
+const textareas = document.querySelectorAll('textarea.dissertativa');
+const TOTAL_OBJ = 10;
+let respMC = {};
+let corrigido = false;
+
+function marcarOpcao(num, idx){
+  if (corrigido) return;
+  respMC[num] = idx;
+  const questaoEl = document.querySelector('.questao[data-questao="obj-' + num + '"]');
+  questaoEl.querySelectorAll('.opcao').forEach(function(op){
+    op.classList.toggle('sel', parseInt(op.dataset.idx,10) === idx);
+  });
+  atualizarProgresso();
+}
+
+function atualizarProgresso(){
+  let respondidas = 0;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length >= min) respondidas++;
+  });
+  respondidas += Object.keys(respMC).length;
+  const total = textareas.length + TOTAL_OBJ;
+  document.getElementById('contador-geral').textContent = 'Respondidas: ' + respondidas + '/' + total;
+  document.getElementById('barra-fill').style.width = (respondidas / total * 100) + '%';
+}
+
+textareas.forEach(function(t){
+  const contadorEl = t.parentElement.querySelector('.contador-chars');
+  const min = parseInt(t.dataset.min, 10);
+  t.addEventListener('input', function(){
+    contadorEl.textContent = t.value.length + ' caracteres (mínimo ' + min + ')';
+    atualizarProgresso();
+  });
+});
+
+/* ===== FINALIZAR ===== */
+function finalizarAtividade(){
+  let completo = true;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length < min) completo = false;
+  });
+  for(let n=1; n<=TOTAL_OBJ; n++){
+    if(respMC[n] === undefined) completo = false;
+  }
+
+  const alerta = document.getElementById('alerta-incompleto');
+  if(!completo){
+    alerta.classList.add('show');
+    alerta.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  alerta.classList.remove('show');
+
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.add('show');
+  });
+
+  corrigido = true;
+  let acertos = 0;
+  document.querySelectorAll('.questao.objetiva').forEach(function(qEl){
+    const num = qEl.dataset.questao.replace('obj-','');
+    const correta = parseInt(qEl.dataset.correta, 10);
+    const escolha = respMC[num];
+    const acertou = escolha === correta;
+    if(acertou) acertos++;
+    qEl.querySelectorAll('.opcao').forEach(function(op){
+      const idx = parseInt(op.dataset.idx, 10);
+      op.classList.add('travada');
+      if(idx === correta){ op.classList.add('correta'); document.getElementById('marca-'+num+'-'+idx).textContent='✓'; document.getElementById('marca-'+num+'-'+idx).style.display='block'; }
+      if(idx === escolha && !acertou){ op.classList.add('errada'); document.getElementById('marca-'+num+'-'+idx).textContent='✗'; document.getElementById('marca-'+num+'-'+idx).style.display='block'; }
+    });
+    document.getElementById('gab-'+num).classList.add('show');
+    const badge = document.getElementById('badge-obj-'+num);
+    badge.textContent = acertou ? '✓ Acertou' : '✗ Errou';
+    badge.className = 'badge-resultado ' + (acertou ? 'ok' : 'no');
+  });
+  window.__acertos = acertos;
+
+  const pct = Math.round(acertos/TOTAL_OBJ*100);
+  document.getElementById('popup-nota').textContent = acertos + '/' + TOTAL_OBJ + ' nas objetivas (' + pct + '%)';
+  document.getElementById('popup-overlay').classList.add('show');
+}
+
+function fecharPopup(){
+  document.getElementById('popup-overlay').classList.remove('show');
+}
+
+function refazerAtividade(){
+  textareas.forEach(function(t){
+    t.value = '';
+    t.parentElement.querySelector('.contador-chars').textContent = '0 caracteres (mínimo ' + t.dataset.min + ')';
+  });
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.remove('show');
+  });
+  document.querySelectorAll('.opcao').forEach(function(op){
+    op.classList.remove('sel','correta','errada','travada');
+  });
+  document.querySelectorAll('.opcao-marca').forEach(function(m){ m.style.display='none'; m.textContent=''; });
+  document.querySelectorAll('.gabarito-info').forEach(function(g){ g.classList.remove('show'); });
+  document.querySelectorAll('.badge-resultado').forEach(function(b){ b.textContent=''; b.className='badge-resultado'; });
+  respMC = {};
+  corrigido = false;
+  document.getElementById('alerta-incompleto').classList.remove('show');
+  atualizarProgresso();
+  window.scrollTo(0,0);
+}
+
+/* ===== EXPORTAR PDF ===== */
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+function esc(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML.replace(/\n/g, '<br>');
+}
+
+async function exportarPDF(){
+  const overlay = document.createElement('div');
+  overlay.id = 'pdf-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(42,20,64,.6);display:flex;align-items:center;justify-content:center;z-index:999;';
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;padding:32px 36px;text-align:center;max-width:300px;box-shadow:0 10px 30px rgba(58,28,86,.3);font-family:\'Source Serif 4\',serif;">' +
+      '<div style="font-size:2rem;margin-bottom:8px;">📄</div>' +
+      '<h4 style="margin:0 0 4px;color:#a52f2f;font-family:\'Playfair Display\',serif;">Gerando PDF…</h4>' +
+      '<p style="margin:0 0 14px;color:#5d4642;font-size:.86rem;">Aguarde alguns instantes.</p>' +
+      '<div style="background:#f7e0dc;border-radius:6px;overflow:hidden;height:8px;">' +
+        '<div id="pdf-prog" style="height:100%;width:0%;background:#d64545;transition:width .2s ease;"></div>' +
+      '</div>' +
+      '<div id="pdf-prog-txt" style="margin-top:8px;font-family:\'JetBrains Mono\',monospace;font-size:.74rem;color:#5d4642;">0%</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  await sleep(80);
+  function setP(pct, msg){
+    const pp = document.getElementById('pdf-prog'), pt = document.getElementById('pdf-prog-txt');
+    if(pp) pp.style.width = pct + '%';
+    if(pt) pt.textContent = msg || (pct + '%');
+  }
+
+  try{
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({orientation:'portrait', unit:'px', format:'a4', hotfixes:['px_scaling']});
+    const PW = pdf.internal.pageSize.getWidth(), PH = pdf.internal.pageSize.getHeight();
+    const ML = 28, CW = PW - ML*2;
+    let y = ML;
+
+    async function addImg(el){
+      const canvas = await html2canvas(el, {scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff', scrollX:0, scrollY:0, windowWidth:860});
+      const imgW = CW, imgH = (canvas.height / canvas.width) * imgW;
+      const dataUrl = canvas.toDataURL('image/jpeg', .92), avail = PH - ML*2;
+      if(imgH <= avail){
+        if(y + imgH > PH - ML){ pdf.addPage(); y = ML; }
+        pdf.addImage(dataUrl, 'JPEG', ML, y, imgW, imgH);
+        y += imgH + 8;
+      } else {
+        const pxPerPdfPt = canvas.width / imgW;
+        let srcY = 0;
+        while(srcY < canvas.height){
+          const availPt = PH - y - ML, sliceH_pt = Math.min(availPt, avail);
+          const sliceH_px = Math.round(sliceH_pt * pxPerPdfPt), actualH_px = Math.min(sliceH_px, canvas.height - srcY);
+          const tmp = document.createElement('canvas');
+          tmp.width = canvas.width; tmp.height = actualH_px;
+          tmp.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, actualH_px, 0, 0, canvas.width, actualH_px);
+          const sliceUrl = tmp.toDataURL('image/jpeg', .92), slicePt = (actualH_px / canvas.width) * imgW;
+          pdf.addImage(sliceUrl, 'JPEG', ML, y, imgW, slicePt);
+          srcY += actualH_px; y += slicePt;
+          if(srcY < canvas.height){ pdf.addPage(); y = ML; }
+        }
+        y += 8;
+      }
+    }
+
+    async function band(tag, txt){
+      const b = document.createElement('div');
+      b.style.cssText = 'width:860px;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      b.innerHTML = '<div style="background:linear-gradient(90deg,#d64545,#a52f2f);border-radius:8px;padding:12px 22px;display:flex;align-items:center;gap:12px">' +
+        '<span style="background:rgba(255,255,255,.2);color:#fff;font-weight:700;font-size:12px;letter-spacing:1px;border-radius:20px;padding:3px 12px">' + tag + '</span>' +
+        '<span style="color:#fff;font-size:15px;font-weight:700">' + txt + '</span></div>';
+      document.body.appendChild(b);
+      await sleep(20);
+      await addImg(b);
+      document.body.removeChild(b);
+    }
+
+    const nome = document.getElementById('header-nome').textContent || 'Aluno(a)';
+    const turma = document.getElementById('ficha-turma').textContent || '—';
+    const acertos = window.__acertos !== undefined ? window.__acertos : '—';
+    const pct = window.__acertos !== undefined ? Math.round(window.__acertos/10*100)+'%' : '—';
+    const now = new Date();
+    const dtStr = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+
+    setP(5, 'Preparando capa…'); await sleep(40);
+    const coverEl = document.createElement('div');
+    coverEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;overflow:hidden;position:absolute;left:-9999px;top:0';
+    coverEl.innerHTML =
+      '<div style="background:linear-gradient(135deg,#5c1f1f 0%,#d64545 60%,#e8746a 100%);padding:32px 48px 28px;color:white">' +
+        '<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;font-weight:700;margin-bottom:6px">História · 9º Ano do Ensino Fundamental · GO-EF09HI13-A</div>' +
+        '<div style="font-size:26px;font-weight:900;line-height:1.2;margin-bottom:5px">Revisão Geral — Tema 1</div>' +
+        '<div style="font-size:13px;opacity:.8;font-style:italic">Regimes Totalitários e a Segunda Guerra Mundial · 10 dissertativas + 10 objetivas</div>' +
+      '</div>' +
+      '<div style="background:#fdf4f2;padding:22px 48px 26px;border-bottom:3px solid #f0d896">' +
+        '<div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#d64545;font-weight:700;margin-bottom:5px">Aluno(a)</div>' +
+        '<div style="font-size:20px;font-weight:700;color:#2a1a18;border-bottom:2.5px solid #d64545;padding-bottom:6px;display:inline-block;margin-bottom:16px">' + esc(nome) + '</div>' +
+        '<div style="display:flex;gap:12px;flex-wrap:wrap">' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#d64545">' + esc(turma) + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Turma</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#c99a1d">10</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Dissertativas</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#d64545">' + acertos + '/10</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Objetivas (' + pct + ')</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:140px">' +
+            '<div style="font-size:13px;font-weight:700;color:#333">' + dtStr + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Gerado em</div></div>' +
+        '</div>' +
+        '<div style="font-size:9px;color:#bbb;margin-top:14px">Colégio Estadual Rodolfo de Oliveira · Goiás · 2026</div>' +
+      '</div>';
+    document.body.appendChild(coverEl); await sleep(60); await addImg(coverEl); document.body.removeChild(coverEl);
+
+    // QUESTÕES DISSERTATIVAS
+    setP(15, 'Preparando questões…'); await sleep(20);
+    await band('DISSERTATIVAS', 'Questões Dissertativas — Respostas e Orientações');
+
+    const QUESTOES = [
+      { num:'1', enunc:'Explique o que é um regime totalitário e cite duas características comuns aos quatro regimes estudados.', id:'resp-1',
+        coment:'Espera-se totalitarismo como controle estatal total, e características como partido único, culto ao líder, propaganda e supressão de liberdades.' },
+      { num:'2', enunc:'Cite as três crises que abriram caminho para o totalitarismo na Europa, explicando uma delas.', id:'resp-2',
+        coment:'Tratado de Versalhes, Crise de 1929 e medo do comunismo — qualquer uma explicada com clareza.' },
+      { num:'3', enunc:'O que foi a Marcha sobre Roma e o que o lema "Tudo pelo Estado" revela sobre o fascismo?', id:'resp-3',
+        coment:'Mobilização de Camisas Negras que levou Mussolini ao poder; o lema revela a superioridade do Estado sobre o indivíduo.' },
+      { num:'4', enunc:'Como o nazismo usou o racismo como base ideológica? Cite uma lei ou medida que comprove isso.', id:'resp-4',
+        coment:'Racismo de Estado contra judeus; Leis de Nuremberg (1935) retiraram a cidadania dos judeus alemães.' },
+      { num:'5', enunc:'Diferencie Pangermanismo e Lebensraum (Espaço Vital).', id:'resp-5',
+        coment:'Pangermanismo une territórios de população alemã; Lebensraum domina povos "inferiores" para expandir a "raça ariana".' },
+      { num:'6', enunc:'Cite duas características do stalinismo que o aproximam do fascismo e do nazismo.', id:'resp-6',
+        coment:'Partido único, perseguição a opositores (Gulags/Expurgos), culto à personalidade e censura.' },
+      { num:'7', enunc:'Explique a relação entre o culto ao imperador Hirohito e o expansionismo japonês, citando um território invadido.', id:'resp-7',
+        coment:'Poder militar governava em nome do imperador; expansão por matérias-primas; Manchúria (1931) ou China.' },
+      { num:'8', enunc:'O que foi o apaziguamento? Ele ajudou a evitar ou facilitar o avanço totalitário?', id:'resp-8',
+        coment:'Tolerância às exigências de Hitler (Conferência de Munique); facilitou o avanço totalitário, dando tempo e confiança.' },
+      { num:'9', enunc:'Por que se diz que a ideologia nazista "guiou" a guerra? Use a Operação Barbarossa ou a "Solução Final".', id:'resp-9',
+        coment:'As ideologias definiram como a guerra foi travada — guerra de extermínio no Leste e assassinato em massa de judeus.' },
+      { num:'10', enunc:'Compare o destino do fascismo/nazismo com o do stalinismo ao final da guerra.', id:'resp-10',
+        coment:'Itália, Alemanha e Japão derrotados; URSS saiu fortalecida e deu início à Guerra Fria — "a exceção".' }
+    ];
+
+    for(let i=0; i<QUESTOES.length; i++){
+      const q = QUESTOES[i];
+      setP(15 + Math.round(i/QUESTOES.length*38), 'Dissertativa ' + q.num + '/10…'); await sleep(10);
+
+      const valor = document.getElementById(q.id) ? document.getElementById(q.id).value : '';
+      const respostaHTML =
+        '<div style="background:#fbeae6;border:1.5px solid #eab8ae;border-radius:8px;padding:12px 15px;min-height:40px">' +
+          '<div style="font-size:12px;color:#2a1a18;line-height:1.75;white-space:pre-wrap">' + (esc(valor) || '<span style="color:#aaa">(sem resposta)</span>') + '</div>' +
+        '</div>';
+
+      const qEl = document.createElement('div');
+      qEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #e8d2cc;border-radius:10px;position:absolute;left:-9999px;top:0';
+      qEl.innerHTML =
+        '<div style="background:linear-gradient(90deg,#d64545,#a52f2f);padding:10px 22px;display:flex;justify-content:space-between;align-items:center">' +
+          '<span style="color:white;font-weight:700;font-size:13px;letter-spacing:.8px">QUESTÃO ' + q.num + '</span>' +
+          '<span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:11px;padding:3px 12px;border-radius:20px;font-weight:600">Dissertativa</span></div>' +
+        '<div style="padding:18px 24px 16px;background:#fdfdfa">' +
+          '<div style="font-size:13px;font-weight:700;color:#2a1a18;line-height:1.6;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #eee">' + esc(q.enunc) + '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+            '<div style="width:4px;height:15px;background:#d64545;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#d64545;text-transform:uppercase;letter-spacing:1.5px">Resposta do Aluno(a)</div></div>' +
+          respostaHTML +
+          '<div style="display:flex;align-items:center;gap:8px;margin:12px 0 7px">' +
+            '<div style="width:4px;height:15px;background:#c99a1d;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#8a6f2f;text-transform:uppercase;letter-spacing:1.5px">Comentário do Professor</div></div>' +
+          '<div style="background:#f7f1e3;border:1.5px solid #f0d896;border-radius:8px;padding:13px 16px">' +
+            '<div style="font-size:12px;color:#4a3a10;line-height:1.8">' + esc(q.coment) + '</div></div>' +
+        '</div>';
+      document.body.appendChild(qEl); await sleep(10); await addImg(qEl); document.body.removeChild(qEl);
+    }
+
+    // QUESTÕES OBJETIVAS
+    setP(55, 'Preparando objetivas…'); await sleep(20);
+    await band('OBJETIVAS', 'Questões Objetivas — Gabarito Comentado');
+
+    const LETRAS_PDF = ['A','B','C','D'];
+    const objetivasEls = document.querySelectorAll('.questao.objetiva');
+    let oi = 0;
+    for(const qEl0 of objetivasEls){
+      const num = qEl0.dataset.questao.replace('obj-','');
+      const correta = parseInt(qEl0.dataset.correta, 10);
+      const escolha = respMC[num];
+      const acertou = escolha === correta;
+      const enuncClone = qEl0.querySelector('.enunciado').cloneNode(true);
+      const badgeInClone = enuncClone.querySelector('.badge-resultado');
+      if(badgeInClone) badgeInClone.remove();
+      const numQInClone = enuncClone.querySelector('.num-q');
+      if(numQInClone) numQInClone.remove();
+      const enunc = enuncClone.textContent.trim();
+      setP(55 + Math.round(oi/objetivasEls.length*35), 'Objetiva ' + num + '/10…'); await sleep(10);
+
+      let altsHTML = '';
+      qEl0.querySelectorAll('.opcao').forEach(function(op){
+        const idx = parseInt(op.dataset.idx, 10);
+        const txt = op.querySelector('.opcao-txt').textContent;
+        let bg='#fdfdfa', bd='#e3e0d0', cor='#2d2d20', tag='';
+        if(idx===correta){ bg='#e9faf0'; bd='#8ed8b8'; cor='#0d3025'; tag='<span style="color:#0a6e57;font-weight:700"> ✓ correta</span>'; }
+        if(idx===escolha && !acertou){ bg='#fdeeee'; bd='#e3a3a3'; cor='#7a1f1f'; tag='<span style="color:#a83232;font-weight:700"> ✗ sua resposta</span>'; }
+        else if(idx===escolha && acertou){ tag='<span style="color:#0a6e57;font-weight:700"> ← sua resposta</span>'; }
+        altsHTML += '<div style="display:flex;gap:9px;align-items:flex-start;background:'+bg+';border:1px solid '+bd+';border-radius:6px;padding:8px 12px;margin-bottom:6px"><div style="flex:0 0 auto;font-weight:700;color:#d64545;font-size:12px">'+LETRAS_PDF[idx]+')</div><div style="font-size:12px;color:'+cor+';line-height:1.55">'+esc(txt)+tag+'</div></div>';
+      });
+
+      const headBg = acertou ? 'linear-gradient(90deg,#0f8c6e,#0a6e57)' : 'linear-gradient(90deg,#a83232,#7a1f1f)';
+      const gabTxt = qEl0.querySelector('.gabarito-info').textContent.trim();
+      const qEl = document.createElement('div');
+      qEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #e8d2cc;border-radius:10px;position:absolute;left:-9999px;top:0';
+      qEl.innerHTML =
+        '<div style="background:'+headBg+';padding:10px 22px;display:flex;justify-content:space-between;align-items:center">' +
+          '<span style="color:white;font-weight:700;font-size:13px;letter-spacing:.8px">QUESTÃO ' + num + '</span>' +
+          '<span style="background:rgba(255,255,255,.2);color:white;font-size:11px;padding:3px 12px;border-radius:20px;font-weight:700">' + (acertou?'ACERTOU':'ERROU') + '</span></div>' +
+        '<div style="padding:16px 24px 14px;background:#fdfdfa">' +
+          '<div style="font-size:13px;font-weight:700;color:#2a1a18;line-height:1.6;margin-bottom:12px">' + esc(enunc) + '</div>' +
+          altsHTML +
+          '<div style="margin-top:10px;background:#f7f1e3;border:1px solid #f0d896;border-radius:6px;padding:10px 14px">' +
+            '<div style="font-size:12px;color:#4a3a10;line-height:1.6">' + esc(gabTxt) + '</div></div>' +
+        '</div>';
+      document.body.appendChild(qEl); await sleep(10); await addImg(qEl); document.body.removeChild(qEl);
+      oi++;
+    }
+
+    // RODAPÉ EM TODAS AS PÁGINAS
+    setP(92, 'Finalizando…'); await sleep(30);
+    const totalPages = pdf.getNumberOfPages();
+    for(let p=1; p<=totalPages; p++){
+      pdf.setPage(p);
+      const fEl = document.createElement('div');
+      fEl.style.cssText = 'width:' + Math.round(CW) + 'px;height:22px;background:#fdf4f2;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:10px;color:#888;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      fEl.innerHTML = '<span>Revisão Geral — Tema 1 · ' + esc(nome) + ' · Objetivas: ' + acertos + '/10</span><span>Página ' + p + ' de ' + totalPages + '</span>';
+      document.body.appendChild(fEl);
+      const fc = await html2canvas(fEl, {scale:2, logging:false, backgroundColor:'#fdf4f2'});
+      document.body.removeChild(fEl);
+      const fUrl = fc.toDataURL('image/jpeg', .9), fH = (fc.height / fc.width) * CW;
+      pdf.setFillColor(246,242,250); pdf.rect(ML, PH-fH, CW, fH, 'F');
+      pdf.addImage(fUrl, 'JPEG', ML, PH-fH, CW, fH);
+    }
+
+    setP(100, 'Salvando…'); await sleep(200);
+    const safeName = nome.replace(/[^a-zA-Z0-9_\-]/g, '_');
+    pdf.save('Revisao_Tema1_' + safeName + '.pdf');
+
+  } catch(err){
+    console.error(err);
+    alert('Erro ao gerar PDF: ' + err.message);
+  } finally {
+    const ov = document.getElementById('pdf-overlay');
+    if(ov) document.body.removeChild(ov);
+  }
+}
+
+/* ===== PROTEÇÃO ANTI-COLA ===== */
+(function () {
+  const CAMPOS_PROTEGIDOS = document.querySelectorAll('textarea.dissertativa, .campo-resposta');
+  const LIMITE_BLOCO = 25;
+
+  function bloquear(e) {
+    e.preventDefault();
+    mostrarToast('Colar não permitido nesta atividade.');
+  }
+
+  CAMPOS_PROTEGIDOS.forEach(function (campo) {
+    ['paste', 'copy', 'cut', 'drop', 'dragover', 'contextmenu'].forEach(function (evt) {
+      campo.addEventListener(evt, bloquear);
+    });
+
+    campo.addEventListener('beforeinput', function (e) {
+      if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') {
+        e.preventDefault();
+        mostrarToast('Colar não permitido nesta atividade.');
+      }
+    });
+
+    let valorAnterior = campo.value;
+    campo.addEventListener('input', function (e) {
+      const diferenca = campo.value.length - valorAnterior.length;
+      if (diferenca >= LIMITE_BLOCO && e.inputType !== 'insertReplacementText') {
+        campo.value = valorAnterior;
+        mostrarToast('Colar não permitido nesta atividade.');
+      } else {
+        valorAnterior = campo.value;
+      }
+    });
+  });
+
+  function mostrarToast(mensagem) {
+    let toast = document.getElementById('anti-cola-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'anti-cola-toast';
+      toast.style.cssText =
+        'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);' +
+        'background:#333;color:#fff;padding:10px 20px;border-radius:8px;' +
+        'font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = mensagem;
+    toast.style.opacity = '1';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(function () {
+      toast.style.opacity = '0';
+    }, 2500);
+  }
+})();
+</script>
+
+</body>
+</html>

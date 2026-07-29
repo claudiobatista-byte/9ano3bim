@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regimes Totalitários e a Segunda Guerra Mundial | CERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f3ea;
+    --bg-alt:#efe8d8;
+    --paper:#fffdf7;
+    --ink:#241c14;
+    --ink-soft:#5a4f3f;
+    --accent:#8c1f28; /* vermelho institucional/totalitário */
+    --accent-dark:#5c141b;
+    --gold:#b8862f;
+    --gold-light:#e6d3a3;
+    --steel:#3a4a52; /* referência ao stalinismo/militarismo */
+    --line:#d9cdb0;
+    --shadow: 0 10px 30px rgba(36,28,20,.12);
+    --radius: 14px;
+    --font-title:'Playfair Display', serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-touch-callout:none;
+    user-select:none;
+  }
+  main, .selecionavel{ user-select:text; }
+
+  img{max-width:100%; display:block;}
+
+  /* ===== TRILHA (NAVEGAÇÃO ENTRE TEMAS) ===== */
+  .mini-trilha{
+    position:relative;
+    display:flex; justify-content:center; align-items:flex-start;
+    gap:0; max-width:960px; margin:0 auto;
+    padding:16px 24px 12px; background:var(--paper); border-bottom:1px solid var(--line);
+    font-family:var(--font-mono); overflow-x:auto; -webkit-overflow-scrolling:touch;
+  }
+  .mini-trilha::before{
+    content:""; position:absolute; top:30px; left:14%; right:14%; height:2px;
+    background:repeating-linear-gradient(90deg, var(--gold) 0 8px, transparent 8px 13px);
+    z-index:0;
+  }
+  .mini-trilha a{
+    position:relative; z-index:1;
+    display:flex; flex-direction:column; align-items:center;
+    text-decoration:none; color:var(--ink); width:210px; flex:none; padding:0 8px;
+  }
+  .mini-trilha a .medalhao{
+    width:40px; height:40px; border-radius:50%; background:var(--bg); border:2px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-title); font-weight:700; font-size:.98rem; color:var(--ink-soft);
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .mini-trilha a .rotulo{ margin-top:7px; font-size:.66rem; font-weight:600; text-align:center; line-height:1.25; color:var(--ink-soft); max-width:180px; }
+  .mini-trilha a .codigo{ font-size:.58rem; color:var(--ink-soft); font-weight:500; margin-top:2px; opacity:.7; letter-spacing:.02em;}
+  .mini-trilha a.ativo .medalhao{ background:var(--accent); border-color:var(--accent-dark); color:#fff; }
+  .mini-trilha a.ativo .rotulo{ color:var(--accent-dark); font-weight:700;}
+  .mini-trilha a:hover .medalhao{ border-color:var(--accent); }
+
+  /* ===== CABEÇALHO DO TEMA ===== */
+  .cabecalho-tema{ background:var(--bg); border-bottom:1px solid var(--line); padding:36px 24px 34px; }
+  .eyebrow{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--accent-dark);
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    padding:6px 12px;
+    border-radius:999px;
+    margin-bottom:18px;
+  }
+  .hero-tema{ display:flex; gap:18px; align-items:center; margin-bottom:16px; }
+  .medalhao-grande{
+    flex:none; width:60px; height:60px; border-radius:50%;
+    background:var(--accent); color:#fff; border:3px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-title); font-weight:800; font-size:1.6rem;
+  }
+  .hero-tema h1{
+    font-family:var(--font-title);
+    font-size:clamp(1.6rem, 3.6vw, 2.4rem);
+    line-height:1.18;
+    margin:0;
+    color:var(--ink);
+    max-width:740px;
+  }
+  .lead-tema{
+    font-size:1.05rem;
+    max-width:700px;
+    color:var(--ink-soft);
+    margin:0 0 20px;
+  }
+  .hero-meta{
+    display:flex; flex-wrap:wrap; gap:10px;
+    font-family:var(--font-mono);
+    font-size:.78rem;
+    color:var(--ink-soft);
+  }
+  .hero-meta span{
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:6px 10px;
+    border-radius:8px;
+  }
+  @media (max-width:560px){
+    .mini-trilha{ padding:12px 10px 10px; }
+    .mini-trilha::before{ left:34px; right:34px; top:24px; }
+    .mini-trilha a{ width:78px; }
+    .mini-trilha a .medalhao{ width:34px; height:34px; font-size:.85rem; }
+    .mini-trilha a .rotulo{ font-size:.56rem; margin-top:5px; }
+    .mini-trilha a .codigo{ display:none; }
+    .cabecalho-tema{ padding:26px 18px 24px; }
+    .hero-tema{ gap:12px; }
+    .medalhao-grande{ width:48px; height:48px; font-size:1.25rem; }
+  }
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px;}
+
+  /* ===== OBJETIVOS ===== */
+  .objetivos{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:28px 28px 24px;
+    margin:-34px auto 40px;
+    max-width:872px;
+  }
+  .objetivos h2{
+    font-family:var(--font-title);
+    font-size:1.3rem;
+    margin:0 0 14px;
+    color:var(--accent-dark);
+  }
+  .objetivos ul{margin:0; padding-left:20px;}
+  .objetivos li{margin-bottom:8px; color:var(--ink-soft);}
+  .objetivos li b{color:var(--ink);}
+
+  /* ===== SECAO TITLES ===== */
+  section.secao{margin:46px 0;}
+  .secao-titulo{
+    display:flex; align-items:center; gap:12px;
+    margin-bottom:16px;
+  }
+  .secao-titulo .num{
+    font-family:var(--font-mono);
+    font-size:.78rem;
+    color:var(--paper);
+    background:var(--accent);
+    width:30px; height:30px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .secao-titulo h2{
+    font-family:var(--font-title);
+    font-size:clamp(1.35rem, 2.6vw, 1.7rem);
+    margin:0;
+    color:var(--ink);
+  }
+  .secao-intro{
+    color:var(--ink-soft);
+    font-size:1.02rem;
+    margin:0 0 18px;
+  }
+
+  /* ===== ACCORDION ===== */
+  .acc{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:14px;
+    box-shadow:0 2px 8px rgba(36,28,20,.06);
+  }
+  .acc-head{
+    width:100%;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:14px;
+    background:transparent;
+    border:none;
+    padding:18px 20px;
+    cursor:pointer;
+    text-align:left;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:1.02rem;
+    color:var(--ink);
+  }
+  .acc-head .chev{
+    margin-left:auto;
+    font-size:1.1rem;
+    color:var(--accent);
+    transition:transform .25s ease;
+    flex-shrink:0;
+  }
+  .acc.open .acc-head .chev{transform:rotate(180deg);}
+  .acc-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .35s ease;
+  }
+  .acc-body-inner{
+    padding:0 22px 22px 62px;
+    color:var(--ink-soft);
+  }
+  .acc-body-inner p{margin:0 0 14px;}
+  .acc-body-inner p:last-child{margin-bottom:0;}
+  .acc-body-inner strong{color:var(--ink);}
+  .destaque-lista{margin:10px 0 16px; padding-left:20px;}
+  .destaque-lista li{margin-bottom:6px;}
+
+  .cita{
+    border-left:3px solid var(--gold);
+    background:var(--bg-alt);
+    padding:12px 16px;
+    border-radius:0 8px 8px 0;
+    font-style:italic;
+    color:var(--ink);
+    margin:14px 0;
+  }
+  .cita span{
+    display:block;
+    font-style:normal;
+    font-family:var(--font-mono);
+    font-size:.74rem;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+
+  .termo-box{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    background:#fff;
+    border:1px solid var(--gold-light);
+    border-radius:8px;
+    padding:12px 14px;
+    margin:14px 0;
+  }
+  .termo-box b{
+    display:block;
+    color:var(--accent-dark);
+    font-family:var(--font-title);
+    font-size:.94rem;
+    margin-bottom:2px;
+  }
+  .termo-box p{margin:0 !important; font-size:.88rem; color:var(--ink-soft);}
+
+  .link-box{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    background:linear-gradient(135deg, #fff, var(--bg-alt));
+    border:1px solid var(--gold-light);
+    border-left:4px solid var(--accent);
+    border-radius:10px;
+    padding:16px 18px;
+    margin:16px 0;
+  }
+  .link-box .link-ico{font-size:1.5rem; flex-shrink:0;}
+  .link-box .link-eyebrow{
+    display:block;
+    font-family:var(--font-mono);
+    font-size:.7rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--accent-dark);
+    margin-bottom:4px;
+  }
+  .link-box h4{margin:0 0 6px; font-family:var(--font-title); font-size:1.02rem; color:var(--ink);}
+  .link-box p{margin:0 0 10px; font-size:.9rem; color:var(--ink-soft);}
+  .link-box a.link-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--accent);
+    color:#fff;
+    text-decoration:none;
+    font-size:.86rem;
+    font-weight:600;
+    padding:8px 16px;
+    border-radius:8px;
+    transition:filter .15s ease;
+  }
+  .link-box a.link-btn:hover{filter:brightness(1.1);}
+
+  .video-box{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+    background:linear-gradient(135deg, #fff, var(--bg-alt));
+    border:1px solid var(--gold-light);
+    border-left:4px solid var(--accent);
+    border-radius:12px;
+    padding:20px 22px;
+    margin:26px 0;
+    box-shadow:0 2px 8px rgba(36,28,20,.06);
+  }
+  .video-box .video-ico{font-size:1.9rem; flex-shrink:0;}
+  .video-box .eyebrow{
+    display:block;
+    font-family:var(--font-mono);
+    font-size:.7rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--accent-dark);
+    margin-bottom:4px;
+  }
+  .video-box h4{margin:0 0 6px; font-family:var(--font-title); font-size:1.08rem; color:var(--ink);}
+  .video-box p{margin:0 0 12px; color:var(--ink-soft); font-size:.94rem;}
+  .video-box a.link-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--accent);
+    color:#fff;
+    text-decoration:none;
+    font-size:.86rem;
+    font-weight:600;
+    padding:9px 18px;
+    border-radius:8px;
+    transition:filter .15s ease;
+  }
+  .video-box a.link-btn:hover{filter:brightness(1.1);}
+
+  .atividades-box{
+    background:linear-gradient(135deg, #fff, var(--bg-alt));
+    border:1px solid var(--gold-light);
+    border-left:4px solid var(--accent);
+    border-radius:12px;
+    padding:20px 22px;
+    margin:26px 0;
+    box-shadow:0 2px 8px rgba(36,28,20,.06);
+  }
+  .atividades-box > .eyebrow{
+    display:block;
+    font-family:var(--font-mono);
+    font-size:.7rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--accent-dark);
+    margin-bottom:4px;
+  }
+  .atividades-box > h4{margin:0 0 6px; font-family:var(--font-title); font-size:1.08rem; color:var(--ink);}
+  .atividades-box > p{margin:0 0 16px; color:var(--ink-soft); font-size:.94rem;}
+  .atividades-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:14px;
+  }
+  .atividade-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+  }
+  .atividade-card .atividade-titulo{
+    display:flex; align-items:center; gap:8px;
+    font-family:var(--font-title); font-size:.98rem; color:var(--ink);
+    margin-bottom:4px;
+  }
+  .atividade-card .atividade-desc{font-size:.86rem; color:var(--ink-soft); margin:0 0 12px;}
+  .atividade-card .atividade-botoes{display:flex; gap:8px; flex-wrap:wrap;}
+  .atividade-card a.link-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    text-decoration:none;
+    font-size:.82rem;
+    font-weight:600;
+    padding:8px 14px;
+    border-radius:8px;
+    transition:filter .15s ease;
+  }
+  .atividade-card a.link-btn.abrir{background:var(--accent); color:#fff;}
+  .atividade-card a.link-btn.pdf{background:transparent; color:var(--accent-dark); border:1px solid var(--accent);}
+  .atividade-card a.link-btn:hover{filter:brightness(1.1);}
+
+  .voce-sabia{
+    background:var(--bg-alt);
+    border-radius:10px;
+    padding:14px 16px;
+    margin:14px 0;
+    font-size:.92rem;
+  }
+  .voce-sabia b{color:var(--accent-dark); font-family:var(--font-title); font-size:.95rem;}
+
+  .comparativo{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:12px;
+    margin:14px 0 4px;
+  }
+  .comp-card{
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+  }
+  .comp-card h4{
+    margin:0 0 8px;
+    font-family:var(--font-title);
+    font-size:1rem;
+    color:var(--accent-dark);
+  }
+  .comp-card p{margin:0; font-size:.92rem; color:var(--ink-soft);}
+
+  /* ===== LINHA DO TEMPO ===== */
+  .linha-tempo{
+    position:relative;
+    margin:20px 0 6px;
+    padding-left:26px;
+    border-left:2px solid var(--gold-light);
+  }
+  .lt-item{position:relative; padding-bottom:22px;}
+  .lt-item:last-child{padding-bottom:0;}
+  .lt-item::before{
+    content:"";
+    position:absolute; left:-33px; top:2px;
+    width:12px; height:12px;
+    border-radius:50%;
+    background:var(--accent);
+    border:2px solid var(--paper);
+    box-shadow:0 0 0 2px var(--gold);
+  }
+  .lt-ano{
+    font-family:var(--font-mono);
+    font-size:.78rem;
+    color:var(--accent-dark);
+    font-weight:700;
+    display:block;
+    margin-bottom:2px;
+  }
+  .lt-item p{margin:0; color:var(--ink-soft); font-size:.95rem;}
+
+  /* ===== ATV CARD ===== */
+  .atv-card{
+    display:flex; gap:14px; align-items:flex-start;
+    background:linear-gradient(135deg, var(--paper), var(--bg-alt));
+    border:1px solid var(--line);
+    border-left:4px solid var(--accent);
+    border-radius:10px;
+    padding:18px 20px;
+    margin:26px 0;
+  }
+  .atv-card .eyebrow{
+    font-family:var(--font-mono);
+    font-size:.7rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--accent-dark);
+    margin-bottom:4px;
+    display:block;
+  }
+  .atv-card h4{margin:0 0 6px; font-family:var(--font-title); font-size:1.08rem;}
+  .atv-card p{margin:0 0 10px; color:var(--ink-soft); font-size:.94rem;}
+
+  /* ===== JOGO CALLOUT ===== */
+  .jogo-trilha-card{
+    display:flex; align-items:center; gap:16px;
+    background:var(--steel);
+    color:#eef2f3;
+    border-radius:12px;
+    padding:20px 22px;
+    margin:40px 0 20px;
+    cursor:pointer;
+    transition:transform .2s ease;
+  }
+  .jogo-trilha-card:hover{transform:translateY(-2px);}
+  .jogo-trilha-card h4{margin:0 0 4px; font-family:var(--font-title); font-size:1.1rem;}
+  .jogo-trilha-card p{margin:0; font-size:.9rem; color:#d3dde0;}
+
+  /* ===== GLOSSARIO / JOGO ===== */
+  #jd-wrap{
+    scroll-margin-top:20px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:30px 26px 26px;
+  }
+  #jd-wrap h2{font-family:var(--font-title); color:var(--accent-dark); margin:0 0 6px; font-size:1.5rem;}
+  #jd-wrap .sub{color:var(--ink-soft); margin:0 0 20px; font-size:.96rem;}
+  .jd-alerta{display:none; background:#fff3cd; border:2px solid #ffc107; border-radius:10px; padding:12px 18px; margin:0 0 16px; color:#7d5a00; font-weight:600; font-size:.86rem;}
+  .jd-alerta.mostrar{display:block;}
+  .jd-frase{font-size:.94rem; line-height:2; margin-bottom:14px; padding:12px 16px; background:#fff; border:1px solid var(--line); border-radius:8px; transition:border-color .2s ease, background .2s ease;}
+  .jd-frase .num{font-family:var(--font-mono); font-weight:700; color:var(--accent); font-size:.78rem; margin-right:4px;}
+  .jd-frase.correta{border-color:rgb(45,106,79); background:rgba(45,106,79,.06);}
+  .jd-frase.incorreta{border-color:rgb(140,31,40); background:rgba(140,31,40,.05);}
+  .jd-blank{display:inline-flex; align-items:center; justify-content:center; gap:6px; min-width:170px; min-height:36px; padding:6px 14px; margin:2px; border:2px dashed #3C8562; border-radius:8px; font-family:var(--font-mono); font-weight:600; font-size:.85rem; color:var(--ink-soft); background:rgba(45,106,79,.06); vertical-align:middle; cursor:pointer; touch-action:manipulation; transition:border-color .15s ease, background .15s ease;}
+  .jd-blank:hover{border-color:var(--gold); background:rgba(184,134,47,.12);}
+  .jd-blank.aberto{border-color:var(--gold); background:rgba(184,134,47,.18);}
+  .jd-blank.respondida{border-style:solid; border-color:#3C8562; background:#fff; color:var(--ink);}
+  .jd-blank.correta{border-color:rgb(45,106,79); background:rgba(45,106,79,.14); color:#2D6A4F; cursor:default;}
+  .jd-blank.incorreta{border-color:rgb(140,31,40); background:rgba(140,31,40,.12); color:var(--accent); cursor:default;}
+  .jd-blank .jd-icone{font-size:.9rem;}
+  .jd-blank .jd-seta{font-size:.7rem; color:#3C8562; margin-left:2px;}
+  .jd-correcao{display:none; font-family:var(--font-mono); font-size:.78rem; color:var(--accent); margin-top:6px; padding-left:2px;}
+  .jd-frase.incorreta .jd-correcao{display:block;}
+  .jd-dropdown{position:fixed; z-index:9999; background:#fff; border:2px solid var(--gold); border-radius:10px; box-shadow:0 14px 34px rgba(0,0,0,.28); padding:6px; max-width:280px; max-height:min(300px,60vh); overflow-y:auto;}
+  .jd-dropdown button{display:block; width:100%; text-align:left; padding:10px 14px; border:none; background:none; font-family:var(--font-body); font-size:.88rem; color:var(--ink); border-radius:6px; cursor:pointer; touch-action:manipulation;}
+  .jd-dropdown button:hover, .jd-dropdown button:active{background:rgba(45,106,79,.14); color:#2D6A4F;}
+  .jd-status{display:flex; align-items:center; gap:14px; flex-wrap:wrap; font-family:var(--font-mono); font-size:.82rem; color:var(--ink-soft); margin-top:18px; padding-top:16px; border-top:1px dashed var(--line);}
+  .jd-status strong{color:#2D6A4F; font-size:.95rem;}
+  .jd-btn-verificar{font-family:var(--font-mono); font-weight:600; font-size:.82rem; color:#fff; background:#2D6A4F; border:2px solid #2D6A4F; border-radius:30px; padding:9px 20px; cursor:pointer; transition:background .15s ease; touch-action:manipulation;}
+  .jd-btn-verificar:hover{background:#3C8562; border-color:#3C8562;}
+  .jd-btn-restart{margin-left:auto; font-family:var(--font-mono); font-weight:600; font-size:.78rem; color:#2D6A4F; background:#fff; border:2px solid #3C8562; border-radius:30px; padding:9px 18px; cursor:pointer; transition:background .15s ease,color .15s ease; touch-action:manipulation;}
+  .jd-btn-restart:hover{background:#3C8562; color:#fff;}
+  .jd-vitoria{display:none; margin-top:18px; background:rgba(184,134,47,.14); border:2px solid var(--gold); border-radius:10px; padding:14px 18px; text-align:center; font-family:var(--font-title); font-weight:700; color:#2D6A4F; font-size:1rem;}
+  .jd-vitoria.mostrar{display:block;}
+  @media (max-width:480px){
+    .jd-blank{min-width:150px; min-height:40px; font-size:.82rem;}
+  }
+
+  /* ===== RODAPE NAV ===== */
+  .rodape-nav{
+    text-align:center;
+    margin:50px 0 20px;
+  }
+  .rodape-nav a.btn-atividade{
+    display:inline-block;
+    background:var(--accent);
+    color:#fff;
+    text-decoration:none;
+    padding:14px 28px;
+    border-radius:10px;
+    font-weight:600;
+    box-shadow:0 6px 16px rgba(140,31,40,.3);
+    margin:0 6px 10px;
+  }
+  .rodape-nav a.btn-glossario{
+    display:inline-block;
+    background:transparent;
+    color:var(--accent-dark);
+    text-decoration:none;
+    padding:14px 26px;
+    border-radius:10px;
+    font-weight:600;
+    border:1px solid var(--accent);
+    margin:0 6px 10px;
+  }
+
+  footer.rodape{
+    background:var(--ink);
+    color:#cfc6b3;
+    text-align:center;
+    padding:24px;
+    margin-top:50px;
+    font-size:.82rem;
+    font-family:var(--font-mono);
+  }
+
+  @media (max-width:640px){
+    .objetivos{margin-top:-24px; padding:22px 20px;}
+    .acc-body-inner{padding:0 16px 18px 20px;}
+    .jogo-trilha-card{flex-direction:column; align-items:flex-start; text-align:left;}
+  }
+  /* ===== IMAGENS DO DOSSIÊ ===== */
+  .figura-charge{background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px 16px 14px; margin:22px 0;}
+  .figura-charge img{display:block; width:100%; max-width:640px; height:auto; margin:0 auto; border-radius:8px; border:1px solid var(--line); cursor:zoom-in; transition:opacity .15s ease;}
+  .figura-charge img:hover{opacity:.85;}
+  .figura-charge figcaption{margin-top:10px; text-align:center; font-family:var(--font-body); font-style:italic; font-size:.86rem; color:var(--ink-soft);}
+  .lightbox-overlay{display:none; position:fixed; inset:0; z-index:9999; background:rgba(20,14,8,.86); align-items:center; justify-content:center; padding:24px; cursor:zoom-out;}
+  .lightbox-overlay.aberto{display:flex;}
+  .lightbox-conteudo{max-width:min(90vw,760px); max-height:90vh; display:flex; flex-direction:column; align-items:center; cursor:default;}
+  .lightbox-conteudo img{max-width:100%; max-height:78vh; width:auto; border-radius:8px; border:2px solid var(--gold); box-shadow:0 20px 50px rgba(0,0,0,.5); cursor:zoom-in; transition:max-width .2s ease, max-height .2s ease;}
+  .lightbox-conteudo.zoom-ativo{max-width:94vw; max-height:94vh; overflow:auto; align-items:flex-start; justify-content:flex-start; cursor:auto;}
+  .lightbox-conteudo.zoom-ativo img{max-width:none; max-height:none; width:1400px; cursor:zoom-out;}
+  .lightbox-legenda{margin-top:12px; text-align:center; font-family:var(--font-body); font-style:italic; font-size:.85rem; color:#fff; max-width:640px;}
+  .lightbox-fechar{position:absolute; top:18px; right:22px; width:40px; height:40px; border-radius:50%; background:var(--paper); border:2px solid var(--gold); color:var(--accent-dark); font-size:1.3rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1;}
+  .lightbox-dica{margin-top:6px; font-family:var(--font-mono); font-size:.7rem; color:var(--gold-light); text-align:center;}
+</style>
+</head>
+<body>
+
+<nav class="mini-trilha">
+  <a class="ativo" href="tema1.html" target="_parent">
+    <span class="medalhao">1</span>
+    <span class="rotulo">Regimes Totalitários</span>
+    <span class="codigo">GO-EF09HI13-A</span>
+  </a>
+  <a href="tema2.html" target="_parent">
+    <span class="medalhao">2</span>
+    <span class="rotulo">Populismo e Desenvolvimentismo</span>
+    <span class="codigo">GO-EF09HI17-A</span>
+  </a>
+  <a href="tema3.html" target="_parent">
+    <span class="medalhao">3</span>
+    <span class="rotulo">Ditadura Militar</span>
+    <span class="codigo">GO-EF09HI19-A</span>
+  </a>
+</nav>
+
+<header class="cabecalho-tema">
+  <div class="wrap">
+    <span class="eyebrow">9º ano · Ensino Fundamental · História</span>
+    <div class="hero-tema">
+      <div class="medalhao-grande">1</div>
+      <h1>Regimes Totalitários e a Segunda Guerra Mundial</h1>
+    </div>
+    <p class="lead-tema">Como Estados que prometiam ordem e grandeza nacional concentraram o poder absoluto, se armaram para a expansão territorial e arrastaram o mundo para o conflito mais destrutivo do século XX.</p>
+    <div class="hero-meta">
+      <span>Descritor: GO-EF09HI13-A</span>
+      <span>DC-GO / BNCC</span>
+      
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="objetivos selecionavel">
+    <h2>Objetivos de Aprendizagem</h2>
+    <ul>
+      <li><b>Conceituar</b> os regimes totalitários e identificar suas características comuns — controle total do Estado sobre a sociedade, partido único, culto ao líder e supressão de liberdades.</li>
+      <li><b>Reconhecer as particularidades</b> de cada Estado totalitário do período (fascismo italiano, nazismo alemão, stalinismo soviético e militarismo japonês).</li>
+      <li><b>Relacionar</b> a política expansionista desses regimes ao contexto de crise das democracias liberais e à ascensão de ideologias nacionalistas radicais.</li>
+      <li><b>Analisar</b> como essas ideologias guiaram as estratégias, alianças e ações da Segunda Guerra Mundial.</li>
+      <li><b>Explicar</b> os fatores que levaram à queda desses regimes ao final do conflito.</li>
+    </ul>
+  </div>
+
+  <main>
+
+    <figure class="figura-charge">
+      <img src="tema1/img1.jpeg" alt="A Sombra do Estado — o caminho para a Segunda Guerra Mundial" onclick="abrirLightbox(this)">
+      <figcaption>Como regimes totalitários concentraram o poder sobre nações inteiras e arrastaram o mundo ao conflito mais destrutivo do século XX.</figcaption>
+    </figure>
+
+    <figure class="figura-charge">
+      <img src="tema1/img2.jpeg" alt="Roteiro do estudo: A Máquina, Os Atores, A Escalada e A Queda" onclick="abrirLightbox(this)">
+      <figcaption>O roteiro deste tema: entender o que é o totalitarismo, conhecer seus líderes e ideologias, acompanhar a escalada até a guerra e, por fim, a queda dos regimes.</figcaption>
+    </figure>
+
+    <div class="video-box selecionavel">
+      <span class="video-ico">🎬</span>
+      <div>
+        <span class="eyebrow">Assista</span>
+        <h4>Resumo da aula: Totalitarismo e a 2ª Guerra Mundial</h4>
+        <p>Antes de começar, assista a este vídeo com o resumo dos principais pontos que serão estudados neste tema — um bom ponto de partida para organizar as ideias antes da leitura.</p>
+        <a class="link-btn" href="https://youtu.be/UCSO166Ukbo?si=SWanWwcC9Fz6IxxQ" target="_blank" rel="noopener noreferrer">Assistir no YouTube ↗</a>
+      </div>
+    </div>
+
+    <!-- 1. CONCEITO -->
+    <section class="secao" id="conceito">
+      <div class="secao-titulo">
+        <span class="num">1</span>
+        <h2>O que é um Estado Totalitário?</h2>
+      </div>
+      <p class="secao-intro">Antes de estudar cada regime, é preciso entender o que os une: um modelo de poder que não se contenta em governar, mas busca controlar todas as dimensões da vida social.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Definição e características centrais
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Imagine um governo que não se contenta em cuidar de leis, impostos e fronteiras — um governo que também quer decidir o que você lê, o que aprende na escola, o que sua família pode dizer em casa e até em quem você deve confiar. É mais ou menos essa a ideia por trás de um <strong>Estado totalitário</strong>: um regime político que tenta controlar <em>totalmente</em> a vida das pessoas, não só a política, mas também a economia, a cultura, a educação e a vida privada.</p>
+            <p>Isso é diferente de uma ditadura "comum". Uma ditadura reprime quem se opõe ao governo, mas normalmente não se importa em controlar cada detalhe do cotidiano das pessoas. Já o totalitarismo vai além: ele quer <strong>moldar mentes</strong>, formando cidadãos inteiramente fiéis ao regime desde a infância — nas escolas, nas juventudes partidárias, nos meios de comunicação.</p>
+
+            <figure class="figura-charge">
+              <img src="tema1/img3.jpeg" alt="Comparação entre ditadura tradicional e Estado totalitário" onclick="abrirLightbox(this)">
+              <figcaption>A diferença entre uma ditadura tradicional, que reprime a oposição, e um Estado totalitário, que busca controlar todas as esferas da vida.</figcaption>
+            </figure>
+
+            <p>Apesar de terem surgido em países muito diferentes, os regimes totalitários do século XX compartilhavam algumas características em comum:</p>
+            <ul class="destaque-lista">
+              <li><strong>Partido único</strong> no poder, com um líder concentrando decisões (o Führer alemão, o Duce italiano, o Secretário-Geral soviético, o imperador japonês);</li>
+              <li><strong>Culto à personalidade</strong>: o líder é apresentado, pela propaganda, como um "salvador" da nação, quase infalível;</li>
+              <li><strong>Propaganda estatal massiva</strong>, controlando jornais, rádio, cinema e livros escolares;</li>
+              <li><strong>Polícia política</strong> e vigilância constante, perseguindo qualquer sinal de discordância;</li>
+              <li><strong>Nacionalismo exacerbado</strong> (ou, no caso soviético, uma ideologia de classe) usado para justificar sacrifícios da população;</li>
+              <li><strong>Economia controlada pelo Estado</strong>, voltada ao rearmamento e à preparação para a guerra.</li>
+            </ul>
+
+            <figure class="figura-charge">
+              <img src="tema1/img4.jpeg" alt="As seis engrenagens do poder absoluto nos regimes totalitários" onclick="abrirLightbox(this)">
+              <figcaption>Seis engrenagens que sustentam o poder absoluto: partido único, culto ao líder, propaganda, polícia política, ideologia extrema e economia militar.</figcaption>
+            </figure>
+
+            <div class="termo-box">
+              <div>
+                <b>Hannah Arendt</b>
+                <p>Filósofa alemã que viveu o período do nazismo e precisou fugir da perseguição aos judeus. Sua obra <em>Origens do totalitarismo</em> (1951) é até hoje uma das principais referências para entender como esses regimes conseguiram controlar milhões de pessoas — inclusive convencendo parte delas a apoiar o próprio regime.</p>
+              </div>
+            </div>
+            <p>Guarde essa ideia: veremos, a seguir, quatro regimes totalitários — o <strong>fascismo</strong> na Itália, o <strong>nazismo</strong> na Alemanha, o <strong>stalinismo</strong> na União Soviética e o <strong>militarismo</strong> no Japão. Eles tinham ideologias diferentes e, em 1939, ficariam em lados opostos da guerra — mas todos compartilhavam esse mesmo projeto de controle absoluto sobre a sociedade.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="atividades-box selecionavel">
+      <span class="eyebrow">Pratique</span>
+      <h4>📝 Atividades de fixação</h4>
+      <p>Reforce o que você acabou de estudar com os textos de apoio e as questões dissertativas abaixo.</p>
+      <div class="atividades-grid">
+        <div class="atividade-card">
+          <div class="atividade-titulo">📄 Atividade 1 — O que é o Fascismo?</div>
+          <p class="atividade-desc">Texto de apoio e 6 questões dissertativas.</p>
+          <div class="atividade-botoes">
+            <a class="link-btn abrir" href="tema1/atv1.html" target="_blank" rel="noopener noreferrer">Abrir atividade ↗</a>
+            <a class="link-btn pdf" href="https://drive.google.com/file/d/1bgplnwtP0UkidcTA75p-elEzrdGk2htx/view?usp=sharing" target="_blank" rel="noopener noreferrer">Abrir em PDF ↗</a>
+          </div>
+        </div>
+        <div class="atividade-card">
+          <div class="atividade-titulo">📄 Atividade 2 — O que é Totalitarismo?</div>
+          <p class="atividade-desc">Texto de apoio e 5 questões dissertativas.</p>
+          <div class="atividade-botoes">
+            <a class="link-btn abrir" href="tema1/atv2.html" target="_blank" rel="noopener noreferrer">Abrir atividade ↗</a>
+            <a class="link-btn pdf" href="https://drive.google.com/file/d/1VNnbwBSsQ6ZZM7838gx6zmOxIW828RDf/view?usp=sharing" target="_blank" rel="noopener noreferrer">Abrir em PDF ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. CONTEXTO DE ASCENSAO -->
+    <section class="secao" id="ascensao">
+      <div class="secao-titulo">
+        <span class="num">2</span>
+        <h2>O Contexto de Ascensão: por que a Europa se voltou ao autoritarismo?</h2>
+      </div>
+      <p class="secao-intro">Os regimes totalitários não surgiram do nada. Eles se aproveitaram de crises profundas que as democracias liberais não conseguiram resolver.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          As três crises que abriram caminho ao totalitarismo
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Ao final da Primeira Guerra Mundial (1918), a economia de boa parte da Europa estava destroçada. Enquanto os países vencedores receberam compensações financeiras, os derrotados — como a Alemanha — não conseguiram encontrar uma saída rápida para a crise. E, em 1929, a situação piorou ainda mais: a quebra da Bolsa de Valores de Nova York gerou uma crise que se espalhou pelo mundo todo.</p>
+            <div class="comparativo">
+              <div class="comp-card">
+                <h4>Herança da 1ª Guerra</h4>
+                <p>O Tratado de Versalhes (1919) impôs à Alemanha perda de territórios e colônias, redução drástica de suas Forças Armadas e o pagamento de pesadas indenizações aos vencedores. Os alemães consideravam o tratado profundamente humilhante.</p>
+              </div>
+              <div class="comp-card">
+                <h4>Crise de 1929</h4>
+                <p>A quebra da Bolsa de Nova York interrompeu os empréstimos e investimentos que os Estados Unidos vinham fazendo na Europa. O desemprego em massa e a fome se espalharam, minando a confiança nos governos liberais.</p>
+              </div>
+              <div class="comp-card">
+                <h4>Medo do comunismo</h4>
+                <p>Depois da Revolução Russa de 1917, setores da classe média e da grande burguesia europeia temiam que a crise abrisse caminho para revoluções socialistas — e por isso passaram a apoiar propostas autoritárias, vistas como um "escudo" contra o comunismo.</p>
+              </div>
+            </div>
+
+            <figure class="figura-charge">
+              <img src="tema1/img5.jpeg" alt="A tempestade perfeita: herança da 1ª Guerra, Crise de 1929 e medo do comunismo" onclick="abrirLightbox(this)">
+              <figcaption>Três fatores se somaram para abrir caminho ao autoritarismo: a herança humilhante da Primeira Guerra, a Crise de 1929 e o medo do comunismo.</figcaption>
+            </figure>
+
+            <p>Diante disso, a Europa viveu uma forte polarização política: de um lado, trabalhadores e intelectuais que denunciavam o capitalismo como responsável pela crise e defendiam a revolução socialista; de outro, setores conservadores que, com medo dessa revolução, apoiaram a instalação de regimes totalitários. Foi exatamente nesse cenário de crise e polarização que o fascismo se instalou na Itália e o nazismo, na Alemanha.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. FASCISMO -->
+    <section class="secao" id="fascismo">
+      <div class="secao-titulo">
+        <span class="num">3</span>
+        <h2>O Fascismo Italiano</h2>
+      </div>
+      <p class="secao-intro">O primeiro dos regimes totalitários do século XX, criado por Benito Mussolini a partir de 1922.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Mussolini, o Duce, e a "Marcha sobre Roma"
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Depois da Primeira Guerra, a economia italiana também se deteriorou: empresas fecharam e o desemprego disparou. Some-se a isso o drama das perdas humanas no conflito — a Itália havia enviado tropas para lutar ao lado dos vencedores, mas contabilizou cerca de <strong>500 mil mortos e 400 mil mutilados</strong>, sem receber, na visão de muitos italianos, compensações territoriais à altura desse sacrifício.</p>
+            <p>Nesse cenário de crise e frustração, ex-combatentes, desempregados e ex-socialistas fundaram o <strong>Fasci di Combattimento</strong>, um grupo paramilitar liderado por <strong>Benito Mussolini</strong>, que combatia ao mesmo tempo os comunistas, a democracia liberal e as organizações operárias.</p>
+            <div class="termo-box">
+              <div><b>Paramilitar</b><p>Grupo armado, geralmente fardado, organizado como se fosse um exército — mas que não pertence oficialmente às forças militares regulares de um país.</p></div>
+            </div>
+            <p>Em outubro de 1922, os fascistas organizaram a chamada <strong>Marcha sobre Roma</strong>: esquadrões conhecidos como Camisas Negras ocuparam pontos estratégicos pelo país e marcharam rumo à capital. Pressionado e temendo um confronto armado, o rei Vítor Emanuel III convocou Mussolini para assumir como primeiro-ministro — que logo passou a ser chamado de <strong>Duce</strong> ("o Condutor"). Como chefe de governo, Mussolini extinguiu os partidos de oposição, censurou a imprensa e criou uma polícia política para vigiar e punir opositores.</p>
+            <figure class="figura-charge">
+              <img src="tema1/img6.jpeg" alt="Dossiê Europa: fascismo na Itália e nazismo na Alemanha lado a lado" onclick="abrirLightbox(this)">
+              <figcaption>Fascismo e nazismo lado a lado: dois regimes de extrema-direita, com líderes, fundações e ideologias centrais próprias, mas o mesmo projeto de supremacia do Estado.</figcaption>
+            </figure>
+
+            <p>O fascismo pregava a superioridade do Estado sobre o indivíduo, resumida no lema <strong>"Tudo pelo Estado, nada fora do Estado, nada contra o Estado"</strong>. Na economia, patrões e trabalhadores eram organizados em "corporações" sob supervisão estatal, o que eliminava greves e sindicatos independentes.</p>
+            <p>Mussolini também explorou a memória da Roma Antiga para justificar a expansão territorial — o sonho de reconstruir um "novo Império Romano" no Mediterrâneo e na África, que resultaria na invasão da Etiópia em 1935.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="atividades-box selecionavel">
+      <span class="eyebrow">Pratique</span>
+      <h4>📝 Atividade de fixação</h4>
+      <p>Reforce o que você acabou de estudar sobre o fascismo italiano com o texto de apoio e as questões dissertativas abaixo.</p>
+      <div class="atividades-grid">
+        <div class="atividade-card">
+          <div class="atividade-titulo">📄 Atividade 3 — A Carta do Trabalho</div>
+          <p class="atividade-desc">Texto de apoio e 4 questões dissertativas.</p>
+          <div class="atividade-botoes">
+            <a class="link-btn abrir" href="tema1/atv3.html" target="_blank" rel="noopener noreferrer">Abrir atividade ↗</a>
+            <a class="link-btn pdf" href="https://drive.google.com/file/d/1paSKUgTBa3jfQV-hDz3USKcWKfaz7B1E/view?usp=sharing" target="_blank" rel="noopener noreferrer">Abrir em PDF ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. NAZISMO -->
+    <section class="secao" id="nazismo">
+      <div class="secao-titulo">
+        <span class="num">4</span>
+        <h2>O Nazismo Alemão</h2>
+      </div>
+      <p class="secao-intro">O regime mais radical e o principal responsável por desencadear a Segunda Guerra Mundial na Europa.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Hitler, o racismo de Estado e o "Espaço Vital"
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Em novembro de 1918, ainda durante a Primeira Guerra, foi proclamada a <strong>República de Weimar</strong> na Alemanha — um governo democrático que negociou a paz e assinou o humilhante Tratado de Versalhes. Para pagar as pesadas indenizações de guerra, o governo alemão contraiu enormes dívidas, principalmente com os Estados Unidos, o que deixou a economia do país extremamente frágil.</p>
+            <p>Foi nesse cenário de crise que, em 1919, um pequeno grupo fundou o <strong>Partido Nacional Socialista dos Trabalhadores Alemães</strong> — o Partido Nazista. Sua doutrina proclamava a superioridade da chamada "raça ariana" e culpava, pela derrota alemã na guerra e pela crise econômica, três grandes inimigos: as potências vencedoras, os comunistas e os judeus.</p>
+            <div class="termo-box">
+              <div><b>"Raça ariana"</b><p>Classificação sem nenhuma base científica, criada no século XIX, que os nazistas usaram para se referir aos povos germânicos, apresentados como fisicamente e moralmente "superiores" aos demais.</p></div>
+            </div>
+            <p>Com a crise de 1929, o desemprego industrial alemão chegou a 44% da população economicamente ativa — e o discurso nacionalista de <strong>Adolf Hitler</strong> ganhou cada vez mais apoiadores, inclusive entre trabalhadores, prometendo reforma agrária, nacionalização de grandes empresas e salários dignos. Em julho de 1932, o Partido Nazista venceu as eleições para o Reichstag (o Parlamento alemão) e, em janeiro de 1933, Hitler foi convidado a assumir a chefia do governo.</p>
+            <p>Menos de um mês depois, um incêndio no prédio do Reichstag serviu de pretexto para os nazistas decretarem estado de emergência, dissolverem o Parlamento e prenderem as principais lideranças de esquerda. Todos os partidos, exceto o nazista, foram proibidos: estava instalada a ditadura.</p>
+            <p>A ideologia nazista combinava expansionismo, militarismo, nacionalismo e racismo, resumidos em dois conceitos centrais:</p>
+            <ul class="destaque-lista">
+              <li><strong>Pangermanismo</strong>: a ideia de que o Estado alemão deveria incorporar todos os territórios europeus habitados por populações de origem alemã, formando uma grande nação ariana;</li>
+              <li><strong>Espaço vital (Lebensraum)</strong>: a crença de que os povos considerados "inferiores" deveriam ser dominados, garantindo território — principalmente no Leste Europeu — para que a "raça ariana" pudesse se expandir livremente.</li>
+            </ul>
+            <p>Esse racismo de Estado logo virou lei: em 1935, as <strong>Leis de Nuremberg</strong> retiraram a cidadania dos judeus alemães e proibiram seu convívio com "arianos puros". Foi o primeiro grande passo institucional rumo às perseguições que culminariam no <strong>Holocausto</strong> — o extermínio sistemático de cerca de seis milhões de judeus durante a guerra.</p>
+            <div class="cita">
+              O rearmamento alemão, proibido pelo Tratado de Versalhes, foi retomado abertamente a partir de 1935, com a criação da Luftwaffe (força aérea) e a reintrodução do serviço militar obrigatório.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="video-box selecionavel">
+      <span class="video-ico">🎬</span>
+      <div>
+        <span class="eyebrow">Assista</span>
+        <h4>O plano de Hitler: das Leis de Nuremberg à Noite dos Cristais</h4>
+        <p>Vídeo da série "Segunda Guerra Mundial com Tom Hanks" (canal History Brasil), sobre como as Leis Raciais de Nuremberg e a violência da Noite dos Cristais marcaram os primeiros passos do plano nazista que culminaria no Holocausto.</p>
+        <a class="link-btn" href="https://youtu.be/Fdn5rYr5Ngs?si=NG-bGUe5mcRug0-V" target="_blank" rel="noopener noreferrer">Assistir no YouTube ↗</a>
+      </div>
+    </div>
+
+    <div class="atv-card selecionavel">
+      <div>
+        <span class="eyebrow">Para refletir</span>
+        <h4>Ideologia como motor da guerra</h4>
+        <p>Note como, diferente de outros conflitos movidos por disputas de fronteira ou recursos, o nazismo transformou uma teoria racial em política de Estado — e essa teoria definiu quem seria aliado, quem seria conquistado e quem seria exterminado. É por isso que os historiadores dizem que a ideologia "guiou" a guerra, e não apenas a acompanhou.</p>
+        <p><strong>Texto complementar</strong></p>
+        <p>No trecho a seguir, Hannah Arendt discorre sobre o conceito de ideologia e sobre seu papel no totalitarismo:</p>
+        <div class="cita">
+          As ideologias somente são opiniões inócuas, arbitrárias e destituídas de crítica enquanto não se as leva a sério. Uma vez que se lhes toma literalmente a pretensão de validade total, tornam-se núcleos de sistemas de lógica nos quais, como nos sistemas dos paranoicos, tudo se segue compreensiva e até mesmo compulsoriamente, uma vez que se aceita a primeira premissa [...].
+          <br><br>
+          O que as ideologias totalitárias visam, portanto, não é a transformação do mundo exterior ou a transformação revolucionária da sociedade, mas a transformação da própria natureza humana. Os campos de concentração constituem os laboratórios onde mudanças na natureza humana são testadas [...]; embora pareça que essas experiências não conseguem mudar o homem, mas apenas destruí-lo [...].
+          <span>ARENDT, Hannah. Origens do totalitarismo: antissemitismo, imperialismo, totalitarismo. São Paulo: Companhia das Letras, 2004. p. 509-510.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="atividades-box selecionavel">
+      <span class="eyebrow">Pratique</span>
+      <h4>📝 Atividade de fixação</h4>
+      <p>Reforce o que você acabou de estudar sobre racismo, antissemitismo, xenofobia e a perseguição às pessoas com deficiência com os textos de apoio e as questões dissertativas abaixo.</p>
+      <div class="atividades-grid">
+        <div class="atividade-card">
+          <div class="atividade-titulo">📄 Atividade 4 — Sobrevivências do Racismo</div>
+          <p class="atividade-desc">Texto de apoio e 5 questões dissertativas.</p>
+          <div class="atividade-botoes">
+            <a class="link-btn abrir" href="tema1/atv4.html" target="_blank" rel="noopener noreferrer">Abrir atividade ↗</a>
+            <a class="link-btn pdf" href="https://drive.google.com/file/d/12BPI46FcpGyHmqe2FWyBXVAfffp5IvJd/view?usp=sharing" target="_blank" rel="noopener noreferrer">Abrir em PDF ↗</a>
+          </div>
+        </div>
+        <div class="atividade-card">
+          <div class="atividade-titulo">📄 Atividade 5 — O Regime Nazista e as Pessoas com Deficiência</div>
+          <p class="atividade-desc">Texto de apoio e 5 questões dissertativas.</p>
+          <div class="atividade-botoes">
+            <a class="link-btn abrir" href="tema1/atv5.html" target="_blank" rel="noopener noreferrer">Abrir atividade ↗</a>
+            <a class="link-btn pdf" href="https://drive.google.com/file/d/1_ADfc_HCUKZAj8jKjrQOVsViDLlFyEFz/view?usp=sharing" target="_blank" rel="noopener noreferrer">Abrir em PDF ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. STALINISMO -->
+    <section class="secao" id="stalinismo">
+      <div class="secao-titulo">
+        <span class="num">5</span>
+        <h2>O Stalinismo na União Soviética</h2>
+      </div>
+      <p class="secao-intro">Um totalitarismo de outra natureza ideológica — mas com mecanismos de controle surpreendentemente parecidos.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Stálin e o controle absoluto em nome do socialismo
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Após a morte de Lênin em 1924, <strong>Josef Stálin</strong> consolidou o poder na União Soviética, impondo um regime de partido único (o Partido Comunista) marcado por planejamento econômico centralizado, coletivização forçada da agricultura e industrialização acelerada.</p>
+            <p>A ditadura stalinista, que durou até a morte de Stálin em 1953, tinha características bem específicas — repare como algumas delas lembram o que você acabou de estudar sobre fascismo e nazismo, mesmo partindo de uma ideologia oposta:</p>
+            <ul class="destaque-lista">
+              <li><strong>Partido único</strong>: qualquer suspeita de oposição era suficiente para que a pessoa fosse enviada aos <strong>Gulags</strong>, campos de trabalho forçado, muitos deles na Sibéria;</li>
+              <li><strong>Opressão às nacionalidades</strong>: povos não russos, como os ucranianos, eram obrigados a adotar o idioma russo e seguir as regras ditadas por Moscou;</li>
+              <li><strong>Burocracia privilegiada</strong>: uma elite de dirigentes do partido, militares e técnicos — a <strong>nomenklatura</strong> — concentrava benefícios que o restante da população não tinha;</li>
+              <li><strong>Culto à personalidade</strong>: a propaganda apresentava Stálin como "grande irmão" e "pai do povo";</li>
+              <li><strong>Julgamentos forjados</strong>: nos chamados "Expurgos" da década de 1930, opositores eram torturados até confessarem crimes que não haviam cometido e depois executados.</li>
+            </ul>
+            <p>É importante perceber um ponto essencial: embora a URSS tenha lutado <strong>contra</strong> a Alemanha nazista na Segunda Guerra Mundial (integrando os Aliados a partir de 1941), isso não significa que o regime soviético fosse democrático. Isso mostra que o totalitarismo não é exclusividade de um único lado político — ele pode surgir tanto de ideologias de extrema-direita quanto de regimes que se apresentam como revolucionários de esquerda.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <figure class="figura-charge">
+      <img src="tema1/img7.jpeg" alt="Outras faces do controle: stalinismo na URSS e militarismo no Japão" onclick="abrirLightbox(this)">
+      <figcaption>Outras duas faces do totalitarismo: o stalinismo soviético, baseado no partido e na planificação central, e o militarismo japonês, apoiado no culto ao imperador.</figcaption>
+    </figure>
+
+    <!-- 6. MILITARISMO JAPONES -->
+    <section class="secao" id="japao">
+      <div class="secao-titulo">
+        <span class="num">6</span>
+        <h2>O Militarismo Japonês</h2>
+      </div>
+      <p class="secao-intro">Na Ásia, um regime de fundamentos diferentes seguiu o mesmo caminho de expansão territorial.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          O culto ao imperador e a expansão na Ásia
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>O expansionismo japonês vinha desde o final do século XIX, depois que a Revolução Meiji (1868) promoveu uma industrialização acelerada e transformou o Japão em uma potência militar na Ásia. Durante a década de 1930, o poder militar foi assumindo cada vez mais o controle do governo, sempre em nome do imperador Hirohito, tratado pela propaganda oficial como uma figura quase divina. O regime combinava disciplina militar extrema, culto ao imperador e um projeto de expansão territorial justificado pela necessidade de matérias-primas e mercados para a indústria japonesa.</p>
+            <p>Esse projeto expansionista levou à invasão da Manchúria, no norte da China, em setembro de 1931. Em 1936, Japão e Alemanha assinaram um pacto contra a expansão do comunismo soviético — uma aproximação que se fortaleceria nos anos seguintes. Em 1937, os japoneses atacaram a China novamente, dominando parte do território em uma guerra marcada por extrema violência contra civis. A ascensão do primeiro-ministro ultranacionalista Fumimaro Konoe, em 1940, consolidou de vez o militarismo no poder.</p>
+            <p>Ainda em 1940, já com a guerra em curso na Europa, o Japão assinou o Pacto Tripartite com a Alemanha nazista e a Itália fascista, formando oficialmente o <strong>Eixo</strong>. Pouco mais de um ano depois, em dezembro de 1941, o ataque japonês à base naval norte-americana de Pearl Harbor ampliou o conflito para o Oceano Pacífico e trouxe os Estados Unidos definitivamente para a guerra.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <figure class="figura-charge">
+      <img src="tema1/img8.jpeg" alt="Matriz comparativa entre fascismo, nazismo, stalinismo e militarismo" onclick="abrirLightbox(this)">
+      <figcaption>Ideologias diferentes, táticas semelhantes: nação, líder, ideologia central, mecanismo de terror e alvo de expansão de cada um dos quatro regimes.</figcaption>
+    </figure>
+
+    <!-- 7. EXPANSIONISMO E CAMINHO PARA A GUERRA -->
+    <section class="secao" id="expansionismo">
+      <div class="secao-titulo">
+        <span class="num">7</span>
+        <h2>Política Expansionista: o caminho até a guerra</h2>
+      </div>
+      <p class="secao-intro">Veja, em ordem cronológica, como as ambições territoriais dos regimes totalitários foram se somando até tornar o conflito inevitável.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Linha do tempo do expansionismo (1931–1941)
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <figure class="figura-charge">
+              <img src="tema1/img9.jpeg" alt="Efeito dominó: a marcha para o abismo entre 1931 e 1939" onclick="abrirLightbox(this)">
+              <figcaption>O efeito dominó: como a omissão das democracias diante de cada nova agressão, entre 1931 e 1939, foi abrindo caminho para a guerra seguinte.</figcaption>
+            </figure>
+            <div class="linha-tempo">
+              <div class="lt-item">
+                <span class="lt-ano">Setembro de 1931</span>
+                <p>Japão invade a Manchúria, no norte da China, dando início à sua política expansionista na Ásia. A Liga das Nações condena o ataque, mas a condenação formal não impede o avanço japonês.</p>
+              </div>
+              <div class="lt-item">
+                <span class="lt-ano">Outubro de 1935 – maio de 1936</span>
+                <p>Tropas italianas invadem a Etiópia em busca de um "novo Império Romano" na África; em maio de 1936, ocupam a capital, Adis Abeba.</p>
+              </div>
+              <div class="lt-item">
+                <span class="lt-ano">Março de 1936</span>
+                <p>A Alemanha remilitariza a Renânia, região fronteiriça com a França cuja desmilitarização havia sido imposta pelo Tratado de Versalhes.</p>
+              </div>
+              <div class="lt-item">
+                <span class="lt-ano">Março–abril de 1938</span>
+                <p>A Alemanha anexa a Áustria — o Anschluss ("união") —, confirmado por um plebiscito. O próprio Hitler era austríaco de nascimento.</p>
+              </div>
+              <div class="lt-item">
+                <span class="lt-ano">Setembro–outubro de 1938</span>
+                <p>Na Conferência de Munique, França e Inglaterra aceitam a anexação alemã dos Sudetos (região da Tchecoslováquia com população de maioria alemã), acreditando ser a última exigência territorial de Hitler — a chamada política de <strong>apaziguamento</strong>. Meses depois, a Alemanha ocupa toda a Tchecoslováquia, rompendo o acordo.</p>
+              </div>
+              <div class="lt-item">
+                <span class="lt-ano">Abril de 1939</span>
+                <p>A Itália de Mussolini anexa a Albânia, na Europa, dando continuidade à sua política expansionista.</p>
+              </div>
+              <div class="lt-item">
+                <span class="lt-ano">23 de agosto de 1939</span>
+                <p>Alemanha e URSS assinam o Pacto de Não Agressão (Molotov-Ribbentrop), que incluía um acordo secreto para dividir a Polônia entre os dois países.</p>
+              </div>
+              <div class="lt-item">
+                <span class="lt-ano">1º e 17 de setembro de 1939</span>
+                <p>Tropas alemãs invadem a Polônia pelo oeste; dezesseis dias depois, tropas soviéticas invadem pelo leste. Dois dias após o ataque alemão, Reino Unido e França declaram guerra: começa oficialmente a Segunda Guerra Mundial.</p>
+              </div>
+              <div class="lt-item">
+                <span class="lt-ano">Dezembro de 1941</span>
+                <p>Ataque japonês à base de Pearl Harbor. Os Estados Unidos entram na guerra, que se torna verdadeiramente global.</p>
+              </div>
+            </div>
+            <figure class="figura-charge">
+              <img src="tema1/img10.jpeg" alt="O estopim e a máquina de guerra: invasão da Polônia e tática Blitzkrieg" onclick="abrirLightbox(this)">
+              <figcaption>O estopim do conflito: a invasão coordenada da Polônia por Alemanha e União Soviética, executada pela tática da Blitzkrieg — força aérea, tanques e infantaria.</figcaption>
+            </figure>
+
+            <div class="termo-box">
+              <div><b>Blitzkrieg (guerra-relâmpago)</b><p>Estratégia militar alemã baseada em ataques rápidos e coordenados: primeiro os tanques blindados (Panzers) e a aviação (Luftwaffe) abriam caminho, depois a infantaria ocupava o território. Foi assim que a Alemanha dominou a Polônia e, até maio de 1940, também Dinamarca, Noruega, Holanda, Bélgica e França.</p></div>
+            </div>
+            <p>Perceba que cada uma dessas ações expansionistas foi tolerada ou mal contida pelas potências democráticas, que temiam um novo conflito de grandes proporções tão logo após a Primeira Guerra. Essa hesitação — sobretudo o apaziguamento praticado pelo Reino Unido e pela França — acabou dando tempo e confiança para que os regimes totalitários avançassem ainda mais.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="video-box selecionavel">
+      <span class="video-ico">🎬</span>
+      <div>
+        <span class="eyebrow">Assista</span>
+        <h4>Guerras Mundiais: por que elas começaram?</h4>
+        <p>Vídeo da BBC News Brasil em que a repórter Julia Braun conversa com especialistas sobre os elementos-chave por trás da Primeira e da Segunda Guerras Mundiais — e até que ponto esses mesmos elementos ainda estão presentes no mundo de hoje.</p>
+        <a class="link-btn" href="https://youtu.be/BHiDU-df9Ho?si=dRXRnEi3rKuROIU0" target="_blank" rel="noopener noreferrer">Assistir no YouTube ↗</a>
+      </div>
+    </div>
+
+    <!-- 8. IDEOLOGIA GUIANDO A GUERRA -->
+    <section class="secao" id="ideologia-guerra">
+      <div class="secao-titulo">
+        <span class="num">8</span>
+        <h2>Como as ideologias guiaram o conflito</h2>
+      </div>
+      <p class="secao-intro">A Segunda Guerra Mundial não foi apenas uma disputa por território: foi, em grande medida, um confronto entre projetos de sociedade radicalmente diferentes.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Da guerra de conquista à guerra de extermínio
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Pare para pensar: por que a Segunda Guerra Mundial foi tão mais violenta contra civis do que a Primeira? A resposta tem muito a ver com as ideologias totalitárias que você acabou de estudar. Elas não apenas motivaram a guerra — elas definiram <strong>como</strong> a guerra foi travada.</p>
+
+            <figure class="figura-charge">
+              <img src="tema1/img11.jpeg" alt="A ideologia como arma de extermínio: expansão territorial e ódio ideológico" onclick="abrirLightbox(this)">
+              <figcaption>Expansão territorial e ódio ideológico se somaram para transformar a guerra em uma guerra de extermínio contra civis.</figcaption>
+            </figure>
+
+            <p>Na Frente Oriental, a invasão alemã da União Soviética em 1941 (Operação Barbarossa) foi conduzida como uma verdadeira "guerra de extermínio", já que os povos eslavos eram considerados racialmente inferiores pela ideologia nazista — o que resultou em um número de mortes civis e militares muito superior ao de qualquer outra frente do conflito.</p>
+            <p>Nos territórios ocupados, a perseguição sistemática aos judeus, iniciada com as Leis de Nuremberg, culminou, a partir de 1941-1942, na chamada <strong>"Solução Final"</strong>: campos de extermínio como Auschwitz-Birkenau foram construídos especificamente para o assassinato em massa.</p>
+
+            <div class="link-box selecionavel">
+              <span class="link-ico">🔗</span>
+              <div>
+                <span class="link-eyebrow">Saiba mais</span>
+                <h4>Enciclopédia do Holocausto</h4>
+                <p>Para aprofundar seus estudos sobre o Holocausto — com verbetes, fotografias, depoimentos e mapas —, consulte a Enciclopédia do Holocausto do Museu Memorial do Holocausto dos Estados Unidos, disponível em português.</p>
+                <a class="link-btn" href="https://encyclopedia.ushmm.org/pt-br" target="_blank" rel="noopener noreferrer">Acessar a enciclopédia ↗</a>
+              </div>
+            </div>
+
+            <p>No Pacífico, o militarismo japonês, alimentado pela ideia de superioridade e destino imperial, também produziu campanhas de extrema brutalidade contra populações civis e prisioneiros de guerra nos territórios ocupados da Ásia.</p>
+            <p>Ou seja: entender as ideologias totalitárias não é um detalhe "à parte" da Segunda Guerra — é a chave para compreender por que o conflito foi tão mais destrutivo, e tão mais marcado por crimes contra civis, do que qualquer guerra anterior.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. QUEDA -->
+    <section class="secao" id="queda">
+      <div class="secao-titulo">
+        <span class="num">9</span>
+        <h2>A Queda dos Regimes Totalitários</h2>
+      </div>
+      <p class="secao-intro">O fim da guerra não significou o fim do totalitarismo como fenômeno histórico — mas encerrou o ciclo desses regimes específicos.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Derrota militar, julgamento e novos rumos
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <ul class="destaque-lista">
+              <li><strong>Itália (1943–1945):</strong> Mussolini é deposto em 1943 após derrotas militares e a invasão aliada; capturado e executado por partisans italianos em abril de 1945.</li>
+              <li><strong>Alemanha (1945):</strong> cercado em Berlim pelo Exército Vermelho, Hitler comete suicídio em 30 de abril de 1945; a Alemanha se rende incondicionalmente dias depois, encerrando a guerra na Europa.</li>
+              <li><strong>Japão (1945):</strong> após os bombardeios atômicos de Hiroshima e Nagasaki, o Japão se rende em agosto de 1945, encerrando de vez a Segunda Guerra Mundial.</li>
+              <li><strong>União Soviética:</strong> diferente dos regimes do Eixo, o stalinismo <em>não</em> caiu com a guerra — pelo contrário, saiu fortalecido, controlando boa parte do Leste Europeu e dando início à Guerra Fria. Stálin permaneceu no poder até sua morte, em 1953.</li>
+            </ul>
+
+            <figure class="figura-charge">
+              <img src="tema1/img12.jpeg" alt="O fim da linha em 1945: Itália, Alemanha, Japão e União Soviética" onclick="abrirLightbox(this)">
+              <figcaption>1945: Itália, Alemanha e Japão veem seus regimes derrotados — enquanto a União Soviética, a exceção, sai da guerra fortalecida.</figcaption>
+            </figure>
+
+            <p>Os líderes fascistas e nazistas sobreviventes foram julgados no <strong>Tribunal de Nuremberg</strong> (1945–1946), que criou um marco histórico e jurídico ao responsabilizar indivíduos por "crimes contra a humanidade" — um conceito que até hoje orienta o Direito Internacional.</p>
+
+            <figure class="figura-charge">
+              <img src="tema1/img13.jpeg" alt="O Tribunal de Nuremberg e o legado jurídico dos julgamentos" onclick="abrirLightbox(this)">
+              <figcaption>O Tribunal de Nuremberg (1945–1946) responsabilizou individualmente líderes políticos e militares, consagrando o conceito de "crimes contra a humanidade".</figcaption>
+            </figure>
+
+            <p>A derrota do fascismo, do nazismo e do militarismo japonês não significou, porém, o fim do autoritarismo no mundo: o próprio pós-guerra viu o fortalecimento de um novo bloco totalitário sob influência soviética, e a disputa entre capitalismo e socialismo definiria as próximas décadas na chamada Guerra Fria.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="video-box selecionavel">
+      <span class="video-ico">🎬</span>
+      <div>
+        <span class="eyebrow">Assista</span>
+        <h4>A tragédia de Hiroshima e Nagasaki</h4>
+        <p>Vídeo do canal History Brasil sobre os bombardeios atômicos de Hiroshima e Nagasaki, em agosto de 1945, que levaram à rendição do Japão e ao fim da Segunda Guerra Mundial.</p>
+        <a class="link-btn" href="https://youtu.be/YEKQYiWnvcI?si=lZNhKBmk2UvpcqMi" target="_blank" rel="noopener noreferrer">Assistir no YouTube ↗</a>
+      </div>
+    </div>
+
+    <!-- CALLOUT GLOSSARIO -->
+    <div class="jogo-trilha-card" onclick="document.getElementById('jd-wrap').scrollIntoView({behavior:'smooth'})">
+      <div>
+        <h4>Totalitarismo em Perspectiva: teste seus conceitos</h4>
+        <p>Complete as frases sobre os regimes totalitários e a Segunda Guerra Mundial no jogo interativo abaixo.</p>
+      </div>
+    </div>
+
+    <figure class="figura-charge">
+      <img src="tema1/img14.jpeg" alt="Revisão final dos termos operacionais do tema" onclick="abrirLightbox(this)">
+      <figcaption>Antes do jogo, revise os termos-chave deste tema: totalitarismo, fascismo, espaço vital, apaziguamento e Blitzkrieg.</figcaption>
+    </figure>
+
+    <!-- GLOSSARIO INTERATIVO -->
+    <section id="jd-wrap" class="selecionavel">
+      <h2>Glossário — complete as frases</h2>
+      <p class="sub">Toque no espaço de cada frase para escolher o termo correto entre as opções. Quando terminar todas, toque em "Verificar respostas".</p>
+      <div class="jd-alerta" id="jd-alerta"></div>
+      <div id="jd-frases"></div>
+      <div class="jd-status">
+        <span>Respondidas: <strong id="jd-respondidas">0</strong>/8</span>
+        <button class="jd-btn-verificar" id="jd-btn-verificar" onclick="verificarRespostas()">Verificar respostas</button>
+        <button class="jd-btn-restart" onclick="iniciarJogoArrastar()">Reiniciar</button>
+      </div>
+      <div class="jd-vitoria" id="jd-vitoria"></div>
+    </section>
+
+    <figure class="figura-charge">
+      <img src="tema1/ciclo.webp" alt="Infográfico: O Ciclo da Segunda Guerra — do totalitarismo à Nova Ordem Mundial" onclick="abrirLightbox(this)">
+      <figcaption>Síntese do tema: da consolidação dos regimes totalitários (1922–1933) à emergência da ordem bipolar da Guerra Fria, passando pela guerra-relâmpago, os pontos de virada decisivos e o colapso das potências do Eixo em 1945.</figcaption>
+    </figure>
+
+    <div class="atividades-box selecionavel">
+      <span class="eyebrow">Revisão</span>
+      <h4>📋 Revisão Geral do Tema</h4>
+      <p>Chegou ao fim do tema? Reforce tudo o que estudou com uma revisão completa: 10 questões dissertativas e 10 objetivas cobrindo todos os tópicos.</p>
+      <div class="atividades-grid">
+        <div class="atividade-card">
+          <div class="atividade-titulo">📄 Revisão Geral — Tema 1</div>
+          <p class="atividade-desc">10 questões dissertativas + 10 questões objetivas, com correção automática e comentários do professor.</p>
+          <div class="atividade-botoes">
+            <a class="link-btn abrir" href="tema1/revisao-tema1.html" target="_blank" rel="noopener noreferrer">Abrir revisão ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="rodape-nav">
+    <a class="btn-glossario" href="glossario.html" target="_parent">Ir para o Glossário</a>
+  </div>
+</div>
+
+<footer class="rodape">
+  Colégio Estadual Rodolfo de Oliveira · CERO · 2026
+</footer>
+
+<div class="lightbox-overlay" id="lightbox-overlay" onclick="fecharLightbox(event)">
+  <button class="lightbox-fechar" onclick="fecharLightbox(event)" aria-label="Fechar">✕</button>
+  <div class="lightbox-conteudo" id="lightbox-conteudo">
+    <img id="lightbox-img" src="" alt="" onclick="alternarZoom(event)">
+    <p class="lightbox-legenda" id="lightbox-legenda"></p>
+    <p class="lightbox-dica" id="lightbox-dica">Toque na imagem para ampliar</p>
+  </div>
+</div>
+
+<script>
+  /* ===== LIGHTBOX ===== */
+  function abrirLightbox(imgEl){
+    const overlay = document.getElementById('lightbox-overlay');
+    const conteudo = document.getElementById('lightbox-conteudo');
+    const imgGrande = document.getElementById('lightbox-img');
+    const legenda = document.getElementById('lightbox-legenda');
+    const dica = document.getElementById('lightbox-dica');
+    const figcaptionEl = imgEl.closest('figure') ? imgEl.closest('figure').querySelector('figcaption') : null;
+    imgGrande.src = imgEl.src;
+    imgGrande.alt = imgEl.alt;
+    legenda.innerHTML = figcaptionEl ? figcaptionEl.innerHTML : '';
+    conteudo.classList.remove('zoom-ativo');
+    dica.textContent = 'Toque na imagem para ampliar';
+    overlay.classList.add('aberto');
+  }
+  function alternarZoom(e){
+    e.stopPropagation();
+    const conteudo = document.getElementById('lightbox-conteudo');
+    const dica = document.getElementById('lightbox-dica');
+    conteudo.classList.toggle('zoom-ativo');
+    dica.textContent = conteudo.classList.contains('zoom-ativo')
+      ? 'Arraste para ver os detalhes · toque para reduzir'
+      : 'Toque na imagem para ampliar';
+  }
+  function fecharLightbox(e){
+    if (e.target.id === 'lightbox-overlay' || e.target.closest('.lightbox-fechar')){
+      const overlay = document.getElementById('lightbox-overlay');
+      overlay.classList.remove('aberto');
+      document.getElementById('lightbox-conteudo').classList.remove('zoom-ativo');
+    }
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape'){
+      document.getElementById('lightbox-overlay').classList.remove('aberto');
+      document.getElementById('lightbox-conteudo').classList.remove('zoom-ativo');
+    }
+  });
+  /* recalcula altura do acordeão aberto quando uma imagem interna termina de carregar */
+  document.querySelectorAll('.figura-charge img').forEach(function(img){
+    img.addEventListener('load', function(){
+      const body = this.closest('[data-acc-body]');
+      const item = body ? body.closest('[data-acc]') : null;
+      if (body && item && item.classList.contains('open')){
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+
+<script>
+/* ===== ACCORDION ===== */
+document.querySelectorAll('[data-acc-head]').forEach(function(head){
+  head.addEventListener('click', function(){
+    var item = head.closest('[data-acc]');
+    var body = item.querySelector('[data-acc-body]');
+    var isOpen = item.classList.contains('open');
+    if(isOpen){
+      item.classList.remove('open');
+      body.style.maxHeight = null;
+    } else {
+      item.classList.add('open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+});
+
+/* ===== GLOSSÁRIO — COMPLETE AS FRASES ===== */
+const ITENS = [
+    { termo:'Totalitarismo', frase:'Regime político em que o Estado busca controlar todas as esferas da vida social, econômica e cultural, suprimindo liberdades individuais, é chamado de ___.' },
+    { termo:'Fascismo', frase:'Criado por Benito Mussolini na Itália a partir de 1922, o regime que pregava a supremacia do Estado sobre o indivíduo é o ___.' },
+    { termo:'Nazismo', frase:'Regime liderado por Adolf Hitler a partir de 1933, que colocou o racismo de Estado no centro de sua ideologia, é conhecido como ___.' },
+    { termo:'Stalinismo', frase:'O regime de partido único liderado por Josef Stálin na União Soviética, marcado por expurgos e planejamento econômico centralizado, é chamado de ___.' },
+    { termo:'Lebensraum', frase:'O conceito nazista de "espaço vital", usado para justificar a conquista de territórios no Leste Europeu, era chamado em alemão de ___.' },
+    { termo:'Antissemitismo', frase:'A perseguição e discriminação sistemática contra judeus, base ideológica do Holocausto, é chamada de ___.' },
+    { termo:'Propaganda', frase:'Ferramenta usada pelos regimes totalitários para controlar jornais, rádio, cinema e escolas, moldando a opinião pública em favor do governo, chama-se ___.' },
+    { termo:'Expansionista', frase:'A política de conquista de novos territórios praticada por Alemanha, Itália e Japão nas décadas de 1930 e 1940 é chamada de política ___.' }
+];
+
+let verificado = false;
+let dropdownAberto = null;
+
+function embaralhar(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function fecharDropdown(){
+  if (dropdownAberto){
+    dropdownAberto.remove();
+    dropdownAberto = null;
+  }
+  document.querySelectorAll('.jd-blank.aberto').forEach(b => b.classList.remove('aberto'));
+}
+
+function atualizarContador(){
+  const respondidas = document.querySelectorAll('.jd-blank[data-selecionado]').length;
+  document.getElementById('jd-respondidas').textContent = respondidas;
+  return respondidas;
+}
+
+function abrirDropdown(blank){
+  if (verificado) return;
+  if (dropdownAberto){
+    const jaEraEsse = dropdownAberto.dataset.para === blank.id;
+    fecharDropdown();
+    if (jaEraEsse) return;
+  }
+
+  blank.classList.add('aberto');
+  const opcoes = embaralhar(ITENS.map(it => it.termo));
+
+  const dd = document.createElement('div');
+  dd.className = 'jd-dropdown';
+  dd.dataset.para = blank.id;
+  opcoes.forEach(termo => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = termo;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selecionarOpcao(blank, termo);
+      fecharDropdown();
+    });
+    dd.appendChild(btn);
+  });
+
+  document.body.appendChild(dd);
+  posicionarDropdown(dd, blank);
+  dropdownAberto = dd;
+}
+
+function posicionarDropdown(dd, blank){
+  const r = blank.getBoundingClientRect();
+  const ddH = dd.offsetHeight, ddW = dd.offsetWidth;
+  let top = r.bottom + 6;
+  if (top + ddH > window.innerHeight - 8){
+    top = Math.max(8, r.top - ddH - 6);
+  }
+  let left = r.left;
+  if (left + ddW > window.innerWidth - 8){
+    left = Math.max(8, window.innerWidth - ddW - 8);
+  }
+  dd.style.top = top + 'px';
+  dd.style.left = left + 'px';
+}
+
+function selecionarOpcao(blank, termo){
+  blank.dataset.selecionado = termo;
+  blank.classList.add('respondida');
+  blank.querySelector('.jd-selecionado').textContent = termo;
+  blank.querySelector('.jd-seta').style.opacity = '0';
+  atualizarContador();
+}
+
+window.iniciarJogoArrastar = function(){
+  verificado = false;
+  const frasesEl = document.getElementById('jd-frases');
+  frasesEl.innerHTML = '';
+  document.getElementById('jd-vitoria').classList.remove('mostrar');
+  document.getElementById('jd-btn-verificar').textContent = 'Verificar respostas';
+  document.getElementById('jd-btn-verificar').disabled = false;
+  document.getElementById('jd-alerta').classList.remove('mostrar');
+
+  ITENS.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'jd-frase';
+    div.id = 'frz-' + idx;
+    div.innerHTML = '<span class="num">' + (idx + 1) + '.</span> ' + item.frase.replace('___', '<span class="jd-blank" id="blank-' + idx + '" data-termo="' + item.termo + '"><span class="jd-icone">✎</span><span class="jd-selecionado">toque para escolher</span><span class="jd-seta">∨</span></span>') + '<div class="jd-correcao"></div>';
+    frasesEl.appendChild(div);
+    const blank = div.querySelector('.jd-blank');
+    blank.addEventListener('click', (e) => {
+      e.stopPropagation();
+      abrirDropdown(blank);
+    });
+  });
+
+  atualizarContador();
+};
+
+window.verificarRespostas = function(){
+  if (verificado) return;
+  const blanks = Array.from(document.querySelectorAll('.jd-blank'));
+  const faltando = blanks.filter(b => !b.dataset.selecionado);
+
+  if (faltando.length > 0){
+    const alerta = document.getElementById('jd-alerta');
+    alerta.textContent = 'Faltam ' + faltando.length + ' resposta(s). Escolha um termo para cada frase antes de verificar.';
+    alerta.classList.add('mostrar');
+    faltando[0].scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+
+  document.getElementById('jd-alerta').classList.remove('mostrar');
+  verificado = true;
+  fecharDropdown();
+
+  let acertos = 0;
+  blanks.forEach(blank => {
+    const certo = blank.dataset.selecionado === blank.dataset.termo;
+    const frase = blank.closest('.jd-frase');
+    if (certo){
+      acertos++;
+      blank.classList.add('correta');
+      blank.classList.remove('incorreta');
+      if (frase) frase.classList.add('correta');
+    } else {
+      blank.classList.add('incorreta');
+      blank.classList.remove('correta');
+      if (frase){
+        frase.classList.add('incorreta');
+        const corr = frase.querySelector('.jd-correcao');
+        if (corr) corr.textContent = 'Resposta certa: ' + blank.dataset.termo;
+      }
+    }
+  });
+
+  document.getElementById('jd-btn-verificar').textContent = 'Respostas verificadas';
+  document.getElementById('jd-btn-verificar').disabled = true;
+
+  const vitoria = document.getElementById('jd-vitoria');
+  if (acertos === ITENS.length){
+    vitoria.textContent = 'Parabéns! Você acertou todas as ' + acertos + ' frases.';
+  } else {
+    vitoria.textContent = 'Você acertou ' + acertos + '/' + ITENS.length + '. Reveja as frases em vermelho e tente novamente!';
+  }
+  vitoria.classList.add('mostrar');
+};
+
+document.addEventListener('click', (e) => {
+  if (dropdownAberto && !dropdownAberto.contains(e.target)) fecharDropdown();
+});
+window.addEventListener('scroll', (e) => {
+  if (dropdownAberto && (e.target === dropdownAberto || (e.target.nodeType === 1 && dropdownAberto.contains(e.target)))) return;
+  fecharDropdown();
+}, true);
+window.addEventListener('resize', fecharDropdown);
+
+iniciarJogoArrastar();
+</script>
+
+</body>
+</html>
