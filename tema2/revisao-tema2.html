@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão Geral — Tema 2: Populismo e Desenvolvimentismo | CERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f5f4ea;
+    --bg-alt:#eef0e1;
+    --paper:#fffef9;
+    --ink:#1e2419;
+    --ink-soft:#4d5546;
+    --verde:#1d4e6b;
+    --verde-dark:#153a52;
+    --verde-2:#3d7a9e;
+    --gold:#b8862f;
+    --gold-light:#e6d3a3;
+    --line:#d6d3bd;
+    --shadow:0 10px 30px rgba(30,36,25,.14);
+    --radius:14px;
+    --font-title:'Playfair Display', serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-touch-callout:none;
+    user-select:none;
+  }
+  .selecionavel, main{user-select:text;}
+  .campo-resposta{user-select:text;}
+
+  /* ===== CAPA / GATE ===== */
+  #capa{
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(to bottom, #0f2a3a, #1d4e6b, #3d7a9e);
+    /* paleta institucional Tema 2 */
+    padding:24px;
+  }
+  #capa .grade-centralizada{
+    position:absolute;
+    top:0; bottom:0; left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:896px;
+    pointer-events:none;
+    z-index:0;
+    opacity:.08;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px);
+    background-size:40px 40px;
+  }
+  .capa-card{
+    position:relative;
+    z-index:1;
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    max-width:480px;
+    width:100%;
+    padding:36px 32px;
+    text-align:center;
+  }
+  .capa-card .tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(31,107,63,.1); padding:5px 12px; border-radius:999px; margin-bottom:14px;
+  }
+  .capa-card h1{font-family:var(--font-title); font-size:1.6rem; margin:0 0 10px; color:var(--verde-dark);}
+  .capa-card p.desc{color:var(--ink-soft); font-size:.94rem; margin:0 0 22px;}
+  .capa-card input{
+    width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:1rem; margin-bottom:14px;
+  }
+  .capa-card button{
+    width:100%; padding:13px; border:none; border-radius:8px;
+    background:var(--verde); color:#fff; font-weight:600; font-size:1rem; cursor:pointer;
+    font-family:var(--font-body); transition:filter .15s ease;
+  }
+  .capa-card button:hover{filter:brightness(1.08);}
+  .capa-aviso{font-size:.78rem; color:#a33; margin-top:8px; display:none;}
+
+  /* ===== APP ===== */
+  #app{display:none;}
+  .sticky-header{
+    position:sticky; top:0; z-index:50;
+    background:var(--verde-dark); color:#eafaf0;
+    padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:8px;
+    font-family:var(--font-mono); font-size:.82rem;
+  }
+  .sticky-header .aluno{font-family:var(--font-body); font-weight:600; font-size:.92rem;}
+  .barra-progresso-trilho{
+    flex:1; min-width:120px; height:8px; background:rgba(255,255,255,.2); border-radius:6px; overflow:hidden; margin:0 14px;
+  }
+  .barra-progresso-fill{height:100%; background:var(--gold); width:0%; transition:width .3s ease;}
+
+  .wrap{max-width:800px; margin:0 auto; padding:32px 24px 60px;}
+
+  header.topo{margin-bottom:28px;}
+  header.topo .hero-tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.72rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--verde-dark);
+    background:rgba(31,107,63,.1); padding:5px 12px; border-radius:999px; margin-bottom:12px;
+  }
+  header.topo h1{font-family:var(--font-title); font-size:clamp(1.5rem,4vw,2rem); margin:0 0 8px; color:var(--ink);}
+  header.topo p.sub{color:var(--ink-soft); margin:0; font-size:.98rem;}
+  header.topo .aluno-info{
+    font-family:var(--font-mono); font-size:.82rem; color:var(--verde-dark);
+    background:var(--bg-alt); display:inline-block; padding:6px 12px; border-radius:8px; margin-top:12px;
+  }
+  .descritor-bar{
+    font-family:var(--font-mono); font-size:.76rem; color:var(--ink-soft);
+    background:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:8px 14px; margin-bottom:14px; display:inline-block;
+  }
+  .ficha-id{
+    display:flex; flex-wrap:wrap; gap:10px 26px;
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; margin-top:12px; font-family:var(--font-mono); font-size:.84rem; color:var(--ink);
+  }
+  .ficha-id span b{color:var(--verde-dark);}
+
+  /* ===== TEXTO DE APOIO ===== */
+  .texto-apoio{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:28px 30px; margin-bottom:30px;
+  }
+  .texto-apoio h2{font-family:var(--font-title); font-size:1.25rem; color:var(--verde-dark); margin:0 0 4px;}
+  .texto-apoio .fonte-tag{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-bottom:16px; display:block;}
+  .texto-apoio p{margin:0 0 14px; color:var(--ink);}
+  .texto-apoio p:last-of-type{margin-bottom:0;}
+
+  .referencia-box{
+    margin-top:20px; padding:14px 16px;
+    background:var(--bg-alt); border-left:3px solid var(--gold); border-radius:0 8px 8px 0;
+  }
+  .referencia-box .rot{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--verde-dark); display:block; margin-bottom:6px;
+  }
+  .referencia-box p{margin:0 0 6px; font-size:.86rem; color:var(--ink-soft); font-family:var(--font-mono); line-height:1.6;}
+  .referencia-box p:last-child{margin-bottom:0;}
+
+  .documento-fonte{
+    background:var(--bg-alt);
+    border-left:3px solid var(--verde);
+    border-radius:0 8px 8px 0;
+    padding:16px 20px;
+    margin:16px 0;
+  }
+  .documento-fonte ul{margin:0; padding-left:20px;}
+  .documento-fonte li{margin-bottom:12px; font-style:italic; color:var(--ink);}
+  .documento-fonte li:last-child{margin-bottom:0;}
+
+  /* ===== QUESTOES ===== */
+  .questoes-titulo{
+    font-family:var(--font-title); font-size:1.2rem; color:var(--verde-dark);
+    margin:0 0 18px; display:flex; align-items:center; gap:10px;
+  }
+  .questao{
+    background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; margin-bottom:18px;
+  }
+  .questao .num-q{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:50%; background:var(--verde);
+    color:#fff; font-family:var(--font-mono); font-size:.78rem; margin-right:8px; flex-shrink:0;
+  }
+  .questao .enunciado{font-weight:600; color:var(--ink); margin-bottom:12px; display:flex; align-items:flex-start;}
+  .questao textarea{
+    width:100%; min-height:100px; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:.96rem; resize:vertical; color:var(--ink);
+  }
+  .questao textarea:focus{outline:2px solid var(--verde-2); outline-offset:1px;}
+  .contador-chars{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-top:6px; text-align:right;}
+
+  .subitem{margin-top:16px;}
+  .subitem:first-of-type{margin-top:14px;}
+  .subitem-label{display:block; font-weight:600; color:var(--ink); margin-bottom:8px; font-size:.94rem;}
+
+  /* ===== OPCOES (OBJETIVAS) ===== */
+  .opcao{
+    display:flex; gap:12px; align-items:flex-start;
+    padding:12px 14px; border:1.5px solid var(--line); border-radius:8px;
+    margin-bottom:8px; cursor:pointer; transition:all .15s ease; background:var(--paper);
+  }
+  .opcao:hover{border-color:var(--verde); background:var(--bg-alt);}
+  .opcao.sel{border-color:var(--verde); background:var(--bg-alt);}
+  .opcao.correta{border-color:var(--verde-2); background:#e9faf0;}
+  .opcao.errada{border-color:#c0392b; background:#fdeeee;}
+  .opcao.travada{cursor:default;}
+  .opcao-letra{
+    flex:0 0 auto; width:26px; height:26px; border-radius:50%;
+    background:var(--bg-alt); color:var(--ink-soft);
+    font-family:var(--font-mono); font-weight:700; font-size:.78rem;
+    display:flex; align-items:center; justify-content:center; transition:all .15s ease;
+  }
+  .opcao.sel .opcao-letra{background:var(--verde); color:#fff;}
+  .opcao.correta .opcao-letra{background:var(--verde-2); color:#fff;}
+  .opcao.errada .opcao-letra{background:#c0392b; color:#fff;}
+  .opcao-txt{font-size:.94rem; color:var(--ink); line-height:1.6; padding-top:2px;}
+  .opcao-marca{margin-left:auto; font-size:1rem; align-self:center; display:none; flex:0 0 auto;}
+  .gabarito-info{
+    display:none; margin-top:12px; padding:12px 16px;
+    background:#f7f1e3; border:1px solid var(--gold-light); border-radius:8px;
+    font-size:.88rem; color:#5c4415;
+  }
+  .gabarito-info.show{display:block;}
+  .gabarito-info b{color:#8a6f2f;}
+  .questao .badge-resultado{
+    display:none; font-family:var(--font-mono); font-size:.68rem; font-weight:700;
+    padding:2px 10px; border-radius:20px; margin-left:8px; color:#fff;
+  }
+  .questao .badge-resultado.ok{display:inline-block; background:var(--verde-2);}
+  .questao .badge-resultado.no{display:inline-block; background:#c0392b;}
+
+  .comentario-prof{
+    display:none; margin-top:14px; padding:14px 16px;
+    background:#eaf6ee; border:1px solid #bfe3c8; border-radius:8px; font-size:.9rem; color:var(--verde-dark);
+  }
+  .comentario-prof.show{display:block;}
+  .comentario-prof b{display:block; margin-bottom:4px; font-family:var(--font-title); font-size:.92rem;}
+
+  /* ===== ALERTA / FINALIZAR ===== */
+  .alerta-incompleto{
+    display:none; background:#fdf3e2; border:1px solid #f1d9a6; color:#8a5a10;
+    padding:12px 16px; border-radius:8px; font-size:.9rem; margin-bottom:16px;
+  }
+  .alerta-incompleto.show{display:block;}
+
+  .acoes-finais{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;}
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:.94rem; padding:12px 22px;
+    border-radius:8px; border:none; cursor:pointer; transition:filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn-primario{background:var(--verde); color:#fff;}
+  .btn-secundario{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn-pdf{background:var(--gold); color:#fff;}
+  .btn[disabled]{opacity:.5; cursor:not-allowed;}
+
+  /* ===== POPUP ===== */
+  .popup-overlay{
+    display:none; position:fixed; inset:0; background:rgba(20,36,30,.6);
+    align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .popup-overlay.show{display:flex;}
+  .popup-card{
+    background:var(--paper); border-radius:var(--radius); box-shadow:var(--shadow);
+    max-width:420px; width:100%; padding:32px 28px; text-align:center;
+  }
+  .popup-card .emoji{font-size:2.4rem; margin-bottom:10px;}
+  .popup-card h3{font-family:var(--font-title); margin:0 0 8px; color:var(--verde-dark);}
+  .popup-card p{color:var(--ink-soft); font-size:.94rem; margin:0 0 20px;}
+
+  footer.rodape{text-align:center; padding:24px; color:var(--ink-soft); font-family:var(--font-mono); font-size:.8rem;}
+
+  @media (max-width:600px){
+    .wrap{padding:24px 16px 50px;}
+    .texto-apoio, .questao{padding:18px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== CAPA ===== -->
+<div id="capa">
+  <div class="grade-centralizada"></div>
+  <div class="capa-card">
+    <span class="tag">9º ano · História · CERO</span>
+    <h1>Revisão Geral — Tema 2</h1>
+    <p class="desc">Populismo e Desenvolvimentismo no Brasil (1946–1964). Textos de revisão, 10 questões dissertativas e 10 questões objetivas. Preencha os dados para começar.</p>
+    <input type="text" id="nome-aluno" placeholder="Seu nome completo">
+    <input type="text" id="turma-aluno" placeholder="Turma (ex.: 9º A)">
+    <button onclick="iniciarAtividade()">Iniciar atividade</button>
+    <div class="capa-aviso" id="capa-aviso">Por favor, digite seu nome para continuar.</div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+  <div class="sticky-header">
+    <span class="aluno" id="header-nome"></span>
+    <div class="barra-progresso-trilho"><div class="barra-progresso-fill" id="barra-fill"></div></div>
+    <span id="contador-geral">Respondidas: 0/20</span>
+  </div>
+
+  <div class="wrap">
+    <header class="topo selecionavel">
+      <span class="descritor-bar">História / 9º Ano do Ensino Fundamental &nbsp;|&nbsp; (GO-EF09HI17-A) – Populismo e Desenvolvimentismo</span>
+      <span class="hero-tag" style="display:block; margin-top:10px;">Revisão Geral do Tema</span>
+      <h1>Revisão Geral — Tema 2</h1>
+      <p class="sub">Revise cada tópico abaixo e responda às 10 questões dissertativas e às 10 questões objetivas.</p>
+      <div class="ficha-id" id="ficha-id">
+        <span><b>NOME:</b> <span id="ficha-nome"></span></span>
+        <span><b>DATA:</b> <span id="ficha-data"></span></span>
+        <span><b>TURMA:</b> <span id="ficha-turma"></span></span>
+      </div>
+    </header>
+
+    <main>
+      <h2 class="questoes-titulo">✍️ Revisão e Questões Dissertativas</h2>
+
+      <section class="texto-apoio selecionavel">
+        <h2>1. A Redemocratização e a Queda de Vargas (1945)</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Em outubro de 1945, Getúlio Vargas foi deposto pelas Forças Armadas num movimento inédito: pela primeira vez, exército, marinha e aeronáutica agiram politicamente em conjunto, criando o embrião do que seria o Estado-Maior das Forças Armadas (EMFA). Vargas apostava no legalismo dos militares e em sua aliança com o general Dutra, mas não percebeu a tempo as mudanças ocorridas dentro da própria instituição militar.</p>
+      </section>
+
+      <div class="questao" data-questao="1">
+        <div class="enunciado"><span class="num-q">1</span> Explique o que tornou a deposição de Vargas, em outubro de 1945, um acontecimento inédito na história das Forças Armadas brasileiras, e em que ele apostava antes de ser deposto.</div>
+        <textarea id="resp-1" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique que foi a primeira vez que as três Forças agiram politicamente como um todo, planejando o golpe em conjunto, e que Vargas confiava no legalismo militar, na aliança com Dutra e em sua habilidade de manipular as divisões internas do oficialato.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>2. Afinal, o que é Populismo?</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>O senso comum define populismo como a manipulação do povo por um político que faz promessas vazias só para conquistar votos. Historiadores questionam essa visão, pois ela trata o povo como massa passiva e incapaz de julgamento próprio. Hoje, populismo é entendido como um conjunto de práticas de líderes carismáticos que se aproximam diretamente dos trabalhadores urbanos, apresentando-se como representantes diretos de seus interesses — um conceito polissêmico, associado no Brasil ao período de 1930 a 1964.</p>
+      </section>
+
+      <div class="questao" data-questao="2">
+        <div class="enunciado"><span class="num-q">2</span> Compare a visão de "senso comum" sobre populismo com a definição revista pelos historiadores. Por que a primeira é considerada limitada?</div>
+        <textarea id="resp-2" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique que o senso comum vê o povo como massa manipulada e passiva, enquanto os historiadores entendem o populismo como aproximação de líderes carismáticos com os trabalhadores urbanos, reconhecendo a capacidade de julgamento do povo.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>3. O Retorno de Vargas e a Petrobras (1951–1954)</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Eleito democraticamente em 1950, Vargas voltou ao poder apostando num desenvolvimentismo nacionalista. Em 1951, propôs a criação da Petrobras para explorar o petróleo por meio do Estado, mesmo o país consumindo pouco desse combustível na época. A proposta, resumida no lema "O petróleo é nosso!", enfrentou forte oposição de grupos nacionais e internacionais contrários ao controle estatal dos recursos.</p>
+      </section>
+
+      <div class="questao" data-questao="3">
+        <div class="enunciado"><span class="num-q">3</span> Por que a criação da Petrobras, proposta por Vargas em 1951, gerou tanta polêmica, mesmo o petróleo representando uma parcela pequena do consumo energético brasileiro da época?</div>
+        <textarea id="resp-3" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique que o petróleo já era estratégico nas economias mais avançadas do mundo e que a proposta de exploração estatal, resumida em "O petróleo é nosso!", opôs nacionalistas a grupos favoráveis à participação de capital estrangeiro no setor.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>4. A Carta-Testamento de Getúlio Vargas (1954)</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Pressionado por uma grave crise política e militar, Vargas suicidou-se em agosto de 1954, deixando uma carta-testamento dirigida ao povo brasileiro. No texto, ele atribuiu a crise à reação de "grupos internacionais e nacionais" contra suas políticas de garantia do trabalho, como a Petrobras e a Eletrobras, apresentando seu ato como um sacrifício em nome do povo.</p>
+      </section>
+
+      <div class="questao" data-questao="4">
+        <div class="enunciado"><span class="num-q">4</span> A quem a carta-testamento de Vargas é dirigida? Segundo o texto, quais políticas suas despertaram a oposição de certos grupos?</div>
+        <textarea id="resp-4" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno identifique o povo brasileiro como destinatário da carta e cite a Petrobras e a Eletrobras como as políticas de garantia do trabalho que, segundo Vargas, provocaram a reação dos grupos nacionais e internacionais contrários a ele.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>5. JK e o Desenvolvimentismo: o Plano de Metas</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Juscelino Kubitschek (1956–1961) lançou o Plano de Metas, que concentrou 93% dos investimentos em energia, transportes e indústrias de base — em detrimento de alimentação e educação. Diferente do nacionalismo de Vargas, JK praticava um desenvolvimentismo associado, aceitando o capital estrangeiro para acelerar a industrialização por substituição de importações, símbolo do lema "50 anos em 5".</p>
+      </section>
+
+      <div class="questao" data-questao="5">
+        <div class="enunciado"><span class="num-q">5</span> Compare o desenvolvimentismo nacionalista de Vargas com o desenvolvimentismo associado de JK. Que setores foram priorizados pelo Plano de Metas, e quais ficaram em segundo plano?</div>
+        <textarea id="resp-5" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique que Vargas desconfiava do capital estrangeiro enquanto JK o buscava ativamente, e que o Plano de Metas priorizou energia, transportes e indústrias de base (93% dos recursos), deixando alimentação e educação com apenas 7%.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>6. A Sociedade nos Anos JK: TV e Supermercado</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Na década de 1950, a televisão (TV Tupi, a partir de 1950 em São Paulo) e o supermercado mudaram os hábitos de consumo brasileiros. Essas novidades surgiram em meio à industrialização e à concentração das fábricas no Centro-Sul, mas seu acesso era caro e limitado, alcançando sobretudo as camadas mais abastadas da população nas grandes cidades.</p>
+      </section>
+
+      <div class="questao" data-questao="6">
+        <div class="enunciado"><span class="num-q">6</span> Que relação existe entre a industrialização do período JK e o surgimento da televisão e do supermercado? Quem, na prática, tinha acesso a essas novidades?</div>
+        <textarea id="resp-6" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno relacione o surgimento da TV e do supermercado à industrialização concentrada no Centro-Sul, explicando que o acesso era caro e restrito, beneficiando principalmente a classe média e alta das grandes cidades.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>7. Brasília e os Candangos</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>A construção de Brasília, símbolo do governo JK, atraiu milhares de trabalhadores migrantes, sobretudo do Nordeste, conhecidos como candangos. Movidos pela notícia de que havia trabalho e dinheiro na nova capital, muitos deixaram suas cidades de origem em busca de melhores condições de vida, e boa parte permaneceu na região após a conclusão da obra.</p>
+      </section>
+
+      <div class="questao" data-questao="7">
+        <div class="enunciado"><span class="num-q">7</span> Explique qual foi o movimento migratório revelado pela história dos candangos durante o governo JK e qual foi o principal motivo que levou milhares de brasileiros a se deslocarem para Brasília.</div>
+        <textarea id="resp-7" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique a migração de trabalhadores, sobretudo nordestinos, para o Planalto Central, atraídos pela promessa de emprego e renda na construção da nova capital, formando o grupo que ficou conhecido como candangos.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>8. Jânio Quadros e a Crise dos Partidos (1960)</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Jânio Quadros venceu as eleições de 1960 apresentando-se como candidato "acima dos partidos", prometendo varrer a "sujeira" da política (corrupção, demagogia, negociatas). Sua vitória evidenciou tanto a falência do sistema partidário quanto o esgotamento do modelo de participação do governo JK, que não conseguiu absorver institucionalmente as novas demandas sociais.</p>
+      </section>
+
+      <div class="questao" data-questao="8">
+        <div class="enunciado"><span class="num-q">8</span> Por que a vitória de Jânio Quadros, em 1960, é vista como um sinal de crise do sistema partidário brasileiro daquele momento?</div>
+        <textarea id="resp-8" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique que Jânio se apresentava como candidato "acima dos partidos", captando o descontentamento popular com a política tradicional, o que evidenciava tanto a crise de representatividade dos partidos quanto o esgotamento do modelo do governo JK.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>9. João Goulart: Parlamentarismo e o Plebiscito de 1963</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Após a renúncia de Jânio em 1961, João Goulart assumiu sob um regime parlamentarista imposto pelo Congresso. Em janeiro de 1963, um plebiscito devolveu os plenos poderes presidenciais a Jango, com 9,5 milhões de votos a favor do presidencialismo entre 11,5 milhões de eleitores. Goulart interpretou o resultado como uma "nova eleição" para si, mas os votos eram, na verdade, pelo sistema de governo, não uma aprovação irrestrita de seu governo.</p>
+      </section>
+
+      <div class="questao" data-questao="9">
+        <div class="enunciado"><span class="num-q">9</span> O que estava em jogo no plebiscito de janeiro de 1963, e por que a interpretação de Jango sobre o resultado não considerava toda a complexidade da situação política da época?</div>
+        <textarea id="resp-9" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique que o plebiscito decidia entre parlamentarismo e presidencialismo, e que a vitória expressiva do presidencialismo (9,5 milhões de votos) não significava apoio pleno a Jango, já que vários partidos e lideranças já mirava as eleições presidenciais de 1965.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>10. A Marcha da Família e o Golpe de 1964</h2>
+        <span class="fonte-tag">Revisão — leitura para o 9º ano</span>
+        <p>Em março de 1964, a Marcha da Família com Deus pela Liberdade reuniu centenas de milhares de pessoas em São Paulo contra o governo Goulart, enquanto Jango seguia agendando comícios pelo país em defesa das reformas de base. Em 31 de março, um movimento militar partiu de Minas Gerais e, em 1º de abril, com o Congresso declarando vaga a Presidência, teve início um regime militar que duraria 21 anos, encerrando o período democrático iniciado em 1945-1946.</p>
+      </section>
+
+      <div class="questao" data-questao="10">
+        <div class="enunciado"><span class="num-q">10</span> Explique o que foi a Marcha da Família com Deus pela Liberdade e como a disputa entre marchas e comícios, em março de 1964, culminou no golpe civil-militar de 31 de março.</div>
+        <textarea id="resp-10" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Espera-se que o aluno explique a Marcha como um ato de classe média e caráter religioso contra Goulart, e relacione a radicalização entre marchas e comícios ao movimento militar de 31 de março de 1964, que encerrou o período democrático iniciado em 1945-1946.
+        </div>
+      </div>
+
+      <h2 class="questoes-titulo">📝 Questões Objetivas</h2>
+      <div class="questao objetiva" data-questao="obj-1" data-correta="2">
+        <div class="enunciado"><span class="num-q">1</span> O que tornou a deposição de Getúlio Vargas, em outubro de 1945, um acontecimento inédito na história das Forças Armadas brasileiras? <span class="badge-resultado" id="badge-obj-1"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(1,0)"><div class="opcao-letra">A</div><div class="opcao-txt">Foi a primeira vez que um presidente brasileiro renunciou voluntariamente ao cargo antes do fim do mandato.</div><div class="opcao-marca" id="marca-1-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(1,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Foi decidida exclusivamente pelo Congresso Nacional, sem qualquer participação das Forças Armadas.</div><div class="opcao-marca" id="marca-1-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(1,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Foi o primeiro golpe planejado em conjunto pelo exército, pela marinha e pela aeronáutica como instituição única.</div><div class="opcao-marca" id="marca-1-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(1,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Foi resultado direto de uma derrota eleitoral de Vargas em um pleito disputado livremente naquele ano.</div><div class="opcao-marca" id="marca-1-3"></div></div>
+        <div class="gabarito-info" id="gab-1"><b>Gabarito: C.</b> Pela primeira vez, exército, marinha e aeronáutica agiram politicamente como um todo, planejando em conjunto a deposição de Vargas — o que levou à criação do embrião do Estado-Maior das Forças Armadas (EMFA).</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-2" data-correta="1">
+        <div class="enunciado"><span class="num-q">2</span> Segundo os historiadores citados no material de revisão, qual é a principal crítica à ideia de senso comum de que o populismo se resume à "manipulação do povo"? <span class="badge-resultado" id="badge-obj-2"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(2,0)"><div class="opcao-letra">A</div><div class="opcao-txt">Ela superestima a inteligência do povo, tornando os políticos populistas praticamente inofensivos.</div><div class="opcao-marca" id="marca-2-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(2,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Ela trata o povo como massa passiva e incapaz de distinguir propostas sérias de simples demagogia.</div><div class="opcao-marca" id="marca-2-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(2,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Ela ignora completamente a existência de líderes carismáticos na história política latino-americana.</div><div class="opcao-marca" id="marca-2-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(2,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Ela nega que qualquer tipo de discurso político possa influenciar o comportamento eleitoral das pessoas.</div><div class="opcao-marca" id="marca-2-3"></div></div>
+        <div class="gabarito-info" id="gab-2"><b>Gabarito: B.</b> Historiadores questionam a ideia de "manipulação do povo" porque ela parte do princípio de que a população seria incapaz de diferenciar uma proposta séria de uma simples demagogia, como se fosse apenas vítima passiva.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-3" data-correta="3">
+        <div class="enunciado"><span class="num-q">3</span> O que o lema "O petróleo é nosso!", associado à criação da Petrobras em 1953, defendia? <span class="badge-resultado" id="badge-obj-3"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(3,0)"><div class="opcao-letra">A</div><div class="opcao-txt">A venda imediata de todas as reservas de petróleo brasileiras a empresas multinacionais.</div><div class="opcao-marca" id="marca-3-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(3,1)"><div class="opcao-letra">B</div><div class="opcao-txt">A proibição total de qualquer uso de petróleo na matriz energética do país.</div><div class="opcao-marca" id="marca-3-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(3,2)"><div class="opcao-letra">C</div><div class="opcao-txt">A divisão igualitária da futura empresa estatal entre o governo brasileiro e governos estrangeiros.</div><div class="opcao-marca" id="marca-3-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(3,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Que a exploração do petróleo brasileiro ficasse nas mãos do Estado, e não do capital estrangeiro.</div><div class="opcao-marca" id="marca-3-3"></div></div>
+        <div class="gabarito-info" id="gab-3"><b>Gabarito: D.</b> O lema nacionalista "O petróleo é nosso!" defendia que a exploração do petróleo brasileiro fosse controlada pelo Estado, e não entregue a empresas estrangeiras — projeto que resultou na criação da Petrobras.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-4" data-correta="0">
+        <div class="enunciado"><span class="num-q">4</span> Na carta-testamento de 1954, Vargas atribui a crise que o levou ao suicídio, sobretudo, a: <span class="badge-resultado" id="badge-obj-4"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(4,0)"><div class="opcao-letra">A</div><div class="opcao-txt">Grupos nacionais e internacionais que se opunham às suas políticas de garantia do trabalho, como a Petrobras.</div><div class="opcao-marca" id="marca-4-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(4,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Uma invasão militar estrangeira que ameaçava tomar o território brasileiro naquele momento.</div><div class="opcao-marca" id="marca-4-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(4,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Uma epidemia que atingia a população urbana e reduzia a arrecadação do governo federal.</div><div class="opcao-marca" id="marca-4-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(4,3)"><div class="opcao-letra">D</div><div class="opcao-txt">A recusa do Congresso Nacional em aprovar qualquer orçamento público durante seu governo.</div><div class="opcao-marca" id="marca-4-3"></div></div>
+        <div class="gabarito-info" id="gab-4"><b>Gabarito: A.</b> Vargas atribuiu a crise à "campanha subterrânea" de grupos nacionais e internacionais contrários ao seu regime de garantia do trabalho, citando explicitamente a obstrução à Petrobras e à Eletrobras.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-5" data-correta="2">
+        <div class="enunciado"><span class="num-q">5</span> O Plano de Metas do governo JK concentrou 93% dos recursos em quais setores? <span class="badge-resultado" id="badge-obj-5"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(5,0)"><div class="opcao-letra">A</div><div class="opcao-txt">Alimentação, educação e saúde pública em todo o território nacional.</div><div class="opcao-marca" id="marca-5-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(5,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Cultura, turismo e lazer, com foco na promoção internacional da imagem do país.</div><div class="opcao-marca" id="marca-5-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(5,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Energia, transportes e indústrias de base, considerados essenciais para viabilizar a industrialização.</div><div class="opcao-marca" id="marca-5-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(5,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Defesa nacional, diplomacia e reaparelhamento das Forças Armadas.</div><div class="opcao-marca" id="marca-5-3"></div></div>
+        <div class="gabarito-info" id="gab-5"><b>Gabarito: C.</b> Energia, transportes e indústrias de base receberam 93% dos recursos do Plano de Metas, pois eram considerados a infraestrutura indispensável para que a industrialização por substituição de importações avançasse.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-6" data-correta="1">
+        <div class="enunciado"><span class="num-q">6</span> A televisão e o supermercado, novidades da década de 1950 no Brasil, alcançavam sobretudo: <span class="badge-resultado" id="badge-obj-6"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(6,0)"><div class="opcao-letra">A</div><div class="opcao-txt">Toda a população rural do país, de forma igualitária, independentemente da renda.</div><div class="opcao-marca" id="marca-6-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(6,1)"><div class="opcao-letra">B</div><div class="opcao-txt">As camadas mais abastadas das grandes cidades, já que os aparelhos e os novos hábitos de consumo eram caros.</div><div class="opcao-marca" id="marca-6-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(6,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Exclusivamente os trabalhadores das indústrias recém-instaladas no Centro-Sul do país.</div><div class="opcao-marca" id="marca-6-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(6,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Apenas os funcionários públicos federais lotados em Brasília durante sua construção.</div><div class="opcao-marca" id="marca-6-3"></div></div>
+        <div class="gabarito-info" id="gab-6"><b>Gabarito: B.</b> Comprar uma televisão ou frequentar um supermercado nos anos 1950 custava caro, de modo que essas novidades alcançavam sobretudo a classe média e alta das grandes cidades.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-7" data-correta="3">
+        <div class="enunciado"><span class="num-q">7</span> Quem foram os "candangos" e qual foi o principal motivo que os levou a Brasília? <span class="badge-resultado" id="badge-obj-7"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(7,0)"><div class="opcao-letra">A</div><div class="opcao-txt">Funcionários públicos transferidos compulsoriamente do Rio de Janeiro para a nova capital.</div><div class="opcao-marca" id="marca-7-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(7,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Estudantes universitários que prestavam serviço voluntário na construção da capital.</div><div class="opcao-marca" id="marca-7-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(7,2)"><div class="opcao-letra">C</div><div class="opcao-txt">Diplomatas estrangeiros enviados para acompanhar a inauguração da nova capital.</div><div class="opcao-marca" id="marca-7-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(7,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Trabalhadores migrantes, sobretudo do Nordeste, atraídos pela promessa de emprego e dinheiro na obra.</div><div class="opcao-marca" id="marca-7-3"></div></div>
+        <div class="gabarito-info" id="gab-7"><b>Gabarito: D.</b> Os candangos eram trabalhadores migrantes, em grande parte vindos do Nordeste, que deixaram suas cidades atraídos pela notícia de que havia trabalho e dinheiro na construção de Brasília.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-8" data-correta="0">
+        <div class="enunciado"><span class="num-q">8</span> A vitória de Jânio Quadros em 1960, apresentando-se como candidato "acima dos partidos", evidenciava sobretudo: <span class="badge-resultado" id="badge-obj-8"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(8,0)"><div class="opcao-letra">A</div><div class="opcao-txt">A falência do sistema partidário e o esgotamento do modelo de participação do governo JK.</div><div class="opcao-marca" id="marca-8-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(8,1)"><div class="opcao-letra">B</div><div class="opcao-txt">A total ausência de crise política e institucional no Brasil daquele momento.</div><div class="opcao-marca" id="marca-8-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(8,2)"><div class="opcao-letra">C</div><div class="opcao-txt">O fortalecimento definitivo dos partidos tradicionais, que se uniram em torno de sua candidatura.</div><div class="opcao-marca" id="marca-8-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(8,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Um consenso nacional sobre a continuidade exata das políticas econômicas do governo anterior.</div><div class="opcao-marca" id="marca-8-3"></div></div>
+        <div class="gabarito-info" id="gab-8"><b>Gabarito: A.</b> A ascensão de Jânio, candidato "acima dos partidos", evidenciava tanto a falência do sistema partidário quanto o esgotamento das possibilidades de participação abertas — mas não plenamente atendidas — pelo governo JK.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-9" data-correta="2">
+        <div class="enunciado"><span class="num-q">9</span> O que estava em jogo no plebiscito realizado em 6 de janeiro de 1963? <span class="badge-resultado" id="badge-obj-9"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(9,0)"><div class="opcao-letra">A</div><div class="opcao-txt">A permanência ou não do Brasil como membro da Organização das Nações Unidas.</div><div class="opcao-marca" id="marca-9-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(9,1)"><div class="opcao-letra">B</div><div class="opcao-txt">A escolha entre manter a capital no Rio de Janeiro ou confirmar a mudança para Brasília.</div><div class="opcao-marca" id="marca-9-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(9,2)"><div class="opcao-letra">C</div><div class="opcao-txt">A escolha entre manter o parlamentarismo ou devolver plenos poderes ao presidente, no regime presidencialista.</div><div class="opcao-marca" id="marca-9-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(9,3)"><div class="opcao-letra">D</div><div class="opcao-txt">A aprovação ou rejeição imediata das reformas de base propostas por João Goulart.</div><div class="opcao-marca" id="marca-9-3"></div></div>
+        <div class="gabarito-info" id="gab-9"><b>Gabarito: C.</b> O plebiscito de janeiro de 1963 decidiu sobre a forma de governo: dos 11,5 milhões de eleitores, 9,5 milhões votaram pelo retorno do presidencialismo, devolvendo plenos poderes a João Goulart.</div>
+      </div>
+
+      <div class="questao objetiva" data-questao="obj-10" data-correta="1">
+        <div class="enunciado"><span class="num-q">10</span> O movimento militar que resultou no golpe de 1964 teve início, em 31 de março, a partir de qual estado? <span class="badge-resultado" id="badge-obj-10"></span></div>
+        <div class="opcao" data-idx="0" onclick="marcarOpcao(10,0)"><div class="opcao-letra">A</div><div class="opcao-txt">São Paulo, palco da Marcha da Família com Deus pela Liberdade.</div><div class="opcao-marca" id="marca-10-0"></div></div>
+        <div class="opcao" data-idx="1" onclick="marcarOpcao(10,1)"><div class="opcao-letra">B</div><div class="opcao-txt">Minas Gerais, de onde partiu a mobilização que ganhou rápida adesão de outros estados.</div><div class="opcao-marca" id="marca-10-1"></div></div>
+        <div class="opcao" data-idx="2" onclick="marcarOpcao(10,2)"><div class="opcao-letra">C</div><div class="opcao-txt">O Rio Grande do Sul, estado natal de João Goulart.</div><div class="opcao-marca" id="marca-10-2"></div></div>
+        <div class="opcao" data-idx="3" onclick="marcarOpcao(10,3)"><div class="opcao-letra">D</div><div class="opcao-txt">Brasília, sede do governo federal e do Congresso Nacional.</div><div class="opcao-marca" id="marca-10-3"></div></div>
+        <div class="gabarito-info" id="gab-10"><b>Gabarito: B.</b> O movimento das Forças Armadas contra o governo Goulart teve início em Minas Gerais, em 31 de março de 1964, ganhando rapidamente adesão de unidades militares de outros estados.</div>
+      </div>
+
+      <div class="alerta-incompleto" id="alerta-incompleto">
+        ⚠️ Ainda há questões incompletas (dissertativas com o mínimo de caracteres e todas as 10 objetivas marcadas). Revise antes de finalizar.
+      </div>
+
+      <div class="acoes-finais">
+        <button class="btn btn-primario" onclick="finalizarAtividade()">Finalizar e corrigir</button>
+        <button class="btn btn-secundario" onclick="refazerAtividade()">Refazer</button>
+        <button class="btn btn-pdf" onclick="exportarPDF()">Exportar em PDF</button>
+      </div>
+    </main>
+  </div>
+
+  <footer class="rodape">Colégio Estadual Rodolfo de Oliveira · CERO · 2026</footer>
+</div>
+
+<!-- ===== POPUP ===== -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-card">
+    <div class="emoji">🎉</div>
+    <h3>Atividade concluída!</h3>
+    <p id="popup-nota" style="font-family:var(--font-mono); font-weight:700; color:var(--verde-dark); font-size:1rem; margin:0 0 12px;"></p>
+    <p>Suas respostas foram registradas. Os comentários do professor e o gabarito comentado já estão disponíveis abaixo de cada questão para você comparar com o que escreveu.</p>
+    <button class="btn btn-primario" onclick="fecharPopup()">Continuar</button>
+  </div>
+</div>
+
+<script>
+/* ===== GATE DE NOME ===== */
+function iniciarAtividade(){
+  const nome = document.getElementById('nome-aluno').value.trim();
+  const turma = document.getElementById('turma-aluno').value.trim();
+  const aviso = document.getElementById('capa-aviso');
+  if(!nome){
+    aviso.style.display = 'block';
+    return;
+  }
+  aviso.style.display = 'none';
+  const hoje = new Date();
+  const dataFormatada = String(hoje.getDate()).padStart(2,'0') + '/' + String(hoje.getMonth()+1).padStart(2,'0') + '/' + hoje.getFullYear();
+  document.getElementById('header-nome').textContent = nome;
+  document.getElementById('ficha-nome').textContent = nome;
+  document.getElementById('ficha-data').textContent = dataFormatada;
+  document.getElementById('ficha-turma').textContent = turma || '—';
+  document.getElementById('capa').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+/* ===== CONTADOR DE CARACTERES E PROGRESSO ===== */
+const textareas = document.querySelectorAll('textarea.dissertativa');
+const TOTAL_OBJ = 10;
+let respMC = {};
+let corrigido = false;
+
+function marcarOpcao(num, idx){
+  if (corrigido) return;
+  respMC[num] = idx;
+  const questaoEl = document.querySelector('.questao[data-questao="obj-' + num + '"]');
+  questaoEl.querySelectorAll('.opcao').forEach(function(op){
+    op.classList.toggle('sel', parseInt(op.dataset.idx,10) === idx);
+  });
+  atualizarProgresso();
+}
+
+function atualizarProgresso(){
+  let respondidas = 0;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length >= min) respondidas++;
+  });
+  respondidas += Object.keys(respMC).length;
+  const total = textareas.length + TOTAL_OBJ;
+  document.getElementById('contador-geral').textContent = 'Respondidas: ' + respondidas + '/' + total;
+  document.getElementById('barra-fill').style.width = (respondidas / total * 100) + '%';
+}
+
+textareas.forEach(function(t){
+  const contadorEl = t.parentElement.querySelector('.contador-chars');
+  const min = parseInt(t.dataset.min, 10);
+  t.addEventListener('input', function(){
+    contadorEl.textContent = t.value.length + ' caracteres (mínimo ' + min + ')';
+    atualizarProgresso();
+  });
+});
+
+/* ===== FINALIZAR ===== */
+function finalizarAtividade(){
+  let completo = true;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length < min) completo = false;
+  });
+  for(let n=1; n<=TOTAL_OBJ; n++){
+    if(respMC[n] === undefined) completo = false;
+  }
+
+  const alerta = document.getElementById('alerta-incompleto');
+  if(!completo){
+    alerta.classList.add('show');
+    alerta.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  alerta.classList.remove('show');
+
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.add('show');
+  });
+
+  corrigido = true;
+  let acertos = 0;
+  document.querySelectorAll('.questao.objetiva').forEach(function(qEl){
+    const num = qEl.dataset.questao.replace('obj-','');
+    const correta = parseInt(qEl.dataset.correta, 10);
+    const escolha = respMC[num];
+    const acertou = escolha === correta;
+    if(acertou) acertos++;
+    qEl.querySelectorAll('.opcao').forEach(function(op){
+      const idx = parseInt(op.dataset.idx, 10);
+      op.classList.add('travada');
+      if(idx === correta){ op.classList.add('correta'); document.getElementById('marca-'+num+'-'+idx).textContent='✓'; document.getElementById('marca-'+num+'-'+idx).style.display='block'; }
+      if(idx === escolha && !acertou){ op.classList.add('errada'); document.getElementById('marca-'+num+'-'+idx).textContent='✗'; document.getElementById('marca-'+num+'-'+idx).style.display='block'; }
+    });
+    document.getElementById('gab-'+num).classList.add('show');
+    const badge = document.getElementById('badge-obj-'+num);
+    badge.textContent = acertou ? '✓ Acertou' : '✗ Errou';
+    badge.className = 'badge-resultado ' + (acertou ? 'ok' : 'no');
+  });
+  window.__acertos = acertos;
+
+  const pct = Math.round(acertos/TOTAL_OBJ*100);
+  document.getElementById('popup-nota').textContent = acertos + '/' + TOTAL_OBJ + ' nas objetivas (' + pct + '%)';
+  document.getElementById('popup-overlay').classList.add('show');
+}
+
+function fecharPopup(){
+  document.getElementById('popup-overlay').classList.remove('show');
+}
+
+function refazerAtividade(){
+  textareas.forEach(function(t){
+    t.value = '';
+    t.parentElement.querySelector('.contador-chars').textContent = '0 caracteres (mínimo ' + t.dataset.min + ')';
+  });
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.remove('show');
+  });
+  document.querySelectorAll('.opcao').forEach(function(op){
+    op.classList.remove('sel','correta','errada','travada');
+  });
+  document.querySelectorAll('.opcao-marca').forEach(function(m){ m.style.display='none'; m.textContent=''; });
+  document.querySelectorAll('.gabarito-info').forEach(function(g){ g.classList.remove('show'); });
+  document.querySelectorAll('.badge-resultado').forEach(function(b){ b.textContent=''; b.className='badge-resultado'; });
+  respMC = {};
+  corrigido = false;
+  document.getElementById('alerta-incompleto').classList.remove('show');
+  atualizarProgresso();
+  window.scrollTo(0,0);
+}
+
+/* ===== EXPORTAR PDF ===== */
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+function esc(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML.replace(/\n/g, '<br>');
+}
+
+async function exportarPDF(){
+  const overlay = document.createElement('div');
+  overlay.id = 'pdf-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(20,36,30,.6);display:flex;align-items:center;justify-content:center;z-index:999;';
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;padding:32px 36px;text-align:center;max-width:300px;box-shadow:0 10px 30px rgba(58,28,86,.3);font-family:\'Source Serif 4\',serif;">' +
+      '<div style="font-size:2rem;margin-bottom:8px;">📄</div>' +
+      '<h4 style="margin:0 0 4px;color:#153a52;font-family:\'Playfair Display\',serif;">Gerando PDF…</h4>' +
+      '<p style="margin:0 0 14px;color:#4d5546;font-size:.86rem;">Aguarde alguns instantes.</p>' +
+      '<div style="background:#eef0e1;border-radius:6px;overflow:hidden;height:8px;">' +
+        '<div id="pdf-prog" style="height:100%;width:0%;background:#1d4e6b;transition:width .2s ease;"></div>' +
+      '</div>' +
+      '<div id="pdf-prog-txt" style="margin-top:8px;font-family:\'JetBrains Mono\',monospace;font-size:.74rem;color:#4d5546;">0%</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  await sleep(80);
+  function setP(pct, msg){
+    const pp = document.getElementById('pdf-prog'), pt = document.getElementById('pdf-prog-txt');
+    if(pp) pp.style.width = pct + '%';
+    if(pt) pt.textContent = msg || (pct + '%');
+  }
+
+  try{
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({orientation:'portrait', unit:'px', format:'a4', hotfixes:['px_scaling']});
+    const PW = pdf.internal.pageSize.getWidth(), PH = pdf.internal.pageSize.getHeight();
+    const ML = 28, CW = PW - ML*2;
+    let y = ML;
+
+    async function addImg(el){
+      const canvas = await html2canvas(el, {scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff', scrollX:0, scrollY:0, windowWidth:860});
+      const imgW = CW, imgH = (canvas.height / canvas.width) * imgW;
+      const dataUrl = canvas.toDataURL('image/jpeg', .92), avail = PH - ML*2;
+      if(imgH <= avail){
+        if(y + imgH > PH - ML){ pdf.addPage(); y = ML; }
+        pdf.addImage(dataUrl, 'JPEG', ML, y, imgW, imgH);
+        y += imgH + 8;
+      } else {
+        const pxPerPdfPt = canvas.width / imgW;
+        let srcY = 0;
+        while(srcY < canvas.height){
+          const availPt = PH - y - ML, sliceH_pt = Math.min(availPt, avail);
+          const sliceH_px = Math.round(sliceH_pt * pxPerPdfPt), actualH_px = Math.min(sliceH_px, canvas.height - srcY);
+          const tmp = document.createElement('canvas');
+          tmp.width = canvas.width; tmp.height = actualH_px;
+          tmp.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, actualH_px, 0, 0, canvas.width, actualH_px);
+          const sliceUrl = tmp.toDataURL('image/jpeg', .92), slicePt = (actualH_px / canvas.width) * imgW;
+          pdf.addImage(sliceUrl, 'JPEG', ML, y, imgW, slicePt);
+          srcY += actualH_px; y += slicePt;
+          if(srcY < canvas.height){ pdf.addPage(); y = ML; }
+        }
+        y += 8;
+      }
+    }
+
+    async function band(tag, txt){
+      const b = document.createElement('div');
+      b.style.cssText = 'width:860px;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      b.innerHTML = '<div style="background:linear-gradient(90deg,#1d4e6b,#153a52);border-radius:8px;padding:12px 22px;display:flex;align-items:center;gap:12px">' +
+        '<span style="background:rgba(255,255,255,.2);color:#fff;font-weight:700;font-size:12px;letter-spacing:1px;border-radius:20px;padding:3px 12px">' + tag + '</span>' +
+        '<span style="color:#fff;font-size:15px;font-weight:700">' + txt + '</span></div>';
+      document.body.appendChild(b);
+      await sleep(20);
+      await addImg(b);
+      document.body.removeChild(b);
+    }
+
+    const nome = document.getElementById('header-nome').textContent || 'Aluno(a)';
+    const turma = document.getElementById('ficha-turma').textContent || '—';
+    const acertos = window.__acertos !== undefined ? window.__acertos : '—';
+    const pct = window.__acertos !== undefined ? Math.round(window.__acertos/10*100)+'%' : '—';
+    const now = new Date();
+    const dtStr = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+
+    setP(5, 'Preparando capa…'); await sleep(40);
+    const coverEl = document.createElement('div');
+    coverEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;overflow:hidden;position:absolute;left:-9999px;top:0';
+    coverEl.innerHTML =
+      '<div style="background:linear-gradient(135deg,#0f2a3a 0%,#1d4e6b 60%,#3d7a9e 100%);padding:32px 48px 28px;color:white">' +
+        '<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;font-weight:700;margin-bottom:6px">História · 9º Ano do Ensino Fundamental · GO-EF09HI17-A</div>' +
+        '<div style="font-size:26px;font-weight:900;line-height:1.2;margin-bottom:5px">Revisão Geral — Tema 2</div>' +
+        '<div style="font-size:13px;opacity:.8;font-style:italic">Populismo e Desenvolvimentismo no Brasil (1946–1964) · 10 dissertativas + 10 objetivas</div>' +
+      '</div>' +
+      '<div style="background:#f5f4ea;padding:22px 48px 26px;border-bottom:3px solid #e6d3a3">' +
+        '<div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#1d4e6b;font-weight:700;margin-bottom:5px">Aluno(a)</div>' +
+        '<div style="font-size:20px;font-weight:700;color:#1e2419;border-bottom:2.5px solid #1d4e6b;padding-bottom:6px;display:inline-block;margin-bottom:16px">' + esc(nome) + '</div>' +
+        '<div style="display:flex;gap:12px;flex-wrap:wrap">' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#1d4e6b">' + esc(turma) + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Turma</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#b8862f">10</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Dissertativas</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#1d4e6b">' + acertos + '/10</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Objetivas (' + pct + ')</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:140px">' +
+            '<div style="font-size:13px;font-weight:700;color:#333">' + dtStr + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Gerado em</div></div>' +
+        '</div>' +
+        '<div style="font-size:9px;color:#bbb;margin-top:14px">Colégio Estadual Rodolfo de Oliveira · Goiás · 2026</div>' +
+      '</div>';
+    document.body.appendChild(coverEl); await sleep(60); await addImg(coverEl); document.body.removeChild(coverEl);
+
+    // QUESTÕES DISSERTATIVAS
+    setP(15, 'Preparando questões…'); await sleep(20);
+    await band('DISSERTATIVAS', 'Questões Dissertativas — Respostas e Orientações');
+
+    const QUESTOES = [
+      { num:'1', enunc:'O que tornou a deposição de Vargas, em outubro de 1945, um acontecimento inédito nas Forças Armadas, e em que ele apostava antes de ser deposto?', id:'resp-1',
+        coment:'Primeira vez que as três Forças agiram politicamente como um todo; Vargas confiava no legalismo militar, na aliança com Dutra e em manipular as divisões do oficialato.' },
+      { num:'2', enunc:'Compare a visão de senso comum sobre populismo com a definição revista pelos historiadores.', id:'resp-2',
+        coment:'Senso comum vê o povo como massa manipulada e passiva; historiadores veem aproximação de líderes carismáticos com trabalhadores urbanos, reconhecendo o julgamento do povo.' },
+      { num:'3', enunc:'Por que a criação da Petrobras (1951) gerou tanta polêmica, mesmo o petróleo tendo pouco peso no consumo energético do país?', id:'resp-3',
+        coment:'Petróleo já era estratégico nas economias avançadas; a proposta de exploração estatal ("O petróleo é nosso!") opôs nacionalistas a defensores do capital estrangeiro.' },
+      { num:'4', enunc:'A quem a carta-testamento de Vargas é dirigida, e quais políticas suas despertaram a oposição de certos grupos?', id:'resp-4',
+        coment:'Dirigida ao povo brasileiro; cita a Petrobras e a Eletrobras como políticas de garantia do trabalho que provocaram a reação de grupos nacionais e internacionais.' },
+      { num:'5', enunc:'Compare o desenvolvimentismo nacionalista de Vargas com o associado de JK, e indique os setores priorizados pelo Plano de Metas.', id:'resp-5',
+        coment:'Vargas desconfiava do capital estrangeiro; JK o buscava. Plano de Metas priorizou energia, transportes e indústria de base (93%), com alimentação e educação em segundo plano (7%).' },
+      { num:'6', enunc:'Que relação existe entre a industrialização do período JK e o surgimento da TV e do supermercado? Quem tinha acesso a elas?', id:'resp-6',
+        coment:'Novidades ligadas à industrialização no Centro-Sul; acesso caro e restrito, beneficiando sobretudo a classe média e alta urbana.' },
+      { num:'7', enunc:'Qual foi o movimento migratório revelado pela história dos candangos, e qual foi o principal motivo do deslocamento?', id:'resp-7',
+        coment:'Migração de trabalhadores, sobretudo nordestinos, para o Planalto Central, atraídos pela promessa de emprego e renda na construção de Brasília.' },
+      { num:'8', enunc:'Por que a vitória de Jânio Quadros (1960) é vista como sinal de crise do sistema partidário?', id:'resp-8',
+        coment:'Jânio se apresentava como candidato "acima dos partidos", captando o descontentamento com a política tradicional, evidenciando a crise de representatividade e o esgotamento do modelo JK.' },
+      { num:'9', enunc:'O que estava em jogo no plebiscito de janeiro de 1963, e por que a interpretação de Jango sobre o resultado era limitada?', id:'resp-9',
+        coment:'Decidia entre parlamentarismo e presidencialismo; a vitória do presidencialismo não significava apoio pleno a Jango, já que partidos e lideranças miravam 1965.' },
+      { num:'10', enunc:'O que foi a Marcha da Família com Deus pela Liberdade e como a disputa entre marchas e comícios culminou no golpe de 31 de março de 1964?', id:'resp-10',
+        coment:'Ato de classe média e caráter religioso contra Goulart; a radicalização entre marchas e comícios culminou no movimento militar iniciado em Minas Gerais em 31/3/1964.' }
+    ];
+
+    for(let i=0; i<QUESTOES.length; i++){
+      const q = QUESTOES[i];
+      setP(15 + Math.round(i/QUESTOES.length*38), 'Dissertativa ' + q.num + '/10…'); await sleep(10);
+
+      const valor = document.getElementById(q.id) ? document.getElementById(q.id).value : '';
+      const respostaHTML =
+        '<div style="background:#fbeae6;border:1.5px solid #eab8ae;border-radius:8px;padding:12px 15px;min-height:40px">' +
+          '<div style="font-size:12px;color:#1e2419;line-height:1.75;white-space:pre-wrap">' + (esc(valor) || '<span style="color:#aaa">(sem resposta)</span>') + '</div>' +
+        '</div>';
+
+      const qEl = document.createElement('div');
+      qEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #d6d3bd;border-radius:10px;position:absolute;left:-9999px;top:0';
+      qEl.innerHTML =
+        '<div style="background:linear-gradient(90deg,#1d4e6b,#153a52);padding:10px 22px;display:flex;justify-content:space-between;align-items:center">' +
+          '<span style="color:white;font-weight:700;font-size:13px;letter-spacing:.8px">QUESTÃO ' + q.num + '</span>' +
+          '<span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:11px;padding:3px 12px;border-radius:20px;font-weight:600">Dissertativa</span></div>' +
+        '<div style="padding:18px 24px 16px;background:#fdfdfa">' +
+          '<div style="font-size:13px;font-weight:700;color:#1e2419;line-height:1.6;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #eee">' + esc(q.enunc) + '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+            '<div style="width:4px;height:15px;background:#1d4e6b;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#1d4e6b;text-transform:uppercase;letter-spacing:1.5px">Resposta do Aluno(a)</div></div>' +
+          respostaHTML +
+          '<div style="display:flex;align-items:center;gap:8px;margin:12px 0 7px">' +
+            '<div style="width:4px;height:15px;background:#b8862f;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#8a6f2f;text-transform:uppercase;letter-spacing:1.5px">Comentário do Professor</div></div>' +
+          '<div style="background:#f7f1e3;border:1.5px solid #e6d3a3;border-radius:8px;padding:13px 16px">' +
+            '<div style="font-size:12px;color:#4a3a10;line-height:1.8">' + esc(q.coment) + '</div></div>' +
+        '</div>';
+      document.body.appendChild(qEl); await sleep(10); await addImg(qEl); document.body.removeChild(qEl);
+    }
+
+    // QUESTÕES OBJETIVAS
+    setP(55, 'Preparando objetivas…'); await sleep(20);
+    await band('OBJETIVAS', 'Questões Objetivas — Gabarito Comentado');
+
+    const LETRAS_PDF = ['A','B','C','D'];
+    const objetivasEls = document.querySelectorAll('.questao.objetiva');
+    let oi = 0;
+    for(const qEl0 of objetivasEls){
+      const num = qEl0.dataset.questao.replace('obj-','');
+      const correta = parseInt(qEl0.dataset.correta, 10);
+      const escolha = respMC[num];
+      const acertou = escolha === correta;
+      const enuncClone = qEl0.querySelector('.enunciado').cloneNode(true);
+      const badgeInClone = enuncClone.querySelector('.badge-resultado');
+      if(badgeInClone) badgeInClone.remove();
+      const numQInClone = enuncClone.querySelector('.num-q');
+      if(numQInClone) numQInClone.remove();
+      const enunc = enuncClone.textContent.trim();
+      setP(55 + Math.round(oi/objetivasEls.length*35), 'Objetiva ' + num + '/10…'); await sleep(10);
+
+      let altsHTML = '';
+      qEl0.querySelectorAll('.opcao').forEach(function(op){
+        const idx = parseInt(op.dataset.idx, 10);
+        const txt = op.querySelector('.opcao-txt').textContent;
+        let bg='#fdfdfa', bd='#e3e0d0', cor='#2d2d20', tag='';
+        if(idx===correta){ bg='#e9faf0'; bd='#8ed8b8'; cor='#0d3025'; tag='<span style="color:#0a6e57;font-weight:700"> ✓ correta</span>'; }
+        if(idx===escolha && !acertou){ bg='#fdeeee'; bd='#e3a3a3'; cor='#7a1f1f'; tag='<span style="color:#a83232;font-weight:700"> ✗ sua resposta</span>'; }
+        else if(idx===escolha && acertou){ tag='<span style="color:#0a6e57;font-weight:700"> ← sua resposta</span>'; }
+        altsHTML += '<div style="display:flex;gap:9px;align-items:flex-start;background:'+bg+';border:1px solid '+bd+';border-radius:6px;padding:8px 12px;margin-bottom:6px"><div style="flex:0 0 auto;font-weight:700;color:#1d4e6b;font-size:12px">'+LETRAS_PDF[idx]+')</div><div style="font-size:12px;color:'+cor+';line-height:1.55">'+esc(txt)+tag+'</div></div>';
+      });
+
+      const headBg = acertou ? 'linear-gradient(90deg,#0f8c6e,#0a6e57)' : 'linear-gradient(90deg,#a83232,#7a1f1f)';
+      const gabTxt = qEl0.querySelector('.gabarito-info').textContent.trim();
+      const qEl = document.createElement('div');
+      qEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #d6d3bd;border-radius:10px;position:absolute;left:-9999px;top:0';
+      qEl.innerHTML =
+        '<div style="background:'+headBg+';padding:10px 22px;display:flex;justify-content:space-between;align-items:center">' +
+          '<span style="color:white;font-weight:700;font-size:13px;letter-spacing:.8px">QUESTÃO ' + num + '</span>' +
+          '<span style="background:rgba(255,255,255,.2);color:white;font-size:11px;padding:3px 12px;border-radius:20px;font-weight:700">' + (acertou?'ACERTOU':'ERROU') + '</span></div>' +
+        '<div style="padding:16px 24px 14px;background:#fdfdfa">' +
+          '<div style="font-size:13px;font-weight:700;color:#1e2419;line-height:1.6;margin-bottom:12px">' + esc(enunc) + '</div>' +
+          altsHTML +
+          '<div style="margin-top:10px;background:#f7f1e3;border:1px solid #e6d3a3;border-radius:6px;padding:10px 14px">' +
+            '<div style="font-size:12px;color:#4a3a10;line-height:1.6">' + esc(gabTxt) + '</div></div>' +
+        '</div>';
+      document.body.appendChild(qEl); await sleep(10); await addImg(qEl); document.body.removeChild(qEl);
+      oi++;
+    }
+
+    // RODAPÉ EM TODAS AS PÁGINAS
+    setP(92, 'Finalizando…'); await sleep(30);
+    const totalPages = pdf.getNumberOfPages();
+    for(let p=1; p<=totalPages; p++){
+      pdf.setPage(p);
+      const fEl = document.createElement('div');
+      fEl.style.cssText = 'width:' + Math.round(CW) + 'px;height:22px;background:#f5f4ea;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:10px;color:#888;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      fEl.innerHTML = '<span>Revisão Geral — Tema 2 · ' + esc(nome) + ' · Objetivas: ' + acertos + '/10</span><span>Página ' + p + ' de ' + totalPages + '</span>';
+      document.body.appendChild(fEl);
+      const fc = await html2canvas(fEl, {scale:2, logging:false, backgroundColor:'#f5f4ea'});
+      document.body.removeChild(fEl);
+      const fUrl = fc.toDataURL('image/jpeg', .9), fH = (fc.height / fc.width) * CW;
+      pdf.setFillColor(246,242,250); pdf.rect(ML, PH-fH, CW, fH, 'F');
+      pdf.addImage(fUrl, 'JPEG', ML, PH-fH, CW, fH);
+    }
+
+    setP(100, 'Salvando…'); await sleep(200);
+    const safeName = nome.replace(/[^a-zA-Z0-9_\-]/g, '_');
+    pdf.save('Revisao_Tema2_' + safeName + '.pdf');
+
+  } catch(err){
+    console.error(err);
+    alert('Erro ao gerar PDF: ' + err.message);
+  } finally {
+    const ov = document.getElementById('pdf-overlay');
+    if(ov) document.body.removeChild(ov);
+  }
+}
+
+/* ===== PROTEÇÃO ANTI-COLA ===== */
+(function () {
+  const CAMPOS_PROTEGIDOS = document.querySelectorAll('textarea.dissertativa, .campo-resposta');
+  const LIMITE_BLOCO = 25;
+
+  function bloquear(e) {
+    e.preventDefault();
+    mostrarToast('Colar não permitido nesta atividade.');
+  }
+
+  CAMPOS_PROTEGIDOS.forEach(function (campo) {
+    ['paste', 'copy', 'cut', 'drop', 'dragover', 'contextmenu'].forEach(function (evt) {
+      campo.addEventListener(evt, bloquear);
+    });
+
+    campo.addEventListener('beforeinput', function (e) {
+      if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') {
+        e.preventDefault();
+        mostrarToast('Colar não permitido nesta atividade.');
+      }
+    });
+
+    let valorAnterior = campo.value;
+    campo.addEventListener('input', function (e) {
+      const diferenca = campo.value.length - valorAnterior.length;
+      if (diferenca >= LIMITE_BLOCO && e.inputType !== 'insertReplacementText') {
+        campo.value = valorAnterior;
+        mostrarToast('Colar não permitido nesta atividade.');
+      } else {
+        valorAnterior = campo.value;
+      }
+    });
+  });
+
+  function mostrarToast(mensagem) {
+    let toast = document.getElementById('anti-cola-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'anti-cola-toast';
+      toast.style.cssText =
+        'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);' +
+        'background:#333;color:#fff;padding:10px 20px;border-radius:8px;' +
+        'font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = mensagem;
+    toast.style.opacity = '1';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(function () {
+      toast.style.opacity = '0';
+    }, 2500);
+  }
+})();
+</script>
+
+</body>
+</html>
