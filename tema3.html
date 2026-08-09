@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ditadura Militar no Brasil (1964–1985) | CERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f2f1e8;
+    --bg-alt:#e9e7d8;
+    --paper:#fffefa;
+    --ink:#232420;
+    --ink-soft:#54564a;
+    --accent:#5c3a2e; /* marrom/oliva militar */
+    --accent-dark:#3d2620;
+    --alerta:#8c1f28; /* vermelho para repressão/perigo */
+    --gold:#a6863f;
+    --gold-light:#e2d3a8;
+    --line:#d8d4bf;
+    --shadow: 0 10px 30px rgba(35,36,32,.12);
+    --radius: 14px;
+    --font-title:'Playfair Display', serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-touch-callout:none;
+    user-select:none;
+  }
+  main, .selecionavel{ user-select:text; }
+  img{max-width:100%; display:block;}
+
+  /* ===== TRILHA (NAVEGAÇÃO ENTRE TEMAS) ===== */
+  .mini-trilha{
+    position:relative;
+    display:flex; justify-content:center; align-items:flex-start;
+    gap:0; max-width:960px; margin:0 auto;
+    padding:16px 24px 12px; background:var(--paper); border-bottom:1px solid var(--line);
+    font-family:var(--font-mono); overflow-x:auto; -webkit-overflow-scrolling:touch;
+  }
+  .mini-trilha::before{
+    content:""; position:absolute; top:30px; left:14%; right:14%; height:2px;
+    background:repeating-linear-gradient(90deg, var(--gold) 0 8px, transparent 8px 13px);
+    z-index:0;
+  }
+  .mini-trilha a{
+    position:relative; z-index:1;
+    display:flex; flex-direction:column; align-items:center;
+    text-decoration:none; color:var(--ink); width:210px; flex:none; padding:0 8px;
+  }
+  .mini-trilha a .medalhao{
+    width:40px; height:40px; border-radius:50%; background:var(--bg); border:2px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-title); font-weight:700; font-size:.98rem; color:var(--ink-soft);
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .mini-trilha a .rotulo{ margin-top:7px; font-size:.66rem; font-weight:600; text-align:center; line-height:1.25; color:var(--ink-soft); max-width:180px; }
+  .mini-trilha a .codigo{ font-size:.58rem; color:var(--ink-soft); font-weight:500; margin-top:2px; opacity:.7; letter-spacing:.02em;}
+  .mini-trilha a.ativo .medalhao{ background:var(--accent); border-color:var(--accent-dark); color:#fff; }
+  .mini-trilha a.ativo .rotulo{ color:var(--accent-dark); font-weight:700;}
+  .mini-trilha a:hover .medalhao{ border-color:var(--accent); }
+
+  /* ===== CABEÇALHO DO TEMA ===== */
+  .cabecalho-tema{ background:var(--bg); border-bottom:1px solid var(--line); padding:36px 24px 34px; }
+  .eyebrow{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--accent-dark);
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    padding:6px 12px;
+    border-radius:999px;
+    margin-bottom:18px;
+  }
+  .hero-tema{ display:flex; gap:18px; align-items:center; margin-bottom:16px; }
+  .medalhao-grande{
+    flex:none; width:60px; height:60px; border-radius:50%;
+    background:var(--accent); color:#fff; border:3px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-title); font-weight:800; font-size:1.6rem;
+  }
+  .hero-tema h1{
+    font-family:var(--font-title);
+    font-size:clamp(1.6rem, 3.6vw, 2.4rem);
+    line-height:1.18;
+    margin:0;
+    color:var(--ink);
+    max-width:740px;
+  }
+  .lead-tema{
+    font-size:1.05rem;
+    max-width:700px;
+    color:var(--ink-soft);
+    margin:0 0 20px;
+  }
+  .hero-meta{
+    display:flex; flex-wrap:wrap; gap:10px;
+    font-family:var(--font-mono);
+    font-size:.78rem;
+    color:var(--ink-soft);
+  }
+  .hero-meta span{
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:6px 10px;
+    border-radius:8px;
+  }
+  @media (max-width:560px){
+    .mini-trilha{ padding:12px 10px 10px; }
+    .mini-trilha::before{ left:34px; right:34px; top:24px; }
+    .mini-trilha a{ width:78px; }
+    .mini-trilha a .medalhao{ width:34px; height:34px; font-size:.85rem; }
+    .mini-trilha a .rotulo{ font-size:.56rem; margin-top:5px; }
+    .mini-trilha a .codigo{ display:none; }
+    .cabecalho-tema{ padding:26px 18px 24px; }
+    .hero-tema{ gap:12px; }
+    .medalhao-grande{ width:48px; height:48px; font-size:1.25rem; }
+  }
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px;}
+
+  /* ===== OBJETIVOS ===== */
+  .objetivos{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:28px 28px 24px; margin:-34px auto 40px; max-width:872px;
+  }
+  .objetivos h2{font-family:var(--font-title); font-size:1.3rem; margin:0 0 14px; color:var(--accent-dark);}
+  .objetivos ul{margin:0; padding-left:20px;}
+  .objetivos li{margin-bottom:8px; color:var(--ink-soft);}
+  .objetivos li b{color:var(--ink);}
+
+  /* ===== SECAO TITLES ===== */
+  section.secao{margin:46px 0;}
+  .secao-titulo{display:flex; align-items:center; gap:12px; margin-bottom:16px;}
+  .secao-titulo .num{
+    font-family:var(--font-mono); font-size:.78rem; color:var(--paper); background:var(--accent);
+    width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .secao-titulo h2{font-family:var(--font-title); font-size:clamp(1.3rem, 2.5vw, 1.65rem); margin:0; color:var(--ink);}
+  .secao-intro{color:var(--ink-soft); font-size:1.02rem; margin:0 0 18px;}
+
+  /* ===== ACCORDION ===== */
+  .acc{background:var(--paper); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-bottom:14px; box-shadow:0 2px 8px rgba(35,36,32,.06);}
+  .acc-head{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:14px;
+    background:transparent; border:none; padding:18px 20px; cursor:pointer; text-align:left;
+    font-family:var(--font-body); font-weight:600; font-size:1.02rem; color:var(--ink);
+  }
+  .acc-head .chev{margin-left:auto; font-size:1.1rem; color:var(--accent); transition:transform .25s ease; flex-shrink:0;}
+  .acc.open .acc-head .chev{transform:rotate(180deg);}
+  .acc-body{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+  .acc-body-inner{padding:0 22px 22px 62px; color:var(--ink-soft); display:flow-root;}
+  .acc-body-inner p{margin:0 0 14px;}
+  .acc-body-inner p:last-child{margin-bottom:0;}
+  .acc-body-inner strong{color:var(--ink);}
+  .destaque-lista{margin:10px 0 16px; padding-left:20px;}
+  .destaque-lista li{margin-bottom:6px;}
+
+  .cita{border-left:3px solid var(--gold); background:var(--bg-alt); padding:12px 16px; border-radius:0 8px 8px 0; font-style:italic; color:var(--ink); margin:14px 0;}
+  .cita span{display:block; font-style:normal; font-family:var(--font-mono); font-size:.74rem; color:var(--ink-soft); margin-top:6px;}
+
+  .termo-box{display:flex; gap:12px; align-items:flex-start; background:#fff; border:1px solid var(--gold-light); border-radius:8px; padding:12px 14px; margin:14px 0;}
+  .termo-box b{display:block; color:var(--accent-dark); font-family:var(--font-title); font-size:.94rem; margin-bottom:2px;}
+  .termo-box p{margin:0 !important; font-size:.88rem; color:var(--ink-soft);}
+
+  .citacao{
+    position:relative; clear:both;
+    background:var(--paper); border:1px solid var(--line); border-left:4px solid var(--gold);
+    border-radius:8px; padding:18px 22px 16px; margin:20px 0;
+  }
+  .citacao .citacao-titulo{
+    display:block; margin-bottom:8px;
+    font-family:var(--font-title); font-weight:700; font-size:1rem; color:var(--accent-dark);
+  }
+  .citacao .citacao-fonte a{color:var(--accent-dark); text-decoration:underline; word-break:break-word;}
+  .citacao p{margin:0 0 10px; font-family:var(--font-body); font-size:.94rem; font-style:italic; color:var(--ink); line-height:1.65;}
+  .citacao .citacao-fonte{
+    display:block; margin:0; font-family:var(--font-mono); font-style:normal;
+    font-size:.7rem; letter-spacing:.03em; color:var(--ink-soft);
+    border-top:1px solid var(--line); padding-top:10px;
+  }
+
+  .alerta-box{
+    display:flex; gap:12px; align-items:flex-start;
+    background:#fbeceb; border:1px solid #e3b3ae; border-radius:8px; padding:14px 16px; margin:14px 0;
+  }
+  .alerta-box b{display:block; color:var(--alerta); font-family:var(--font-title); font-size:.96rem; margin-bottom:2px;}
+  .alerta-box p{margin:0 !important; font-size:.9rem; color:var(--ink-soft);}
+
+  .goias-box{
+    background:linear-gradient(135deg, #fffaf0, var(--gold-light));
+    border:1px solid var(--gold);
+    border-radius:12px;
+    padding:20px 22px;
+    margin:20px 0;
+  }
+  .goias-box .goias-tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.7rem;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--accent-dark);
+    background:rgba(92,58,46,.1); padding:4px 10px; border-radius:999px; margin-bottom:10px;
+  }
+  .goias-box h4{margin:0 0 8px; font-family:var(--font-title); font-size:1.15rem; color:var(--accent-dark);}
+  .goias-box p{margin:0 0 10px; font-size:.94rem; color:var(--ink-soft);}
+  .goias-box p:last-child{margin-bottom:0;}
+
+  /* ===== LINHA DO TEMPO ===== */
+  .linha-tempo{position:relative; margin:20px 0 6px; padding-left:26px; border-left:2px solid var(--gold-light);}
+  .lt-item{position:relative; padding-bottom:22px;}
+  .lt-item:last-child{padding-bottom:0;}
+  .lt-item::before{
+    content:""; position:absolute; left:-33px; top:2px; width:12px; height:12px; border-radius:50%;
+    background:var(--accent); border:2px solid var(--paper); box-shadow:0 0 0 2px var(--gold);
+  }
+  .lt-ano{font-family:var(--font-mono); font-size:.78rem; color:var(--accent-dark); font-weight:700; display:block; margin-bottom:2px;}
+  .lt-item p{margin:0; color:var(--ink-soft); font-size:.95rem;}
+
+  /* ===== PRESIDENTES CARD-GRID ===== */
+  .presid-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px; margin:16px 0 4px;}
+  .presid-card{background:var(--bg-alt); border:1px solid var(--line); border-radius:8px; padding:10px 12px; text-align:center;}
+  .presid-card .nome{font-family:var(--font-title); font-size:.9rem; color:var(--accent-dark); font-weight:700;}
+  .presid-card .periodo{font-family:var(--font-mono); font-size:.7rem; color:var(--ink-soft);}
+
+  /* ===== ATV CARD ===== */
+  .atv-card{
+    display:flex; gap:14px; align-items:flex-start;
+    background:linear-gradient(135deg, var(--paper), var(--bg-alt));
+    border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:18px 20px; margin:26px 0;
+  }
+  .atv-card .eyebrow{font-family:var(--font-mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent-dark); margin-bottom:4px; display:block;}
+  .atv-card h4{margin:0 0 6px; font-family:var(--font-title); font-size:1.08rem;}
+  .atv-card p{margin:0 0 10px; color:var(--ink-soft); font-size:.94rem;}
+  .atv-card .atv-icone{
+    flex:0 0 auto; align-self:flex-start; margin-top:2px;
+    width:40px; height:40px; border-radius:50%;
+    background:var(--accent); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-weight:700; font-size:.9rem;
+  }
+  .atv-card .atv-conteudo{flex:1 1 auto; min-width:0;}
+  .atv-card .atv-conteudo p:last-child{margin-bottom:0;}
+  .atv-acoes{
+    flex:0 0 auto; margin-left:auto;
+    display:flex; flex-direction:column; align-items:stretch; gap:8px;
+    min-width:186px;
+  }
+  .atv-btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:7px;
+    white-space:nowrap; text-align:center;
+    font-family:var(--font-mono); font-size:.78rem; font-weight:600;
+    text-decoration:none; padding:9px 18px; border-radius:30px;
+    background:var(--accent-dark); color:#fff; border:2px solid var(--accent-dark);
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .atv-btn:hover{background:var(--accent); border-color:var(--accent);}
+  .atv-btn.secundario{background:#fff; color:var(--accent-dark); border-color:var(--accent);}
+  .atv-btn.secundario:hover{background:var(--accent); color:#fff;}
+
+  /* ===== JOGO CALLOUT ===== */
+  .jogo-trilha-card{
+    display:flex; align-items:center; gap:16px; background:var(--accent-dark); color:#f2ede0;
+    border-radius:12px; padding:20px 22px; margin:40px 0 20px; cursor:pointer; transition:transform .2s ease;
+  }
+  .jogo-trilha-card:hover{transform:translateY(-2px);}
+  .jogo-trilha-card h4{margin:0 0 4px; font-family:var(--font-title); font-size:1.1rem;}
+  .jogo-trilha-card p{margin:0; font-size:.9rem; color:#d8d0bd;}
+
+  /* ===== GLOSSARIO / JOGO ===== */
+  #jd-wrap{
+    scroll-margin-top:20px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:30px 26px 26px;
+  }
+  #jd-wrap h2{font-family:var(--font-title); color:var(--accent-dark); margin:0 0 6px; font-size:1.5rem;}
+  #jd-wrap .sub{color:var(--ink-soft); margin:0 0 20px; font-size:.96rem;}
+  .jd-alerta{display:none; background:#fff3cd; border:2px solid #ffc107; border-radius:10px; padding:12px 18px; margin:0 0 16px; color:#7d5a00; font-weight:600; font-size:.86rem;}
+  .jd-alerta.mostrar{display:block;}
+  .jd-frase{font-size:.94rem; line-height:2; margin-bottom:14px; padding:12px 16px; background:#fff; border:1px solid var(--line); border-radius:8px; transition:border-color .2s ease, background .2s ease;}
+  .jd-frase .num{font-family:var(--font-mono); font-weight:700; color:var(--alerta); font-size:.78rem; margin-right:4px;}
+  .jd-frase.correta{border-color:rgb(45,106,79); background:rgba(45,106,79,.06);}
+  .jd-frase.incorreta{border-color:rgb(140,31,40); background:rgba(140,31,40,.05);}
+  .jd-blank{display:inline-flex; align-items:center; justify-content:center; gap:6px; min-width:170px; min-height:36px; padding:6px 14px; margin:2px; border:2px dashed #3C8562; border-radius:8px; font-family:var(--font-mono); font-weight:600; font-size:.85rem; color:var(--ink-soft); background:rgba(45,106,79,.06); vertical-align:middle; cursor:pointer; touch-action:manipulation; transition:border-color .15s ease, background .15s ease;}
+  .jd-blank:hover{border-color:var(--gold); background:rgba(166,134,63,.12);}
+  .jd-blank.aberto{border-color:var(--gold); background:rgba(166,134,63,.18);}
+  .jd-blank.respondida{border-style:solid; border-color:#3C8562; background:#fff; color:var(--ink);}
+  .jd-blank.correta{border-color:rgb(45,106,79); background:rgba(45,106,79,.14); color:#2D6A4F; cursor:default;}
+  .jd-blank.incorreta{border-color:rgb(140,31,40); background:rgba(140,31,40,.12); color:var(--alerta); cursor:default;}
+  .jd-blank .jd-icone{font-size:.9rem;}
+  .jd-blank .jd-seta{font-size:.7rem; color:#3C8562; margin-left:2px;}
+  .jd-correcao{display:none; font-family:var(--font-mono); font-size:.78rem; color:var(--alerta); margin-top:6px; padding-left:2px;}
+  .jd-frase.incorreta .jd-correcao{display:block;}
+  .jd-dropdown{position:fixed; z-index:9999; background:#fff; border:2px solid var(--gold); border-radius:10px; box-shadow:0 14px 34px rgba(0,0,0,.28); padding:6px; max-width:280px; max-height:min(300px,60vh); overflow-y:auto;}
+  .jd-dropdown button{display:block; width:100%; text-align:left; padding:10px 14px; border:none; background:none; font-family:var(--font-body); font-size:.88rem; color:var(--ink); border-radius:6px; cursor:pointer; touch-action:manipulation;}
+  .jd-dropdown button:hover, .jd-dropdown button:active{background:rgba(45,106,79,.14); color:#2D6A4F;}
+  .jd-status{display:flex; align-items:center; gap:14px; flex-wrap:wrap; font-family:var(--font-mono); font-size:.82rem; color:var(--ink-soft); margin-top:18px; padding-top:16px; border-top:1px dashed var(--line);}
+  .jd-status strong{color:#2D6A4F; font-size:.95rem;}
+  .jd-btn-verificar{font-family:var(--font-mono); font-weight:600; font-size:.82rem; color:#fff; background:#2D6A4F; border:2px solid #2D6A4F; border-radius:30px; padding:9px 20px; cursor:pointer; transition:background .15s ease; touch-action:manipulation;}
+  .jd-btn-verificar:hover{background:#3C8562; border-color:#3C8562;}
+  .jd-btn-restart{margin-left:auto; font-family:var(--font-mono); font-weight:600; font-size:.78rem; color:#2D6A4F; background:#fff; border:2px solid #3C8562; border-radius:30px; padding:9px 18px; cursor:pointer; transition:background .15s ease,color .15s ease; touch-action:manipulation;}
+  .jd-btn-restart:hover{background:#3C8562; color:#fff;}
+  .jd-vitoria{display:none; margin-top:18px; background:rgba(166,134,63,.14); border:2px solid var(--gold); border-radius:10px; padding:14px 18px; text-align:center; font-family:var(--font-title); font-weight:700; color:#2D6A4F; font-size:1rem;}
+  .jd-vitoria.mostrar{display:block;}
+  @media (max-width:480px){
+    .jd-blank{min-width:150px; min-height:40px; font-size:.82rem;}
+  }
+
+  /* ===== IMAGENS / CHARGES ===== */
+  .figura-charge{background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px 16px 14px; margin:22px 0; clear:both;}
+  .figura-charge img{display:block; width:100%; max-width:560px; height:auto; margin:0 auto; border-radius:8px; border:1px solid var(--line); cursor:zoom-in; transition:opacity .15s ease;}
+  .figura-charge img:hover{opacity:.85;}
+  .figura-charge figcaption{margin-top:10px; text-align:center; font-family:var(--font-body); font-style:italic; font-size:.86rem; color:var(--ink-soft);}
+  .figura-charge figcaption .figura-credito{display:block; margin-top:5px; font-family:var(--font-mono); font-style:normal; font-size:.66rem; letter-spacing:.04em; text-transform:uppercase; color:var(--gold);}
+  .figura-charge .figura-acao{margin-top:14px; text-align:center;}
+  .figura-charge--float{float:right; clear:right; width:250px; max-width:42%; margin:2px 0 32px 22px; padding:12px 12px 10px;}
+  .figura-charge--float img{max-width:100%;}
+  .figura-charge--float figcaption{font-size:.78rem; text-align:left;}
+  .figura-charge--float .figura-acao{margin-top:10px;}
+  .figura-charge--float .ampliar-btn{padding:8px 12px; font-size:.66rem; width:100%; justify-content:center; text-align:center;}
+  .lightbox-overlay{display:none; position:fixed; inset:0; z-index:9999; background:rgba(20,14,8,.86); align-items:center; justify-content:center; padding:24px; cursor:zoom-out;}
+  .lightbox-overlay.aberto{display:flex;}
+  .lightbox-conteudo{max-width:min(90vw,760px); max-height:90vh; display:flex; flex-direction:column; align-items:center; cursor:default;}
+  .lightbox-conteudo img{max-width:100%; max-height:78vh; width:auto; border-radius:8px; border:2px solid var(--gold); box-shadow:0 20px 50px rgba(0,0,0,.5); cursor:zoom-in; transition:max-width .2s ease, max-height .2s ease;}
+  .lightbox-conteudo.zoom-ativo{max-width:94vw; max-height:94vh; overflow:auto; align-items:flex-start; justify-content:flex-start; cursor:auto;}
+  .lightbox-conteudo.zoom-ativo img{max-width:none; max-height:none; cursor:grab;}
+  .lightbox-conteudo.zoom-ativo img.arrastando{cursor:grabbing;}
+  .lightbox-legenda{margin-top:12px; text-align:center; font-family:var(--font-body); font-style:italic; font-size:.85rem; color:#fff; max-width:640px;}
+  .lightbox-fechar{position:absolute; top:18px; right:22px; width:40px; height:40px; border-radius:50%; background:var(--paper); border:2px solid var(--gold); color:var(--accent-dark); font-size:1.3rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1;}
+  .lightbox-dica{margin-top:6px; font-family:var(--font-mono); font-size:.7rem; color:var(--gold-light); text-align:center;}
+
+  /* ===== BOTAO DE ABRIR TEXTO DE APOIO ===== */
+  .ampliar-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 18px;
+    background:var(--bg-alt); border:1px solid var(--gold); border-radius:999px;
+    font-family:var(--font-mono); font-size:.76rem; font-weight:600; letter-spacing:.02em;
+    color:var(--accent-dark); cursor:pointer; transition:background .15s ease;
+  }
+  .ampliar-btn:hover{background:var(--gold-light);}
+  .ampliar-btn .lupa{font-size:.9rem;}
+
+  /* ===== SAIBA MAIS / TEXTO DE APOIO (MINI-BOXES FLUTUANTES) ===== */
+  .saibamais-flutuante{
+    float:right; width:210px; max-width:40%;
+    margin:2px 0 26px 22px;
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .saibamais-item{
+    display:block; width:100%; text-align:left;
+    background:var(--paper); border:1px solid var(--gold); border-radius:12px;
+    padding:12px 14px; cursor:pointer;
+    box-shadow:var(--shadow);
+    font-family:var(--font-body); color:var(--ink);
+    transition:transform .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .saibamais-item:hover{background:var(--gold-light); transform:translateY(-2px);}
+  .saibamais-item .sm-rotulo{
+    display:flex; align-items:center; gap:6px;
+    font-family:var(--font-mono); font-size:.62rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:6px;
+  }
+  .saibamais-item .sm-titulo{
+    font-family:var(--font-title); font-weight:700; font-size:.86rem; line-height:1.25; color:var(--accent-dark);
+  }
+
+  /* ===== POP-UP DE TEXTO DE APOIO ===== */
+  .modal-overlay{display:none; position:fixed; inset:0; z-index:9999; background:rgba(20,14,8,.78); align-items:center; justify-content:center; padding:24px;}
+  .modal-overlay.aberto{display:flex;}
+  .modal-caixa{
+    position:relative; background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:0 20px 50px rgba(0,0,0,.45); max-width:640px; max-height:82vh; overflow-y:auto;
+    padding:30px 30px 26px; user-select:text;
+  }
+  .modal-fechar{position:absolute; top:14px; right:14px; width:36px; height:36px; border-radius:50%; background:var(--bg-alt); border:1px solid var(--line); color:var(--accent-dark); font-size:1.15rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1;}
+  .modal-eyebrow{display:inline-block; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:8px;}
+  .modal-caixa h3{font-family:var(--font-title); font-size:1.28rem; color:var(--ink); margin:0 0 14px; padding-right:30px;}
+  .modal-caixa p{font-family:var(--font-body); font-size:.98rem; color:var(--ink-soft); margin:0 0 14px;}
+  .modal-fonte{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); border-top:1px solid var(--line); padding-top:12px; margin-top:6px;}
+  .modal-fonte a{color:var(--accent-dark); text-decoration:underline; word-break:break-word;}
+
+  /* ===== RODAPE NAV ===== */
+  .rodape-nav{text-align:center; margin:50px 0 20px;}
+  .rodape-nav a.btn-glossario{
+    display:inline-block; background:transparent; color:var(--accent-dark); text-decoration:none;
+    padding:14px 26px; border-radius:10px; font-weight:600; border:1px solid var(--accent); margin:0 6px 10px;
+  }
+
+  footer.rodape{background:var(--ink); color:#cfcabb; text-align:center; padding:24px; margin-top:50px; font-size:.82rem; font-family:var(--font-mono);}
+
+  @media (max-width:640px){
+    .objetivos{margin-top:-24px; padding:22px 20px;}
+    .acc-body-inner{padding:0 16px 18px 20px;}
+    .jogo-trilha-card{flex-direction:column; align-items:flex-start; text-align:left;}
+    /* no celular o conteudo do accordion vira coluna: texto primeiro, boxes depois */
+    .acc-body-inner{display:flex; flex-direction:column;}
+    .acc-body-inner > *{order:1;}
+    .acc-body-inner > .saibamais-flutuante{order:2;}
+    .saibamais-flutuante{
+      float:none; clear:both;
+      width:100%; max-width:none;
+      margin:20px 0 0; gap:10px;
+      padding-top:16px; border-top:1px dashed var(--line);
+    }
+    .acc-body-inner > .figura-charge--float{order:2;}
+    .figura-charge--float{float:none; clear:both; width:100%; max-width:none; margin:18px 0 0;}
+    .figura-charge--float figcaption{text-align:center;}
+    .atv-card{flex-direction:column; align-items:flex-start;}
+    .atv-acoes{margin-left:0; min-width:0; align-self:stretch;}
+    .modal-caixa{padding:24px 20px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="mini-trilha">
+  <a href="tema1.html" target="_parent">
+    <span class="medalhao">1</span>
+    <span class="rotulo">Regimes Totalitários</span>
+    <span class="codigo">GO-EF09HI13-A</span>
+  </a>
+  <a href="tema2.html" target="_parent">
+    <span class="medalhao">2</span>
+    <span class="rotulo">Populismo e Desenvolvimentismo</span>
+    <span class="codigo">GO-EF09HI17-A</span>
+  </a>
+  <a class="ativo" href="tema3.html" target="_parent">
+    <span class="medalhao">3</span>
+    <span class="rotulo">Ditadura Militar</span>
+    <span class="codigo">GO-EF09HI19-A</span>
+  </a>
+</nav>
+
+<header class="cabecalho-tema">
+  <div class="wrap">
+    <span class="eyebrow">9º ano · Ensino Fundamental · História</span>
+    <div class="hero-tema">
+      <div class="medalhao-grande">3</div>
+      <h1>A Ditadura Militar no Brasil (1964–1985)</h1>
+    </div>
+    <p class="lead-tema">Como uma crise política levou o Brasil a 21 anos de regime militar — marcados por repressão e censura, mas também por um "milagre econômico", por intensa resistência popular e, por fim, por uma lenta reabertura democrática.</p>
+    <div class="hero-meta">
+      <span>Descritor: GO-EF09HI19-A</span>
+      <span>DC-GO / BNCC</span>
+          </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="objetivos selecionavel">
+    <h2>Objetivos de Aprendizagem</h2>
+    <ul>
+      <li><b>Compreender</b> o contexto de instabilidade política que desencadeou o golpe civil-militar de 1964.</li>
+      <li><b>Conhecer</b> a organização institucional do regime militar e seus principais atos e presidentes.</li>
+      <li><b>Avaliar</b> as políticas econômicas e sociais implantadas durante a ditadura, incluindo o "milagre econômico".</li>
+      <li><b>Identificar</b> os movimentos de resistência à ditadura, armados e pacíficos.</li>
+      <li><b>Reconhecer</b> os desdobramentos da ditadura em Goiás, da intervenção federal de 1964 à abertura política.</li>
+      <li><b>Analisar</b> o processo de reabertura democrática e perceber semelhanças e diferenças com a atualidade.</li>
+    </ul>
+  </div>
+
+  <main>
+
+    <!-- 1. CONTEXTO DE INSTABILIDADE -->
+    <section class="secao" id="contexto">
+      <div class="secao-titulo">
+        <span class="num">1</span>
+        <h2>O Contexto de Instabilidade Política</h2>
+      </div>
+      <p class="secao-intro">O golpe de 1964 não surgiu do nada: foi o desfecho de uma crise que já vinha se acumulando havia anos.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Do impasse político ao golpe
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <div class="saibamais-flutuante">
+              <button class="saibamais-item" onclick="abrirModal('modal-golpe-preventivo')">
+                <span class="sm-rotulo">&#128220; Texto de apoio</span>
+                <span class="sm-titulo">1964 foi um golpe preventivo?</span>
+              </button>
+              <button class="saibamais-item" onclick="abrirModal('modal-democracia-ditadura')">
+                <span class="sm-rotulo">&#128218; Definindo conceitos</span>
+                <span class="sm-titulo">Democracia e Ditadura</span>
+              </button>
+            </div>
+            <figure class="figura-charge figura-charge--float">
+              <img src="tema3/charge1.webp" alt="Charge de Lan: João Goulart equilibra-se numa corda esticada sobre lanças, foices e martelos" onclick="abrirLightbox(this)" loading="lazy">
+              <figcaption>
+                Charge de Lan, publicada no <em>Jornal do Brasil</em>. Jango aparece equilibrando-se, de braços abertos, sobre uma corda esticada — e logo abaixo dele um emaranhado de lanças, baíonetas, foices e martelos. De um lado, o “veto” das armas; do outro, a pressão das esquerdas pelas reformas de base. Qualquer passo em falso significava a queda.
+              </figcaption>
+              <div class="figura-acao">
+                <button class="ampliar-btn" onclick="abrirModal('modal-goulart-disputas')">
+                  <span class="lupa">&#128269;</span> Ler o texto de apoio
+                </button>
+              </div>
+            </figure>
+            <p>No início dos anos 1960, o Brasil vivia um clima de forte polarização. O presidente João Goulart (Jango) enfrentava inflação alta, uma economia em desaceleração e pressão de diferentes setores da sociedade. Em março de 1964, ele anunciou as <strong>reformas de base</strong> — um pacote de mudanças estruturais que incluía reforma agrária, tributária, eleitoral e educacional.</p>
+            <p>Para setores conservadores, empresários e políticos da UDN, essas reformas representavam um avanço perigoso do "comunismo" sobre o país — mesmo Jango não sendo comunista. Para grupos populares, sindicatos, estudantes e camponeses organizados, as reformas eram uma resposta necessária às desigualdades sociais brasileiras.</p>
+            <p>Esse clima de radicalização, somado à Guerra Fria (que fazia os Estados Unidos temerem a expansão de governos de esquerda na América Latina), criou as condições para que, em 31 de março de 1964, um movimento das Forças Armadas — apoiado por políticos civis de oposição — depusesse Jango. Em 1º de abril de 1964, a Presidência foi declarada vaga. Começava um regime que duraria <strong>21 anos</strong>.</p>
+            <div class="termo-box">
+              
+              <div><b>Semelhanças e diferenças com hoje</b><p>Ao estudar esse período, vale perguntar: quais discursos e tensões daquela época ainda aparecem no debate político atual? E quais mudanças na sociedade brasileira tornam impossível uma repetição idêntica dos acontecimentos de 1964? Comparar permanências e rupturas é uma das habilidades centrais deste tema.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ATIVIDADE 1 -->
+      <div class="atv-card selecionavel">
+        <div class="atv-icone">01</div>
+        <div class="atv-conteudo">
+          <span class="eyebrow">Atividade 1 &middot; Definindo conceitos</span>
+          <h4>Ditadura e Democracia: dois modos de organizar o poder</h4>
+          <p>Três blocos conceituais — o que é democracia, o que é ditadura e por que a distinção importa hoje — mais um quadro comparativo entre os dois regimes. 6 questões dissertativas intercaladas.</p>
+        </div>
+        <div class="atv-acoes">
+          <a class="atv-btn" href="tema3/atv1.html" target="_blank" rel="noopener">Abrir atividade</a>
+          <a class="atv-btn secundario" href="https://drive.google.com/file/d/1Y1cbUBMA48UAzZewRbVExMpBJc9UCXQJ/view?usp=sharing" target="_blank" rel="noopener">Versão em PDF</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. INSTITUCIONALIZACAO -->
+    <section class="secao" id="castelo-branco">
+      <div class="secao-titulo">
+        <span class="num">2</span>
+        <h2>A Institucionalização do Regime: Governo Castelo Branco</h2>
+      </div>
+      <p class="secao-intro">O primeiro presidente militar organizou juridicamente o novo regime — e deu início a uma sequência de mudanças que concentrariam cada vez mais poder no Executivo.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Atos Institucionais e a nova Constituição (1964–1967)
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <figure class="figura-charge figura-charge--float">
+              <img src="tema3/golpe1.webp" alt="Tanques do Exército em rua do Rio de Janeiro cercados por civis, em 1º de abril de 1964" onclick="abrirLightbox(this)" loading="lazy">
+              <figcaption>
+                Tanques do Exército a caminho do Palácio das Laranjeiras, no Rio de Janeiro, em 1º de abril de 1964. <span class="figura-credito">Arquivo / Agência O Globo</span>
+              </figcaption>
+            </figure>
+            <div class="saibamais-flutuante" style="clear:right">
+              <button class="saibamais-item" onclick="abrirModal('modal-ato-institucional')">
+                <span class="sm-rotulo">&#128220; Texto de apoio</span>
+                <span class="sm-titulo">Ato Institucional</span>
+              </button>
+            </div>
+            <p>O marechal <strong>Humberto de Alencar Castelo Branco</strong> foi o primeiro militar a ocupar a Presidência, com reconhecimento imediato dos Estados Unidos e apoio de grandes empresários. Seu governo tomou medidas que redesenhariam o funcionamento do Estado brasileiro por duas décadas:</p>
+            <ul class="destaque-lista">
+              <li>Elaborou uma nova <strong>Constituição em 1967</strong>, fortalecendo a Presidência da República e enfraquecendo os poderes Legislativo e Judiciário;</li>
+              <li>Criou a <strong>Lei de Segurança Nacional</strong>, que permitia tratar opositores do governo como "inimigos da pátria";</li>
+              <li>Rompeu relações diplomáticas com Cuba, único país socialista da América Latina;</li>
+              <li>Revogou a lei que limitava o envio de lucros de multinacionais ao exterior — revertendo a política nacionalista dos governos anteriores.</li>
+            </ul>
+            <p>Muitos trabalhadores perderam a estabilidade no emprego e sofreram com a intervenção do governo em seus sindicatos. Ainda assim, diferente de outras ditaduras da América Latina, os sindicatos brasileiros não foram extintos — o imposto sindical foi mantido, garantindo sua sobrevivência formal, ainda que sob forte controle estatal.</p>
+            <blockquote class="citacao">
+              <p>“Nas primeiras semanas depois do golpe [de 1964] percebeu-se tão que as cadeias foram insuficientes. O Maracanã virou presídio; navios da Marinha receberam centenas de ‘subversivos’. Os quartéis em todo o Brasil lotaram de prisioneiros. [...] Cometeram-se tantos abusos que até a imprensa brasileira começou a denunciá-los. O governo Castello Branco, geralmente apresentado como ‘democrático’, prometia investigar, enquanto a violência ia se incorporando ao cotidiano nacional.”</p>
+              <span class="citacao-fonte">CHIAVENATO, Júlio José. <em>O golpe de 64 e a ditadura militar</em>. 2. ed. São Paulo: Moderna, 2004. p. 178.</span>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+
+      <!-- ATIVIDADE 2 -->
+      <div class="atv-card selecionavel">
+        <div class="atv-icone">02</div>
+        <div class="atv-conteudo">
+          <span class="eyebrow">Atividade 2 &middot; Textos de apoio</span>
+          <h4>AI-1 e Repressão Política nas Primeiras Semanas do Regime</h4>
+          <p>Dois textos historiográficos: Nilson Borges sobre o Ato Institucional nº 1, a Operação Limpeza e a Doutrina de Segurança Nacional; e Júlio José Chiavenato sobre as prisões em massa logo após o golpe. 5 questões dissertativas intercaladas.</p>
+        </div>
+        <div class="atv-acoes">
+          <a class="atv-btn" href="tema3/atv2.html" target="_blank" rel="noopener">Abrir atividade</a>
+          <a class="atv-btn secundario" href="https://drive.google.com/file/d/11Ic6vm2c7XoqQHyDMBe7aCojvoCn6DXt/view?usp=sharing" target="_blank" rel="noopener">Versão em PDF</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. AI-5 -->
+    <section class="secao" id="ai5">
+      <div class="secao-titulo">
+        <span class="num">3</span>
+        <h2>O Endurecimento: Costa e Silva e o AI-5</h2>
+      </div>
+      <p class="secao-intro">Diante do crescimento das manifestações contrárias ao regime, os militares reagiriam com o mais duro de todos os Atos Institucionais.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          A Passeata dos Cem Mil e o Ato Institucional nº 5
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <figure class="figura-charge figura-charge--float">
+              <img src="tema3/passeata.webp" alt="Multidão na Passeata dos Cem Mil, no Rio de Janeiro, com a faixa “Abaixo a Ditadura, Povo no Poder”" onclick="abrirLightbox(this)" loading="lazy">
+              <figcaption>
+                A “Passeata dos Cem Mil”, registrada pelo fotógrafo Evandro Teixeira no Rio de Janeiro, em 26 de junho de 1968. A manifestação, com a faixa “Abaixo a Ditadura, Povo no Poder”, foi o maior ato popular contra o regime militar até então, unindo diversos setores da sociedade na luta pela democracia.
+              </figcaption>
+            </figure>
+            <div class="saibamais-flutuante" style="clear:right">
+              <button class="saibamais-item" onclick="abrirModal('modal-esquecimento-ai5')">
+                <span class="sm-rotulo">&#128220; Texto de apoio</span>
+                <span class="sm-titulo">O esquecimento do AI-5 na memória dos brasileiros</span>
+              </button>
+            </div>
+            <p>Durante o governo do marechal <strong>Costa e Silva</strong> (1967–1969), cresceram as manifestações contra o regime. Em junho de 1968, mais de 100 mil pessoas foram às ruas do Rio de Janeiro na chamada <strong>Passeata dos Cem Mil</strong>, protestando contra a morte do estudante secundarista Edson Luís, assassinado pela polícia.</p>
+            <p>Naquele mesmo ano, um discurso do deputado Márcio Moreira Alves criticando duramente a violência do governo contra estudantes serviu de pretexto para uma reação ainda mais dura: em dezembro de 1968, os líderes do regime decretaram o <strong>Ato Institucional nº 5</strong>, o AI-5 — o instrumento mais autoritário de toda a ditadura.</p>
+            <div class="alerta-box">
+              
+              <div><b>O que o AI-5 permitiu</b><p>Prisão de milhares de pessoas sem necessidade de justificativa; censura prévia a jornais, livros, músicas, teatro e televisão; fechamento do Congresso Nacional; cassação de mandatos de centenas de políticos; suspensão do direito ao habeas corpus (o instrumento legal que protege alguém de prisão arbitrária); e afastamento de juízes.</p></div>
+            </div>
+            <blockquote class="citacao">
+              <span class="citacao-titulo">O AI-5 e o endurecimento da ditadura militar</span>
+              <p>“[...] o AI-5, de 13 de dezembro de 1968, foi um instrumento que deu ao regime poderes absolutos e cuja primeira consequência foi o fechamento do Congresso Nacional por quase um ano e o recesso dos mandatos de senadores, deputados e vereadores, que passaram a receber somente a parte fixa de seus subsídios. Entre outras medidas do AI-5, destacam-se: suspensão de qualquer reunião de cunho político; censura aos meios de comunicação, estendendo-se à música, ao teatro e ao cinema; suspensão do <em>habeas corpus</em> para os chamados crimes políticos; decretação do estado de sítio pelo presidente da República em qualquer dos casos previstos na Constituição; e autorização para intervenção em estados e municípios. [...]”</p>
+              <span class="citacao-fonte">PONTUAL, Helena Daltro. <em>História das Constituições</em>. Senado Federal. Disponível em: <a href="https://www.senado.gov.br/noticias/especiais/constituicao25anos/historia-das-constituicoes.htm" target="_blank" rel="noopener">senado.gov.br</a>. Acesso em: 9 nov. 2018.</span>
+            </blockquote>
+            <p>Em 1969, Costa e Silva deixou a Presidência por motivos de saúde. Uma junta militar governou interinamente por cerca de dois meses e, nesse período, aprovou uma emenda à Constituição que chegou a incluir a pena de morte e a prisão perpétua para casos de "subversão".</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ATIVIDADE 3 -->
+      <div class="atv-card selecionavel">
+        <div class="atv-icone">03</div>
+        <div class="atv-conteudo">
+          <span class="eyebrow">Atividade 3 &middot; Texto de apoio &middot; Charge</span>
+          <h4>O AI-5 e o Endurecimento da Ditadura Militar</h4>
+          <p>Texto de Helena Daltro Pontual (Senado Federal) com as medidas previstas no Ato Institucional nº 5 e a charge de Ziraldo “O ministro quer dialogar com você”, publicada no <em>Correio da Manhã</em> em 23 de junho de 1968. 5 questões dissertativas intercaladas.</p>
+        </div>
+        <div class="atv-acoes">
+          <a class="atv-btn" href="tema3/atv3.html" target="_blank" rel="noopener">Abrir atividade</a>
+          <a class="atv-btn secundario" href="https://drive.google.com/file/d/1j7RX_o7usQlgo_600u6jkTKtAYuFlSfo/view?usp=sharing" target="_blank" rel="noopener">Versão em PDF</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. MEDICI: MILAGRE E REPRESSAO -->
+    <section class="secao" id="medici">
+      <div class="secao-titulo">
+        <span class="num">4</span>
+        <h2>Os "Anos de Chumbo": Governo Médici</h2>
+      </div>
+      <p class="secao-intro">O período mais repressivo da história republicana brasileira coincidiu, contraditoriamente, com um forte crescimento econômico.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          O "milagre econômico"
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Sob o general <strong>Emílio Garrastazu Médici</strong> (1969–1974), o Brasil viveu um período de forte crescimento conhecido como <strong>"milagre econômico"</strong>. Entre seus motivos estavam o aumento da produção industrial, o crescimento das exportações, a expansão do crédito para as classes médias e empréstimos obtidos no exterior. O governo também investiu pesadamente em rodovias, usinas hidrelétricas e comunicações — a ponte Rio-Niterói, inaugurada em 1974, é um símbolo dessas obras.</p>
+            <p>Esse crescimento, porém, teve um custo social alto: para conter a inflação, o governo praticou o <strong>arrocho salarial</strong>, mantendo os salários baixos enquanto sindicatos e associações de trabalhadores permaneciam sob vigilância policial constante. E o "milagre" foi passageiro: dependia de um mercado externo favorável e de empréstimos internacionais. Quando o preço do petróleo disparou na década de 1970, a economia brasileira sentiu o impacto, e a inflação e a dívida externa voltaram a crescer.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          O aparato repressivo do Estado
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>O governo Médici aperfeiçoou uma estrutura de repressão que invadia universidades e perseguia professores, jornalistas, artistas, estudantes e religiosos considerados opositores. Os principais órgãos desse aparato eram:</p>
+            <ul class="destaque-lista">
+              <li><strong>SNI</strong> (Serviço Nacional de Informações): coordenava a espionagem e o monitoramento de opositores;</li>
+              <li><strong>DOPS</strong> (Delegacias de Ordem Política e Social): polícia estadual voltada à repressão política;</li>
+              <li><strong>DOI-Codi</strong> (Destacamento de Operações de Informações – Centro de Operações de Defesa Interna): o principal centro de prisão, interrogatório e tortura, criado a partir da antiga Oban (Operação Bandeirantes).</li>
+            </ul>
+            <p>Qualquer cidadão suspeito de "subversão" podia ser preso, torturado — com métodos como espancamentos, afogamentos e choques elétricos — e até morto, muitas vezes sem que a própria família soubesse de seu paradeiro.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. RESISTENCIA -->
+    <section class="secao" id="resistencia">
+      <div class="secao-titulo">
+        <span class="num">5</span>
+        <h2>Movimentos de Resistência à Ditadura</h2>
+      </div>
+      <p class="secao-intro">Diante da repressão, diferentes setores da sociedade brasileira resistiram — pelas armas, pela arte e pela organização política.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          A luta armada
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Durante os governos militares, surgiram organizações que defendiam a resistência armada como caminho para derrubar o regime e instaurar o socialismo no Brasil. As principais foram a <strong>Ação Libertadora Nacional (ALN)</strong>, liderada pelo ex-deputado Carlos Marighella, a <strong>Vanguarda Popular Revolucionária (VPR)</strong>, do ex-capitão Carlos Lamarca, e o <strong>Movimento Revolucionário 8 de Outubro (MR-8)</strong>.</p>
+            <p>Essas organizações realizavam assaltos a bancos para financiar suas ações e sequestros de diplomatas estrangeiros para trocá-los por presos políticos — como o sequestro do embaixador dos Estados Unidos, Charles Elbrick, em 1969, trocado por 15 presos políticos. A mais conhecida ação de resistência rural foi a <strong>Guerrilha do Araguaia</strong>, um foco guerrilheiro na região amazônica duramente reprimido pelo Exército. Até 1974, praticamente todos os focos de luta armada haviam sido destruídos, com seus integrantes presos ou mortos.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Resistência cultural e censura
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Ao lado da luta armada, existiu uma ampla resistência pacífica: abaixo-assinados, protestos de rua, oposição parlamentar, jornais alternativos, peças de teatro e festivais de música popular brasileira desafiavam a censura, mesmo sob risco de perseguição.</p>
+            <p>O compositor <strong>Geraldo Vandré</strong> tornou-se símbolo dessa resistência com a canção "Pra não dizer que não falei das flores", apresentada em 1968 e depois proibida pelos militares, que o forçaram ao exílio. O jornal <strong>O Pasquim</strong>, lançado em 1969 em reação ao AI-5, usava o humor para driblar a censura — em 1970, censores chegaram a ser instalados dentro da própria redação do jornal, e parte de sua equipe foi presa pelo DOI-Codi.</p>
+            <div class="termo-box">
+              
+              <div><b>Censura prévia</b><p>Diferente da censura que pune depois da publicação, a censura prévia exigia que jornais, livros, músicas e programas de TV fossem aprovados por censores do governo <em>antes</em> de chegar ao público — muitas vezes deixando espaços em branco ou trechos cortados como forma de protesto silencioso.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="atv-card selecionavel">
+      <div>
+        <span class="eyebrow">Para refletir</span>
+        <h4>Diferentes formas de resistir</h4>
+        <p>Note que a resistência à ditadura não teve um único rosto: houve quem pegasse em armas, quem escrevesse canções, quem fizesse humor em um jornal, quem se organizasse dentro de igrejas e sindicatos. Por que será que, diante de uma mesma opressão, grupos diferentes escolhem estratégias tão distintas de resistência?</p>
+      </div>
+    </div>
+
+    <!-- 6. GEISEL: ABERTURA -->
+    <section class="secao" id="geisel">
+      <div class="secao-titulo">
+        <span class="num">6</span>
+        <h2>Geisel e a Abertura "Lenta, Gradual e Segura"</h2>
+      </div>
+      <p class="secao-intro">O primeiro passo rumo à democracia veio, paradoxalmente, de dentro do próprio regime militar.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Uma abertura com avanços e recuos
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>O general <strong>Ernesto Geisel</strong> (1974–1979) pertencia a um grupo de militares favorável à devolução gradual do poder aos civis, prometendo uma "abertura democrática lenta, gradual e segura". Sob seu governo, a censura sobre os meios de comunicação diminuiu e, em 1974, ocorreram eleições diretas para senadores e deputados — nas quais a oposição (MDB) teve uma vitória expressiva sobre o partido do governo (Arena), o que assustou os militares mais radicais.</p>
+            <p>A abertura, porém, teve tropeços graves: em 1975 e 1976, o jornalista Vladimir Herzog e o operário Manuel Fiel Filho morreram sob tortura nas dependências do Exército em São Paulo, escandalizando parte da sociedade. Em 1976, Geisel decretou a <strong>Lei Falcão</strong>, restringindo a propaganda eleitoral na TV e no rádio, e, em 1977, criou os chamados <strong>"senadores biônicos"</strong> — um terço do Senado passou a ser escolhido diretamente pelo presidente.</p>
+            <p>Ainda assim, pressionado por problemas econômicos e pela mobilização social, o governo revogou o <strong>AI-5</strong> em outubro de 1978, encerrando seus instrumentos mais duros de repressão. No mesmo ano, foi fundado o <strong>Movimento Negro Unificado (MNU)</strong>, que teria papel importante na luta pela redemocratização e segue ativo até hoje.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. FIGUEIREDO E ANISTIA -->
+    <section class="secao" id="figueiredo">
+      <div class="secao-titulo">
+        <span class="num">7</span>
+        <h2>Figueiredo, a Anistia e o Fim do Bipartidarismo</h2>
+      </div>
+      <p class="secao-intro">A pressão popular pela redemocratização se intensifica — mas a anistia viria acompanhada de um preço controverso.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          A Lei da Anistia de 1979
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>No governo do general <strong>João Baptista Figueiredo</strong> (1979–1985), sindicatos, empresários, setores religiosos e artistas se uniram na exigência de redemocratização. Em 1979, greves envolveram milhões de trabalhadores em todo o país, com destaque para a greve dos metalúrgicos de São Bernardo do Campo (SP), liderada por Luiz Inácio da Silva, o Lula — e a repressão continuava forte: o operário Santo Dias foi morto pela polícia durante uma dessas greves.</p>
+            <p>Ainda em 1979, foi aprovada a <strong>Lei da Anistia</strong>, que permitiu o retorno de exilados políticos ao Brasil e devolveu direitos políticos a pessoas cassadas pelo regime. Em contrapartida — e esse é um dos pontos mais debatidos até hoje —, a lei também absolveu os militares acusados de tortura e assassinato, sem que fossem julgados por esses crimes.</p>
+            <p>No mesmo ano, terminou o <strong>bipartidarismo</strong> (o sistema de apenas dois partidos, Arena e MDB), permitindo a criação de novas legendas, como o PT (Partido dos Trabalhadores), o PMDB, o PDT e o PDS. Em 1982, o país voltou a ter eleições diretas para governador.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. DIRETAS JA -->
+    <section class="secao" id="diretas-ja">
+      <div class="secao-titulo">
+        <span class="num">8</span>
+        <h2>Diretas Já! e o Fim do Regime Militar</h2>
+      </div>
+      <p class="secao-intro">A maior mobilização popular da história recente do Brasil não conseguiu, de imediato, o que pedia — mas selou o destino da ditadura.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          A campanha das Diretas Já
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Entre 1979 e 1984, o Brasil viveu uma grave crise econômica, com inflação alta e dívidas elevadas — período que ficaria conhecido como a "década perdida". Nesse cenário, ganhou força a campanha <strong>Diretas Já!</strong>, que pedia eleições diretas para presidente e reuniu milhões de pessoas em manifestações por todo o país, a partir de uma emenda constitucional proposta pelo deputado Dante de Oliveira.</p>
+            <p>Apesar da enorme mobilização popular, a emenda das diretas foi derrotada no Congresso em abril de 1984, por poucos votos. A eleição presidencial de 1985 acabou sendo <strong>indireta</strong>, decidida por um Colégio Eleitoral. Tancredo Neves, da Aliança Democrática, venceu o candidato do governo — mas morreu antes de tomar posse, em abril de 1985. Assumiu, então, o vice-presidente <strong>José Sarney</strong>, marcando o fim formal do regime militar e o início da chamada Nova República.</p>
+            <div class="cita">
+              Mesmo derrotada no Congresso em 1984, a campanha das Diretas Já mostrou a força da mobilização popular e pavimentou o caminho para a Constituição de 1988 e para a primeira eleição direta para presidente em quase 30 anos, realizada em 1989.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. GOIAS SOB A DITADURA -->
+    <section class="secao" id="goias-ditadura">
+      <div class="secao-titulo">
+        <span class="num">9</span>
+        <h2>A Ditadura em Goiás: de 1964 à Abertura Política</h2>
+      </div>
+      <p class="secao-intro">Goiás não ficou de fora desse processo: o estado teve seu próprio governador deposto logo nos primeiros meses do regime — e viveu quase duas décadas sem eleições diretas para o governo estadual.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          A Intervenção Federal em Goiás (1964)
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Quando o golpe de 1964 aconteceu, o governador de Goiás era <strong>Mauro Borges Teixeira</strong>, filho do influente político Pedro Ludovico Teixeira. Mauro Borges não era um governante de esquerda, mas havia tido atritos com o governo federal — por exemplo, na disputa sobre quem deveria explorar as jazidas de níquel do estado — e era visto com desconfiança pelos militares e por seus rivais políticos da UDN, entre eles o governador da Guanabara, Carlos Lacerda.</p>
+            <div class="goias-box">
+              <span class="goias-tag">Recorte Regional — Goiás</span>
+              <h4>A queda de Mauro Borges</h4>
+              <p>Acusado de manter uma suposta "base de subversão" no governo do estado e na Universidade Federal de Goiás (UFG), Mauro Borges foi deposto em <strong>26 de novembro de 1964</strong>, por meio de uma intervenção federal decretada pelo presidente Castelo Branco. O Supremo Tribunal Federal chegou a determinar que ele só poderia ser julgado pela Assembleia Legislativa de Goiás, e não por um tribunal militar — mas isso não impediu sua deposição.</p>
+              <p>Em seu lugar, assumiu como interventor o coronel Carlos de Meira Mattos, por 45 dias, até uma eleição indireta escolher o marechal Emílio Ribas Júnior para o cargo. Goiás havia se tornado um dos primeiros exemplos, em todo o Brasil, de como o novo regime trataria governadores considerados incômodos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Quase 20 anos sem eleições diretas
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Em outubro de 1965, Goiás ainda elegeu seu governador pelo voto direto: <strong>Otávio Lage de Siqueira</strong> (UDN), aliado do regime, venceu por uma margem apertada e governou de 1966 a 1971. Foi a <strong>última eleição direta para governador em Goiás por quase 20 anos</strong> — o mesmo aconteceu em praticamente todo o país, já que o regime militar passou a escolher os governadores de forma indireta, por meio das Assembleias Legislativas controladas pela Arena, o partido da situação.</p>
+            <p>Depois de Otávio Lage, se sucederam no Palácio das Esmeraldas outros governadores indiretos alinhados à ditadura, como Leonino Di Ramos Caiado, Irapuan Costa Júnior e Ary Ribeiro Valadão — todos escolhidos sem que a população goiana pudesse votar diretamente para o cargo.</p>
+            <div class="termo-box">
+              
+              <div><b>O AI-5 chega à política municipal</b><p>O próprio AI-5 foi usado para cassar políticos goianos: em outubro de 1969, o prefeito de Goiânia, Iris Rezende, teve seu mandato cassado e seus direitos políticos suspensos por dez anos. Ele só voltaria à vida pública já no fim da ditadura, tornando-se, em 1982, o primeiro governador de Goiás eleito diretamente em quase duas décadas.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          Repressão na UFG e resistência estudantil
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>Assim como em outras universidades do país, a <strong>Universidade Federal de Goiás (UFG)</strong> foi vigiada de perto pelo regime. Em Goiás, o órgão responsável por essa vigilância era a <strong>Delegacia de Ordem Política e Social de Goiás (DOPS-GO)</strong>, que produzia dossiês sobre professores, estudantes e movimentos sociais considerados suspeitos.</p>
+            <p>Estudantes goianos foram presos por participar de centros acadêmicos e greves: em março de 1968, por exemplo, o presidente do Centro Acadêmico XI de Maio, da Faculdade de Direito da UFG, foi preso pela polícia. Mesmo sob forte repressão, o movimento estudantil goiano se reorganizou ao longo da ditadura, e a abertura política se fez sentir também dentro da universidade — no início dos anos 1980, os estudantes da UFG conquistaram, por exemplo, o direito à eleição direta para reitor.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          A abertura política chega a Goiás
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <p>O mesmo processo nacional de abertura "lenta, gradual e segura" teve um marco simbólico em Goiás nas eleições de 1982: com a volta das eleições diretas para governador em todo o país, o oposicionista <strong>Iris Rezende</strong> — justamente o político cassado pelo AI-5 treze anos antes — venceu a disputa com <strong>66,72% dos votos</strong>, uma marca até hoje lembrada na história eleitoral goiana.</p>
+            <p>A vitória de Iris Rezende simbolizou, em escala estadual, o mesmo movimento que acontecia em todo o Brasil: depois de quase duas décadas de governadores escolhidos indiretamente, a população goiana podia, novamente, escolher diretamente quem governaria o estado — um marco importante do fim da ditadura em Goiás.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. LINHA DO TEMPO -->
+    <section class="secao" id="linha-tempo">
+      <div class="secao-titulo">
+        <span class="num">10</span>
+        <h2>Linha do Tempo: os Presidentes Militares</h2>
+      </div>
+      <p class="secao-intro">Uma visão geral dos 21 anos de regime militar, do golpe à redemocratização.</p>
+
+      <div class="acc" data-acc>
+        <button class="acc-head" data-acc-head>
+          De 1964 a 1985
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body" data-acc-body>
+          <div class="acc-body-inner">
+            <div class="presid-grid">
+              <div class="presid-card"><div class="nome">Castelo Branco</div><div class="periodo">1964–1967</div></div>
+              <div class="presid-card"><div class="nome">Costa e Silva</div><div class="periodo">1967–1969</div></div>
+              <div class="presid-card"><div class="nome">Junta Militar</div><div class="periodo">1969</div></div>
+              <div class="presid-card"><div class="nome">Médici</div><div class="periodo">1969–1974</div></div>
+              <div class="presid-card"><div class="nome">Geisel</div><div class="periodo">1974–1979</div></div>
+              <div class="presid-card"><div class="nome">Figueiredo</div><div class="periodo">1979–1985</div></div>
+            </div>
+            <div class="linha-tempo" style="margin-top:22px;">
+              <div class="lt-item"><span class="lt-ano">1º de abril de 1964</span><p>Golpe civil-militar depõe João Goulart. Início do regime.</p></div>
+              <div class="lt-item"><span class="lt-ano">1967</span><p>Nova Constituição fortalece o Executivo.</p></div>
+              <div class="lt-item"><span class="lt-ano">Dezembro de 1968</span><p>Decretado o AI-5, o instrumento mais autoritário do regime.</p></div>
+              <div class="lt-item"><span class="lt-ano">1969–1974</span><p>Governo Médici: "milagre econômico" e auge da repressão.</p></div>
+              <div class="lt-item"><span class="lt-ano">Outubro de 1978</span><p>Revogação do AI-5, sob o governo Geisel.</p></div>
+              <div class="lt-item"><span class="lt-ano">1979</span><p>Lei da Anistia e fim do bipartidarismo.</p></div>
+              <div class="lt-item"><span class="lt-ano">1984</span><p>Campanha Diretas Já mobiliza milhões, mas a emenda é derrotada no Congresso.</p></div>
+              <div class="lt-item"><span class="lt-ano">1985</span><p>Eleição indireta de Tancredo Neves; sua morte leva Sarney à Presidência, encerrando o regime militar.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALLOUT GLOSSARIO -->
+    <div class="jogo-trilha-card" onclick="document.getElementById('jd-wrap').scrollIntoView({behavior:'smooth'})">
+      <div>
+        <h4>Ditadura Militar: teste seus conceitos</h4>
+        <p>Complete as frases sobre o regime militar, a repressão, a resistência e a redemocratização no jogo interativo abaixo.</p>
+      </div>
+    </div>
+
+    <!-- GLOSSARIO INTERATIVO -->
+    <section id="jd-wrap" class="selecionavel">
+      <h2>Glossário — complete as frases</h2>
+      <p class="sub">Toque no espaço de cada frase para escolher o termo correto entre as opções. Quando terminar todas, toque em "Verificar respostas".</p>
+      <div class="jd-alerta" id="jd-alerta"></div>
+      <div id="jd-frases"></div>
+      <div class="jd-status">
+        <span>Respondidas: <strong id="jd-respondidas">0</strong>/8</span>
+        <button class="jd-btn-verificar" id="jd-btn-verificar" onclick="verificarRespostas()">Verificar respostas</button>
+        <button class="jd-btn-restart" onclick="iniciarJogoArrastar()">Reiniciar</button>
+      </div>
+      <div class="jd-vitoria" id="jd-vitoria"></div>
+    </section>
+
+  </main>
+
+  <div class="rodape-nav">
+    <a class="btn-glossario" href="glossario.html" target="_parent">Ir para o Glossário</a>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-golpe-preventivo" onclick="fecharModal(event, 'modal-golpe-preventivo')">
+  <div class="modal-caixa">
+    <button class="modal-fechar" onclick="fecharModal(event, 'modal-golpe-preventivo')" aria-label="Fechar">&#10005;</button>
+    <span class="modal-eyebrow">Texto de apoio</span>
+    <h3>1964 foi um golpe preventivo?</h3>
+    <p>Diversos estudiosos defendem que o processo que deu origem à ditadura civil-militar no Brasil, em 1964, pode ser entendido como um “processo político preventivo”. Entre eles, estão o sociólogo Florestan Fernandes e os historiadores Jacob Gorender, Caio Navarro de Toledo e Lucilia de Almeida Neves Delgado.</p>
+    <p>Para esses estudiosos, a principal motivação do processo que depôs o governo constitucional, empossado em 1961, tinha origem no descontentamento dos setores conservadores da política brasileira. Os militares e os civis que depuseram João Goulart em 1964, desse modo, teriam a organização de uma revolução social e acabaram agindo impulsionados por uma perspectiva preventiva.</p>
+    <p>Para o historiador Boris Fausto, esse momento histórico encerrou o período democrático que se constituiu no Brasil entre 1945-1964. Segundo ele, “Pela primeira vez na história do país, os militares assumiam o poder com a perspectiva de aí permanecer, começando a instaurar um regime autoritário”.</p>
+    <p class="modal-fonte">FAUSTO, Boris. <em>História do Brasil</em>. São Paulo: Edusp/FDE, 1994. p. 461-462.</p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-democracia-ditadura" onclick="fecharModal(event, 'modal-democracia-ditadura')">
+  <div class="modal-caixa">
+    <button class="modal-fechar" onclick="fecharModal(event, 'modal-democracia-ditadura')" aria-label="Fechar">&#10005;</button>
+    <span class="modal-eyebrow">Definindo conceitos</span>
+    <h3>Democracia e Ditadura</h3>
+    <p><strong>Democracia</strong> é o regime político em que o poder pertence ao conjunto dos cidadãos, exercido diretamente ou por representantes eleitos. Ela garante liberdade de expressão, de imprensa e de organização, respeita as diferenças de opinião, religião, cor e gênero, e permite que os direitos sejam ampliados ao longo do tempo, mesmo diante de falhas ou limitações.</p>
+    <p><strong>Ditadura</strong> é a forma de governo em que a maior parte do poder político se concentra em uma única pessoa ou em um pequeno grupo, sem que a população tenha meios legítimos de controlá-lo por meio de eleições livres. Nas ditaduras, é comum haver forte repressão à oposição e restrição ou supressão de direitos e liberdades básicas.</p>
+    <p class="modal-fonte">AZEVEDO, Gislane; CALBENTE, Leandro; SERIACOPI, Reinaldo. <em>A Conquista: História — 9º ano</em>. Manual do Professor. 1. ed. São Paulo, 2022; BOULOS JÚNIOR, Alfredo. <em>História, Sociedade &amp; Cidadania — 9º ano</em>. Manual do Professor. 1. ed. São Paulo: Editora FTD, 2022. (texto adaptado)</p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-goulart-disputas" onclick="fecharModal(event, 'modal-goulart-disputas')">
+  <div class="modal-caixa">
+    <button class="modal-fechar" onclick="fecharModal(event, 'modal-goulart-disputas')" aria-label="Fechar">&#10005;</button>
+    <span class="modal-eyebrow">Texto de apoio</span>
+    <h3>O Governo Goulart e as Disputas Ideológicas</h3>
+    <p>João Goulart é muitas vezes apresentado como um político inábil, tanto por setores da esquerda quanto pela direita. Muitos inclusive o culpam pelo desfecho trágico do seu governo. Mas, analisando de perto o contexto e as opções políticas a seu dispor, é possível perceber a complexidade da empreitada que havia caído no colo do presidente.</p>
+    <p>Jango tinha em suas mãos um projeto reformista ousado, porém estava cercado por um congresso extremamente conservador, por uma mídia hostil e por um exército golpista. Para piorar, estava sendo pressionado pela esquerda, para impor as reformas, independente da opinião do legislativo; e pela direita, que temia um golpe comunista. De fora, os EUA asfixiavam o país financeiramente enquanto fortaleciam a oposição nos estados.</p>
+    <p>Para piorar, o PTB estava rachado. De um lado, a ala mais radical, comandada por lideranças como Leonel Brizola e Miguel Arraes, queria o que ficou conhecido como <strong>reformas na lei ou na marra</strong>. Esse grupo, que era reforçado pelos movimentos sociais e pelo PCB, não aceitava qualquer tipo de acordo com o centro. Ou as reformas passavam ou elas seriam impostas.</p>
+    <p>O problema era que na lei, havia o veto do Congresso, e na marra, havia o “veto” dos militares. Mas nada parecia importar, eles queriam as reformas a qualquer custo. Pressionavam o executivo sem, contudo, mostrar como tais políticas seriam implementadas. A batata quente estava nas mãos do presidente, era ele quem deveria decidir.</p>
+    <p class="modal-fonte">MIGOWSKI, Eduardo. <em>História: assim caiu João Goulart</em>. Instituto Humanitas Unisinos (IHU), São Leopoldo, 28 jul. 2017. Acesso em: 30 jul. 2026.</p>
+  </div>
+</div>
+
+<div class="lightbox-overlay" id="lightbox-overlay" onclick="fecharLightbox(event)">
+  <button class="lightbox-fechar" onclick="fecharLightbox(event)" aria-label="Fechar">&#10005;</button>
+  <div class="lightbox-conteudo" id="lightbox-conteudo">
+    <img id="lightbox-img" src="" alt="" onclick="alternarZoom(event)">
+    <p class="lightbox-legenda" id="lightbox-legenda"></p>
+    <p class="lightbox-dica" id="lightbox-dica">Toque na imagem para ampliar</p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-ato-institucional" onclick="fecharModal(event, 'modal-ato-institucional')">
+  <div class="modal-caixa">
+    <button class="modal-fechar" onclick="fecharModal(event, 'modal-ato-institucional')" aria-label="Fechar">&#10005;</button>
+    <span class="modal-eyebrow">Texto de apoio</span>
+    <h3>Ato Institucional</h3>
+    <p>Em 9 de abril, logo após o golpe de 1964, os novos donos do poder publicaram o <strong>Ato Institucional nº 1</strong>, cujo preâmbulo deixava claro as intenções do regime que estava sendo implantado. Deixava claro que a revolução não buscaria no Parlamento a sua legitimação, como também limitava drasticamente seus poderes. O controle do Judiciário e a suspensão dos direitos fundamentais foram uma forma de abrir caminho para a implantação da <strong>Doutrina de Segurança Nacional</strong>.</p>
+    <p>O referido ato já trazia uma lista daqueles que perderiam seus mandatos eletivos e teriam cassados seus direitos políticos. O general Castelo Branco, primeiro presidente pós-64, assumiu a presidência da República sob novas bases jurídicas. A <strong>Operação Limpeza</strong>, como ficaram conhecidas as primeiras medidas provocadas pelo AI-1, promoveu expurgos nas burocracias civil e militar e valeu-se de Inquéritos Policiais Militares (IPMs) para neutralizar qualquer cidadão que pretendesse opor-se organizadamente a políticas em aplicação [...].</p>
+    <p>Tais medidas, tanto no âmbito político quanto no econômico, destinavam-se a prover o presidente Castelo das bases iniciais para o processo de segurança e desenvolvimento pretendido pela Doutrina.</p>
+    <p class="modal-fonte">BORGES, Nilson. A Doutrina de Segurança Nacional e os governos militares. In: FERREIRA, Jorge; DELGADO, Lucilia de Almeida Neves (Org.). <em>O Brasil republicano: o tempo da ditadura</em>. Rio de Janeiro: Civilização Brasileira, 2009. v. 4. p. 39.</p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-esquecimento-ai5" onclick="fecharModal(event, 'modal-esquecimento-ai5')">
+  <div class="modal-caixa">
+    <button class="modal-fechar" onclick="fecharModal(event, 'modal-esquecimento-ai5')" aria-label="Fechar">&#10005;</button>
+    <span class="modal-eyebrow">Texto de apoio</span>
+    <h3>O esquecimento do AI-5 na memória dos brasileiros</h3>
+    <p><strong>8 em cada 10 brasileiros nunca ouviram falar do AI-5</strong></p>
+    <p>Editado há 40 anos pelo general Costa e Silva, o AI-5 [...] é totalmente ignorado por 82% dos brasileiros a partir dos 16 anos. E, dos 18% que ouviram falar algo sobre ele, apenas um terço (32%) respondeu corretamente que a sigla se referia ao Ato Institucional nº 5. [...]</p>
+    <p>Passados quase 30 anos de sua extinção, a lembrança do AI-5 vem se desvanecendo. Como observa o cientista político Marcus Figueiredo, do Iuperj, isso resulta do fato de que boa parte da população nasceu após 1968: <em>O fato tem 40 anos e não faz parte do calendário das datas nacionais.</em> Mas mesmo no estrato de pessoas com 60 anos ou mais (indivíduos que tinham ao menos 20 anos quando o AI-5 foi editado), só 26% dizem ter ouvido falar dele.</p>
+    <p>O conhecimento sobre o AI-5 cresce à medida que avança a escolaridade formal. Só 8% das pessoas com ensino fundamental ouviram falar do AI-5. A taxa sobe para 53% entre quem tem nível superior, mas só 12% desse grupo se diz bem informado.</p>
+    <p>[...] a historiadora Denise Rollemberg, da UFF, diz tratar-se de um processo que envolve esquecimento e reconstrução da história: <em>No Brasil pós-abertura política, quando a democracia passa a ser valorizada, há uma reconstrução do passado a partir do presente. Nessa reconstrução esquece-se o que houve para esquecer-se do aval dado.</em></p>
+    <p>Daniel Aarão Reis, também da UFF, concorda. Diz que sempre que uma sociedade muda de valores surge o desafio de compreender por que se tolerou a situação agora deixada de lado: <em>É muito mais simples não falar do assunto, esquecer.</em> [...]</p>
+    <p class="modal-fonte">PULS, Maurício; PAIVA, Natália. Oito em cada dez brasileiros nunca ouviram falar do AI-5. <em>Folha de S.Paulo</em>. Disponível em: <a href="https://m.folha.uol.com.br/poder/2008/12/478933-oito-em-cada-dez-brasileiros-nunca-ouviram-falar-do-ai-5.shtml" target="_blank" rel="noopener">folha.uol.com.br</a>. Acesso em: 9 nov. 2018.</p>
+  </div>
+</div>
+
+<footer class="rodape">
+  Colégio Estadual Rodolfo de Oliveira · CERO · 2026
+</footer>
+
+<script>
+/* ===== ACCORDION ===== */
+document.querySelectorAll('[data-acc-head]').forEach(function(head){
+  head.addEventListener('click', function(){
+    var item = head.closest('[data-acc]');
+    var body = item.querySelector('[data-acc-body]');
+    var isOpen = item.classList.contains('open');
+    if(isOpen){
+      item.classList.remove('open');
+      body.style.maxHeight = null;
+    } else {
+      item.classList.add('open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+});
+/* ===== LIGHTBOX DE IMAGENS ===== */
+function abrirLightbox(imgEl){
+  const overlay = document.getElementById('lightbox-overlay');
+  const conteudo = document.getElementById('lightbox-conteudo');
+  const imgGrande = document.getElementById('lightbox-img');
+  const legenda = document.getElementById('lightbox-legenda');
+  const dica = document.getElementById('lightbox-dica');
+  const figuraEl = imgEl.closest('figure');
+  const figcaptionEl = figuraEl ? figuraEl.querySelector('figcaption') : null;
+  imgGrande.src = imgEl.src;
+  imgGrande.alt = imgEl.alt;
+  legenda.innerHTML = figcaptionEl ? figcaptionEl.innerHTML : '';
+  conteudo.classList.remove('zoom-ativo');
+  imgGrande.style.width = '';
+  conteudo.scrollLeft = 0;
+  conteudo.scrollTop = 0;
+  dica.textContent = 'Toque na imagem para ampliar';
+  overlay.classList.add('aberto');
+}
+function alternarZoom(e){
+  e.stopPropagation();
+  const conteudo = document.getElementById('lightbox-conteudo');
+  const img = document.getElementById('lightbox-img');
+  const dica = document.getElementById('lightbox-dica');
+  const ativar = !conteudo.classList.contains('zoom-ativo');
+  if(ativar){
+    const natural = img.naturalWidth || img.clientWidth;
+    const alvo = Math.min(Math.max(Math.round(window.innerWidth * 1.8), natural), 3200);
+    conteudo.classList.add('zoom-ativo');
+    img.style.width = alvo + 'px';
+    conteudo.scrollLeft = (conteudo.scrollWidth - conteudo.clientWidth) / 2;
+    conteudo.scrollTop = (conteudo.scrollHeight - conteudo.clientHeight) / 2;
+    dica.textContent = 'Arraste para ver os detalhes · clique para reduzir';
+  } else {
+    conteudo.classList.remove('zoom-ativo');
+    img.style.width = '';
+    conteudo.scrollLeft = 0;
+    conteudo.scrollTop = 0;
+    dica.textContent = 'Toque na imagem para ampliar';
+  }
+}
+/* arrastar para navegar na imagem ampliada */
+(function(){
+  const conteudo = document.getElementById('lightbox-conteudo');
+  const img = document.getElementById('lightbox-img');
+  if(!conteudo || !img) return;
+  let arrastando = false, moveu = false, x0 = 0, y0 = 0, sl = 0, st = 0;
+  img.addEventListener('pointerdown', (e) => {
+    if(!conteudo.classList.contains('zoom-ativo')) return;
+    arrastando = true; moveu = false;
+    x0 = e.clientX; y0 = e.clientY;
+    sl = conteudo.scrollLeft; st = conteudo.scrollTop;
+    img.classList.add('arrastando');
+    img.setPointerCapture(e.pointerId);
+  });
+  img.addEventListener('pointermove', (e) => {
+    if(!arrastando) return;
+    const dx = e.clientX - x0, dy = e.clientY - y0;
+    if(Math.abs(dx) > 4 || Math.abs(dy) > 4) moveu = true;
+    conteudo.scrollLeft = sl - dx;
+    conteudo.scrollTop = st - dy;
+  });
+  img.addEventListener('pointerup', () => {
+    if(!arrastando) return;
+    arrastando = false;
+    img.classList.remove('arrastando');
+  });
+  img.addEventListener('click', (e) => {
+    if(moveu){ e.stopPropagation(); e.preventDefault(); moveu = false; }
+  }, true);
+})();
+function fecharLightbox(e){
+  if (e.target.id === 'lightbox-overlay' || e.target.closest('.lightbox-fechar')){
+    document.getElementById('lightbox-overlay').classList.remove('aberto');
+    document.getElementById('lightbox-conteudo').classList.remove('zoom-ativo');
+    document.getElementById('lightbox-img').style.width = '';
+  }
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape'){
+    document.getElementById('lightbox-overlay').classList.remove('aberto');
+    document.getElementById('lightbox-conteudo').classList.remove('zoom-ativo');
+    document.getElementById('lightbox-img').style.width = '';
+    document.querySelectorAll('.modal-overlay.aberto').forEach(m => m.classList.remove('aberto'));
+  }
+});
+/* recalcula a altura do acordeão aberto quando uma imagem interna termina de carregar */
+document.querySelectorAll('.figura-charge img').forEach(function(img){
+  img.addEventListener('load', function(){
+    const body = this.closest('[data-acc-body]');
+    const item = body ? body.closest('[data-acc]') : null;
+    if (body && item && item.classList.contains('open')){
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+});
+
+
+/* ===== POP-UP DE TEXTO DE APOIO ===== */
+function abrirModal(id){
+  document.getElementById(id).classList.add('aberto');
+}
+function fecharModal(e, id){
+  if (e.target.id === id || e.target.closest('.modal-fechar')){
+    document.getElementById(id).classList.remove('aberto');
+  }
+}
+
+/* ===== GLOSSÁRIO — COMPLETE AS FRASES ===== */
+const ITENS = [
+    { termo:'Reformas de base', frase:'Programa de mudanças estruturais (agrária, tributária, eleitoral e educacional) anunciado por João Goulart em março de 1964, que acirrou a crise política, ficou conhecido como ___.' },
+    { termo:'AI-5', frase:'O instrumento mais autoritário do regime militar, decretado em 1968, que suspendeu o habeas corpus e fechou o Congresso, foi o ___.' },
+    { termo:'Milagre econômico', frase:'O período de forte crescimento econômico durante o governo Médici, sustentado por exportações e empréstimos externos, ficou conhecido como ___.' },
+    { termo:'DOI-Codi', frase:'Órgão de repressão responsável por prisões, interrogatórios e torturas de opositores durante a ditadura, criado a partir da Operação Bandeirantes, era o ___.' },
+    { termo:'Censura prévia', frase:'Prática pela qual jornais, livros e programas de TV precisavam ser aprovados por agentes do governo antes de chegar ao público chama-se ___.' },
+    { termo:'Anistia', frase:'Lei aprovada em 1979 que permitiu o retorno de exilados políticos, mas também absolveu militares acusados de tortura, foi a Lei da ___.' },
+    { termo:'Diretas Já', frase:'Campanha popular de 1984 que pediu, sem sucesso imediato no Congresso, a volta das eleições diretas para presidente, ficou conhecida como ___.' },
+    { termo:'lenta, gradual e segura', frase:'A estratégia de Geisel de devolver o poder aos civis aos poucos, sem ruptura brusca, foi resumida na expressão "abertura ___".' }
+];
+
+let verificado = false;
+let dropdownAberto = null;
+
+function embaralhar(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function fecharDropdown(){
+  if (dropdownAberto){
+    dropdownAberto.remove();
+    dropdownAberto = null;
+  }
+  document.querySelectorAll('.jd-blank.aberto').forEach(b => b.classList.remove('aberto'));
+}
+
+function atualizarContador(){
+  const respondidas = document.querySelectorAll('.jd-blank[data-selecionado]').length;
+  document.getElementById('jd-respondidas').textContent = respondidas;
+  return respondidas;
+}
+
+function abrirDropdown(blank){
+  if (verificado) return;
+  if (dropdownAberto){
+    const jaEraEsse = dropdownAberto.dataset.para === blank.id;
+    fecharDropdown();
+    if (jaEraEsse) return;
+  }
+
+  blank.classList.add('aberto');
+  const opcoes = embaralhar(ITENS.map(it => it.termo));
+
+  const dd = document.createElement('div');
+  dd.className = 'jd-dropdown';
+  dd.dataset.para = blank.id;
+  opcoes.forEach(termo => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = termo;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selecionarOpcao(blank, termo);
+      fecharDropdown();
+    });
+    dd.appendChild(btn);
+  });
+
+  document.body.appendChild(dd);
+  posicionarDropdown(dd, blank);
+  dropdownAberto = dd;
+}
+
+function posicionarDropdown(dd, blank){
+  const r = blank.getBoundingClientRect();
+  const ddH = dd.offsetHeight, ddW = dd.offsetWidth;
+  let top = r.bottom + 6;
+  if (top + ddH > window.innerHeight - 8){
+    top = Math.max(8, r.top - ddH - 6);
+  }
+  let left = r.left;
+  if (left + ddW > window.innerWidth - 8){
+    left = Math.max(8, window.innerWidth - ddW - 8);
+  }
+  dd.style.top = top + 'px';
+  dd.style.left = left + 'px';
+}
+
+function selecionarOpcao(blank, termo){
+  blank.dataset.selecionado = termo;
+  blank.classList.add('respondida');
+  blank.querySelector('.jd-selecionado').textContent = termo;
+  blank.querySelector('.jd-seta').style.opacity = '0';
+  atualizarContador();
+}
+
+window.iniciarJogoArrastar = function(){
+  verificado = false;
+  const frasesEl = document.getElementById('jd-frases');
+  frasesEl.innerHTML = '';
+  document.getElementById('jd-vitoria').classList.remove('mostrar');
+  document.getElementById('jd-btn-verificar').textContent = 'Verificar respostas';
+  document.getElementById('jd-btn-verificar').disabled = false;
+  document.getElementById('jd-alerta').classList.remove('mostrar');
+
+  ITENS.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'jd-frase';
+    div.id = 'frz-' + idx;
+    div.innerHTML = '<span class="num">' + (idx + 1) + '.</span> ' + item.frase.replace('___', '<span class="jd-blank" id="blank-' + idx + '" data-termo="' + item.termo + '"><span class="jd-icone">✎</span><span class="jd-selecionado">toque para escolher</span><span class="jd-seta">∨</span></span>') + '<div class="jd-correcao"></div>';
+    frasesEl.appendChild(div);
+    const blank = div.querySelector('.jd-blank');
+    blank.addEventListener('click', (e) => {
+      e.stopPropagation();
+      abrirDropdown(blank);
+    });
+  });
+
+  atualizarContador();
+};
+
+window.verificarRespostas = function(){
+  if (verificado) return;
+  const blanks = Array.from(document.querySelectorAll('.jd-blank'));
+  const faltando = blanks.filter(b => !b.dataset.selecionado);
+
+  if (faltando.length > 0){
+    const alerta = document.getElementById('jd-alerta');
+    alerta.textContent = 'Faltam ' + faltando.length + ' resposta(s). Escolha um termo para cada frase antes de verificar.';
+    alerta.classList.add('mostrar');
+    faltando[0].scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+
+  document.getElementById('jd-alerta').classList.remove('mostrar');
+  verificado = true;
+  fecharDropdown();
+
+  let acertos = 0;
+  blanks.forEach(blank => {
+    const certo = blank.dataset.selecionado === blank.dataset.termo;
+    const frase = blank.closest('.jd-frase');
+    if (certo){
+      acertos++;
+      blank.classList.add('correta');
+      blank.classList.remove('incorreta');
+      if (frase) frase.classList.add('correta');
+    } else {
+      blank.classList.add('incorreta');
+      blank.classList.remove('correta');
+      if (frase){
+        frase.classList.add('incorreta');
+        const corr = frase.querySelector('.jd-correcao');
+        if (corr) corr.textContent = 'Resposta certa: ' + blank.dataset.termo;
+      }
+    }
+  });
+
+  document.getElementById('jd-btn-verificar').textContent = 'Respostas verificadas';
+  document.getElementById('jd-btn-verificar').disabled = true;
+
+  const vitoria = document.getElementById('jd-vitoria');
+  if (acertos === ITENS.length){
+    vitoria.textContent = 'Parabéns! Você acertou todas as ' + acertos + ' frases.';
+  } else {
+    vitoria.textContent = 'Você acertou ' + acertos + '/' + ITENS.length + '. Reveja as frases em vermelho e tente novamente!';
+  }
+  vitoria.classList.add('mostrar');
+};
+
+document.addEventListener('click', (e) => {
+  if (dropdownAberto && !dropdownAberto.contains(e.target)) fecharDropdown();
+});
+window.addEventListener('scroll', (e) => {
+  if (dropdownAberto && (e.target === dropdownAberto || (e.target.nodeType === 1 && dropdownAberto.contains(e.target)))) return;
+  fecharDropdown();
+}, true);
+window.addEventListener('resize', fecharDropdown);
+
+iniciarJogoArrastar();
+</script>
+
+</body>
+</html>
