@@ -424,6 +424,85 @@
     .modal-caixa{padding:24px 20px 20px;}
   }
 </style>
+
+<style>
+  /* ===== BOX DE RESUMO DO TOPICO (FICHAMENTO) ===== */
+  .ficha-btn{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left; cursor:pointer;
+    background:linear-gradient(135deg,var(--accent-dark),var(--accent)); color:#fff;
+    border:0; border-left:5px solid var(--gold); border-radius:12px;
+    padding:14px 18px; margin:6px 0 22px; font-family:var(--font-body); font-size:1rem;
+    box-shadow:0 4px 14px rgba(0,0,0,.14);
+    transition:transform .12s ease, filter .12s ease;
+  }
+  .ficha-btn:hover{filter:brightness(1.12); transform:translateY(-1px);}
+  .ficha-btn .ico{
+    flex:0 0 auto; width:34px; height:34px; border-radius:8px; background:var(--gold);
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:1.05rem; font-weight:700; font-family:var(--font-title);
+  }
+  .ficha-btn .txt{flex:1;}
+  .ficha-btn .txt strong{display:block; font-family:var(--font-title); font-size:1.02rem; color:#fff;}
+  .ficha-btn .txt em{font-style:normal; font-size:.85rem; opacity:.85; display:block; margin-top:2px;}
+  .ficha-btn .seta{font-size:1.3rem; color:var(--gold-light);}
+
+  .ficha-fundo{
+    display:none; position:fixed; inset:0; background:rgba(20,16,12,.78);
+    z-index:9000; padding:24px 16px; overflow-y:auto;
+  }
+  .ficha-fundo.ativo{display:block;}
+  .ficha-cx{
+    background:var(--paper); max-width:820px; margin:0 auto; border-radius:14px;
+    box-shadow:0 18px 50px rgba(0,0,0,.35); overflow:hidden; animation:fichaSobe .18s ease-out;
+  }
+  @keyframes fichaSobe{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;}}
+  .ficha-topo{
+    background:var(--accent); color:#fff; padding:18px 22px;
+    display:flex; align-items:flex-start; gap:14px; position:sticky; top:0; z-index:2;
+  }
+  .ficha-topo .rot{
+    font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--gold-light); display:block;
+  }
+  .ficha-topo h3{margin:3px 0 0; font-size:1.3rem; color:#fff; font-family:var(--font-title); line-height:1.25;}
+  .ficha-fechar{
+    margin-left:auto; background:transparent; border:1px solid rgba(255,255,255,.45);
+    color:#fff; width:34px; height:34px; border-radius:8px; font-size:1.2rem;
+    cursor:pointer; line-height:1; flex:0 0 auto;
+  }
+  .ficha-fechar:hover{background:rgba(255,255,255,.16);}
+  .ficha-corpo{padding:20px 24px 26px; color:var(--ink);}
+  .ficha-corpo h4{
+    font-family:var(--font-mono); color:var(--accent-dark); font-size:.78rem;
+    letter-spacing:.1em; text-transform:uppercase; margin:22px 0 8px;
+    border-bottom:1px solid var(--line); padding-bottom:6px;
+  }
+  .ficha-corpo h4:first-child{margin-top:0;}
+  .ficha-corpo ul{margin:0; padding-left:20px;}
+  .ficha-corpo li{margin-bottom:8px; font-size:.97rem; line-height:1.6;}
+  .ficha-rodape{
+    border-top:1px solid var(--line); padding:14px 24px; background:var(--bg-alt);
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  }
+  .ficha-rodape span{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft);}
+  .ficha-rodape button{
+    background:var(--accent); color:#fff; border:0; border-radius:8px; padding:9px 16px;
+    font-family:var(--font-body); font-size:.9rem; cursor:pointer;
+  }
+  .ficha-rodape button:hover{filter:brightness(1.1);}
+  @media (max-width:720px){
+    .ficha-fundo{padding:0;}
+    .ficha-cx{max-width:100%; min-height:100%; border-radius:0; display:flex; flex-direction:column;}
+    .ficha-topo{padding:16px;}
+    .ficha-topo h3{font-size:1.1rem;}
+    .ficha-corpo{padding:18px 16px 24px; flex:1;}
+    .ficha-rodape{position:sticky; bottom:0; padding:12px 16px calc(12px + env(safe-area-inset-bottom)); justify-content:center;}
+    .ficha-rodape span{display:none;}
+    .ficha-rodape button{width:100%; min-height:46px;}
+    .ficha-btn{padding:14px 16px;}
+  }
+  @media print{.ficha-btn, .ficha-fundo{display:none !important;}}
+</style>
 </head>
 <body>
 
@@ -481,6 +560,11 @@
         <span class="num">1</span>
         <h2>O Contexto de Instabilidade Política</h2>
       </div>
+      <button class="ficha-btn" data-ficha="contexto">
+        <span class="ico">1</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 1</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">O golpe de 1964 não surgiu do nada: foi o desfecho de uma crise que já vinha se acumulando havia anos.</p>
 
       <div class="acc" data-acc>
@@ -543,6 +627,11 @@
         <span class="num">2</span>
         <h2>A Institucionalização do Regime: Governo Castelo Branco</h2>
       </div>
+      <button class="ficha-btn" data-ficha="castelo-branco">
+        <span class="ico">2</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 2</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">O primeiro presidente militar organizou juridicamente o novo regime — e deu início a uma sequência de mudanças que concentrariam cada vez mais poder no Executivo.</p>
 
       <div class="acc" data-acc>
@@ -601,6 +690,11 @@
         <span class="num">3</span>
         <h2>O Endurecimento: Costa e Silva e o AI-5</h2>
       </div>
+      <button class="ficha-btn" data-ficha="ai5">
+        <span class="ico">3</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 3</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Diante do crescimento das manifestações contrárias ao regime, os militares reagiriam com o mais duro de todos os Atos Institucionais.</p>
 
       <div class="acc" data-acc>
@@ -659,6 +753,11 @@
         <span class="num">4</span>
         <h2>Os "Anos de Chumbo": Governo Médici</h2>
       </div>
+      <button class="ficha-btn" data-ficha="medici">
+        <span class="ico">4</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 4</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">O período mais repressivo da história republicana brasileira coincidiu, contraditoriamente, com um forte crescimento econômico.</p>
 
       <div class="acc" data-acc>
@@ -699,6 +798,11 @@
         <span class="num">5</span>
         <h2>Movimentos de Resistência à Ditadura</h2>
       </div>
+      <button class="ficha-btn" data-ficha="resistencia">
+        <span class="ico">5</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 5</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Diante da repressão, diferentes setores da sociedade brasileira resistiram — pelas armas, pela arte e pela organização política.</p>
 
       <div class="acc" data-acc>
@@ -746,6 +850,11 @@
         <span class="num">6</span>
         <h2>Geisel e a Abertura "Lenta, Gradual e Segura"</h2>
       </div>
+      <button class="ficha-btn" data-ficha="geisel">
+        <span class="ico">6</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 6</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">O primeiro passo rumo à democracia veio, paradoxalmente, de dentro do próprio regime militar.</p>
 
       <div class="acc" data-acc>
@@ -769,6 +878,11 @@
         <span class="num">7</span>
         <h2>Figueiredo, a Anistia e o Fim do Bipartidarismo</h2>
       </div>
+      <button class="ficha-btn" data-ficha="figueiredo">
+        <span class="ico">7</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 7</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">A pressão popular pela redemocratização se intensifica — mas a anistia viria acompanhada de um preço controverso.</p>
 
       <div class="acc" data-acc>
@@ -792,6 +906,11 @@
         <span class="num">8</span>
         <h2>Diretas Já! e o Fim do Regime Militar</h2>
       </div>
+      <button class="ficha-btn" data-ficha="diretas-ja">
+        <span class="ico">8</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 8</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">A maior mobilização popular da história recente do Brasil não conseguiu, de imediato, o que pedia — mas selou o destino da ditadura.</p>
 
       <div class="acc" data-acc>
@@ -817,6 +936,11 @@
         <span class="num">9</span>
         <h2>A Ditadura em Goiás: de 1964 à Abertura Política</h2>
       </div>
+      <button class="ficha-btn" data-ficha="goias-ditadura">
+        <span class="ico">9</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 9</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Goiás não ficou de fora desse processo: o estado teve seu próprio governador deposto logo nos primeiros meses do regime — e viveu quase duas décadas sem eleições diretas para o governo estadual.</p>
 
       <div class="acc" data-acc>
@@ -887,6 +1011,11 @@
         <span class="num">10</span>
         <h2>Linha do Tempo: os Presidentes Militares</h2>
       </div>
+      <button class="ficha-btn" data-ficha="linha-tempo">
+        <span class="ico">10</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 10</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Uma visão geral dos 21 anos de regime militar, do golpe à redemocratização.</p>
 
       <div class="acc" data-acc>
@@ -1324,6 +1453,62 @@ window.addEventListener('scroll', (e) => {
 window.addEventListener('resize', fecharDropdown);
 
 iniciarJogoArrastar();
+</script>
+
+
+<div class="ficha-fundo" id="modalFicha" role="dialog" aria-modal="true" aria-labelledby="fichaTitulo">
+  <div class="ficha-cx">
+    <div class="ficha-topo">
+      <div>
+        <span class="rot" id="fichaRot">Resumo do t&oacute;pico</span>
+        <h3 id="fichaTitulo"></h3>
+      </div>
+      <button class="ficha-fechar" id="fecharFicha" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="ficha-corpo" id="fichaCorpo"></div>
+    <div class="ficha-rodape">
+      <span>Col&eacute;gio Estadual Rodolfo de Oliveira &middot; CERO &middot; 2026</span>
+      <button id="fecharFicha2">Voltar ao conte&uacute;do</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== RESUMOS DOS TOPICOS ===== */
+const FICHAS = {"contexto": {"num": "1", "titulo": "O Contexto de Instabilidade Política", "blocos": [["A crise do início dos anos 1960", ["Forte polarização política: João Goulart enfrentava inflação alta, economia em desaceleração e pressão de diversos setores.", "Março de 1964: anúncio das reformas de base — reforma agrária, tributária, eleitoral e educacional.", "Para conservadores, empresários e a UDN, as reformas eram um avanço perigoso do \"comunismo\", mesmo Jango não sendo comunista.", "Para grupos populares, sindicatos, estudantes e camponeses, eram resposta necessária às desigualdades sociais."]], ["Do impasse ao golpe", ["A radicalização somou-se à Guerra Fria, com os EUA temendo a expansão de governos de esquerda na América Latina.", "31 de março de 1964: um movimento das Forças Armadas, apoiado por políticos civis, depõe Jango.", "1º de abril de 1964: a Presidência é declarada vaga. Começa um regime que duraria 21 anos."]], ["Habilidade central do tema", ["Comparar permanências e rupturas: quais discursos e tensões daquela época ainda aparecem no debate político atual, e quais mudanças na sociedade tornam impossível uma repetição idêntica de 1964."]]]}, "castelo-branco": {"num": "2", "titulo": "A Institucionalização do Regime: Governo Castelo Branco", "blocos": [["A institucionalização do regime (1964–1967)", ["O marechal Humberto de Alencar Castelo Branco foi o primeiro militar na Presidência, com reconhecimento imediato dos EUA e apoio de grandes empresários.", "Nova Constituição de 1967: fortaleceu a Presidência da República e enfraqueceu o Legislativo e o Judiciário.", "Lei de Segurança Nacional: permitia tratar opositores como \"inimigos da pátria\".", "Rompimento das relações com Cuba, único país socialista da América Latina.", "Revogação da lei que limitava a remessa de lucros das multinacionais, revertendo a política nacionalista anterior."]], ["Trabalhadores e sindicatos", ["Muitos trabalhadores perderam a estabilidade no emprego e sofreram intervenção do governo em seus sindicatos.", "Diferente de outras ditaduras latino-americanas, os sindicatos brasileiros não foram extintos: o imposto sindical foi mantido, garantindo sobrevivência formal sob forte controle estatal."]], ["A repressão desde as primeiras semanas", ["Segundo Chiavenato, as prisões foram tantas que o Maracanã virou presídio, navios da Marinha receberam centenas de \"subversivos\" e os quartéis lotaram.", "Os abusos chegaram a ser denunciados pela imprensa; o governo prometia investigar, enquanto a violência se incorporava ao cotidiano."]]]}, "ai5": {"num": "3", "titulo": "O Endurecimento: Costa e Silva e o AI-5", "blocos": [["1968: as manifestações e o pretexto", ["No governo do marechal Costa e Silva (1967–1969) cresceram os protestos contra o regime.", "Junho de 1968: Passeata dos Cem Mil no Rio de Janeiro, contra a morte do estudante secundarista Edson Luís pela polícia.", "O discurso do deputado Márcio Moreira Alves, criticando a violência contra estudantes, serviu de pretexto para a reação do regime."]], ["O AI-5 (13 de dezembro de 1968)", ["Prisão de milhares de pessoas sem necessidade de justificativa.", "Censura prévia a jornais, livros, músicas, teatro, cinema e televisão.", "Fechamento do Congresso Nacional por quase um ano e cassação de mandatos de centenas de políticos.", "Suspensão do habeas corpus para crimes políticos e afastamento de juízes.", "Decretação do estado de sítio e intervenção em estados e municípios."]], ["1969", ["Costa e Silva deixa a Presidência por motivos de saúde; uma junta militar governa por cerca de dois meses.", "Nesse período foi aprovada emenda constitucional que chegou a incluir pena de morte e prisão perpétua para casos de \"subversão\"."]]]}, "medici": {"num": "4", "titulo": "Os \"Anos de Chumbo\": Governo Médici", "blocos": [["O \"milagre econômico\" (1969–1974)", ["Sob o general Emílio Garrastazu Médici, o país viveu forte crescimento, impulsionado por aumento da produção industrial, exportações, expansão do crédito às classes médias e empréstimos externos.", "Grandes obras em rodovias, hidrelétricas e comunicações — a ponte Rio-Niterói (1974) é o símbolo do período.", "Custo social: arrocho salarial para conter a inflação, com sindicatos e associações sob vigilância policial constante.", "O \"milagre\" foi passageiro: dependia de mercado externo favorável e de empréstimos; com a alta do petróleo nos anos 1970, inflação e dívida externa voltaram a crescer."]], ["O aparato repressivo — os \"anos de chumbo\"", ["SNI (Serviço Nacional de Informações): coordenava a espionagem e o monitoramento de opositores.", "DOPS (Delegacias de Ordem Política e Social): polícia estadual voltada à repressão política.", "DOI-Codi: principal centro de prisão, interrogatório e tortura, criado a partir da antiga Oban.", "A repressão invadia universidades e perseguia professores, jornalistas, artistas, estudantes e religiosos; suspeitos de \"subversão\" podiam ser presos, torturados e mortos, muitas vezes sem que a família soubesse do paradeiro."]]]}, "resistencia": {"num": "5", "titulo": "Movimentos de Resistência à Ditadura", "blocos": [["A luta armada", ["Organizações que defendiam derrubar o regime pelas armas e instaurar o socialismo: ALN (Carlos Marighella), VPR (Carlos Lamarca) e MR-8.", "Realizavam assaltos a bancos para financiar as ações e sequestros de diplomatas para trocá-los por presos políticos — como o do embaixador dos EUA, Charles Elbrick, em 1969, trocado por 15 presos.", "Guerrilha do Araguaia: foco guerrilheiro na região amazônica, duramente reprimido pelo Exército.", "Até 1974 praticamente todos os focos haviam sido destruídos, com seus integrantes presos ou mortos."]], ["Resistência cultural e censura", ["Resistência pacífica: abaixo-assinados, protestos de rua, oposição parlamentar, jornais alternativos, teatro e festivais de música popular.", "Geraldo Vandré tornou-se símbolo com \"Pra não dizer que não falei das flores\" (1968), proibida pelos militares, que o forçaram ao exílio.", "O Pasquim, lançado em 1969 em reação ao AI-5, usava o humor para driblar a censura; em 1970 censores foram instalados na redação e parte da equipe foi presa pelo DOI-Codi.", "Censura prévia: diferente da punição posterior, exigia aprovação dos censores antes da publicação — deixando espaços em branco e trechos cortados como protesto silencioso."]]]}, "geisel": {"num": "6", "titulo": "Geisel e a Abertura \"Lenta, Gradual e Segura\"", "blocos": [["A abertura \"lenta, gradual e segura\" (1974–1979)", ["Ernesto Geisel pertencia ao grupo militar favorável à devolução gradual do poder aos civis.", "A censura sobre os meios de comunicação diminuiu e, em 1974, houve eleições diretas para senadores e deputados, com vitória expressiva do MDB sobre a Arena — o que assustou os militares mais radicais."]], ["Avanços e recuos", ["1975 e 1976: o jornalista Vladimir Herzog e o operário Manuel Fiel Filho morreram sob tortura em dependências do Exército em São Paulo, escandalizando parte da sociedade.", "1976: Lei Falcão, restringindo a propaganda eleitoral na TV e no rádio.", "1977: \"senadores biônicos\" — um terço do Senado passou a ser escolhido pelo presidente.", "Outubro de 1978: revogação do AI-5, encerrando os instrumentos mais duros de repressão.", "1978: fundação do Movimento Negro Unificado (MNU), importante na luta pela redemocratização e ativo até hoje."]]]}, "figueiredo": {"num": "7", "titulo": "Figueiredo, a Anistia e o Fim do Bipartidarismo", "blocos": [["Pressão popular e greves (1979)", ["No governo do general João Baptista Figueiredo (1979–1985), sindicatos, empresários, setores religiosos e artistas se uniram pela redemocratização.", "Greves envolveram milhões de trabalhadores, com destaque para os metalúrgicos de São Bernardo do Campo, liderados por Luiz Inácio da Silva, o Lula.", "A repressão continuava: o operário Santo Dias foi morto pela polícia durante uma dessas greves."]], ["A Lei da Anistia e a reforma partidária", ["1979: a Lei da Anistia permitiu o retorno dos exilados e devolveu direitos políticos aos cassados.", "Ponto até hoje debatido: a lei também absolveu militares acusados de tortura e assassinato, sem julgamento.", "Fim do bipartidarismo (Arena e MDB), com a criação de novas legendas — PT, PMDB, PDT e PDS.", "1982: volta das eleições diretas para governador."]]]}, "diretas-ja": {"num": "8", "titulo": "Diretas Já! e o Fim do Regime Militar", "blocos": [["A campanha das Diretas Já", ["Entre 1979 e 1984 o país viveu grave crise econômica, com inflação alta e dívidas elevadas — a \"década perdida\".", "A campanha Diretas Já!, a partir da emenda do deputado Dante de Oliveira, pedia eleições diretas para presidente e reuniu milhões de pessoas em todo o país."]], ["O desfecho (1984–1985)", ["Abril de 1984: a emenda das diretas foi derrotada no Congresso por poucos votos.", "1985: eleição indireta por Colégio Eleitoral; Tancredo Neves venceu o candidato do governo, mas morreu antes da posse.", "Assumiu o vice José Sarney, marcando o fim formal do regime militar e o início da Nova República.", "Mesmo derrotada, a campanha mostrou a força da mobilização popular e pavimentou o caminho para a Constituição de 1988 e para a eleição direta de 1989."]]]}, "goias-ditadura": {"num": "9", "titulo": "A Ditadura em Goiás: de 1964 à Abertura Política", "blocos": [["A intervenção federal em Goiás (1964)", ["O governador era Mauro Borges Teixeira, filho de Pedro Ludovico Teixeira. Não era de esquerda, mas tivera atritos com o governo federal — como na disputa sobre as jazidas de níquel — e era visto com desconfiança por militares e pela UDN.", "Acusado de manter uma suposta \"base de subversão\" no governo estadual e na UFG, foi deposto em 26 de novembro de 1964 por intervenção federal decretada por Castelo Branco.", "O STF chegou a determinar que ele só poderia ser julgado pela Assembleia Legislativa de Goiás, e não por tribunal militar — o que não impediu a deposição.", "Assumiu o coronel Carlos de Meira Mattos por 45 dias, até a eleição indireta do marechal Emílio Ribas Júnior."]], ["Quase 20 anos sem eleições diretas", ["Outubro de 1965: Otávio Lage de Siqueira (UDN), aliado do regime, vence por margem apertada a última eleição direta para governador em Goiás por quase duas décadas.", "Seguiram-se governadores indiretos alinhados à ditadura: Leonino Di Ramos Caiado, Irapuan Costa Júnior e Ary Ribeiro Valadão.", "Outubro de 1969: o AI-5 foi usado para cassar o prefeito de Goiânia, Iris Rezende, com suspensão de direitos políticos por dez anos."]], ["Repressão na UFG e a abertura em Goiás", ["A UFG foi vigiada de perto pelo DOPS-GO, que produzia dossiês sobre professores, estudantes e movimentos sociais.", "Março de 1968: o presidente do Centro Acadêmico XI de Maio, da Faculdade de Direito da UFG, foi preso pela polícia.", "No início dos anos 1980, os estudantes da UFG conquistaram o direito à eleição direta para reitor.", "1982: Iris Rezende, o político cassado pelo AI-5 treze anos antes, venceu a eleição para governador com 66,72% dos votos — marco estadual do fim da ditadura."]]]}, "linha-tempo": {"num": "10", "titulo": "Linha do Tempo: os Presidentes Militares", "blocos": [["Os presidentes militares", ["Castelo Branco (1964–1967); Costa e Silva (1967–1969); Junta Militar (1969); Médici (1969–1974); Geisel (1974–1979); Figueiredo (1979–1985)."]], ["Marcos dos 21 anos", ["1º de abril de 1964: golpe civil-militar depõe João Goulart e inicia o regime.", "1967: nova Constituição fortalece o Executivo.", "Dezembro de 1968: decretado o AI-5, o instrumento mais autoritário do regime.", "1969–1974: governo Médici, com o \"milagre econômico\" e o auge da repressão.", "Outubro de 1978: revogação do AI-5, sob Geisel.", "1979: Lei da Anistia e fim do bipartidarismo.", "1984: a campanha Diretas Já mobiliza milhões, mas a emenda é derrotada no Congresso.", "1985: eleição indireta de Tancredo Neves; sua morte leva Sarney à Presidência, encerrando o regime militar."]]]}};
+
+(function(){
+  var fundo = document.getElementById('modalFicha');
+  var corpo = document.getElementById('fichaCorpo');
+  var tit   = document.getElementById('fichaTitulo');
+  var rot   = document.getElementById('fichaRot');
+
+  function abrir(id){
+    var f = FICHAS[id]; if(!f) return;
+    rot.innerHTML = 'Resumo &middot; T\u00f3pico ' + f.num;
+    tit.textContent = f.titulo;
+    corpo.innerHTML = f.blocos.map(function(b){
+      return '<h4>' + b[0] + '</h4><ul>' + b[1].map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>';
+    }).join('');
+    fundo.classList.add('ativo');
+    document.body.style.overflow = 'hidden';
+    corpo.scrollTop = 0; fundo.scrollTop = 0;
+  }
+  function fechar(){
+    fundo.classList.remove('ativo');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.ficha-btn').forEach(function(b){
+    b.addEventListener('click', function(){ abrir(b.dataset.ficha); });
+  });
+  document.getElementById('fecharFicha').addEventListener('click', fechar);
+  document.getElementById('fecharFicha2').addEventListener('click', fechar);
+  fundo.addEventListener('click', function(e){ if(e.target === fundo) fechar(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && fundo.classList.contains('ativo')) fechar();
+  });
+})();
 </script>
 
 </body>
