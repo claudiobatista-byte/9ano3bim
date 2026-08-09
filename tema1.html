@@ -589,6 +589,85 @@
   .lightbox-fechar{position:absolute; top:18px; right:22px; width:40px; height:40px; border-radius:50%; background:var(--paper); border:2px solid var(--gold); color:var(--accent-dark); font-size:1.3rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1;}
   .lightbox-dica{margin-top:6px; font-family:var(--font-mono); font-size:.7rem; color:var(--gold-light); text-align:center;}
 </style>
+
+<style>
+  /* ===== BOX DE RESUMO DO TOPICO (FICHAMENTO) ===== */
+  .ficha-btn{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left; cursor:pointer;
+    background:linear-gradient(135deg,var(--accent-dark),var(--accent)); color:#fff;
+    border:0; border-left:5px solid var(--gold); border-radius:12px;
+    padding:14px 18px; margin:6px 0 22px; font-family:var(--font-body); font-size:1rem;
+    box-shadow:0 4px 14px rgba(0,0,0,.14);
+    transition:transform .12s ease, filter .12s ease;
+  }
+  .ficha-btn:hover{filter:brightness(1.12); transform:translateY(-1px);}
+  .ficha-btn .ico{
+    flex:0 0 auto; width:34px; height:34px; border-radius:8px; background:var(--gold);
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:1.05rem; font-weight:700; font-family:var(--font-title);
+  }
+  .ficha-btn .txt{flex:1;}
+  .ficha-btn .txt strong{display:block; font-family:var(--font-title); font-size:1.02rem; color:#fff;}
+  .ficha-btn .txt em{font-style:normal; font-size:.85rem; opacity:.85; display:block; margin-top:2px;}
+  .ficha-btn .seta{font-size:1.3rem; color:var(--gold-light);}
+
+  .ficha-fundo{
+    display:none; position:fixed; inset:0; background:rgba(20,16,12,.78);
+    z-index:9000; padding:24px 16px; overflow-y:auto;
+  }
+  .ficha-fundo.ativo{display:block;}
+  .ficha-cx{
+    background:var(--paper); max-width:820px; margin:0 auto; border-radius:14px;
+    box-shadow:0 18px 50px rgba(0,0,0,.35); overflow:hidden; animation:fichaSobe .18s ease-out;
+  }
+  @keyframes fichaSobe{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;}}
+  .ficha-topo{
+    background:var(--accent); color:#fff; padding:18px 22px;
+    display:flex; align-items:flex-start; gap:14px; position:sticky; top:0; z-index:2;
+  }
+  .ficha-topo .rot{
+    font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--gold-light); display:block;
+  }
+  .ficha-topo h3{margin:3px 0 0; font-size:1.3rem; color:#fff; font-family:var(--font-title); line-height:1.25;}
+  .ficha-fechar{
+    margin-left:auto; background:transparent; border:1px solid rgba(255,255,255,.45);
+    color:#fff; width:34px; height:34px; border-radius:8px; font-size:1.2rem;
+    cursor:pointer; line-height:1; flex:0 0 auto;
+  }
+  .ficha-fechar:hover{background:rgba(255,255,255,.16);}
+  .ficha-corpo{padding:20px 24px 26px; color:var(--ink);}
+  .ficha-corpo h4{
+    font-family:var(--font-mono); color:var(--accent-dark); font-size:.78rem;
+    letter-spacing:.1em; text-transform:uppercase; margin:22px 0 8px;
+    border-bottom:1px solid var(--line); padding-bottom:6px;
+  }
+  .ficha-corpo h4:first-child{margin-top:0;}
+  .ficha-corpo ul{margin:0; padding-left:20px;}
+  .ficha-corpo li{margin-bottom:8px; font-size:.97rem; line-height:1.6;}
+  .ficha-rodape{
+    border-top:1px solid var(--line); padding:14px 24px; background:var(--bg-alt);
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  }
+  .ficha-rodape span{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft);}
+  .ficha-rodape button{
+    background:var(--accent); color:#fff; border:0; border-radius:8px; padding:9px 16px;
+    font-family:var(--font-body); font-size:.9rem; cursor:pointer;
+  }
+  .ficha-rodape button:hover{filter:brightness(1.1);}
+  @media (max-width:720px){
+    .ficha-fundo{padding:0;}
+    .ficha-cx{max-width:100%; min-height:100%; border-radius:0; display:flex; flex-direction:column;}
+    .ficha-topo{padding:16px;}
+    .ficha-topo h3{font-size:1.1rem;}
+    .ficha-corpo{padding:18px 16px 24px; flex:1;}
+    .ficha-rodape{position:sticky; bottom:0; padding:12px 16px calc(12px + env(safe-area-inset-bottom)); justify-content:center;}
+    .ficha-rodape span{display:none;}
+    .ficha-rodape button{width:100%; min-height:46px;}
+    .ficha-btn{padding:14px 16px;}
+  }
+  @media print{.ficha-btn, .ficha-fundo{display:none !important;}}
+</style>
 </head>
 <body>
 
@@ -666,6 +745,11 @@
         <span class="num">1</span>
         <h2>O que é um Estado Totalitário?</h2>
       </div>
+      <button class="ficha-btn" data-ficha="conceito">
+        <span class="ico">1</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 1</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Antes de estudar cada regime, é preciso entender o que os une: um modelo de poder que não se contenta em governar, mas busca controlar todas as dimensões da vida social.</p>
 
       <div class="acc" data-acc>
@@ -740,6 +824,11 @@
         <span class="num">2</span>
         <h2>O Contexto de Ascensão: por que a Europa se voltou ao autoritarismo?</h2>
       </div>
+      <button class="ficha-btn" data-ficha="ascensao">
+        <span class="ico">2</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 2</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Os regimes totalitários não surgiram do nada. Eles se aproveitaram de crises profundas que as democracias liberais não conseguiram resolver.</p>
 
       <div class="acc" data-acc>
@@ -782,6 +871,11 @@
         <span class="num">3</span>
         <h2>O Fascismo Italiano</h2>
       </div>
+      <button class="ficha-btn" data-ficha="fascismo">
+        <span class="ico">3</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 3</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">O primeiro dos regimes totalitários do século XX, criado por Benito Mussolini a partir de 1922.</p>
 
       <div class="acc" data-acc>
@@ -831,6 +925,11 @@
         <span class="num">4</span>
         <h2>O Nazismo Alemão</h2>
       </div>
+      <button class="ficha-btn" data-ficha="nazismo">
+        <span class="ico">4</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 4</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">O regime mais radical e o principal responsável por desencadear a Segunda Guerra Mundial na Europa.</p>
 
       <div class="acc" data-acc>
@@ -917,6 +1016,11 @@
         <span class="num">5</span>
         <h2>O Stalinismo na União Soviética</h2>
       </div>
+      <button class="ficha-btn" data-ficha="stalinismo">
+        <span class="ico">5</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 5</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Um totalitarismo de outra natureza ideológica — mas com mecanismos de controle surpreendentemente parecidos.</p>
 
       <div class="acc" data-acc>
@@ -952,6 +1056,11 @@
         <span class="num">6</span>
         <h2>O Militarismo Japonês</h2>
       </div>
+      <button class="ficha-btn" data-ficha="japao">
+        <span class="ico">6</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 6</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Na Ásia, um regime de fundamentos diferentes seguiu o mesmo caminho de expansão territorial.</p>
 
       <div class="acc" data-acc>
@@ -980,6 +1089,11 @@
         <span class="num">7</span>
         <h2>Política Expansionista: o caminho até a guerra</h2>
       </div>
+      <button class="ficha-btn" data-ficha="expansionismo">
+        <span class="ico">7</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 7</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Veja, em ordem cronológica, como as ambições territoriais dos regimes totalitários foram se somando até tornar o conflito inevitável.</p>
 
       <div class="acc" data-acc>
@@ -1061,6 +1175,11 @@
         <span class="num">8</span>
         <h2>Como as ideologias guiaram o conflito</h2>
       </div>
+      <button class="ficha-btn" data-ficha="ideologia-guerra">
+        <span class="ico">8</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 8</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">A Segunda Guerra Mundial não foi apenas uma disputa por território: foi, em grande medida, um confronto entre projetos de sociedade radicalmente diferentes.</p>
 
       <div class="acc" data-acc>
@@ -1103,6 +1222,11 @@
         <span class="num">9</span>
         <h2>A Queda dos Regimes Totalitários</h2>
       </div>
+      <button class="ficha-btn" data-ficha="queda">
+        <span class="ico">9</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 9</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">O fim da guerra não significou o fim do totalitarismo como fenômeno histórico — mas encerrou o ciclo desses regimes específicos.</p>
 
       <div class="acc" data-acc>
@@ -1457,6 +1581,62 @@ window.addEventListener('scroll', (e) => {
 window.addEventListener('resize', fecharDropdown);
 
 iniciarJogoArrastar();
+</script>
+
+
+<div class="ficha-fundo" id="modalFicha" role="dialog" aria-modal="true" aria-labelledby="fichaTitulo">
+  <div class="ficha-cx">
+    <div class="ficha-topo">
+      <div>
+        <span class="rot" id="fichaRot">Resumo do t&oacute;pico</span>
+        <h3 id="fichaTitulo"></h3>
+      </div>
+      <button class="ficha-fechar" id="fecharFicha" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="ficha-corpo" id="fichaCorpo"></div>
+    <div class="ficha-rodape">
+      <span>Col&eacute;gio Estadual Rodolfo de Oliveira &middot; CERO &middot; 2026</span>
+      <button id="fecharFicha2">Voltar ao conte&uacute;do</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== RESUMOS DOS TOPICOS ===== */
+const FICHAS = {"conceito": {"num": "1", "titulo": "O que é um Estado Totalitário?", "blocos": [["O que define o totalitarismo", ["Estado totalitário: regime que tenta controlar <em>totalmente</em> a vida das pessoas — política, economia, cultura, educação e vida privada.", "Diferença para a ditadura \"comum\": a ditadura reprime a oposição; o totalitarismo quer moldar mentes, formando cidadãos fiéis desde a infância (escolas, juventudes partidárias, imprensa)."]], ["As seis características em comum", ["Partido único, com um líder concentrando as decisões (Führer, Duce, Secretário-Geral, imperador).", "Culto à personalidade: o líder é apresentado pela propaganda como \"salvador\" quase infalível.", "Propaganda estatal massiva sobre jornais, rádio, cinema e livros escolares.", "Polícia política e vigilância constante contra qualquer discordância.", "Nacionalismo exacerbado (ou ideologia de classe, no caso soviético) para justificar sacrifícios.", "Economia controlada pelo Estado, voltada ao rearmamento e à guerra."]], ["Para guardar", ["Hannah Arendt, em <em>Origens do totalitarismo</em> (1951), é a principal referência para entender como esses regimes controlaram milhões de pessoas — inclusive com apoio de parte delas.", "Serão estudados quatro regimes: fascismo (Itália), nazismo (Alemanha), stalinismo (URSS) e militarismo (Japão). Ideologias diferentes, lados opostos na guerra — mesmo projeto de controle absoluto."]]]}, "ascensao": {"num": "2", "titulo": "O Contexto de Ascensão: por que a Europa se voltou ao autoritarismo?", "blocos": [["As três crises que abriram caminho", ["Herança da 1ª Guerra: o Tratado de Versalhes (1919) impôs à Alemanha perda de territórios e colônias, redução das Forças Armadas e pesadas indenizações — sentido como humilhação nacional.", "Crise de 1929: a quebra da Bolsa de Nova York interrompeu empréstimos e investimentos dos EUA na Europa, gerando desemprego em massa e fome, e minando a confiança nos governos liberais.", "Medo do comunismo: depois da Revolução Russa de 1917, classe média e grande burguesia passaram a apoiar saídas autoritárias como \"escudo\" contra a revolução socialista."]], ["O resultado", ["Forte polarização política: de um lado, trabalhadores e intelectuais que culpavam o capitalismo e defendiam a revolução; de outro, conservadores que apoiaram regimes totalitários.", "Nesse cenário instalaram-se o fascismo na Itália e o nazismo na Alemanha. Os regimes totalitários não surgiram do nada: aproveitaram crises que as democracias liberais não conseguiram resolver."]]]}, "fascismo": {"num": "3", "titulo": "O Fascismo Italiano", "blocos": [["O contexto italiano", ["Após a 1ª Guerra: empresas fechadas, desemprego alto e o trauma de cerca de 500 mil mortos e 400 mil mutilados, sem as compensações territoriais que muitos italianos esperavam.", "Ex-combatentes, desempregados e ex-socialistas fundaram o <em>Fasci di Combattimento</em>, grupo paramilitar liderado por Benito Mussolini, que combatia ao mesmo tempo comunistas, democracia liberal e organizações operárias."]], ["A tomada do poder (1922)", ["Marcha sobre Roma, outubro de 1922: os Camisas Negras ocuparam pontos estratégicos e marcharam à capital.", "Pressionado, o rei Vítor Emanuel III convocou Mussolini como primeiro-ministro — logo chamado de Duce (\"o Condutor\")."]], ["Como governou", ["Extinguiu os partidos de oposição, censurou a imprensa e criou polícia política.", "Lema: \"Tudo pelo Estado, nada fora do Estado, nada contra o Estado\" — a superioridade do Estado sobre o indivíduo.", "Economia corporativista: patrões e trabalhadores em \"corporações\" sob o Estado, eliminando greves e sindicatos independentes.", "Usou a memória da Roma Antiga para justificar o sonho de um \"novo Império Romano\", que levou à invasão da Etiópia em 1935."]]]}, "nazismo": {"num": "4", "titulo": "O Nazismo Alemão", "blocos": [["Da República de Weimar ao Partido Nazista", ["1918: proclamada a República de Weimar, governo democrático que assinou o Tratado de Versalhes; as indenizações geraram enorme dívida, sobretudo com os EUA.", "1919: fundado o Partido Nacional Socialista dos Trabalhadores Alemães, que pregava a superioridade da \"raça ariana\" (classificação sem base científica) e culpava pela crise três inimigos: as potências vencedoras, os comunistas e os judeus."]], ["A chegada ao poder (1932–1933)", ["Com a crise de 1929, o desemprego industrial alemão chegou a 44% da população economicamente ativa, e o discurso de Hitler ganhou apoiadores prometendo reforma agrária, nacionalização e salários dignos.", "Julho de 1932: vitória nazista nas eleições para o Reichstag. Janeiro de 1933: Hitler assume a chefia do governo.", "O incêndio do Reichstag serviu de pretexto para o estado de emergência, a dissolução do Parlamento e a prisão de lideranças de esquerda; todos os partidos, exceto o nazista, foram proibidos."]], ["A ideologia e o racismo de Estado", ["Pangermanismo: incorporar ao Estado alemão todos os territórios europeus habitados por populações de origem alemã.", "Espaço vital (<em>Lebensraum</em>): dominar povos considerados \"inferiores\" para garantir território, sobretudo no Leste Europeu.", "Leis de Nuremberg (1935): retiraram a cidadania dos judeus alemães e proibiram o convívio com \"arianos puros\" — primeiro passo institucional rumo ao Holocausto, o extermínio de cerca de seis milhões de judeus.", "A partir de 1935, rearmamento aberto: criação da Luftwaffe e serviço militar obrigatório, rompendo Versalhes."]]]}, "stalinismo": {"num": "5", "titulo": "O Stalinismo na União Soviética", "blocos": [["A consolidação do poder", ["Após a morte de Lênin (1924), Josef Stálin consolidou o poder na URSS com partido único, planejamento econômico centralizado, coletivização forçada da agricultura e industrialização acelerada.", "A ditadura stalinista durou até a morte de Stálin, em 1953."]], ["Os mecanismos de controle", ["Partido único: qualquer suspeita de oposição levava aos Gulags, campos de trabalho forçado, muitos na Sibéria.", "Opressão às nacionalidades: povos não russos, como os ucranianos, obrigados a adotar o idioma russo e as regras de Moscou.", "Burocracia privilegiada: a <em>nomenklatura</em> — dirigentes do partido, militares e técnicos — concentrava benefícios.", "Culto à personalidade: Stálin apresentado como \"grande irmão\" e \"pai do povo\".", "Expurgos dos anos 1930: julgamentos forjados, com opositores torturados até confessar crimes que não cometeram e depois executados."]], ["O ponto essencial", ["A URSS lutou contra a Alemanha nazista (integrando os Aliados a partir de 1941), mas isso não torna o regime soviético democrático.", "O totalitarismo não é exclusividade de um lado político: pode surgir tanto da extrema-direita quanto de regimes que se apresentam como revolucionários de esquerda."]]]}, "japao": {"num": "6", "titulo": "O Militarismo Japonês", "blocos": [["Raízes do militarismo", ["O expansionismo vinha do fim do século XIX: a Revolução Meiji (1868) promoveu industrialização acelerada e transformou o Japão em potência militar na Ásia.", "Nos anos 1930, os militares assumiram o controle do governo em nome do imperador Hirohito, tratado pela propaganda como figura quase divina.", "O regime combinava disciplina militar extrema, culto ao imperador e expansão territorial justificada pela busca de matérias-primas e mercados."]], ["A expansão e a aliança do Eixo", ["Setembro de 1931: invasão da Manchúria, no norte da China.", "1936: pacto com a Alemanha contra a expansão do comunismo soviético.", "1937: novo ataque à China, com extrema violência contra civis.", "1940: o ultranacionalista Fumimaro Konoe consolida o militarismo; o Japão assina o Pacto Tripartite com Alemanha e Itália, formando o Eixo.", "Dezembro de 1941: o ataque a Pearl Harbor amplia o conflito ao Pacífico e traz os EUA para a guerra."]]]}, "expansionismo": {"num": "7", "titulo": "Política Expansionista: o caminho até a guerra", "blocos": [["Linha do tempo (1931–1941)", ["1931: Japão invade a Manchúria; a Liga das Nações condena, mas não impede.", "1935–1936: a Itália invade a Etiópia e ocupa Adis Abeba.", "Março de 1936: a Alemanha remilitariza a Renânia, desmilitarizada por Versalhes.", "1938: <em>Anschluss</em> — anexação da Áustria.", "1938: Conferência de Munique — França e Inglaterra aceitam a anexação dos Sudetos (política de apaziguamento); meses depois a Alemanha ocupa toda a Tchecoslováquia.", "Abril de 1939: a Itália anexa a Albânia.", "23 de agosto de 1939: Pacto de Não Agressão (Molotov-Ribbentrop), com acordo secreto para dividir a Polônia.", "1º e 17 de setembro de 1939: alemães invadem a Polônia pelo oeste, soviéticos pelo leste; Reino Unido e França declaram guerra — começa a Segunda Guerra Mundial.", "Dezembro de 1941: Pearl Harbor; os EUA entram na guerra, que se torna global."]], ["Conceito e conclusão", ["Blitzkrieg (guerra-relâmpago): tanques Panzer e a Luftwaffe abrem caminho, a infantaria ocupa — assim caíram Polônia, Dinamarca, Noruega, Holanda, Bélgica e França até maio de 1940.", "Cada avanço foi tolerado ou mal contido pelas democracias, que temiam um novo grande conflito. A hesitação, sobretudo o apaziguamento anglo-francês, deu tempo e confiança aos regimes totalitários."]]]}, "ideologia-guerra": {"num": "8", "titulo": "Como as ideologias guiaram o conflito", "blocos": [["Por que a guerra foi tão violenta contra civis", ["As ideologias totalitárias não apenas motivaram a guerra: definiram <em>como</em> ela foi travada.", "Frente Oriental: a invasão da URSS em 1941 (Operação Barbarossa) foi conduzida como \"guerra de extermínio\", pois os povos eslavos eram tidos como racialmente inferiores — daí o número de mortes muito superior ao de qualquer outra frente."]], ["Do racismo de Estado ao extermínio", ["A perseguição sistemática aos judeus, iniciada com as Leis de Nuremberg, culminou em 1941-1942 na \"Solução Final\": campos como Auschwitz-Birkenau, construídos para o assassinato em massa.", "No Pacífico, o militarismo japonês produziu campanhas de extrema brutalidade contra civis e prisioneiros nos territórios ocupados da Ásia.", "Conclusão: entender as ideologias totalitárias é a chave para compreender por que esse conflito foi mais destrutivo e mais marcado por crimes contra civis do que qualquer guerra anterior."]]]}, "queda": {"num": "9", "titulo": "A Queda dos Regimes Totalitários", "blocos": [["O fim de cada regime", ["Itália: Mussolini é deposto em 1943 após derrotas militares e a invasão aliada; capturado e executado por partisans em abril de 1945.", "Alemanha: cercado em Berlim pelo Exército Vermelho, Hitler se suicida em 30 de abril de 1945; a rendição incondicional vem dias depois.", "Japão: após os bombardeios atômicos de Hiroshima e Nagasaki, rende-se em agosto de 1945, encerrando a guerra.", "URSS: o stalinismo não caiu — saiu fortalecido, controlando boa parte do Leste Europeu; Stálin governou até 1953."]], ["Legado", ["Tribunal de Nuremberg (1945–1946): marco jurídico ao responsabilizar indivíduos por \"crimes contra a humanidade\", conceito que ainda orienta o Direito Internacional.", "A derrota do Eixo não encerrou o autoritarismo: o pós-guerra viu um novo bloco sob influência soviética, e a disputa entre capitalismo e socialismo definiria as décadas seguintes na Guerra Fria."]]]}};
+
+(function(){
+  var fundo = document.getElementById('modalFicha');
+  var corpo = document.getElementById('fichaCorpo');
+  var tit   = document.getElementById('fichaTitulo');
+  var rot   = document.getElementById('fichaRot');
+
+  function abrir(id){
+    var f = FICHAS[id]; if(!f) return;
+    rot.innerHTML = 'Resumo &middot; T\u00f3pico ' + f.num;
+    tit.textContent = f.titulo;
+    corpo.innerHTML = f.blocos.map(function(b){
+      return '<h4>' + b[0] + '</h4><ul>' + b[1].map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>';
+    }).join('');
+    fundo.classList.add('ativo');
+    document.body.style.overflow = 'hidden';
+    corpo.scrollTop = 0; fundo.scrollTop = 0;
+  }
+  function fechar(){
+    fundo.classList.remove('ativo');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.ficha-btn').forEach(function(b){
+    b.addEventListener('click', function(){ abrir(b.dataset.ficha); });
+  });
+  document.getElementById('fecharFicha').addEventListener('click', fechar);
+  document.getElementById('fecharFicha2').addEventListener('click', fechar);
+  fundo.addEventListener('click', function(e){ if(e.target === fundo) fechar(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && fundo.classList.contains('ativo')) fechar();
+  });
+})();
 </script>
 
 </body>
