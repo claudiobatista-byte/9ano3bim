@@ -613,6 +613,85 @@
     .pesquisa-item{width:100%;}
   }
 </style>
+
+<style>
+  /* ===== BOX DE RESUMO DO TOPICO (FICHAMENTO) ===== */
+  .ficha-btn{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left; cursor:pointer;
+    background:linear-gradient(135deg,var(--accent-dark),var(--accent)); color:#fff;
+    border:0; border-left:5px solid var(--gold); border-radius:12px;
+    padding:14px 18px; margin:6px 0 22px; font-family:var(--font-body); font-size:1rem;
+    box-shadow:0 4px 14px rgba(0,0,0,.14);
+    transition:transform .12s ease, filter .12s ease;
+  }
+  .ficha-btn:hover{filter:brightness(1.12); transform:translateY(-1px);}
+  .ficha-btn .ico{
+    flex:0 0 auto; width:34px; height:34px; border-radius:8px; background:var(--gold);
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:1.05rem; font-weight:700; font-family:var(--font-title);
+  }
+  .ficha-btn .txt{flex:1;}
+  .ficha-btn .txt strong{display:block; font-family:var(--font-title); font-size:1.02rem; color:#fff;}
+  .ficha-btn .txt em{font-style:normal; font-size:.85rem; opacity:.85; display:block; margin-top:2px;}
+  .ficha-btn .seta{font-size:1.3rem; color:var(--gold-light);}
+
+  .ficha-fundo{
+    display:none; position:fixed; inset:0; background:rgba(20,16,12,.78);
+    z-index:9000; padding:24px 16px; overflow-y:auto;
+  }
+  .ficha-fundo.ativo{display:block;}
+  .ficha-cx{
+    background:var(--paper); max-width:820px; margin:0 auto; border-radius:14px;
+    box-shadow:0 18px 50px rgba(0,0,0,.35); overflow:hidden; animation:fichaSobe .18s ease-out;
+  }
+  @keyframes fichaSobe{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;}}
+  .ficha-topo{
+    background:var(--accent); color:#fff; padding:18px 22px;
+    display:flex; align-items:flex-start; gap:14px; position:sticky; top:0; z-index:2;
+  }
+  .ficha-topo .rot{
+    font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--gold-light); display:block;
+  }
+  .ficha-topo h3{margin:3px 0 0; font-size:1.3rem; color:#fff; font-family:var(--font-title); line-height:1.25;}
+  .ficha-fechar{
+    margin-left:auto; background:transparent; border:1px solid rgba(255,255,255,.45);
+    color:#fff; width:34px; height:34px; border-radius:8px; font-size:1.2rem;
+    cursor:pointer; line-height:1; flex:0 0 auto;
+  }
+  .ficha-fechar:hover{background:rgba(255,255,255,.16);}
+  .ficha-corpo{padding:20px 24px 26px; color:var(--ink);}
+  .ficha-corpo h4{
+    font-family:var(--font-mono); color:var(--accent-dark); font-size:.78rem;
+    letter-spacing:.1em; text-transform:uppercase; margin:22px 0 8px;
+    border-bottom:1px solid var(--line); padding-bottom:6px;
+  }
+  .ficha-corpo h4:first-child{margin-top:0;}
+  .ficha-corpo ul{margin:0; padding-left:20px;}
+  .ficha-corpo li{margin-bottom:8px; font-size:.97rem; line-height:1.6;}
+  .ficha-rodape{
+    border-top:1px solid var(--line); padding:14px 24px; background:var(--bg-alt);
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  }
+  .ficha-rodape span{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft);}
+  .ficha-rodape button{
+    background:var(--accent); color:#fff; border:0; border-radius:8px; padding:9px 16px;
+    font-family:var(--font-body); font-size:.9rem; cursor:pointer;
+  }
+  .ficha-rodape button:hover{filter:brightness(1.1);}
+  @media (max-width:720px){
+    .ficha-fundo{padding:0;}
+    .ficha-cx{max-width:100%; min-height:100%; border-radius:0; display:flex; flex-direction:column;}
+    .ficha-topo{padding:16px;}
+    .ficha-topo h3{font-size:1.1rem;}
+    .ficha-corpo{padding:18px 16px 24px; flex:1;}
+    .ficha-rodape{position:sticky; bottom:0; padding:12px 16px calc(12px + env(safe-area-inset-bottom)); justify-content:center;}
+    .ficha-rodape span{display:none;}
+    .ficha-rodape button{width:100%; min-height:46px;}
+    .ficha-btn{padding:14px 16px;}
+  }
+  @media print{.ficha-btn, .ficha-fundo{display:none !important;}}
+</style>
 </head>
 <body>
 
@@ -688,6 +767,11 @@
         <span class="num">1</span>
         <h2>O Brasil Redemocratizado e o Governo Dutra</h2>
       </div>
+      <button class="ficha-btn" data-ficha="dutra">
+        <span class="ico">1</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 1</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Depois de 15 anos de Getúlio Vargas no poder, o Brasil retomava as eleições diretas — mas a nova democracia nasceria em meio às tensões da Guerra Fria.</p>
 
       <div class="acc" data-acc>
@@ -750,6 +834,11 @@
         <span class="num">2</span>
         <h2>O que é Populismo?</h2>
       </div>
+      <button class="ficha-btn" data-ficha="conceito-populismo">
+        <span class="ico">2</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 2</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Antes de seguirmos aos governos de Vargas, JK, Jânio e Jango, é importante entender um conceito que os historiadores usam — e discutem — para descrever esse período.</p>
 
       <div class="acc" data-acc>
@@ -822,6 +911,11 @@
         <span class="num">3</span>
         <h2>O Retorno de Vargas: Nacionalismo e Tragédia (1951–1954)</h2>
       </div>
+      <button class="ficha-btn" data-ficha="vargas2">
+        <span class="ico">3</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 3</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Eleito pelo voto direto, Vargas volta ao poder defendendo um projeto nacionalista — e sai dele da forma mais dramática da história política brasileira.</p>
 
       <div class="acc" data-acc>
@@ -961,6 +1055,11 @@
         <span class="num">4</span>
         <h2>Juscelino Kubitschek: "50 Anos em 5"</h2>
       </div>
+      <button class="ficha-btn" data-ficha="jk">
+        <span class="ico">4</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 4</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Eleito em 1955, JK escolheu um caminho oposto ao de Vargas: em vez de fechar a economia, decidiu abri-la para acelerar o desenvolvimento do país.</p>
 
       <div class="acc" data-acc>
@@ -1122,6 +1221,11 @@
         <span class="num">5</span>
         <h2>Desdobramentos em Goiás: a Construção de Brasília</h2>
       </div>
+      <button class="ficha-btn" data-ficha="goias-brasilia">
+        <span class="ico">5</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 5</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Nenhuma outra obra do período transformou tão profundamente o território goiano quanto a construção da nova capital federal.</p>
 
       <div class="acc" data-acc>
@@ -1185,6 +1289,11 @@
         <span class="num">6</span>
         <h2>Jânio Quadros: a Renúncia que Chocou o País</h2>
       </div>
+      <button class="ficha-btn" data-ficha="janio">
+        <span class="ico">6</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 6</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Eleito com grande apoio popular, Jânio governou por apenas sete meses — e sua saída abrupta jogou o Brasil em uma crise política.</p>
 
       <div class="acc" data-acc>
@@ -1252,6 +1361,11 @@
         <span class="num">7</span>
         <h2>João Goulart: Parlamentarismo e Reformas de Base</h2>
       </div>
+      <button class="ficha-btn" data-ficha="jango">
+        <span class="ico">7</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 7</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">A posse do vice-presidente Jango foi tão contestada que o Brasil chegou a mudar de sistema de governo para viabilizá-la.</p>
 
       <div class="acc" data-acc>
@@ -1392,6 +1506,11 @@
         <span class="num">8</span>
         <h2>1964: o Fim do Período Democrático-Populista</h2>
       </div>
+      <button class="ficha-btn" data-ficha="golpe">
+        <span class="ico">8</span>
+        <span class="txt"><strong>Resumo do t&oacute;pico 8</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="seta" aria-hidden="true">&#8250;</span>
+      </button>
       <p class="secao-intro">Dezoito anos depois da redemocratização, um movimento militar encerraria abruptamente esse ciclo da história brasileira.</p>
 
       <div class="acc" data-acc>
@@ -2066,6 +2185,62 @@ window.addEventListener('scroll', (e) => {
 window.addEventListener('resize', fecharDropdown);
 
 iniciarJogoArrastar();
+</script>
+
+
+<div class="ficha-fundo" id="modalFicha" role="dialog" aria-modal="true" aria-labelledby="fichaTitulo">
+  <div class="ficha-cx">
+    <div class="ficha-topo">
+      <div>
+        <span class="rot" id="fichaRot">Resumo do t&oacute;pico</span>
+        <h3 id="fichaTitulo"></h3>
+      </div>
+      <button class="ficha-fechar" id="fecharFicha" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="ficha-corpo" id="fichaCorpo"></div>
+    <div class="ficha-rodape">
+      <span>Col&eacute;gio Estadual Rodolfo de Oliveira &middot; CERO &middot; 2026</span>
+      <button id="fecharFicha2">Voltar ao conte&uacute;do</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== RESUMOS DOS TOPICOS ===== */
+const FICHAS = {"dutra": {"num": "1", "titulo": "O Brasil Redemocratizado e o Governo Dutra", "blocos": [["A eleição de 1945", ["Com o fim do Estado Novo, o Brasil elegeu diretamente o general Eurico Gaspar Dutra, ex-ministro da Guerra apoiado pelo próprio Getúlio Vargas — que buscava conter a oposição de militares.", "Começava o período de quase duas décadas de democracia, o mais longo desde a Proclamação da República — mas erguido sobre uma continuidade com o regime anterior."]], ["Guerra Fria e alinhamento aos EUA", ["O governo foi marcado pelo início da Guerra Fria, o confronto entre os blocos liderados pelos EUA e pela URSS.", "Rompimento de relações diplomáticas com a URSS em 1947.", "O PCB foi colocado na ilegalidade e os mandatos de parlamentares comunistas foram cassados."]], ["Economia e trabalhadores", ["Política liberal de facilitação das importações: em dois anos consumiu quase 80% das reservas de moeda estrangeira.", "Plano Salte (Saúde, Alimentação, Transporte e Energia): primeiro planejamento de governo da história do Brasil, executado apenas parcialmente.", "Apesar da democratização, o governo suspendeu o direito de greve, interveio em sindicatos e prendeu lideranças operárias que pediam reajustes diante da inflação."]]]}, "conceito-populismo": {"num": "2", "titulo": "O que é Populismo?", "blocos": [["O que os historiadores chamam de populismo", ["No senso comum, \"populismo\" designa promessas fáceis para agradar o povo.", "Historicamente, o termo tem sentido mais específico: lideranças que, entre 1930 e 1964, construíram vínculo direto com os trabalhadores urbanos — leis trabalhistas, discursos emocionados e políticas sociais — sem passar necessariamente por partidos fortes ou organizações independentes dos trabalhadores.", "Vargas é o principal exemplo brasileiro; o conceito também é aplicado a JK, Jânio Quadros e João Goulart, cada um com estilo próprio."]], ["Um conceito em debate", ["Parte dos historiadores considera o termo vago demais: trata o povo como massa manipulável e subestima a capacidade dos próprios trabalhadores de organizar suas reivindicações.", "Por isso, analise cada governo em seus detalhes, em vez de aplicar o rótulo de forma genérica."]], ["O debate econômico do período", ["Nacionalismo: proteger as riquezas naturais e a indústria da concorrência estrangeira.", "Internacionalismo: abrir a economia para atrair capital e tecnologia de fora.", "Essa disputa está no centro de todos os governos estudados a seguir."]]]}, "vargas2": {"num": "3", "titulo": "O Retorno de Vargas: Nacionalismo e Tragédia (1951–1954)", "blocos": [["O retorno pelo voto (1951–1954)", ["No fim de 1950 Vargas venceu as eleições — desta vez pelo voto direto — defendendo o nacionalismo e a política trabalhista.", "Governo marcado pelo conflito entre grupos nacionalistas, que o apoiavam, e grupos favoráveis à abertura ao capital estrangeiro."]], ["\"O petróleo é nosso\"", ["Os nacionalistas defendiam que o petróleo fosse explorado por empresa estatal e promoveram a campanha popular com o lema \"O petróleo é nosso\".", "1953: criação da Petrobras, estatal com o monopólio da extração de petróleo no país.", "Vargas tentou limitar a remessa de lucros das empresas estrangeiras (barrada no Congresso) e, por sugestão de João Goulart, autorizou o aumento de 100% no salário mínimo em 1954 — agradando os trabalhadores e irritando empresários e oposição.", "O debate não terminou em 1954: liga-se ao pré-sal e à discussão atual sobre a Margem Equatorial."]], ["A crise e o suicídio (1954)", ["A campanha da UDN e de setores ligados ao capital estrangeiro passou a articular a saída de Vargas, inclusive por golpe militar.", "Agosto de 1954: o atentado contra o jornalista opositor Carlos Lacerda, que matou um major da Aeronáutica, foi associado ao chefe da guarda pessoal do presidente e ampliou a pressão.", "Isolado e sem apoio para resistir ao golpe, Vargas se suicidou em 24 de agosto de 1954, no Palácio do Catete, deixando a carta-testamento dirigida ao povo.", "O gesto comoveu a população e, paradoxalmente, adiou o golpe que a oposição preparava."]]]}, "jk": {"num": "4", "titulo": "Juscelino Kubitschek: \"50 Anos em 5\"", "blocos": [["O Plano de Metas (1956–1961)", ["JK prometeu fazer o Brasil crescer \"50 anos em 5\", o tempo do seu mandato.", "O Plano de Metas organizou os investimentos públicos em cinco áreas: energia (44%), transporte (29%), indústria (20%), educação (4%) e alimentação (3%).", "Realizações: usinas de Furnas e Três Marias, 20 mil km de rodovias (entre elas a Belém-Brasília), implantação da indústria automobilística no ABCD Paulista e crescimento de mais de 150% na produção de petróleo."]], ["Nacionalismo x internacionalismo", ["Projeto nacionalista (Vargas): Estado controlando setores estratégicos, restrição ao capital estrangeiro e proteção à indústria nacional.", "Projeto internacionalista (JK): atrair capital e multinacionais, conceder incentivos e isenções, importar tecnologia para acelerar a industrialização.", "Críticos diziam que a política de JK era modernizadora, mas também <em>desnacionalizadora</em>, pois ampliava a presença estrangeira e a dívida externa."]], ["Crescimento e desigualdade", ["A \"civilização do automóvel\" custou o abandono das ferrovias e do transporte coletivo, com dependência crescente das rodovias e do petróleo.", "As fábricas se concentraram no Sudeste e no Sul, aumentando a distância econômica entre as regiões e provocando intensa migração interna, sobretudo de nordestinos e mineiros.", "No Nordeste, a crise da indústria têxtil somou-se à grande seca de 1958-1959; em 1959 foi criada a Sudene, com participação de Celso Furtado, mas os empregos gerados foram insuficientes.", "Persistiam a falta de escolas, o saneamento precário e a exclusão do trabalhador rural da legislação trabalhista, enquanto as classes média e alta usufruíam de eletrodomésticos e automóvel.", "Balanço: democracia política e crescimento industrial de um lado; inflação alta e ampliação das desigualdades sociais e regionais de outro."]]]}, "goias-brasilia": {"num": "5", "titulo": "Desdobramentos em Goiás: a Construção de Brasília", "blocos": [["A construção da nova capital", ["A ideia de interiorizar a capital vinha do século XIX, mas foi JK quem a executou como parte do Plano de Metas.", "Plano urbanístico de Lúcio Costa e projetos arquitetônicos de Oscar Niemeyer; inauguração em 21 de abril de 1960.", "A cidade foi erguida por milhares de trabalhadores vindos de todo o país, especialmente do Nordeste — os candangos."]], ["Recorte regional: os efeitos em Goiás", ["O território de Brasília pertencia a Goiás e precisou ser desmembrado para formar o novo Distrito Federal, redesenhando o mapa goiano.", "A Belém-Brasília e outras estradas radiais cruzaram o estado, rompendo décadas de isolamento e ligando o interior goiano aos grandes centros.", "Intenso fluxo migratório, expansão da fronteira agrícola no Centro-Oeste e crescimento acelerado das cidades goianas próximas à capital."]], ["O debate", ["Defensores: interiorizar a capital integraria o território e reduziria as desigualdades regionais concentradas no litoral.", "Críticos: uma cidade planejada não resolveria sozinha as desigualdades sociais, e os recursos poderiam ter ido para educação e saúde."]]]}, "janio": {"num": "6", "titulo": "Jânio Quadros: a Renúncia que Chocou o País", "blocos": [["A eleição de 1960", ["Jânio Quadros venceu com a imagem da vassoura, prometendo \"varrer\" a corrupção.", "Seu vice, eleito separadamente (a legislação permitia), foi João Goulart, de partido rival.", "Anticomunista, mas defensor de uma política externa independente, chocou setores conservadores ao condecorar Che Guevara em agosto de 1961.", "Apesar do prestígio popular, faltava-lhe apoio entre grandes empresários, na imprensa e no próprio partido (UDN)."]], ["A renúncia (25 de agosto de 1961)", ["Sete meses após assumir, Jânio renunciou alegando que \"forças terríveis\" se levantaram contra ele.", "Os motivos reais nunca foram totalmente esclarecidos; uma hipótese é que esperava ser chamado de volta com mais força política — o que não aconteceu.", "A saída abrupta jogou o país em grave crise política."]]]}, "jango": {"num": "7", "titulo": "João Goulart: Parlamentarismo e Reformas de Base", "blocos": [["Uma posse contestada e o parlamentarismo", ["Com a renúncia de Jânio, a Presidência caberia ao vice, João Goulart, mas militares e políticos da UDN tentaram impedir a posse acusando-o de \"perigoso comunista\".", "O impasse quase levou a uma guerra civil, evitada por um acordo: Jango assumiria sob parlamentarismo, com poderes reduzidos e um primeiro-ministro escolhido pelo Congresso.", "Janeiro de 1963: o plebiscito devolveu o presidencialismo com cerca de 85% dos votos, restituindo a Jango os plenos poderes."]], ["As reformas de base (13 de março de 1964)", ["O governo enfrentava inflação alta, endividamento externo e forte mobilização de estudantes, trabalhadores urbanos e camponeses das Ligas Camponesas.", "Reforma agrária: ampliar o acesso dos trabalhadores rurais à terra.", "Reforma educacional: mais escolas públicas e combate ao analfabetismo.", "Reforma eleitoral: estender o direito de voto aos analfabetos.", "Reforma tributária: corrigir desigualdades na cobrança de impostos."]], ["A divisão do país", ["O governo limitou por lei a remessa de lucros das multinacionais, desagradando empresários estrangeiros e setores conservadores brasileiros.", "De um lado, manifestações populares pelas reformas; de outro, protestos contrários, como a Marcha da Família com Deus pela Liberdade."]]]}, "golpe": {"num": "8", "titulo": "1964: o Fim do Período Democrático-Populista", "blocos": [["31 de março e 1º de abril de 1964", ["As reformas de base radicalizaram ainda mais direita e esquerda.", "Em 31 de março de 1964 teve início um movimento das Forças Armadas contra o governo, apoiado por políticos civis de oposição, partindo de Minas Gerais e ganhando rapidamente adesão em outros estados.", "Em 1º de abril de 1964, com Goulart fora da capital, o Congresso declarou vaga a Presidência."]], ["O que se encerra ali", ["Começava um regime militar que duraria 21 anos.", "Terminava a experiência democrática iniciada com a redemocratização de 1945-1946 e ficava interrompido o debate entre projetos nacionalistas e internacionalistas."]]]}};
+
+(function(){
+  var fundo = document.getElementById('modalFicha');
+  var corpo = document.getElementById('fichaCorpo');
+  var tit   = document.getElementById('fichaTitulo');
+  var rot   = document.getElementById('fichaRot');
+
+  function abrir(id){
+    var f = FICHAS[id]; if(!f) return;
+    rot.innerHTML = 'Resumo &middot; T\u00f3pico ' + f.num;
+    tit.textContent = f.titulo;
+    corpo.innerHTML = f.blocos.map(function(b){
+      return '<h4>' + b[0] + '</h4><ul>' + b[1].map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>';
+    }).join('');
+    fundo.classList.add('ativo');
+    document.body.style.overflow = 'hidden';
+    corpo.scrollTop = 0; fundo.scrollTop = 0;
+  }
+  function fechar(){
+    fundo.classList.remove('ativo');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.ficha-btn').forEach(function(b){
+    b.addEventListener('click', function(){ abrir(b.dataset.ficha); });
+  });
+  document.getElementById('fecharFicha').addEventListener('click', fechar);
+  document.getElementById('fecharFicha2').addEventListener('click', fechar);
+  fundo.addEventListener('click', function(e){ if(e.target === fundo) fechar(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && fundo.classList.contains('ativo')) fechar();
+  });
+})();
 </script>
 
 </body>
