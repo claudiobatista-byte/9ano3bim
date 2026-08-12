@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisa Goiás – 9º Ano | História | 3º Bimestre 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--verde:#4a9e3f;--roxo:#6b2fa0;--laranja:#e67e22;--cinza-escuro:#1a1a2e;--cinza-medio:#4a4a6a;--cinza-claro:#f0f0f8;--branco:#fafafa;--sombra:0 4px 24px rgba(107,47,160,.12);--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Source Serif 4",Georgia,serif;background:var(--cinza-claro);color:var(--cinza-escuro);line-height:1.7;-webkit-touch-callout:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}
+.campo-discursivo,.campo-nome{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+.contador-chars{font-size:.75rem;font-family:"JetBrains Mono",monospace;margin-top:6px;display:flex;justify-content:space-between;gap:10px;color:var(--cinza-medio)}
+.contador-chars .qtd{font-weight:700;color:#e67e22}
+.contador-chars.ok .qtd{color:var(--verde)}
+.contador-chars .meta{opacity:.8}
+#anti-cola-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--cinza-escuro);color:#fff;padding:12px 22px;border-radius:10px;font-size:.85rem;font-family:"Source Serif 4",serif;z-index:99999;opacity:0;transition:opacity .3s;pointer-events:none;box-shadow:0 8px 28px rgba(0,0,0,.35);max-width:88%;text-align:center}
+#capa{min-height:100vh;background:linear-gradient(145deg,#1a1a2e 0%,#6b2fa0 55%,#4a9e3f 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;position:relative;overflow:hidden}
+#capa::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.capa-logo-area{display:flex;align-items:center;gap:18px;margin-bottom:32px}
+.capa-logo-circle{width:80px;height:80px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.capa-titulo-revisa{font-family:"Playfair Display",serif;font-size:3rem;font-weight:900;color:white;line-height:1;text-shadow:0 2px 16px rgba(0,0,0,.4)}
+.capa-subtitulo-revisa{font-family:"Source Serif 4",serif;font-size:1rem;color:rgba(255,255,255,.75);font-style:italic}
+.capa-box{background:rgba(255,255,255,.12);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:48px 56px;max-width:640px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.capa-serie{font-family:"Playfair Display",serif;font-size:2.4rem;font-weight:900;color:white;margin-bottom:8px}
+.capa-disciplina{background:var(--verde);color:white;border-radius:40px;padding:8px 28px;display:inline-block;font-size:1rem;font-weight:600;letter-spacing:.05em;margin-bottom:28px}
+.capa-bimestre{font-family:"JetBrains Mono",monospace;font-size:1.4rem;color:rgba(255,255,255,.9);background:rgba(255,255,255,.1);border-radius:8px;padding:12px 24px;margin-bottom:36px;letter-spacing:.08em}
+.campo-nome-area label{display:block;color:rgba(255,255,255,.8);font-size:.85rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px}
+.campo-nome{width:100%;padding:16px 20px;border:2px solid rgba(255,255,255,.35);border-radius:10px;background:rgba(255,255,255,.15);color:white;font-size:1.15rem;font-family:"Playfair Display",serif;outline:none;transition:border .2s}
+.campo-nome::placeholder{color:rgba(255,255,255,.45)}
+.campo-nome:focus{border-color:var(--verde);background:rgba(255,255,255,.2)}
+.btn-comecar{margin-top:28px;padding:16px 48px;background:var(--verde);color:white;border:none;border-radius:50px;font-size:1.1rem;font-family:"Source Serif 4",serif;font-weight:600;cursor:pointer;box-shadow:0 8px 24px rgba(74,158,63,.4);transition:transform .2s,box-shadow .2s;letter-spacing:.04em}
+.btn-comecar:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(74,158,63,.5)}
+.erro-nome{color:#ffcdd2;font-size:.82rem;margin-top:8px;display:none}
+.seduc-bar{position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.07);padding:14px;text-align:center;color:rgba(255,255,255,.6);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+#conteudo{display:none}
+.container{max-width:960px;margin:0 auto;padding:0 20px 60px}
+.header-top{background:linear-gradient(90deg,var(--roxo) 0%,var(--cinza-escuro) 100%);color:white;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.2)}
+.header-nome-aluno{font-family:"JetBrains Mono",monospace;font-size:.85rem;color:rgba(255,255,255,.75)}
+.header-nome-aluno span{color:#a8e090;font-weight:600}
+.progresso-geral{font-size:.8rem;color:rgba(255,255,255,.7);font-family:"JetBrains Mono",monospace}
+#progresso-count{color:#ffd700;font-weight:700}
+.barra-prog-wrap{height:4px;background:rgba(255,255,255,.15);position:sticky;top:52px;z-index:99}
+.barra-prog{height:4px;background:var(--verde);transition:width .4s;width:0%}
+.secao-texto{background:white;border-radius:var(--radius);padding:40px 48px;margin:32px 0;box-shadow:var(--sombra);border-left:5px solid var(--roxo)}
+.secao-label{font-family:"JetBrains Mono",monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.15em;color:var(--roxo);margin-bottom:16px;font-weight:600}
+.secao-titulo{font-family:"Playfair Display",serif;font-size:1.6rem;font-weight:700;color:var(--cinza-escuro);margin-bottom:20px;line-height:1.3}
+.secao-texto p{margin-bottom:14px;font-size:.97rem}
+.secao-texto strong{color:var(--roxo)}
+.secao-texto h3{font-family:"Playfair Display",serif;font-size:1.15rem;margin:22px 0 10px;color:var(--verde)}
+.atividades-header{background:linear-gradient(135deg,var(--roxo),var(--cinza-escuro));color:white;border-radius:var(--radius);padding:24px 36px;margin:36px 0 24px;display:flex;align-items:center;gap:16px}
+.atividades-header .icon{font-size:2rem}
+.atividades-header h2{font-family:"Playfair Display",serif;font-size:1.5rem}
+.questao{background:white;border-radius:var(--radius);padding:32px 40px;margin:20px 0;box-shadow:var(--sombra);border-top:4px solid var(--cinza-claro);transition:border-color .3s}
+.questao.respondida{border-top-color:var(--verde)}
+.questao.errada{border-top-color:#e74c3c}
+.questao-num{font-family:"JetBrains Mono",monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.15em;color:var(--cinza-medio);margin-bottom:10px}
+.questao-num .badge{background:var(--roxo);color:white;padding:2px 10px;border-radius:20px;font-size:.75rem;margin-left:8px}
+.questao-enunciado{font-size:.98rem;margin-bottom:20px;color:var(--cinza-escuro);line-height:1.7}
+.questao-fonte{font-size:.78rem;color:var(--cinza-medio);font-style:italic;margin:-10px 0 18px}
+.questao-img{max-width:340px;width:100%;border-radius:8px;margin:14px auto;display:block;border:1px solid #e8e8f0;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.opcoes{display:flex;flex-direction:column;gap:10px}
+.opcao{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-radius:8px;border:2px solid #e8e8f0;cursor:pointer;transition:all .2s;font-size:.93rem;background:var(--cinza-claro)}
+.opcao:hover:not(.bloqueada){border-color:var(--roxo);background:#f3eeff}
+.opcao .letra{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--roxo);min-width:22px;padding-top:1px}
+.opcao.correta{border-color:var(--verde);background:#edfaeb}
+.opcao.correta .letra{color:var(--verde)}
+.opcao.errada-sel{border-color:#e74c3c;background:#fdecea}
+.opcao.errada-sel .letra{color:#e74c3c}
+.opcao.bloqueada{cursor:default;opacity:.75}
+.feedback-quiz{margin-top:16px;padding:14px 18px;border-radius:8px;font-size:.88rem;display:none;font-weight:600}
+.feedback-quiz.acerto{background:#edfaeb;color:#2d7a27;display:block}
+.feedback-quiz.erro{background:#fdecea;color:#c0392b;display:block}
+.campo-discursivo{width:100%;min-height:140px;padding:16px 18px;border:2px solid #e8e8f0;border-radius:8px;font-family:"Source Serif 4",serif;font-size:.95rem;line-height:1.7;color:var(--cinza-escuro);background:var(--cinza-claro);resize:vertical;outline:none;transition:border-color .2s}
+.campo-discursivo:focus{border-color:var(--roxo);background:white}
+.campo-discursivo.preenchida{border-color:var(--verde);background:#fafffa}
+.aviso-paste{font-size:.73rem;color:var(--cinza-medio);margin-top:5px;font-family:"JetBrains Mono",monospace}
+.aviso-paste::before{content:"⚠ "}
+.citacao-box{background:#faf8ff;border-left:4px solid var(--roxo);border-radius:0 8px 8px 0;padding:18px 22px;margin:16px 0;font-style:italic;font-size:.9rem;color:var(--cinza-medio)}
+.filmes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:20px 0}
+.filme-card{background:var(--cinza-claro);border-radius:10px;padding:20px;text-align:center;border:1px solid #ddd}
+.filme-icone{font-size:2.5rem;margin-bottom:10px}
+.filme-titulo{font-weight:700;font-size:.9rem;color:var(--cinza-escuro)}
+#alerta-incompleto{display:none;background:#fff3cd;border:2px solid #ffc107;border-radius:10px;padding:20px 28px;margin:24px 0;color:#7d5a00;font-weight:600}
+.acoes-finais{display:flex;gap:16px;margin:40px 0 20px;flex-wrap:wrap}
+.btn-imprimir,.btn-feedback{padding:16px 36px;border-radius:50px;font-size:1rem;font-family:"Source Serif 4",serif;font-weight:600;cursor:pointer;border:none;transition:all .2s;letter-spacing:.03em}
+.btn-imprimir{background:var(--roxo);color:white;box-shadow:0 6px 20px rgba(107,47,160,.35)}
+.btn-imprimir:hover{transform:translateY(-2px);background:#5a2590}
+.btn-feedback{background:white;color:var(--verde);border:2px solid var(--verde);box-shadow:0 4px 14px rgba(74,158,63,.15)}
+.btn-feedback:hover{background:var(--verde);color:white}
+#modal-feedback{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:999;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+#modal-feedback.aberto{display:flex}
+.modal-box{background:white;border-radius:16px;padding:40px;max-width:720px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);margin:auto}
+.modal-box h3{font-family:"Playfair Display",serif;font-size:1.5rem;margin-bottom:20px;color:var(--cinza-escuro)}
+.modal-resultado{background:var(--cinza-claro);border-radius:8px;padding:20px;margin-bottom:20px}
+.resultado-linha{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e0e0ee;font-size:.9rem}
+.resultado-linha:last-child{border-bottom:none}
+.resultado-val{font-weight:700;font-family:"JetBrains Mono",monospace}
+.resultado-val.verde{color:var(--verde)}
+.resultado-val.vermelho{color:#e74c3c}
+.secao-fb{margin:20px 0;border:1px solid #e8e8f0;border-radius:10px;overflow:hidden}
+.secao-fb-titulo{background:var(--cinza-claro);padding:12px 18px;font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:8px;border-bottom:1px solid #e8e8f0}
+.item-fb{padding:14px 18px;border-bottom:1px solid #f0f0f8;font-size:.88rem}
+.item-fb:last-child{border-bottom:none}
+.item-fb .qnum{font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--roxo);font-size:.8rem;margin-bottom:6px}
+.item-fb .resp-aluno{background:#f8f8ff;border-left:3px solid var(--roxo);padding:8px 12px;border-radius:0 6px 6px 0;margin:6px 0;font-size:.87rem;white-space:pre-wrap;word-break:break-word}
+.item-fb .gabarito-correcao{background:#edfaeb;border-left:3px solid var(--verde);padding:8px 12px;border-radius:0 6px 6px 0;margin:6px 0;font-size:.87rem;color:#1a5c16}
+.item-fb .status-acerto{color:var(--verde);font-weight:700}
+.item-fb .status-erro{color:#e74c3c;font-weight:700}
+.item-fb .nao-resp{color:#e67e22;font-style:italic}
+.btn-fechar-modal{margin-top:24px;padding:12px 32px;background:var(--cinza-escuro);color:white;border:none;border-radius:30px;cursor:pointer;font-family:"Source Serif 4",serif;font-size:.95rem}
+.print-capa{display:none}
+@media print{
+  .header-top,.barra-prog-wrap,.btn-imprimir,.btn-feedback,.acoes-finais,#alerta-incompleto,#modal-feedback,.aviso-paste,.atividades-header .icon{display:none!important}
+  body{background:white;font-size:10.5pt}
+  .secao-texto,.questao{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;margin:12px 0}
+  .secao-texto{padding:20px 24px}
+  .questao{padding:18px 24px}
+  .campo-discursivo{border:1px solid #999;background:white;min-height:70px}
+  .contador-chars,#anti-cola-toast{display:none!important}
+  #capa{display:none}
+  #conteudo{display:block!important}
+  .container{padding:0}
+  .print-capa{display:block;text-align:center;padding:24px 0 16px;border-bottom:3px double #333;margin-bottom:20px}
+  .opcao.correta{border:2px solid #2d7a27!important;background:#edfaeb!important}
+  .opcao.errada-sel{border:2px solid #e74c3c!important;background:#fdecea!important}
+  .feedback-quiz{display:block!important}
+}
+@media(max-width:680px){
+  .secao-texto{padding:22px 18px}
+  .questao{padding:22px 18px}
+  .filmes-grid{grid-template-columns:1fr}
+  .capa-box{padding:30px 22px}
+  .capa-titulo-revisa{font-size:2.1rem}
+  .modal-box{padding:24px 18px}
+}
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<section id="capa">
+  <div class="capa-logo-area">
+    <div class="capa-logo-circle">
+      <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+        <circle cx="30" cy="30" r="28" stroke="#6b2fa0" stroke-width="3"/>
+        <path d="M18 38 L28 18 L38 38" stroke="#e67e22" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M14 42 L46 42" stroke="#4a9e3f" stroke-width="3" stroke-linecap="round"/>
+        <path d="M40 28 L46 18" stroke="#e67e22" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <div class="capa-titulo-revisa">Revisa Goiás</div>
+      <div class="capa-subtitulo-revisa">Recompondo e ampliando aprendizagens…</div>
+    </div>
+  </div>
+  <div class="capa-box">
+    <div class="capa-serie">9º ANO</div>
+    <div class="capa-disciplina">Ciências Humanas · História</div>
+    <div class="capa-bimestre">3º Bimestre — 2026</div>
+    <div class="campo-nome-area">
+      <label for="nome-aluno">Nome completo do(a) aluno(a)</label>
+      <input type="text" id="nome-aluno" class="campo-nome" placeholder="Digite seu nome completo aqui…" autocomplete="off">
+      <div class="erro-nome" id="erro-nome">Por favor, digite seu nome para continuar.</div>
+    </div>
+    <button class="btn-comecar" onclick="iniciar()">Iniciar Atividade →</button>
+  </div>
+  <div class="seduc-bar">SEDUC · Secretaria de Estado da Educação de Goiás · 2026</div>
+</section>
+
+<!-- CONTEÚDO -->
+<div id="conteudo">
+  <div class="header-top">
+    <div class="header-nome-aluno">Aluno(a): <span id="header-nome">—</span></div>
+    <div class="progresso-geral">Respondidas: <span id="progresso-count">0</span> / 32</div>
+  </div>
+  <div class="barra-prog-wrap"><div class="barra-prog" id="barra-prog"></div></div>
+
+  <div class="container">
+    <div class="print-capa">
+      <h1 style="font-family:serif;font-size:2rem">Revisa Goiás – 9º Ano | História</h1>
+      <p style="font-size:1.1rem;margin-top:6px">3º Bimestre – 2026</p>
+      <p style="margin-top:14px;font-size:1.2rem">Aluno(a): <strong id="print-nome"></strong></p>
+    </div>
+
+    <!-- ══════ APRESENTAÇÃO ══════ -->
+    <div class="secao-texto">
+      <div class="secao-label">📌 Apresentação do bimestre</div>
+      <div class="secao-titulo">Queridos(as) estudantes do 9º Ano</div>
+      <p>No semestre anterior, estudamos as transformações econômicas, sociais e políticas ocorridas durante a Primeira República e a Era Vargas no Brasil. Também refletimos sobre os ideais imperialistas e nacionalistas do início do século XX, que intensificaram disputas internacionais e contribuíram para a formação das alianças militares responsáveis pela eclosão da Primeira Guerra Mundial. Além disso, analisamos como a superprodução, a especulação financeira e as desigualdades sociais provocaram a Crise de 1929, causando impactos econômicos em diferentes partes do mundo.</p>
+      <p>Neste bimestre, aprofundaremos nossos estudos sobre as consequências da crise de 1929 e compreenderemos como esse contexto favoreceu a ascensão dos regimes totalitários na Europa, contribuindo para o início da Segunda Guerra Mundial. Também analisaremos como os conflitos e disputas ideológicas internacionais influenciaram a política brasileira, especialmente durante a República Populista e o período da Guerra Fria, fortalecendo tensões políticas que culminaram no Golpe Militar de 1964.</p>
+      <p>Além disso, estudaremos as políticas econômicas e sociais implantadas durante a ditadura militar, os diferentes movimentos de resistência ao regime, como a atuação estudantil, artística e armada e o processo de reabertura democrática, marcado pela mobilização popular e pela luta pela redemocratização do país.</p>
+      <p>Esperamos que, ao longo deste bimestre, vocês desenvolvam uma visão crítica e ampla sobre os grandes acontecimentos do século XX e seus impactos na história do Brasil e do mundo.</p>
+    </div>
+
+    <!-- ══════ TEXTO I ══════ -->
+    <div class="secao-texto">
+      <div class="secao-label">📖 Leia o texto · Texto I</div>
+      <div class="secao-titulo">Totalitarismo: conceito, movimentos e filosofia arendtiana</div>
+
+      <p>O fenômeno dos regimes totalitários que marcou o século XX representou uma ruptura drástica com as tradições políticas anteriores, estabelecendo um modelo de governança baseado no controle absoluto e na mobilização constante das massas. Diferente das ditaduras autoritárias convencionais, que muitas vezes buscam apenas a desmobilização política, o totalitarismo exigiu a participação ativa e fervorosa da população, fundindo a esfera pública e a privada sob uma única ideologia oficial.</p>
+
+      <h3>Como surgiu e o que significa o totalitarismo?</h3>
+      <p>Datado do período entreguerras, entre as décadas de 1920 e 1930, o totalitarismo pode ser compreendido como a elevação do autoritarismo ao máximo.</p>
+      <p>Segundo Eckhard Jesse, professor de Ciências Políticas na Universidade Técnica de Chemnitz-Zwickau, o totalitarismo é um regime de governo. Esse regime tenta conformar os cidadãos dentro de uma ideologia, usando formas de controle e coação.</p>
+      <p>Por isso, representa o controle absoluto de uma pessoa, partido ou ideologia política sobre toda uma nação. O líder detém os poderes sobre a vida pública e privada, tendo o militarismo como instrumento de intimidação.</p>
+      <p>A destruição causada pela guerra, o temor do comunismo e os desafios econômicos colocaram os regimes totalitaristas como possíveis soluções para os problemas sociais. Gradativamente, os movimentos totalitários foram alcançando o apoio popular.</p>
+      <p>O termo originou-se na década de 1920, como uma forma de se referir ao fascismo italiano, o primeiro regime europeu de caráter totalitarista. Foi a partir dele que o fascismo, enquanto política alternativa, se popularizou na Europa.</p>
+      <p>Posteriormente, outros países europeus também optaram pelo modelo autoritário. O totalitarismo consolidou sua força quando os nazistas tomaram o poder na Alemanha, no ano de 1933.</p>
+
+      <h3>Características dos sistemas totalitários</h3>
+      <ul style="margin:10px 0 14px 22px;font-size:.95rem">
+        <li><strong>Culto ao líder:</strong> de forma a enfatizar a sua importância e soberania, a sua imagem era fixada em fachadas de prédios, escolas, praças e em todos os lugares onde havia grande circulação, justamente com a intenção de doutrinar o povo e as novas gerações.</li>
+        <li><strong>Unipartidarismo:</strong> todos os regimes totalitários suprimiam a existência dos partidos, e somente o partido do governo tinha a permissão de funcionar.</li>
+        <li><strong>Centralização do poder:</strong> o poder político no totalitarismo é centralizado no líder e/ou partido.</li>
+        <li><strong>Uso do terror:</strong> o terror era uma arma dos regimes totalitários para amedrontar seus opositores e perseguir grupos enxergados como "inimigos do Estado".</li>
+        <li><strong>Censura:</strong> a censura era uma prática comum a jornais e à população em geral. Regimes totalitários não aceitavam críticas, denúncias e não aturavam a existência de uma oposição.</li>
+        <li><strong>Militarização:</strong> exaltação do exército e militarização da sociedade.</li>
+        <li><strong>Nacionalismo exacerbado:</strong> no totalitarismo, o nacionalismo apropriou-se de forma extremista, difundindo exclusão e perseguição contra outros povos ou etnias.</li>
+      </ul>
+
+      <h3>Modelos de regimes totalitários na Europa</h3>
+      <p><strong>Fascismo</strong> — O Fascismo surgiu de fato em 1919, com a criação do <em>Fasci Italiani di Combattimento</em>. Grupo fundado por Benito Mussolini, que posteriormente passou a ser chamado de Partido Nacional Fascista. E só em 1922 começou a ganhar fama com a marcha sobre Roma, quando Mussolini foi nomeado primeiro-ministro italiano.</p>
+      <p>Essa ascensão de Mussolini ao poder aconteceu no contexto de crise política e econômica na Itália, e numa tentativa de solução destes problemas, os italianos estavam dispostos a concordar com essa nova tomada política. Em 1925, Benito Mussolini se autodeclara ditador da Itália, o que consolidou o totalitarismo no país.</p>
+      <p>O Fascismo pode ser identificado como o primeiro movimento totalitário na Europa, além de ser um dos precursores de políticas conservadoras, e justamente por isso, foi um dos exemplos a ser seguidos pelos demais autoritarismos europeus.</p>
+
+      <p><strong>Nazismo</strong> — O período entreguerras para a Alemanha foi delicado e cheio de ressentimentos, ainda mais depois do Tratado de Versalhes em 1919, que determinava que a Alemanha fora a responsável por causar a guerra e, por termos do tratado, estava obrigada a reparar os danos de algumas nações da Tríplice Entente.</p>
+      <p>Com o contexto gerado, o Partido Nacional-Socialista dos Trabalhadores Alemães foi criado em 1919 com o objetivo de reparar o caos que estava instalado. Com a liderança de Adolf Hitler, o Partido Nazista foi a favor de medidas autoritárias para resgatar a Alemanha dos tempos passados.</p>
+      <p>A ideologia nazista, baseada do livro "Minha Luta", de Hitler, pregava o antimarxismo, antiliberalismo e o antissemitismo — o ódio contra o povo judeu. Ideais esses que foram usados, de maneira autoritária, para defender a raça alemã como algo superior a todos os demais povos.</p>
+      <p>Durante a Segunda Guerra Mundial, o Partido Nazista usou de retóricas militaristas, expansionistas e de pureza de raça, para exterminar milhões de pessoas que não se encaixavam dentro do padrão de raça alemã.</p>
+
+      <p><strong>Outros modelos</strong> — Além dos principais exemplos de regimes totalitários que marcaram a Europa do Século XX, outros movimentos com características semelhantes também emergiram, como o Salazarismo em Portugal, e o Franquismo, na Espanha. Com o mesmo contexto de perdas e tristezas do pós-guerra, os cidadãos espanhóis e portugueses estavam desacreditados nos mesmos discursos.</p>
+      <p>O Salazarismo foi um regime ditatorial entre 1933 e 1974. O termo faz menção a António de Oliveira Salazar, seu líder. Conhecido como o Estado Novo português, o salazarismo foi iniciado com a promulgação de 1933. O período foi marcado por políticas antidemocráticas, antiliberais, centralizadoras, colonialistas e conservadoras. Seu encerramento foi em 1974, partindo da Revolução dos Cravos, golpe civil-militar que destituiu Marcello Caetano, o substituto de Salazar.</p>
+      <p>O Franquismo faz referência ao general Francisco Franco, que detinha o poder na Espanha entre 1939 e 1975. Desde o início da República Espanhola, o país sofria com vários debates nos setores conservadores e militares, dizendo que essa mudança foi comandada pela esquerda. Com o passar dos anos, Franco e outros simpatizantes do fascismo italiano articularam um golpe contra o governo de esquerda. Francisco Franco instalou um período autoritário na Espanha, que só teve fim após algumas décadas do fim da guerra.</p>
+
+      <p>Pontua-se a existência de um debate entre historiadores acerca do caráter totalitário do governo stalinista. Eric Hobsbawm, por exemplo, afirma que a ditadura stalinista não foi totalitária; enquanto outros intelectuais, como Hannah Arendt, compreendem que esse movimento foi totalitário.</p>
+      <p>Josef Stalin (1879-1953) assumiu o poder da União Soviética após a morte de Lenin. O stalinismo surge mediante uma interpretação particular do Stalin do marxismo, que durou de 1924 até 1953. Os principais aspectos do stalinismo revelam a exclusão da religião da vida pública, o fim da propriedade privada, o culto ao líder, a perseguição de opositores, a militarização, entre outros.</p>
+
+      <h3>Hannah Arendt: o medo e o terror</h3>
+      <p>Um dos principais estudos sobre o totalitarismo é da filósofa Hannah Arendt. Segundo ela, o totalitarismo une dois fenômenos em sua potencialidade: o medo e o terror. O Estado total transforma a coletividade em um único corpo, de modo que anula a individualidade. Isso ocorre para a promoção de uma sociedade que pensa da mesma maneira e apoia a atuação do líder totalitário.</p>
+      <p>A outra modalidade de totalitarismo apresentada pela autora é das pessoas que não acreditavam no que estavam fazendo. Simplesmente agiam para conseguir alguma vantagem pessoal. Para a filósofa, o que as ideologias totalitárias visam não é a transformação do mundo exterior ou a transformação revolucionária da nossa sociedade, mas sim a transformação da própria natureza humana.</p>
+      <p>Ao longo da história, as experiências totalitárias apresentam a forma mais extrema e completa de autoritarismo. Isso acarretou inúmeras violações aos direitos humanos e um verdadeiro contraste aos ideais democráticos.</p>
+
+      <p style="font-size:.82rem;color:#888;margin-top:20px;">Texto de Ana Lívia Novaes — Adaptado. Disponível em: https://abre.ai/phmW. Acesso em: 14 mai. 2026.</p>
+    </div>
+
+    <!-- ATIVIDADES 1-3 -->
+    <div class="atividades-header">
+      <span class="icon">🗳️</span>
+      <div>
+        <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.12em">Regimes totalitários · Texto I</div>
+        <h2>Atividades – Questões 1 a 3</h2>
+      </div>
+    </div>
+
+    <div class="questao" id="q1" data-tipo="discursiva" data-num="1">
+      <div class="questao-num">Questão 1 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Considerando o Texto I, explique de que maneira o culto ao líder e o uso do terror foram estratégias eficazes para a manutenção do poder nos regimes totalitários?</div>
+      <textarea class="campo-discursivo" id="resp-q1" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q1',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q2" data-tipo="discursiva" data-num="2">
+      <div class="questao-num">Questão 2 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Quais os fatores históricos e sociais contribuíram para a ascensão dos regimes totalitários?</div>
+      <textarea class="campo-discursivo" id="resp-q2" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q2',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q3" data-tipo="discursiva" data-num="3">
+      <div class="questao-num">Questão 3 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Explique como o medo e o terror foram utilizados para anular a individualidade e consolidar o regime totalitário, segundo Hannah Arendt.</div>
+      <textarea class="campo-discursivo" id="resp-q3" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q3',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <!-- ══════ TEXTO II ══════ -->
+    <div class="secao-texto">
+      <div class="secao-label">📖 Leia o texto · Texto II</div>
+      <div class="secao-titulo">Segunda Guerra Mundial: como impactou a história?</div>
+
+      <p>A Segunda Guerra Mundial foi um conflito marcante na história da humanidade por diversos motivos, um deles é o gigantesco número de mortes. Entre os anos de 1939 e 1945, 72 nações, incluindo o Brasil, se envolveram em operações militares, que resultaram na morte de aproximadamente 45 milhões de pessoas.</p>
+
+      <p>Para entender melhor os motivos que levaram à eclosão da Segunda Guerra Mundial, é importante saber o contexto histórico daquela época. Um dos principais pontos é o fato de que os países vencedores da Primeira Guerra Mundial (1914-1918) consideraram a Alemanha culpada pelo conflito. Por conta disso, o Estado alemão teve que assinar o Tratado de Versalhes em 1919, o que fez perder territórios e pagar pesadas indenizações. Como consequência desse tratado, a Alemanha entrou em uma grave crise econômica e política. Essa situação fez com que os alemães se sentissem injustiçados, gerando um sentimento de vingança na população.</p>
+
+      <p>A quebra da bolsa de Nova Iorque sucedendo da crise de 1929 agravou a recessão econômica na Alemanha, levando à escassez de alimentos e ao aumento da inflação aos quatro dígitos. O resultado? Uma sensação de impotência que se propagava pela sociedade alemã, que buscava uma solução imediata para resolver esse problema. É nesse cenário, tomado pelo revanchismo, que surgiu como alternativa em 1919 o Partido Nacional-Socialista dos Trabalhadores Alemães — o Partido Nazista. Com um discurso populista e demagógico, o Partido Nazista e a figura do seu líder apelava aos sentimentos populares de que a Alemanha fora injustiçada. Além desse apelo, o discurso era demagógico por acusar um culpado pelos problemas sociais e econômicos causados à Alemanha: a comunidade judaica. Assim, a comunicação direta com a população — realizada por meio das rádios e dos jornais impressos, os quais constituíam as grandes mídias de massa da época — fez com que o discurso nazista fosse "comprado" por uma ampla porção da população.</p>
+
+      <p>Ações do Partido Nazista — como o intervencionismo econômico — fortaleceram a indústria alemã e diminuíram o desemprego. Demais partidos políticos foram proibidos, jornais de oposição foram fechados e minorias, como os judeus, perseguidas. Desrespeitando o Tratado de Versalhes, Hitler também remilitarizou a Alemanha.</p>
+
+      <h3>As primeiras alianças que antecederam a Segunda Guerra Mundial</h3>
+      <p>Com conjunturas políticas e econômicas tão parecidas, era só uma questão de tempo até a Alemanha e a Itália formarem uma aliança. Isso aconteceu em 1936, quando os dois Estados assinaram um tratado de colaboração. A assinatura desse tratado e a consequente criação do Eixo Berlim-Roma nasceu não apenas devido às semelhanças ideológicas dos dois governos totalitários, mas também por conta do isolamento internacional que os dois Estados enfrentavam.</p>
+      <p>A Alemanha fora "excluída" da comunidade internacional fundada após a Primeira Guerra Mundial, em um primeiro momento. Por sua vez, a Itália fora severamente punida com sanções internacionais após invadir o norte da África. Quando a Alemanha não aderiu às sanções, uma porta aberta para a aproximação entre os dois países.</p>
+      <p>O que os outros Estados europeus fizeram quando Hitler quebrou o Tratado de Versalhes? E quando o Eixo Berlim-Roma foi firmado? A resposta é: nada. Como o nazismo visava impedir a expansão da União Soviética e do socialismo em direção à Europa ocidental, os outros países da região não se opuseram ao crescimento alemão, nem mesmo quando houve a remilitarização e as anexações (invasões) de outros territórios. Já a desconfiança sobre a aproximação entre Itália e Alemanha foi minimizada com um discurso de Mussolini, que afirmou:</p>
+      <div class="citacao-box">"A implementação do eixo Berlim-Roma não está voltada contra outros países. Nós, nazistas e fascistas, desejamos a paz."</div>
+      <p>Também em 1936, a Alemanha assinou pactos com a Espanha, a fim de apoiar a ditadura de Francisco Franco, e com o Japão, com o objetivo de frear a expansão soviética sobre a Ásia. Já em 1939, Alemanha e União Soviética assinaram o Pacto Germânico-Soviético de não-agressão.</p>
+
+      <h3>O estopim para a Segunda Guerra Mundial</h3>
+      <p>Durante 1938, a Alemanha nazista anexou a Áustria e parte da antiga Tchecoslováquia. Esse desejo por aumentar seu território era pautado na Teoria do Espaço Vital, ideia que surgiu do sentimento alemão de revolta por ter perdido terras após a Primeira Guerra Mundial. A teoria ainda pregava que a raça ariana deveria ter um único território e expandi-lo ao máximo, formando "um guia, um império, um povo", conforme dizia Hitler.</p>
+      <p>Foi a Teoria do Espaço Vital que levou Hitler a invadir a Polônia, em 1939, buscando recuperar o domínio sobre a cidade de Danzig. Existiram várias tentativas anteriores de reanexar o território, mas apenas em 1º de setembro de 1939 o objetivo foi atingido. Inaugurando a estratégia que ficaria conhecida como <em>blitzkrieg</em> (guerra-relâmpago), a Alemanha nazista lançou um feroz ataque aéreo e terrestre sobre a cidade polonesa.</p>
+      <p>Diante da insistência e sucesso de Hitler em reconquistar Danzig, Reino Unido e França declararam guerra ao país germânico no dia 3 de setembro de 1939. Esse foi o início da Segunda Guerra Mundial.</p>
+      <p>Logo após o decreto de guerra, os alemães invadiram a Dinamarca, Noruega, Holanda e Bélgica. Em 1940, as tropas nazistas avançaram e ocuparam o sul da França. Logo após, formou-se:</p>
+      <ul style="margin:10px 0 14px 22px;font-size:.95rem">
+        <li><strong>o Eixo</strong> — um pacto de apoio mútuo entre Alemanha, Japão e Itália contra ataques de países ainda não envolvidos na Segunda Guerra Mundial, como os Estados Unidos.</li>
+        <li><strong>os Aliados</strong>, como ficou conhecida a oposição ao Eixo, formada por diversos países. O grupo tinha como lideranças o Reino Unido e a França em um primeiro momento.</li>
+      </ul>
+
+      <h3>O grande erro estratégico de Hitler</h3>
+      <p>Em junho de 1941, Hitler quebrou o Pacto Germânico-Soviético e invadiu a União Soviética. As tropas nazistas chegaram perto de conquistar a cidade de Stalingrado, mas em dezembro foram derrotadas pelo Exército Vermelho, como eram conhecidas as tropas soviéticas, que usaram o rigoroso inverno russo como arma.</p>
+      <p>Ao quebrar o tratado com a URSS, os alemães fizeram a Segunda Guerra Mundial aumentar suas proporções. Em 1941, os soviéticos juntaram-se aos Aliados, levando a Alemanha a ter que lutar em duas frentes: a oeste, com os ingleses, e a leste, com o Exército Vermelho.</p>
+
+      <h3>Pearl Harbor e os Estados Unidos na guerra</h3>
+      <p>Com desejo de explorar recursos do Sudeste Asiático, os quais alimentariam a indústria voltada para a Segunda Guerra Mundial, o Japão lançou uma série de ataques. Além de mirar o próprio Sudeste Asiático, os japoneses buscaram neutralizar a frota naval estadunidense localizada na região central do Oceano Pacífico. Assim, em dezembro de 1941 a base militar estadunidense de Pearl Harbor, no Havaí, foi bombardeada.</p>
+      <p>Esse ataque configurou outra "virada" na Segunda Guerra Mundial, pois levou os Estados Unidos, o Reino Unido, a China e a Austrália a declararem formalmente guerra contra o Japão. Assim, por conta do pacto de apoio mútuo assinado em 1940, a Itália e a Alemanha declararam guerra a esses Estados, apoiando o Japão.</p>
+      <p>No que China e Estados Unidos apoiaram Reino Unido e França, os chamados Quatro Grandes, os Aliados se fortaleceram. As constantes batalhas perdidas pelo Eixo, somando às baixas alemãs no rigoroso inverno russo, geraram um clima de medo e instabilidade e fizeram com que a Itália se retirasse do conflito em 1943. A partir daí o Eixo declinou ainda mais.</p>
+
+      <h3>O Dia D</h3>
+      <p>Já enfraquecido, o Eixo sofreu uma derrota fundamental no dia 6 de junho de 1944, conhecido como Dia D. Nessa data, mais de 150 mil soldados aliados desembarcaram na Normandia, localizada no Noroeste da França. A megaoperação também foi responsável por libertar Paris em 25 de agosto de 1944. Agora, os nazistas estavam acuados e perdendo o território que haviam conquistado.</p>
+      <p>Posteriormente, em 2 de maio de 1945, os soviéticos ocuparam Berlim após libertarem a Polônia. Hitler já havia cometido suicídio dias antes, em 30 de abril, e por isso a rendição alemã veio rapidamente. Em 5 de maio de 1945 a guerra acabava na Europa.</p>
+
+      <h3>O Tratado de Potsdam</h3>
+      <p>Em julho de 1945, foi realizada a Conferência de Potsdam, na Alemanha. Nesse encontro, vencedores e perdedores da Segunda Guerra Mundial assinaram o Tratado de Potsdam. Novamente, a Alemanha foi culpada pelo conflito e precisou pagar uma alta indenização aos Aliados.</p>
+
+      <h3>Duas Alemanhas</h3>
+      <p>Além da punição financeira, a Alemanha também foi dividida em quatro zonas de ocupação militar: estadunidense, soviética, britânica e francesa. O objetivo dessa divisão era facilitar a tarefa de administrar o país para que ele fosse reconstruído, juntamente com a economia europeia. Também era de interesse dos Aliados evitar que um novo sentimento revanchista surgisse na Alemanha, de forma a repetir a história que culminou na Segunda Guerra Mundial.</p>
+      <p>No entanto, as divergências sobre como coordenar os territórios tornaram-se um problema. Enquanto os Estados ocidentais — liderados pelos Estados Unidos, já que Reino Unido e França foram política, econômica e socialmente enfraquecidos pela Segunda Guerra Mundial — priorizavam a recuperação tanto alemã quanto europeia, a União Soviética exigia maiores reparações pelos prejuízos causados pelo conflito.</p>
+      <p>O fato de as três regiões ocidentais buscarem unificar-se e serem coordenadas de uma mesma maneira fez acabar a divisão da Alemanha em quatro partes, passando a valer a separação em duas zonas de ocupação: a Oriental e a Ocidental. Essa separação, ideologicamente criada pelos Estados ocidentais, foi transformada em uma realidade inegável em 13 de agosto de 1961. Nessa data a URSS construiu o famoso Muro de Berlim, que dividiu fisicamente não apenas a cidade, mas o país. Assim, surgiram a Alemanha Ocidental (capitalista) e a Alemanha Oriental (socialista).</p>
+
+      <h3>O Tribunal de Nuremberg</h3>
+      <p>O Tratado de Potsdam também criou o Tribunal de Nuremberg, que começou a funcionar a partir de novembro de 1945. Esse Tribunal foi criado com a função de analisar, julgar e condenar os envolvidos nos crimes contra a humanidade cometidos durante a Segunda Guerra Mundial, e ficou ativo por um ano. Sua atuação provocou importantes efeitos jurídicos e filosóficos que, dentre outras questões, levaram à redação da carta de Direitos Humanos, em 1948, e serviram como um "primeiro passo" na criação do Tribunal Penal Internacional, em 1998.</p>
+
+      <h3>E o Japão?</h3>
+      <p>Mesmo após a rendição alemã e da assinatura do Tratado de Potsdam, os japoneses não desistiram. A imensa área que tinha sido ocupada pelo país no Oceano Pacífico durante o início da Segunda Guerra Mundial já vinha diminuindo desde a entrada dos Estados Unidos no conflito, mesmo assim os japoneses persistiam.</p>
+      <p>Como o inimigo não se rendia, os Estados Unidos promoveram uma horrível demonstração de força: os ataques atômicos em Hiroshima, no dia 6 de agosto de 1945, e pouco depois, em 9 de agosto, o alvo foi a cidade de Nagazaki.</p>
+      <p>Os ataques são considerados "horríveis" pelos efeitos destruidores das armas nucleares, os quais não se resumem aos dias dos ataques, mas alastram-se por décadas por conta da radiação, responsável por matar outras 80 mil pessoas nos anos após o ataque em Hiroshima.</p>
+      <p>Enquanto alguns acreditam que o lançamento das armas nucleares foi necessário para agilizar o fim do conflito, evitando uma invasão ao Japão e, assim, poupando muitas vidas, outros tantos discordam. Esse grupo de pesquisadores entende o uso das bombas atômicas como uma forma de demonstrar força para a União Soviética, antecipando o conflito ideológico que viria a se acirrar até instalar-se a Guerra Fria.</p>
+      <p>Após os ataques atômicos, a URSS expulsou tropas japonesas que ainda ocupavam a Manchúria, região localizada no Nordeste da China. Em 2 de setembro de 1945, o Japão se rendeu, e assim acabava, definitivamente, a Segunda Guerra Mundial.</p>
+      <p>A Segunda Guerra Mundial resultou no maior número de mortes, civis e militares, em toda a história. A Alemanha ficou novamente enfraquecida e, como dito, teve seu território dividido. A divisão que inicialmente era ideológica tornou-se realidade com a construção do Muro de Berlim em 1961, permanecendo assim por 28 anos, até a sua queda, em 1989.</p>
+
+      <p style="font-size:.82rem;color:#888;margin-top:20px;">Texto de Luiza Calixto e Pâmela Morais. Adaptado. Disponível em: https://abre.ai/piKB. Acesso em: 20 mai. 2026.</p>
+    </div>
+
+    <!-- ATIVIDADES 4-13 -->
+    <div class="atividades-header">
+      <span class="icon">🌍</span>
+      <div>
+        <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.12em">Segunda Guerra Mundial · Texto II</div>
+        <h2>Atividades – Questões 4 a 13</h2>
+      </div>
+    </div>
+
+    <div class="questao" id="q4" data-tipo="discursiva" data-num="4">
+      <div class="questao-num">Questão 4 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Explique de que maneira o Tratado de Versalhes contribuiu para o fortalecimento do sentimento de vingança na Alemanha e para a ascensão do Partido Nazista.</div>
+      <textarea class="campo-discursivo" id="resp-q4" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q4',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q5" data-tipo="discursiva" data-num="5">
+      <div class="questao-num">Questão 5 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">De que maneira a crise de 1929 influenciou a sociedade alemã e favoreceu a aceitação do discurso nazista pela população?</div>
+      <textarea class="campo-discursivo" id="resp-q5" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q5',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q6" data-tipo="discursiva" data-num="6">
+      <div class="questao-num">Questão 6 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Explique sobre a Teoria do Espaço Vital e como ela influenciou as ações expansionistas da Alemanha antes do início da Segunda Guerra Mundial.</div>
+      <textarea class="campo-discursivo" id="resp-q6" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q6',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q7" data-tipo="discursiva" data-num="7">
+      <div class="questao-num">Questão 7 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Explique como o rompimento do pacto germano-soviético afetou a dinâmica da guerra e foi considerado um erro estratégico de Hitler na guerra.</div>
+      <textarea class="campo-discursivo" id="resp-q7" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q7',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q8" data-tipo="discursiva" data-num="8">
+      <div class="questao-num">Questão 8 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Compare os objetivos e interesses dos países que formavam o Eixo e dos que integravam os Aliados durante a Segunda Guerra Mundial.</div>
+      <textarea class="campo-discursivo" id="resp-q8" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q8',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q9" data-tipo="discursiva" data-num="9">
+      <div class="questao-num">Questão 9 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Analise os impactos políticos e sociais do pós-guerra para a Alemanha, considerando a divisão do território e a construção do Muro de Berlim.</div>
+      <textarea class="campo-discursivo" id="resp-q9" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q9',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q10" data-tipo="discursiva" data-num="10">
+      <div class="questao-num">Questão 10 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Quais acontecimentos decisivos em 1945 levaram à rendição da Alemanha e do Japão, e de que forma cada um deles contribuiu para o fim da Segunda Guerra Mundial?</div>
+      <textarea class="campo-discursivo" id="resp-q10" style="min-height:160px" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q10',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q11" data-tipo="discursiva" data-num="11">
+      <div class="questao-num">Questão 11 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Como o desfecho da Segunda Guerra Mundial impactou a reorganização política mundial e levou à criação de novas instituições internacionais?</div>
+      <textarea class="campo-discursivo" id="resp-q11" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q11',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q12" data-tipo="objetiva" data-gabarito="A" data-num="12">
+      <div class="questao-num">Questão 12 <span class="badge">Objetiva</span></div>
+      <div class="questao-enunciado">
+        <p>Analise a charge a seguir.</p>
+        <img src="rev-img/12.webp" alt="Charge sobre o culto ao líder nos regimes totalitários" class="questao-img" style="max-width:380px">
+        <p>Tendo como algumas das características dos sistemas totalitários o culto ao líder e a centralização do poder, a charge</p>
+      </div>
+      <div class="opcoes">
+        <div class="opcao" onclick="responderObjetiva('q12','A',this)"><span class="letra">A</span> critica a manipulação da sociedade por meio da exaltação exagerada da figura do líder, mostrando como isso pode anular o pensamento crítico da população.</div>
+        <div class="opcao" onclick="responderObjetiva('q12','B',this)"><span class="letra">B</span> retrata de maneira neutra os regimes totalitários, sem emitir juízo de valor sobre suas práticas.</div>
+        <div class="opcao" onclick="responderObjetiva('q12','C',this)"><span class="letra">C</span> defende a centralização do poder como forma eficaz para garantir a ordem, retratando o líder como um herói nacional.</div>
+        <div class="opcao" onclick="responderObjetiva('q12','D',this)"><span class="letra">D</span> destaca os benefícios do controle absoluto do Estado sobre a sociedade, destacando a eliminação de conflitos e divergências políticas.</div>
+      </div>
+      <div class="feedback-quiz" id="fb-q12"></div>
+    </div>
+
+    <div class="questao" id="q13" data-tipo="objetiva" data-gabarito="C" data-num="13">
+      <div class="questao-num">Questão 13 <span class="badge">Objetiva</span></div>
+      <div class="questao-enunciado">As ideologias totalitárias foram moldes para se construir estratégias militares e políticas internas e externas, durante a Segunda Guerra Mundial. Com base nesse contexto, como essas ideologias impactaram o desenvolvimento da guerra?</div>
+      <div class="opcoes">
+        <div class="opcao" onclick="responderObjetiva('q13','A',this)"><span class="letra">A</span> Incentivaram a formação de alianças democráticas entre os países do eixo, por meio do diálogo político.</div>
+        <div class="opcao" onclick="responderObjetiva('q13','B',this)"><span class="letra">B</span> Evitaram confronto direto com os outros países para preservar sua população.</div>
+        <div class="opcao" onclick="responderObjetiva('q13','C',this)"><span class="letra">C</span> Acreditavam na superioridade racial, incentivando a conquista territorial a partir de campanhas militares expansionistas e agressivas.</div>
+        <div class="opcao" onclick="responderObjetiva('q13','D',this)"><span class="letra">D</span> Lutavam pela estabilidade econômica e por uma liderança política, porém não queriam que se iniciasse uma guerra.</div>
+      </div>
+      <div class="feedback-quiz" id="fb-q13"></div>
+    </div>
+
+    <div class="secao-texto" style="border-left-color:var(--laranja)">
+      <div class="secao-label" style="color:var(--laranja)">🎬 Sugestões de filmes</div>
+      <div class="secao-titulo">Para contextualizar os regimes totalitários e a Segunda Guerra</div>
+      <div class="filmes-grid">
+        <div class="filme-card">
+          <div class="filme-icone">🎥</div>
+          <div class="filme-titulo">A Queda! As últimas horas de Hitler</div>
+          <p style="font-size:.82rem;margin-top:8px">Não recomendado para menores de 16 anos. Traudl Junge trabalhava como secretária de Adolf Hitler durante a Segunda Guerra Mundial. Ela narra os últimos dias do líder alemão, que estava confinado em um bunker.</p>
+        </div>
+        <div class="filme-card">
+          <div class="filme-icone">🎥</div>
+          <div class="filme-titulo">Menino 23</div>
+          <p style="font-size:.82rem;margin-top:8px">Não recomendado para menores de 12 anos. O filme retrata a história real de crianças negras levadas de um orfanato para uma fazenda no interior do Rio de Janeiro, onde sofreram trabalho forçado, violência e racismo por uma família simpatizante do nazismo. Baseada na pesquisa de Sidney Aguilar Filho, a obra revela a influência de ideias eugenistas e fascistas no Brasil durante a década de 1930.</p>
+        </div>
+        <div class="filme-card">
+          <div class="filme-icone">🎥</div>
+          <div class="filme-titulo">O Grande Ditador</div>
+          <p style="font-size:.82rem;margin-top:8px">Classificação: Livre. Adenoid Hynkel, ditador de Tomainia, impõe um regime autoritário baseado na supremacia ariana e na perseguição aos judeus. Um barbeiro judeu, que sofre de amnésia após a Primeira Guerra Mundial, volta para casa e passa a ser perseguido, vivendo em um gueto onde conhece Hannah, por quem se apaixona.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ TEXTO III ══════ -->
+    <div class="secao-texto">
+      <div class="secao-label">📖 Leia o texto · Texto III</div>
+      <div class="secao-titulo">A República Populista</div>
+
+      <p>O período da história política do Brasil que se inicia após a Era Vargas, em 1946, e se encerra com o Golpe Civil-Militar de 1964, ficou conhecido como Quarta República Brasileira ou República Populista. Durante esses anos, o país vivenciou um expressivo crescimento econômico e industrial, acompanhado por um processo acelerado de urbanização. Contudo, esse progresso veio acompanhado do agravamento das desigualdades sociais já existentes.</p>
+
+      <p>Esse período foi marcado pelo retorno do pluripartidarismo no Brasil, após a proibição imposta durante o Estado Novo. Essa reorganização política começou a se consolidar com o Ato Adicional decretado por Getúlio Vargas no início de 1946, que criou condições para a formação de novos partidos no país.</p>
+
+      <h3>Os três grandes partidos da República Populista</h3>
+      <ul style="margin:10px 0 14px 22px;font-size:.95rem">
+        <li><strong>União Democrática Nacional (UDN)</strong> — partido de orientação conservadora e que tinha uma visão bem moralista da política. Eram altamente antivarguista e anticomunistas. Ao longo desse período, tentaram por diversas vezes tomar o poder a partir de medidas golpistas que iam contra a legalidade constitucional. Um grande representante desse partido foi Carlos Lacerda.</li>
+        <li><strong>Partido Social Democrático (PSD)</strong> — esse partido surgiu a partir da estrutura burocrática criada por Getúlio Vargas durante o Estado Novo. Além de ter sido criado pelos interventores que haviam sido nomeados por Vargas, o PSD teve grande capacidade eleitoral. Os quadros do PSD eram extremamente habilidosos em angariar votos e eleger candidatos, o que fez dele o maior partido do período. Um grande nome desse partido foi Juscelino Kubitschek.</li>
+        <li><strong>Partido Trabalhista Brasileiro (PTB)</strong> — foi criado por Vargas como continuidade do seu projeto de estabelecer uma política de aproximação com as massas, sobretudo dos trabalhadores urbanos. Ao longo da República Populista, o PTB aproximou sua política para implantar medidas defendidas pela esquerda. Os grandes nomes desse período foram Getúlio Vargas e João Goulart.</li>
+      </ul>
+
+      <h3>A experiência democrática (1946-1964)</h3>
+      <p><strong>Eurico Gaspar Dutra (1946-1951) — A nova Constituição e o alinhamento na Guerra Fria.</strong> Dutra foi eleito após a queda do Estado Novo, seu governo tinha como principal missão redemocratizar o país, culminando na Constituição de 1946, que garantiu as liberdades civis e o voto secreto.</p>
+      <p>No contexto do início da Guerra Fria, Dutra aliou-se fortemente aos Estados Unidos. Ele rompeu relações diplomáticas com a União Soviética e colocou o Partido Comunista Brasileiro (PCB) na ilegalidade. Na economia abriu o mercado para importações de produtos estrangeiros, o que acabou consumindo rapidamente as reservas de dinheiro que o Brasil havia guardado durante a Segunda Guerra. Criou o Plano SALTE (Saúde, Alimentação, Transporte e Energia), mas com poucos resultados.</p>
+
+      <p><strong>Getúlio Vargas (1951-1954) — O retorno nos "braços do povo" e o nacionalismo.</strong> Vargas, que havia sido ditador anos antes, voltou ao poder de forma democrática, eleito pelo voto popular. Seu governo democrático foi marcado por uma forte política nacionalista e por uma intensa oposição política e midiática.</p>
+      <p>No campo econômico, Vargas defendia que as riquezas naturais do Brasil deveriam ser controladas pelo próprio país. Foi nesse período que ocorreu a campanha "O Petróleo é Nosso", que resultou na criação da Petrobras (1953) e da Eletrobras.</p>
+      <p>Seu governo também foi marcado por uma crise política, que acabou com um fim trágico. A oposição (liderada pelo jornalista Carlos Lacerda e pela UDN) acusava o governo de corrupção e autoritarismo. Pressionado por militares e opositores a renunciar, Vargas cometeu suicídio em 24 de agosto de 1954, deixando uma carta-testamento.</p>
+      <div class="citacao-box">"E aos que pensam que me derrotaram respondo com a minha vitória. Era escravo do povo e hoje me liberto para a vida eterna. Mas esse povo de quem fui escravo não mais será escravo de ninguém. Meu sacrifício ficará para sempre em sua alma e meu sangue será o preço do seu resgate. Lutei contra a espoliação do Brasil. Lutei contra a espoliação do povo. Tenho lutado de peito aberto. O ódio, as infâmias, a calúnia não abateram meu ânimo. Eu vos dei a minha vida. Agora vos ofereço a minha morte."<br><span style="font-size:.8rem;font-style:normal">Disponível em: https://abre.ai/pjva. Acesso em: 22 mai. 2026.</span></div>
+      <p>O ato gerou grande comoção nacional e adiou os planos de um golpe militar na época.</p>
+
+      <p><strong>Juscelino Kubitschek (1956-1961) — Os Anos Dourados e o desenvolvimentismo.</strong> Após um breve período de transição turbulento, JK assumiu a presidência com o famoso slogan "50 anos de progresso em 5 anos de governo". Foi um período de grande otimismo cultural (o auge da Bossa Nova) e estabilidade política.</p>
+      <p>JK e seu Plano de Metas focou no desenvolvimento industrial, abrindo a economia para empresas estrangeiras, especialmente as indústrias automobilísticas (como montadoras de carros).</p>
+      <p>A construção de Brasília foi o maior símbolo do seu governo. Brasília foi projetada por Oscar Niemeyer e Lúcio Costa para modernizar e integrar o interior do Brasil. Embora o país tenha se modernizado, as grandes obras e empréstimos geraram uma inflação alta e uma dívida externa pesada, com grandes consequências econômicas para os próximos presidentes resolverem.</p>
+
+      <p><strong>Jânio Quadros (março a agosto de 1961) — A política externa independente e a renúncia.</strong> Jânio foi eleito com uma votação recorde, usando o símbolo de uma vassoura para prometer "varrer a corrupção" do país. Seu governo, no entanto, durou apenas sete meses e foi um dos mais bizarros da história política brasileira.</p>
+      <p>Jânio passou a adotar medidas incomuns, como a proibição de brigas de galo, o uso de biquínis nas praias e o lança-perfume em bailes de carnaval. Na política externa, em plena Guerra Fria, ele tentou aproximar o Brasil do bloco socialista para abrir mercados. Ele condecorou o revolucionário cubano Che Guevara com a maior honraria do Brasil (a Ordem do Cruzeiro do Sul), o que enfureceu a classe média, a imprensa e os militares brasileiros.</p>
+      <p>Em um cenário de muita crise em agosto de 1961, acreditando que o povo e o congresso implorariam por seu retorno, Jânio renuncia ao cargo. A estratégia falhou, o Congresso aceitou a renúncia imediatamente, abrindo uma crise institucional.</p>
+
+      <p><strong>João Goulart (1961-1964) — Crise, parlamentarismo e o caminho para o golpe.</strong> Jango era o vice-presidente de Jânio (na época, votava-se para presidente e vice separadamente). Os militares e a oposição tentaram impedir sua posse, acusando-o de ser simpatizante do comunismo devido às suas ligações com sindicatos e com o trabalhismo de Vargas.</p>
+      <p>Como condição para assumir o cargo, o Congresso reduziu os poderes de Jango, criando o sistema parlamentarista (onde um Primeiro-Ministro governava). Esse sistema perdurou entre 1961 e 1963, quando ocorreu um plebiscito e o povo votou pelo retorno do Presidencialismo, devolvendo os poderes totais a Jango.</p>
+      <p>A ampla vitória de Goulart no plebiscito representou também um endosso popular às Reformas de Base defendidas por Jango. O objetivo dessas reformas era promover mudanças estruturais na sociedade brasileira, buscando reduzir as desigualdades sociais, ampliar direitos e modernizar a economia do país.</p>
+      <p>Entre as principais propostas estavam a reforma agrária, que pretendia desapropriar grandes propriedades improdutivas para distribuir terras aos trabalhadores rurais; a reforma educacional, voltada para ampliar o acesso à educação e combater o analfabetismo; a reforma fiscal, que buscava tornar a cobrança de impostos mais justa; e a reforma urbana, relacionada à melhoria das condições de moradia e à regulamentação do valor dos aluguéis. Também estavam previstas mudanças no sistema bancário, eleitoral e universitário.</p>
+      <p>As reformas ganharam apoio de sindicatos, movimentos populares e grupos de esquerda, que defendiam transformações sociais mais profundas no país. Por outro lado, setores conservadores, empresários, parte das Forças Armadas e grupos ligados às elites econômicas viam essas propostas como uma ameaça aos seus interesses e associavam Jango ao avanço do comunismo, em um contexto marcado pela Guerra Fria.</p>
+      <p>Em março de 1964, durante o comício da Central do Brasil, no Rio de Janeiro, Jango reafirmou publicamente seu compromisso com essas mudanças. Esse movimento intensificou as tensões políticas no Brasil e poucas semanas depois ocorreu o golpe civil-militar de 1964, que depôs o presidente e deu início à ditadura militar no Brasil.</p>
+      <p>Como é possível perceber, o golpe de 1964 não foi um evento isolado ou uma surpresa repentina na história do Brasil: ele foi resultado de um processo que se arrastou por anos. A economia fragilizada pelo endividamento da era JK, Jânio Quadros, com suas decisões imprevisíveis e sua renúncia inesperada, o que abriu portas para uma crise política sem precedentes.</p>
+      <p>Compreender esse período é importante para entender que nenhum grande acontecimento político nasce do nada. Crises econômicas prolongadas e a falta de diálogo entre grupos opostos criam ambientes de instabilidade onde soluções autoritárias passam a ser vistas, perigosamente, como saídas fáceis. Olhar para o colapso da democracia em 1964 é lembrar que a estabilidade de um país depende do equilíbrio social, da responsabilidade econômica e, acima de tudo, do respeito contínuo às regras democráticas. O passado serve de alerta para que o presente saiba proteger o futuro.</p>
+
+      <p style="font-size:.82rem;color:#888;margin-top:20px;">Elaborado para fins didáticos. Fontes: FAUSTO, Boris. <em>História do Brasil</em>. São Paulo: EDUSP, 2019. SKIDMORE, Thomas E. <em>Brasil: de Getúlio a Castelo Branco (1930-1964)</em>. Rio de Janeiro: Paz e Terra, 2010. gov.br/arquivonacional · cpdoc.fgv.br</p>
+    </div>
+
+    <!-- ATIVIDADES 14-22 -->
+    <div class="atividades-header">
+      <span class="icon">🇧🇷</span>
+      <div>
+        <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.12em">República Populista · Texto III</div>
+        <h2>Atividades – Questões 14 a 22</h2>
+      </div>
+    </div>
+
+    <div class="questao" id="q14" data-tipo="discursiva" data-num="14">
+      <div class="questao-num">Questão 14 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Quais os principais avanços e desafios enfrentados pelo Brasil durante a República populista?</div>
+      <textarea class="campo-discursivo" id="resp-q14" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q14',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q15" data-tipo="objetiva" data-gabarito="D" data-num="15">
+      <div class="questao-num">Questão 15 <span class="badge">UDESC – Adaptado</span></div>
+      <div class="questao-enunciado">Sobre o período que sucede o Estado Novo, até a ocorrência do Golpe Civil-Militar (1945-1964), é correto afirmar:</div>
+      <div class="opcoes">
+        <div class="opcao" onclick="responderObjetiva('q15','A',this)"><span class="letra">A</span> Jânio Quadros e João Goulart uniram forças na oposição e renunciaram juntos, permitindo a formação de uma junta militar e de um governo democrático.</div>
+        <div class="opcao" onclick="responderObjetiva('q15','B',this)"><span class="letra">B</span> Após o Estado Novo, houve um retorno ao autoritarismo, com a reimplantação da Constituição de 1937.</div>
+        <div class="opcao" onclick="responderObjetiva('q15','C',this)"><span class="letra">C</span> A redemocratização do Brasil só aconteceu com o Ato Institucional nº 1, criado pelos militares.</div>
+        <div class="opcao" onclick="responderObjetiva('q15','D',this)"><span class="letra">D</span> Houve, por um breve período, a adoção do regime parlamentarista.</div>
+      </div>
+      <div class="feedback-quiz" id="fb-q15"></div>
+    </div>
+
+    <div class="questao" id="q16" data-tipo="discursiva" data-num="16">
+      <div class="questao-num">Questão 16 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Explique como a Guerra Fria influenciou a política brasileira e contribuiu para a polarização que antecedeu o golpe civil-militar de 1964?</div>
+      <textarea class="campo-discursivo" id="resp-q16" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q16',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q17" data-tipo="discursiva" data-num="17">
+      <div class="questao-num">Questão 17 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Getúlio Vargas retornou ao poder em 1951 pelo voto popular. O que o nacionalismo econômico defendido por ele buscava e qual empresa criada nesse período é o principal exemplo dessa política.</div>
+      <textarea class="campo-discursivo" id="resp-q17" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q17',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q18" data-tipo="discursiva" data-num="18">
+      <div class="questao-num">Questão 18 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Apesar de ter governado por apenas sete meses, Jânio Quadros gerou grandes críticas, devido à sua "política externa independente". De acordo com o texto, qual atitude gerou forte indignação e qual era sua pretensão política com essa ação?</div>
+      <textarea class="campo-discursivo" id="resp-q18" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q18',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q19" data-tipo="objetiva" data-gabarito="B" data-num="19">
+      <div class="questao-num">Questão 19 <span class="badge">ENEM 2013 – Adaptada</span></div>
+      <div class="questao-enunciado">
+        <img src="rev-img/19.webp" alt="Charge Meta de Faminto - diálogo entre JK e Jeca" class="questao-img" style="max-width:380px">
+        <p><strong>Meta de Faminto</strong></p>
+        <div class="citacao-box" style="font-style:normal">
+          <strong>JK</strong> — Você agora tem automóvel brasileiro, para correr em estradas pavimentadas com asfalto brasileiro, com gazolina brasileira. Que mais quer?<br>
+          <strong>JECA</strong> — Um prato de feijão brasileiro, seu doutô!
+        </div>
+        <p style="font-size:.82rem;font-style:italic">THÉO. In: LEMOS, R. (Org.). Uma história do Brasil através da caricatura (1840-2001). Rio de Janeiro: Bom Texto; Letras &amp; Expressões, 2001.</p>
+        <p>A charge ironiza a política desenvolvimentista do governo Juscelino Kubitschek, ao</p>
+      </div>
+      <div class="opcoes">
+        <div class="opcao" onclick="responderObjetiva('q19','A',this)"><span class="letra">A</span> evidenciar que o incremento da malha viária diminuiu as desigualdades regionais do país.</div>
+        <div class="opcao" onclick="responderObjetiva('q19','B',this)"><span class="letra">B</span> enfatizar que o crescimento econômico implicou aumento das contradições socioespaciais.</div>
+        <div class="opcao" onclick="responderObjetiva('q19','C',this)"><span class="letra">C</span> ressaltar que o investimento no setor de bens duráveis incrementou os salários de trabalhadores.</div>
+        <div class="opcao" onclick="responderObjetiva('q19','D',this)"><span class="letra">D</span> destacar que a modernização das indústrias dinamizou a produção de alimentos para o mercado interno.</div>
+      </div>
+      <div class="feedback-quiz" id="fb-q19"></div>
+    </div>
+
+    <div class="questao" id="q20" data-tipo="objetiva" data-gabarito="A" data-num="20">
+      <div class="questao-num">Questão 20 <span class="badge">FIP-Moc – Adaptado</span></div>
+      <div class="questao-enunciado">
+        <p>O discurso de posse de Jânio Quadros foi uma denúncia das condições em que recebia o governo: "sacamos contra o futuro muito mais do que a imaginação ousa arriscar (...) cumpre agora saldar amargamente".</p>
+        <p style="font-size:.82rem;font-style:italic">Fonte: RICUPERO, Rubens. A diplomacia na construção do Brasil – 1750-2016. Versal Editora, 2017.</p>
+        <p>A situação descrita é justificada pelo:</p>
+      </div>
+      <div class="opcoes">
+        <div class="opcao" onclick="responderObjetiva('q20','A',this)"><span class="letra">A</span> Crescimento da taxa inflacionária e do déficit orçamentário, no período final do governo de Juscelino Kubitschek.</div>
+        <div class="opcao" onclick="responderObjetiva('q20','B',this)"><span class="letra">B</span> Desastre da política de valorização dos Mil Réis, resultando em uma balança comercial desfavorável aos interesses nacionais.</div>
+        <div class="opcao" onclick="responderObjetiva('q20','C',this)"><span class="letra">C</span> Aumento de 100% do salário mínimo, proposto por João Goulart, Ministro da Economia, no segundo Governo Vargas.</div>
+        <div class="opcao" onclick="responderObjetiva('q20','D',this)"><span class="letra">D</span> Término do chamado "Milagre Econômico", resultante da desvalorização do dólar, moeda de cota de petróleo.</div>
+      </div>
+      <div class="feedback-quiz" id="fb-q20"></div>
+    </div>
+
+    <div class="questao" id="q21" data-tipo="discursiva" data-num="21">
+      <div class="questao-num">Questão 21 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">O governo de JK é muito lembrado pelo slogan "50 anos de progresso em 5 anos de governo" e pela construção de Brasília. No entanto, o texto aponta que esse modelo desenvolvimentista do seu governo deixou consequências econômicas graves para os próximos presidentes. Quais consequências foram essas?</div>
+      <textarea class="campo-discursivo" id="resp-q21" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q21',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q22" data-tipo="discursiva" data-num="22">
+      <div class="questao-num">Questão 22 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">O governo de João Goulart (1961–1964) foi marcado por grande instabilidade política, sendo constantemente ameaçado por articulações golpistas e disputas entre diferentes forças sociais e institucionais. De que maneira as propostas de Jango contribuíram para o aumento da oposição ao seu governo?</div>
+      <textarea class="campo-discursivo" id="resp-q22" style="min-height:160px" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q22',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="secao-texto" style="border-left-color:var(--laranja)">
+      <div class="secao-label" style="color:var(--laranja)">🎬 Sugestões de filmes</div>
+      <div class="secao-titulo">Para contextualizar a República Populista</div>
+      <div class="filmes-grid">
+        <div class="filme-card">
+          <div class="filme-icone">🎥</div>
+          <div class="filme-titulo">Getúlio</div>
+          <p style="font-size:.82rem;margin-top:8px">Não recomendado para menores de 12 anos. O filme acompanha o então presidente do Brasil Getúlio Vargas em seus 19 últimos dias de vida. Pressionado por uma crise política sem precedentes, em decorrência das acusações de que teria ordenado o atentado contra o jornalista Carlos Lacerda, ele avalia os riscos existentes até tomar uma decisão que mudará o rumo da política do Brasil.</p>
+        </div>
+        <div class="filme-card">
+          <div class="filme-icone">🎥</div>
+          <div class="filme-titulo">O Dia que Durou 21 Anos</div>
+          <p style="font-size:.82rem;margin-top:8px">Não recomendado para menores de 12 anos. O documentário revela a influência dos Estados Unidos no Golpe de 1964 no Brasil, destacando o envolvimento da CIA e da Casa Branca na derrubada de João Goulart e no apoio à ditadura militar liderada por Castelo Branco, com base em documentos e gravações da época.</p>
+        </div>
+        <div class="filme-card">
+          <div class="filme-icone">🎥</div>
+          <div class="filme-titulo">Os Anos JK – Uma Trajetória Política</div>
+          <p style="font-size:.82rem;margin-top:8px">Classificação: Livre. O documentário traça um panorama do Brasil de 1945 a 1964, tendo como personagem central Juscelino Kubitschek. Aborda fatos marcantes da história como o suicídio de Vargas, a construção de Brasília, os governos de Jânio Quadros e de João Goulart e o golpe de 1964.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ TEXTO IV ══════ -->
+    <div class="secao-texto">
+      <div class="secao-label">📖 Leia o texto · Texto IV</div>
+      <div class="secao-titulo">Ditadura Militar no Brasil</div>
+
+      <p>Desde a sua proclamação em 1889, a República brasileira passou por diversas fases, cada uma marcada por características políticas e sociais distintas. Entre 1945 e 1964, o país vivenciou um período de grande instabilidade política e crises econômicas, com destaque para a inflação crescente. Nesse contexto, intensificado pela Guerra Fria, o medo do comunismo pairava por toda a sociedade brasileira, contribuindo para uma forte polarização política. Esse cenário instável tornou-se propício para a intervenção militar que, a partir de 1964, deu início a uma ditadura que duraria 21 anos.</p>
+
+      <p>É importante lembrar que esse contexto se deu em plena Guerra Fria, período marcado pelo temor do chamado "perigo comunista". Após o fim da Segunda Guerra Mundial, iniciou-se um conflito ideológico e geopolítico entre os Estados Unidos, defensores do capitalismo, e a União Soviética, representante do socialismo, em uma disputa pela supremacia econômica, política e militar no cenário global.</p>
+
+      <p>Nesse cenário, os Estados Unidos, com medo da expansão socialista, principalmente depois da Revolução Cubana, passaram a intervir ativamente nos países da América Latina para impedir o crescimento das ideias consideradas comunistas. As ditaduras militares na região foram mecanismos para frear esses movimentos e tanto no Brasil quanto em outros países latino-americanos foram apoiadas pelos Estados Unidos.</p>
+
+      <p>Em março de 1964, ocorreu a Marcha da Família com Deus pela Liberdade, um movimento organizado por setores da sociedade civil em oposição ao governo de João Goulart. Durante as manifestações, os participantes carregavam terços, bandeiras do Brasil e cartazes com frases como "Abaixo o Comunismo", "Vermelho bom, só o da nossa bandeira" e "O Brasil não será uma nova Cuba". O movimento fortaleceu as articulações entre generais e governadores oposicionistas, contribuindo para o avanço do Golpe, ocorrido poucos dias depois.</p>
+
+      <p>A Marcha da Família com Deus pela Liberdade é um dos exemplos mais marcantes de como uma ruptura democrática pode contar com amplo apoio de setores civis da sociedade. O movimento demonstra que o golpe de 1964 não foi um ato puramente militar, mas sim civil-militar, impulsionado pelo medo ideológico, pela defesa de valores tradicionais e pela incapacidade de diálogo político em um momento de profunda crise econômica e social.</p>
+
+      <p style="font-size:.82rem;color:#888;margin-top:20px;">Disponível em: https://abre.ai/pkcU. Acesso em: 26 mai. 2026.</p>
+    </div>
+
+    <!-- ATIVIDADES 23-25 -->
+    <div class="atividades-header">
+      <span class="icon">⚔️</span>
+      <div>
+        <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.12em">Ditadura Militar · Texto IV</div>
+        <h2>Atividades – Questões 23 a 25</h2>
+      </div>
+    </div>
+
+    <div class="questao" id="q23" data-tipo="discursiva" data-num="23">
+      <div class="questao-num">Questão 23 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">A partir do exposto, explique qual era o contexto político brasileiro que antecedeu a Ditadura Militar?</div>
+      <textarea class="campo-discursivo" id="resp-q23" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q23',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q24" data-tipo="objetiva" data-gabarito="D" data-num="24">
+      <div class="questao-num">Questão 24 <span class="badge">Objetiva</span></div>
+      <div class="questao-enunciado">A atuação da sociedade civil no processo do golpe civil-militar que resultou na deposição de João Goulart e no início da Ditadura Militar com a implantação do AI-1 e da eleição indireta de Humberto Castello Branco, deu-se por meio da:</div>
+      <div class="opcoes">
+        <div class="opcao" onclick="responderObjetiva('q24','A',this)"><span class="letra">A</span> Ipes.</div>
+        <div class="opcao" onclick="responderObjetiva('q24','B',this)"><span class="letra">B</span> Frente Ampla.</div>
+        <div class="opcao" onclick="responderObjetiva('q24','C',this)"><span class="letra">C</span> Rede da Democracia.</div>
+        <div class="opcao" onclick="responderObjetiva('q24','D',this)"><span class="letra">D</span> Marcha da Família com Deus pela Liberdade.</div>
+      </div>
+      <div class="feedback-quiz" id="fb-q24"></div>
+    </div>
+
+    <div class="questao" id="q25" data-tipo="objetiva" data-gabarito="C" data-num="25">
+      <div class="questao-num">Questão 25 <span class="badge">ENEM 2010 – Adaptado</span></div>
+      <div class="questao-enunciado">
+        <p><strong>Ato Institucional nº 5</strong></p>
+        <div class="citacao-box">Art. 10 - Fica suspensa a garantia de habeas corpus, nos casos de crimes políticos, contra a segurança nacional, a ordem econômica e social e a economia popular.<br><br>Art. 11 – Excluem-se de qualquer apreciação judicial todos os atos praticados de acordo com este Ato Institucional e seus Atos Complementares, bem como os respectivos efeitos.<br><span style="font-size:.8rem;font-style:normal">Disponível em: http://www.senado.gov.br. Acesso em: 29 jul. 2010.</span></div>
+        <p>Nos artigos do AI-5 selecionados, o governo militar procurou limitar a atuação do poder judiciário, porque isso significava</p>
+      </div>
+      <div class="opcoes">
+        <div class="opcao" onclick="responderObjetiva('q25','A',this)"><span class="letra">A</span> a substituição da Constituição de 1967.</div>
+        <div class="opcao" onclick="responderObjetiva('q25','B',this)"><span class="letra">B</span> o início do processo de distensão política.</div>
+        <div class="opcao" onclick="responderObjetiva('q25','C',this)"><span class="letra">C</span> a ampliação dos poderes nas mãos do executivo.</div>
+        <div class="opcao" onclick="responderObjetiva('q25','D',this)"><span class="letra">D</span> a revogação dos instrumentos jurídicos implantados durante o regime militar.</div>
+      </div>
+      <div class="feedback-quiz" id="fb-q25"></div>
+    </div>
+
+    <!-- ══════ TEXTO V ══════ -->
+    <div class="secao-texto">
+      <div class="secao-label">📖 Leia o texto · Texto V</div>
+      <div class="secao-titulo">"Aqueles que pensaram o 'Brasil grande'": a geopolítica nacional e o "Brasil potência"</div>
+
+      <p>A construção da rodovia Transamazônica foi anunciada durante o governo Médici, em 1970, como parte do Programa de Integração Nacional. Sua construção se justificava como uma preocupação social, por representar uma alternativa às mazelas provocadas pelas secas do Nordeste, e um imperativo de segurança nacional, ao possibilitar a integração da Amazônia à soberania nacional. Economicamente incorporaria a Amazônia à economia do país, ampliando sua possibilidade de crescimento. No entanto, associada à ideia de um "destino manifesto da nação", a obra tornou-se um símbolo do projeto do "Brasil grande" e da busca por legitimar o regime militar.</p>
+
+      <p>É importante entender o porquê a Rodovia Transamazônica foi construída e como essa obra está ligada à ideia do "Brasil grande" durante o chamado "milagre econômico" da ditadura militar. Essa noção de um país forte e grandioso não surgiu nesse período, mas já fazia parte da imaginação e dos planos de desenvolvimento dos militares e governantes desde o começo do século XX.</p>
+
+      <p>Durante o governo militar, a primeira vez que o Brasil foi oficialmente tratado como uma possível potência mundial foi no plano de governo do presidente Médici, chamado "Metas e Bases para a Ação do Governo". Esse tipo de plano serve para explicar o que o governo pretende fazer nas áreas política, econômica e social, e geralmente é apresentado logo no início de cada mandato. Os dois primeiros governos após o golpe de 1964 focaram bastante no crescimento econômico, mas foi no governo Médici que esse entusiasmo com o desenvolvimento atingiu seu auge.</p>
+
+      <p>O governo de Castelo Branco, primeiro presidente do período militar, começou com o compromisso de controlar a grave crise econômica que ele chamou de "orgia inflacionária", referindo-se à situação deixada pelo governo de João Goulart; seu governo assumiu para si "a tarefa gigantesca de reconstruir economicamente o país". Tocando em questões como: atenuar os desníveis econômicos regionais, assegurar oportunidades de emprego, corrigir o déficit da balança de pagamento e conter o processo inflacionário, o Programa de Ação Econômica do Governo (1964-1966) teve como propósito básico a estabilização econômica visando "acelerar o ritmo de desenvolvimento econômico do país, interrompido entre 1962 e 1963".</p>
+
+      <p>O governo de Costa e Silva começou apresentando suas propostas de trabalho reconhecendo que o presidente anterior teve avanços importantes na economia. Entre essas conquistas estavam a redução da inflação, a melhora das contas públicas e a recuperação da confiança do Brasil no cenário internacional. Dessa forma, tendo por meta básica a aceleração do desenvolvimento, entende que a economia nacional se encontra estabilizada de modo a sentir-se à vontade em propor realizar o "desenvolvimento econômico acelerado, expresso no aumento da produção nacional de bens e serviços por habitantes, que permitirá a efetivação do potencial brasileiro de recursos físicos e humanos". Nesse sentido, fala ainda "em escapar à armadilha do subdesenvolvimento".</p>
+
+      <p>O Governo Médici, comprometendo-se com o "jogo da verdade" — o que significa "evitar a linguagem da promessa" — e dizendo-se sensível à justificável impaciência dos brasileiros com os documentos de planejamento, divulga as Metas e Bases Para Ação do Governo como um documento de natureza eminentemente prática.</p>
+
+      <p>Atribui ainda aos dois primeiros governos militares o mérito de reconstruírem economicamente o país e criarem as bases para o seu desenvolvimento acelerado. Essa avaliação expressa a compreensão de um desenvolvimento econômico contínuo, após o golpe de 1964, marcado segundo Médici por dois momentos essenciais, que correspondem ao primeiro e ao segundo governo do regime: garantindo aquele "a salvação nacional" e esse a "retomada do progresso em bases estáveis", sendo que ao terceiro governo é legado consagrar a proeza do regime no plano do desenvolvimento econômico.</p>
+
+      <p>Nesse contexto, o plano de Metas para a Ação do Governo Médici demonstra um tom bastante otimista ao estabelecer como principal objetivo fazer com que o Brasil entrasse para o grupo de países desenvolvidos até o final do século. A proposta era construir uma sociedade verdadeiramente desenvolvida e soberana, garantindo, assim, a viabilidade econômica, social e política do Brasil como uma grande potência.</p>
+
+      <p>Dessa forma, o entusiasmo do seu objetivo central ecoa o desempenho econômico do governo Médici no seu primeiro ano de governo. Com a economia revigorada, em 1969 o crescimento do Produto Interno Bruto é de 9,5%, o crescimento das exportações aumentou 23% em relação ao ano anterior, houve ainda expansão do setor industrial e a taxa de poupança bruta foi de 21,3%, índice jamais atingido e nunca igualado. Dessa forma, embalado por essa euforia, durante o Governo Médici o Brasil viveria sob o signo do "Brasil potência" e dos desdobramentos políticos daí decorrentes.</p>
+
+      <p>Eram os tempos do "milagre brasileiro". Conhecido como a face autoritária do regime, o presidente dos "anos de chumbo" era também o presidente do milagre, de um país que apresentou um índice de crescimento anual de 10,4% em 1970, uma marca considerável que terminado o século XX não foi igualada. Sob seu governo, "o Brasil tornara-se a décima economia do mundo, oitava do ocidente, primeira do hemisfério sul". Falava-se de um "Brasil grande". Segundo Élio Gaspari, vivia-se "diante de um governo que oferecia ditadura e progresso". Diz ainda que "o governo festejava o progresso associando-o ao imaginário do impávido colosso, gigante pela própria natureza". Somado a isso, no país do futebol, o Brasil tornara-se em 1970 o primeiro tricampeão do mundo. De tal forma que a euforia econômica do milagre associada à conquista do tri deu um contorno especial ao ano de 1970. Do México, a seleção viajou direto para Brasília para receber os cumprimentos do presidente Médici. Fora decretado feriado nacional para dar maior visibilidade à comemoração, que se convertera em festa oficial, uma vez que o triunfo futebolístico, associado à imagem de "Brasil potência", "Brasil grande", era bem adequado aos pressupostos do regime, que por sua vez procurou se manter sempre presente e identificável à campanha do tri.</p>
+
+      <p>O "milagre brasileiro" se constituiu como uma estratégia política. Os sujeitos produtores dos discursos transformaram o êxito econômico em importante artefato político. Roberto Campos, ministro de Estado e Planejamento do governo Castelo Branco, em uma entrevista cedida em 1997, chamou esse processo de "legitimidade pelo desempenho". Para Campos, existia um "déficit de legitimidade" durante a ditadura que os militares procuravam compensar com demonstração de eficiência. Para ele, "os militares não tinham legitimação eleitoral, não tinham legitimação carismática — nenhum deles foi um líder carismático —, mas tinham legitimidade operacional. Pelo desempenho".</p>
+
+      <p>Assim, as construções discursivas sobre o "Brasil grande", associado ao crescimento econômico, se prestaram a atestar a eficiência do regime, tornando-se uma moeda de uso corrente a custear a legitimidade e autoridade dos militares no poder, que buscavam assim garantir aceitação da população.</p>
+
+      <p style="font-size:.82rem;color:#888;margin-top:20px;">Texto extraído da Dissertação de mestrado de Fernando Dominience Menezes. ADAPTADO. Disponível em: https://repositorio.unb.br/bitstream/10482/2510/1/2007_FernandoDominienceMenezes.PDF. Acesso em: 23 jul. 2025.</p>
+    </div>
+
+    <!-- ATIVIDADES 26-28 -->
+    <div class="atividades-header">
+      <span class="icon">🛣️</span>
+      <div>
+        <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.12em">"Brasil grande" e milagre econômico · Texto V</div>
+        <h2>Atividades – Questões 26 a 28</h2>
+      </div>
+    </div>
+
+    <div class="questao" id="q26" data-tipo="discursiva" data-num="26">
+      <div class="questao-num">Questão 26 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">De acordo com o texto V, como a construção da Rodovia Transamazônica se relaciona com a ideia de "Brasil Grande"?</div>
+      <textarea class="campo-discursivo" id="resp-q26" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q26',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q27" data-tipo="discursiva" data-num="27">
+      <div class="questao-num">Questão 27 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Explique de que maneira os governos militares utilizaram os planos econômicos e o discurso do desenvolvimento para legitimar o regime após o golpe de 1964?</div>
+      <textarea class="campo-discursivo" id="resp-q27" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q27',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q28" data-tipo="discursiva" data-num="28">
+      <div class="questao-num">Questão 28 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">O texto menciona que os militares não tinham "legitimação eleitoral nem carismática". Que tipo de legitimidade eles buscavam construir e como essa tentativa se refletiu nas ações governamentais?</div>
+      <textarea class="campo-discursivo" id="resp-q28" style="min-height:160px" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q28',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="secao-texto" style="border-left-color:var(--laranja)">
+      <div class="secao-label" style="color:var(--laranja)">💡 Para saber mais!</div>
+      <div class="secao-titulo">A propaganda durante a Ditadura Militar</div>
+      <p>Durante a Ditadura Militar no Brasil, a propaganda foi bastante utilizada para exaltar o governo e construir uma imagem positiva do país. O patriotismo exagerado era promovido por meio de campanhas oficiais, para propagar a ideia de progresso, ordem e grandeza nacional, mesmo diante de graves problemas econômicos, sociais e políticos.</p>
+      <p>A propaganda governamental procurava exaltar obras grandiosas, como a Transamazônica, a Ponte Rio-Niterói e a hidrelétrica de Itaipu, além de destacar o crescimento econômico do chamado "milagre econômico". Com a vitória do Brasil na Copa do Mundo de 1970, o então presidente Emílio Garrastazu Médici utilizou o título como ferramenta de propaganda política, reforçando o sentimento nacionalista.</p>
+      <p>Slogans como "Brasil: ame-o ou deixe-o", "Ninguém mais segura este país" e a música "Pra frente Brasil" foram amplamente divulgadas para evocar o patriotismo e incentivar a população a apoiar o regime, deslegitimando qualquer tipo de oposição. O rádio e a televisão foram utilizados para divulgar essas mensagens, promovendo uma visão positiva do governo e escondendo a repressão e censura.</p>
+      <p style="font-size:.82rem;color:#888">Disponível em: https://abre.ai/mYdZ. Acesso em: 17 jun. 2025.</p>
+    </div>
+
+    <!-- ══════ TEXTO VI ══════ -->
+    <div class="secao-texto">
+      <div class="secao-label">📖 Leia o texto · Texto VI</div>
+      <div class="secao-titulo">O que foi a Diretas Já?</div>
+
+      <p>No turbilhão político da década 1980, o Brasil testemunhou um movimento que ecoou em todos os cantos do país: as Diretas Já. Esse movimento histórico foi uma resposta enérgica a décadas de regime militar, repressão política e falta de participação democrática. Este movimento não apenas marcou uma luta pela democracia, mas também teve um impacto profundo nas eleições subsequentes e na transição para um regime democrático.</p>
+
+      <h3>Contexto histórico</h3>
+      <p>As Diretas Já foram um importante movimento político que marcou a transição do regime militar para a redemocratização do Brasil nos anos finais da ditadura, entre 1964 e a década de 1980.</p>
+      <p>Ao longo dos anos de regime militar, o país viveu sob um governo autoritário, marcado por censura, repressão política e restrições às liberdades civis. No entanto, a partir da década de 1970, cresceu a insatisfação popular com o regime, impulsionada por diversos fatores, como a crise econômica, a repressão aos movimentos sociais e a luta por direitos civis.</p>
+      <p>Nesse contexto, as Diretas Já surgiram como uma demanda popular por eleições diretas para presidente, em contraposição ao sistema de eleição indireta pelo Congresso Nacional, estabelecido pela ditadura. O movimento ganhou força a partir de 1983, com comícios e manifestações em diversas cidades do Brasil, reunindo uma ampla coalizão de forças políticas, sociais e culturais.</p>
+      <p>Entre os principais eventos das Diretas Já destacam-se os comícios e manifestações que reuniram centenas de milhares de pessoas em diversas cidades do país. O ápice desse movimento foi o histórico comício realizado em 25 de janeiro de 1984, na Praça da Sé, em São Paulo. Esse evento contou com a participação de mais de um milhão de pessoas, tornando-se um marco da luta pela democracia.</p>
+      <p>O movimento Diretas Já não apenas marcou o processo de redemocratização brasileira, como também impulsionou a ascensão de novas lideranças políticas, que definiram os rumos da política brasileira nas décadas seguintes. Entre os principais nomes estão Ulysses Guimarães, Fernando Henrique Cardoso, Lula e Leonel Brizola. É importante lembrar também a importância que os movimentos sociais tiveram nesse processo. Sindicatos, associações de bairro, estudantes, artistas, religiosos e partidos políticos se uniram em grandes manifestações públicas. Essa ampla participação popular mostrou o desejo coletivo por liberdade e democracia.</p>
+
+      <h3>Legado das Diretas Já para a política brasileira</h3>
+      <p>O legado das Diretas Já é evidente na consolidação da democracia no Brasil. Ao mobilizar milhões de pessoas em defesa do voto direto para presidente, o movimento foi essencial para impulsionar o processo de redemocratização. Embora as eleições diretas não tenham ocorrido em 1984, as Diretas Já prepararam o terreno para a Constituição de 1988, que instituiu as bases do atual sistema político democrático.</p>
+      <p>Além disso, o movimento teve um forte impacto na consciência política da população, despertando o senso de participação cidadã e engajamento social. Ele demonstrou que a mobilização popular pode influenciar de forma concreta os rumos políticos do país, fortalecendo a democracia ao ampliar o protagonismo dos cidadãos na vida pública.</p>
+
+      <p style="font-size:.82rem;color:#888;margin-top:20px;">Texto de Juliana Luz Cerqueira — Adaptado. Disponível em: https://abre.ai/mYJW. Acesso em: 18 jun. 2025.</p>
+    </div>
+
+    <!-- ATIVIDADES 29-32 -->
+    <div class="atividades-header">
+      <span class="icon">✊</span>
+      <div>
+        <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.12em">Diretas Já e redemocratização · Texto VI</div>
+        <h2>Atividades – Questões 29 a 32</h2>
+      </div>
+    </div>
+
+    <div class="questao" id="q29" data-tipo="discursiva" data-num="29">
+      <div class="questao-num">Questão 29 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Qual o contexto político e social que deu origem ao movimento Diretas Já no Brasil?</div>
+      <textarea class="campo-discursivo" id="resp-q29" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q29',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q30" data-tipo="discursiva" data-num="30">
+      <div class="questao-num">Questão 30 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">De que forma os movimentos sociais e a participação popular contribuíram para a força do movimento?</div>
+      <textarea class="campo-discursivo" id="resp-q30" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q30',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q31" data-tipo="discursiva" data-num="31">
+      <div class="questao-num">Questão 31 <span class="badge">Dissertativa</span></div>
+      <div class="questao-enunciado">Apesar das eleições diretas não serem conquistadas logo em 1984, quais foram os principais legados do movimento Diretas Já para a democracia brasileira?</div>
+      <textarea class="campo-discursivo" id="resp-q31" style="min-height:160px" placeholder="Escreva sua resposta aqui…" oninput="marcarDiscursiva('q31',this)"></textarea>
+      <div class="aviso-paste">Copiar e colar não é permitido neste campo.</div>
+    </div>
+
+    <div class="questao" id="q32" data-tipo="objetiva" data-gabarito="B" data-num="32">
+      <div class="questao-num">Questão 32 <span class="badge">ENEM 2010 – Adaptado</span></div>
+      <div class="questao-enunciado">
+        <img src="rev-img/32.webp" alt="Charge sobre o movimento Diretas Já" class="questao-img" style="max-width:380px">
+        <p style="font-size:.82rem;font-style:italic">Disponível em: https://abre.ai/mYKV. Acesso em: 18 jun. 2024.</p>
+        <p>A charge remete ao contexto do movimento que ficou conhecido como Diretas Já, ocorrido entre os anos de 1983 e 1984. O elemento histórico evidenciado na imagem é</p>
+      </div>
+      <div class="opcoes">
+        <div class="opcao" onclick="responderObjetiva('q32','A',this)"><span class="letra">A</span> a insistência dos grupos políticos de esquerda em realizar atos políticos ilegais e com poucas chances de serem vitoriosos.</div>
+        <div class="opcao" onclick="responderObjetiva('q32','B',this)"><span class="letra">B</span> a mobilização em torno da luta pela democracia frente ao regime militar, cada vez mais desacreditado.</div>
+        <div class="opcao" onclick="responderObjetiva('q32','C',this)"><span class="letra">C</span> o diálogo dos movimentos sociais e dos partidos políticos, então existentes, com os setores do governo interessados em negociar a abertura.</div>
+        <div class="opcao" onclick="responderObjetiva('q32','D',this)"><span class="letra">D</span> a capacidade do regime militar em impedir que as manifestações políticas acontecessem.</div>
+      </div>
+      <div class="feedback-quiz" id="fb-q32"></div>
+    </div>
+
+    <div class="secao-texto" style="border-left-color:var(--laranja)">
+      <div class="secao-label" style="color:var(--laranja)">🎬 Sugestões de filmes</div>
+      <div class="secao-titulo">Para contextualizar a Ditadura Militar e a resistência</div>
+      <div class="filmes-grid">
+        <div class="filme-card">
+          <div class="filme-icone">🎥</div>
+          <div class="filme-titulo">O Ano em que Meus Pais Saíram de Férias</div>
+          <p style="font-size:.82rem;margin-top:8px">Não recomendado para menores de 10 anos. 1970. Mauro é um garoto mineiro de 12 anos que adora futebol e jogo de botão. Um dia, sua vida muda completamente, já que seus pais saem de férias de forma inesperada e sem motivo aparente para ele. Na verdade, os pais de Mauro foram obrigados a fugir da perseguição política.</p>
+        </div>
+        <div class="filme-card">
+          <div class="filme-icone">🎥</div>
+          <div class="filme-titulo">Ainda Estou Aqui</div>
+          <p style="font-size:.82rem;margin-top:8px">Não recomendado para menores de 14 anos. Ambientada em 1970, a história retrata como a vida de uma mulher casada com um importante político muda drasticamente após o desaparecimento dele, capturado pelo regime militar. Forçada a abandonar a rotina de dona de casa, Eunice se transforma em uma ativista dos direitos humanos.</p>
+        </div>
+        <div class="filme-card">
+          <div class="filme-icone">🎥</div>
+          <div class="filme-titulo">O Que É Isso, Companheiro?</div>
+          <p style="font-size:.82rem;margin-top:8px">Não recomendado para menores de 16 anos. O jornalista Fernando e seu amigo César abraçam a luta armada contra a ditadura militar no final da década de 60. Em uma das ações do grupo militante, César é ferido e capturado pelos militares. Fernando então planeja o sequestro do embaixador dos Estados Unidos no Brasil.</p>
+        </div>
+      </div>
+    </div>
+
+
+<!-- ALERTA -->
+    <div id="alerta-incompleto">
+      ⚠️ Você ainda não respondeu todas as questões. Faltam <strong id="qtd-faltando"></strong> questão(ões). Lembre-se: as dissertativas só são validadas quando atingem o mínimo de caracteres indicado abaixo de cada campo.
+    </div>
+
+    <!-- BOTÕES FINAIS -->
+    <div class="acoes-finais">
+      <button class="btn-imprimir" onclick="tentarSalvarPDF()">📄 Salvar Atividade em PDF</button>
+      <button class="btn-feedback" onclick="abrirFeedback()">📊 Ver Feedback e Correção</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL FEEDBACK -->
+<div id="modal-feedback">
+  <div class="modal-box">
+    <h3>📊 Feedback Completo e Correção</h3>
+    <div class="modal-resultado" id="resultado-resumo"></div>
+    <div id="feedback-detalhado"></div>
+    <button class="btn-fechar-modal" onclick="fecharFeedback()">✕ Fechar</button>
+  </div>
+</div>
+
+<script>
+// ═══════ CONFIG ═══════
+const TOTAL = 32;
+const GABARITOS_CORRETOS = {
+  q12:'A', q13:'C', q15:'D', q19:'B', q20:'A', q24:'D', q25:'C', q32:'B'
+};
+
+const CORRECCOES = {
+  q1: "Resposta esperada: o culto ao líder transformava o governante em figura quase sagrada, com sua imagem exposta em escolas, praças e prédios públicos, criando identificação emocional e desestimulando o pensamento crítico. Já o terror agia pelo lado oposto: perseguição, prisão e eliminação de opositores, além da vigilância constante, geravam medo e silenciavam qualquer oposição. Combinados, adesão emocional e medo tornavam o regime difícil de contestar.",
+  q2: "Resposta esperada: a destruição causada pela Primeira Guerra Mundial, a crise econômica do entreguerras (agravada pela quebra da Bolsa em 1929), o desemprego, o temor do comunismo e a descrença nas instituições democráticas. Nesse cenário, os movimentos totalitários apareciam como solução rápida para os problemas sociais, conquistando gradativamente o apoio popular.",
+  q3: "Resposta esperada: para Hannah Arendt, o totalitarismo une medo e terror. O Estado total transforma a coletividade em um único corpo, anulando a individualidade, de modo a produzir uma sociedade que pensa da mesma maneira e apoia o líder. Arendt aponta ainda um segundo grupo: pessoas que não acreditavam no que faziam e agiam apenas por vantagem pessoal. Para a filósofa, o objetivo das ideologias totalitárias não era transformar o mundo exterior, mas a própria natureza humana.",
+  q4: "Resposta esperada: o Tratado de Versalhes (1919) responsabilizou a Alemanha pela Primeira Guerra, impôs perda de territórios e pesadas indenizações, levando o país a uma grave crise econômica e política. A população passou a se sentir injustiçada, alimentando um sentimento de vingança (revanchismo). O Partido Nazista explorou justamente esse sentimento, prometendo restaurar a grandeza alemã e desrespeitando abertamente o tratado, inclusive com a remilitarização.",
+  q5: "Resposta esperada: a quebra da Bolsa de Nova Iorque agravou a recessão na Alemanha, provocando escassez de alimentos, desemprego e inflação de quatro dígitos. A sensação de impotência fez a população buscar soluções imediatas. O discurso nazista, populista e demagógico, apontava um culpado (a comunidade judaica) e prometia recuperação econômica; divulgado pelo rádio e pelos jornais, foi aceito por ampla parcela da sociedade. Medidas de intervencionismo econômico que reduziram o desemprego reforçaram essa adesão.",
+  q6: "Resposta esperada: a Teoria do Espaço Vital nasceu do sentimento de revolta pela perda de territórios após a Primeira Guerra e pregava que a raça ariana deveria ter um único território, expandido ao máximo — 'um guia, um império, um povo'. Ela justificou a anexação da Áustria e de parte da Tchecoslováquia em 1938 e, em 1939, a invasão da Polônia para retomar Danzig, com a estratégia da blitzkrieg, que deu início à Segunda Guerra Mundial.",
+  q7: "Resposta esperada: em junho de 1941 Hitler rompeu o Pacto Germânico-Soviético e invadiu a URSS. As tropas alemãs foram derrotadas nas proximidades de Stalingrado, com o rigoroso inverno russo funcionando como arma soviética. O erro estratégico está em ter jogado a URSS para o lado dos Aliados, obrigando a Alemanha a lutar em duas frentes ao mesmo tempo: a oeste, contra os ingleses, e a leste, contra o Exército Vermelho.",
+  q8: "Resposta esperada: o Eixo (Alemanha, Itália e Japão) tinha objetivos expansionistas e nacionalistas, baseados em ideologias totalitárias, na conquista de territórios e na exploração de recursos, com um pacto de apoio mútuo contra países ainda não envolvidos. Os Aliados, liderados inicialmente por Reino Unido e França e depois reforçados por URSS, Estados Unidos e China (os 'Quatro Grandes'), uniram-se para conter o avanço do Eixo e defender seus territórios e interesses, ainda que tivessem entre si diferenças ideológicas profundas — como entre EUA capitalista e URSS socialista.",
+  q9: "Resposta esperada: além da indenização imposta pelo Tratado de Potsdam, a Alemanha foi dividida em quatro zonas de ocupação (estadunidense, soviética, britânica e francesa). As divergências entre os ocupantes ocidentais e a URSS levaram à separação em duas zonas: Ocidental (capitalista) e Oriental (socialista). Em 13 de agosto de 1961, a construção do Muro de Berlim tornou física uma divisão que era ideológica, separando famílias e cidades por 28 anos, até 1989. Politicamente, a Alemanha tornou-se o centro simbólico da Guerra Fria.",
+  q10: "Resposta esperada: na Europa, a ocupação de Berlim pelos soviéticos em 2 de maio de 1945, precedida do suicídio de Hitler em 30 de abril, levou à rendição alemã em 5 de maio. No Pacífico, os ataques atômicos a Hiroshima (6 de agosto) e Nagazaki (9 de agosto), somados à ofensiva soviética que expulsou os japoneses da Manchúria, levaram à rendição do Japão em 2 de setembro de 1945. Cada evento retirou de cena uma das principais potências do Eixo, encerrando o conflito primeiro na Europa e depois na Ásia.",
+  q11: "Resposta esperada: a guerra consolidou Estados Unidos e União Soviética como superpotências e enfraqueceu as antigas potências europeias, dando origem à bipolarização da Guerra Fria. Surgiram novas instituições internacionais, como a ONU, voltadas à manutenção da paz. O Tribunal de Nuremberg julgou crimes contra a humanidade e influenciou a redação da Declaração Universal dos Direitos Humanos, em 1948, servindo ainda de primeiro passo para a criação do Tribunal Penal Internacional, em 1998.",
+  q12: "Gabarito: A — A charge tem caráter crítico. Ao exagerar a exaltação da figura do líder, ela denuncia como o culto à personalidade, característico dos regimes totalitários, manipula a sociedade e anula o pensamento crítico da população. As demais alternativas partem de uma leitura neutra ou favorável ao totalitarismo, o que contraria o tom crítico da charge.",
+  q13: "Gabarito: C — As ideologias totalitárias, especialmente o nazismo, sustentavam a crença na superioridade racial e no direito de expandir territórios (Teoria do Espaço Vital). Isso se traduziu em campanhas militares agressivas e expansionistas, como as invasões da Áustria, da Tchecoslováquia, da Polônia e da URSS, além da perseguição e extermínio de povos considerados inferiores.",
+  q14: "Resposta esperada: entre os avanços estão o retorno do pluripartidarismo, a Constituição de 1946 com garantia das liberdades civis e do voto secreto, o expressivo crescimento econômico e industrial, a urbanização acelerada, a criação da Petrobras e da Eletrobras e a construção de Brasília. Entre os desafios estão o agravamento das desigualdades sociais, a inflação alta, a dívida externa crescente, a forte polarização política no contexto da Guerra Fria e a instabilidade institucional, que culminou no golpe civil-militar de 1964.",
+  q15: "Gabarito: D — Entre 1961 e 1963 o Brasil adotou o parlamentarismo, imposto como condição para a posse de João Goulart, com o poder concentrado em um Primeiro-Ministro. O sistema foi revogado por plebiscito em 1963, com o retorno do presidencialismo.",
+  q16: "Resposta esperada: a Guerra Fria dividiu o mundo entre capitalismo e socialismo, e essa disputa se refletiu na política interna brasileira. Dutra rompeu com a URSS e colocou o PCB na ilegalidade; o temor do 'perigo comunista' cresceu após a Revolução Cubana; os Estados Unidos passaram a intervir na América Latina para conter o avanço da esquerda. Nesse clima, propostas como as Reformas de Base de Jango foram associadas ao comunismo por setores conservadores, empresários e parte das Forças Armadas, aprofundando a polarização que resultou no golpe de 1964.",
+  q17: "Resposta esperada: o nacionalismo econômico defendia que as riquezas naturais do Brasil deveriam ser controladas pelo próprio país, e não por empresas estrangeiras, garantindo soberania sobre os recursos e fortalecendo a industrialização nacional. O principal exemplo é a Petrobras, criada em 1953 no contexto da campanha 'O Petróleo é Nosso' — o texto cita também a Eletrobras.",
+  q18: "Resposta esperada: a atitude que gerou forte indignação foi a condecoração do revolucionário cubano Che Guevara com a Ordem do Cruzeiro do Sul, a maior honraria brasileira, o que enfureceu a classe média, a imprensa e os militares. A pretensão política de Jânio era adotar uma política externa independente, aproximando o Brasil do bloco socialista em plena Guerra Fria para abrir novos mercados ao país.",
+  q19: "Gabarito: B — A charge contrapõe as conquistas do desenvolvimentismo (automóvel, asfalto e gasolina nacionais) à necessidade básica não atendida do Jeca: o prato de feijão. Ela ironiza, portanto, o fato de que o crescimento econômico do período JK ampliou as contradições sociais e espaciais, beneficiando setores e regiões específicos enquanto grande parte da população continuava sem o essencial.",
+  q20: "Gabarito: A — A frase de Jânio Quadros denuncia a herança econômica do governo Juscelino Kubitschek: o Plano de Metas e a construção de Brasília foram financiados com forte endividamento, gerando alta inflação e déficit orçamentário no período final do governo JK, dívida que caberia aos governos seguintes 'saldar amargamente'.",
+  q21: "Resposta esperada: as grandes obras do Plano de Metas e a construção de Brasília foram financiadas por vultosos empréstimos, o que gerou inflação alta e uma pesada dívida externa. Essas consequências econômicas recaíram sobre os governos seguintes — Jânio Quadros e João Goulart — que precisaram adotar medidas impopulares em um cenário já marcado por instabilidade política.",
+  q22: "Resposta esperada: as Reformas de Base propunham mudanças estruturais — reforma agrária, educacional, fiscal, urbana, bancária, eleitoral e universitária — que atingiam diretamente os interesses de grandes proprietários de terra, empresários e setores das elites econômicas. Somado às ligações de Jango com sindicatos e ao trabalhismo, e ao clima de temor do comunismo próprio da Guerra Fria, isso levou setores conservadores e parte das Forças Armadas a enxergarem o governo como uma ameaça. O comício da Central do Brasil, em março de 1964, intensificou essas tensões, e poucas semanas depois ocorreu o golpe civil-militar.",
+  q23: "Resposta esperada: entre 1945 e 1964 o Brasil viveu grande instabilidade política e crises econômicas, com destaque para a inflação crescente. No contexto da Guerra Fria, o medo do comunismo — reforçado após a Revolução Cubana e pela intervenção dos Estados Unidos na América Latina — produziu forte polarização. Setores civis se mobilizaram contra o governo de João Goulart, como na Marcha da Família com Deus pela Liberdade, em março de 1964, fortalecendo a articulação entre generais e governadores oposicionistas. Esse cenário tornou-se propício à intervenção militar.",
+  q24: "Gabarito: D — A Marcha da Família com Deus pela Liberdade, realizada em março de 1964, foi o principal exemplo da participação civil no processo golpista. Com terços, bandeiras e cartazes anticomunistas, ela fortaleceu as articulações entre generais e governadores oposicionistas e evidencia que o golpe foi civil-militar, e não puramente militar.",
+  q25: "Gabarito: C — Ao suspender o habeas corpus em crimes políticos e excluir de apreciação judicial os atos praticados com base no AI-5, o regime retirou do Judiciário a capacidade de controlar os atos do governo. Na prática, isso significou a ampliação dos poderes concentrados nas mãos do Executivo, aprofundando o autoritarismo dos chamados 'anos de chumbo'.",
+  q26: "Resposta esperada: anunciada em 1970, no governo Médici, como parte do Programa de Integração Nacional, a Transamazônica foi justificada como alternativa às secas do Nordeste, como imperativo de segurança nacional (integrar a Amazônia à soberania do país) e como incorporação econômica da região. Associada à ideia de 'destino manifesto da nação', tornou-se símbolo do projeto de 'Brasil grande' e instrumento de legitimação do regime militar: uma obra monumental que materializava a imagem de um país em marcha para se tornar potência.",
+  q27: "Resposta esperada: cada governo militar apresentou planos econômicos que reforçavam a narrativa do desenvolvimento. Castelo Branco propôs conter a 'orgia inflacionária' e reconstruir economicamente o país com o PAEG (1964-1966); Costa e Silva prometeu acelerar o desenvolvimento e 'escapar à armadilha do subdesenvolvimento'; Médici, com as Metas e Bases para a Ação do Governo, prometeu inserir o Brasil entre os países desenvolvidos até o fim do século. Os índices do 'milagre econômico' — crescimento de 9,5% em 1969 e 10,4% em 1970 — e a conquista do tricampeonato mundial de futebol foram convertidos em propaganda política, sustentando a imagem de 'Brasil potência'.",
+  q28: "Resposta esperada: como não tinham legitimação eleitoral (não foram eleitos pelo voto direto) nem carismática, os militares buscavam construir uma legitimidade operacional, ou seja, 'legitimidade pelo desempenho', nas palavras de Roberto Campos. Isso se refletiu na ênfase em planos econômicos, em obras monumentais como a Transamazônica, a Ponte Rio-Niterói e Itaipu, na divulgação dos índices do 'milagre econômico' e no uso de campanhas de propaganda e do futebol para associar o regime ao progresso, ao mesmo tempo em que a repressão e a censura eram ocultadas.",
+  q29: "Resposta esperada: após décadas de regime militar marcadas por censura, repressão política e restrições às liberdades civis, cresceu, a partir da década de 1970, a insatisfação popular, impulsionada pela crise econômica, pela repressão aos movimentos sociais e pela luta por direitos civis. Nesse contexto surgiu, a partir de 1983, a demanda por eleições diretas para presidente, em oposição ao sistema de eleição indireta pelo Congresso Nacional estabelecido pela ditadura.",
+  q30: "Resposta esperada: sindicatos, associações de bairro, estudantes, artistas, religiosos e partidos políticos se uniram em grandes manifestações públicas, formando uma ampla coalizão de forças políticas, sociais e culturais. Os comícios reuniram centenas de milhares de pessoas — o ápice foi o ato de 25 de janeiro de 1984, na Praça da Sé, em São Paulo, com mais de um milhão de participantes. Essa ampla participação popular deu visibilidade e legitimidade ao movimento, mostrando o desejo coletivo por liberdade e democracia.",
+  q31: "Resposta esperada: mesmo sem conquistar as eleições diretas em 1984, o movimento foi essencial para impulsionar a redemocratização e preparou o terreno para a Constituição de 1988, que instituiu as bases do atual sistema político democrático. Também impulsionou a ascensão de novas lideranças políticas (Ulysses Guimarães, Fernando Henrique Cardoso, Lula e Leonel Brizola) e teve forte impacto na consciência política da população, despertando o senso de participação cidadã e demonstrando que a mobilização popular pode influenciar concretamente os rumos do país.",
+  q32: "Gabarito: B — A charge retrata a ampla mobilização popular em defesa do voto direto para presidente, no momento em que o regime militar já se encontrava desacreditado e enfraquecido. As demais alternativas contrariam o contexto histórico: o movimento foi legal, plural e massivo, e o regime não conseguiu impedir as manifestações."
+};
+
+let nomeAluno = '';
+const respostas = {};
+
+// ═══════ INICIAR ═══════
+function iniciar() {
+  nomeAluno = document.getElementById('nome-aluno').value.trim();
+  const erroEl = document.getElementById('erro-nome');
+  if (!nomeAluno) {
+    erroEl.style.display = 'block';
+    document.getElementById('nome-aluno').focus();
+    return;
+  }
+  erroEl.style.display = 'none';
+  document.getElementById('capa').style.display = 'none';
+  document.getElementById('conteudo').style.display = 'block';
+  document.getElementById('header-nome').textContent = nomeAluno;
+  document.getElementById('print-nome').textContent = nomeAluno;
+  atualizarProgresso();
+  window.scrollTo(0,0);
+}
+
+// ═══════ OBJETIVAS ═══════
+function responderObjetiva(qId, letra, elem) {
+  const questao = document.getElementById(qId);
+  if (questao.dataset.respondida === '1') return;
+  questao.dataset.respondida = '1';
+  const gabarito = GABARITOS_CORRETOS[qId];
+  questao.querySelectorAll('.opcao').forEach(o => o.classList.add('bloqueada'));
+  const fb = document.getElementById('fb-' + qId);
+  if (letra === gabarito) {
+    elem.classList.add('correta');
+    fb.textContent = '✅ Correto! Boa resposta.';
+    fb.className = 'feedback-quiz acerto';
+    questao.classList.add('respondida');
+    respostas[qId] = {tipo:'objetiva', escolha:letra, gabarito, acertou:true};
+  } else {
+    elem.classList.add('errada-sel');
+    questao.querySelectorAll('.opcao').forEach(o => {
+      if (o.querySelector('.letra').textContent.trim() === gabarito) o.classList.add('correta');
+    });
+    fb.textContent = '❌ Incorreto. A resposta correta é a alternativa ' + gabarito + '.';
+    fb.className = 'feedback-quiz erro';
+    questao.classList.add('errada');
+    respostas[qId] = {tipo:'objetiva', escolha:letra, gabarito, acertou:false};
+  }
+  atualizarProgresso();
+}
+
+// ═══════ DISCURSIVAS ═══════
+const MIN_PADRAO = 180;   // mínimo de caracteres para validar uma dissertativa
+const MIN_LONGAS = 250;   // questões que exigem resposta mais desenvolvida
+const QUESTOES_LONGAS = ['q10','q22','q28','q31'];
+
+function minimoDe(qId) {
+  const q = document.getElementById(qId);
+  if (q && q.dataset.min) return parseInt(q.dataset.min, 10);
+  return QUESTOES_LONGAS.indexOf(qId) >= 0 ? MIN_LONGAS : MIN_PADRAO;
+}
+
+function marcarDiscursiva(qId, campo) {
+  const questao = document.getElementById(qId);
+  const val = campo.value.trim();
+  const minimo = minimoDe(qId);
+  const cont = document.getElementById('cont-' + qId);
+
+  if (cont) {
+    const falta = minimo - val.length;
+    cont.querySelector('.qtd').textContent = val.length + ' / ' + minimo + ' caracteres';
+    cont.querySelector('.meta').textContent = falta > 0
+      ? 'faltam ' + falta + ' para validar'
+      : '✔ resposta validada';
+    cont.classList.toggle('ok', falta <= 0);
+  }
+
+  if (val.length >= minimo) {
+    questao.dataset.respondida = '1';
+    campo.classList.add('preenchida');
+    questao.classList.add('respondida');
+    respostas[qId] = {tipo:'discursiva', texto:val};
+  } else {
+    delete questao.dataset.respondida;
+    campo.classList.remove('preenchida');
+    questao.classList.remove('respondida');
+    delete respostas[qId];
+  }
+  atualizarProgresso();
+}
+
+// ═══════ PROGRESSO ═══════
+function atualizarProgresso() {
+  const count = document.querySelectorAll('.questao[data-respondida="1"]').length;
+  document.getElementById('progresso-count').textContent = count;
+  document.getElementById('barra-prog').style.width = (count/TOTAL*100) + '%';
+}
+
+function totalRespondidas() {
+  return document.querySelectorAll('.questao[data-respondida="1"]').length;
+}
+
+// ═══════ IMPRIMIR ═══════
+function tentarSalvarPDF() {
+  const faltando = TOTAL - totalRespondidas();
+  const al = document.getElementById('alerta-incompleto');
+  if (faltando > 0) {
+    document.getElementById('qtd-faltando').textContent = faltando;
+    al.style.display = 'block';
+    al.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  al.style.display = 'none';
+  window.print();
+}
+
+// ═══════ FEEDBACK ═══════
+function abrirFeedback() {
+  const todasQuestoes = document.querySelectorAll('.questao');
+  const objetivas = Object.values(respostas).filter(r => r.tipo==='objetiva');
+  const acertos = objetivas.filter(r => r.acertou).length;
+  const erros = objetivas.filter(r => !r.acertou).length;
+  const discResp = Object.values(respostas).filter(r => r.tipo==='discursiva').length;
+  const naoResp = TOTAL - totalRespondidas();
+
+  document.getElementById('resultado-resumo').innerHTML = `
+    <div class="resultado-linha"><span>Aluno(a)</span><span class="resultado-val">${nomeAluno}</span></div>
+    <div class="resultado-linha"><span>Total de questões</span><span class="resultado-val">${TOTAL}</span></div>
+    <div class="resultado-linha"><span>Questões respondidas</span><span class="resultado-val">${totalRespondidas()}</span></div>
+    <div class="resultado-linha"><span>Objetivas corretas</span><span class="resultado-val verde">${acertos} / ${Object.keys(GABARITOS_CORRETOS).length}</span></div>
+    <div class="resultado-linha"><span>Objetivas incorretas</span><span class="resultado-val vermelho">${erros}</span></div>
+    <div class="resultado-linha"><span>Dissertativas respondidas</span><span class="resultado-val">${discResp}</span></div>
+    ${naoResp > 0 ? '<div class="resultado-linha"><span>Não respondidas</span><span class="resultado-val vermelho">'+naoResp+'</span></div>' : ''}
+  `;
+
+  let html = '';
+  todasQuestoes.forEach(q => {
+    const qId = q.id;
+    const num = q.dataset.num;
+    const tipo = q.dataset.tipo;
+    const r = respostas[qId];
+    const correcao = CORRECCOES[qId] || '';
+
+    html += '<div class="secao-fb">';
+    if (tipo === 'objetiva') {
+      const status = !r ? 'nao-resp' : (r.acertou ? 'status-acerto' : 'status-erro');
+      const statusTxt = !r ? '— Não respondida' : (r.acertou ? '✅ Correto' : '❌ Incorreto');
+      html += `<div class="secao-fb-titulo"><span class="qnum">Q${num}</span> Objetiva <span class="${status}" style="margin-left:auto">${statusTxt}</span></div>`;
+      html += '<div class="item-fb">';
+      if (r) {
+        html += `<div class="qnum">Sua resposta: ${r.escolha}</div>`;
+        if (!r.acertou) html += `<div class="qnum" style="color:#e74c3c">Gabarito: ${r.gabarito}</div>`;
+      } else {
+        html += '<div class="nao-resp">Questão não respondida.</div>';
+      }
+      if (correcao) html += `<div class="gabarito-correcao" style="margin-top:8px"><strong>📝 Comentário:</strong><br>${correcao}</div>`;
+      html += '</div>';
+    } else {
+      const respondida = !!r;
+      html += `<div class="secao-fb-titulo"><span class="qnum">Q${num}</span> Dissertativa <span style="margin-left:auto;font-size:.8rem;color:${respondida?'var(--verde)':'#e67e22'}">${respondida?'✅ Respondida':'⚠️ Não respondida'}</span></div>`;
+      html += '<div class="item-fb">';
+      if (r && r.texto) {
+        html += `<div class="qnum">Sua resposta:</div><div class="resp-aluno">${escapeHtml(r.texto)}</div>`;
+      } else {
+        html += '<div class="nao-resp">Questão não respondida.</div>';
+      }
+      if (correcao) html += `<div class="gabarito-correcao" style="margin-top:8px"><strong>✏️ Resposta esperada / comentário:</strong><br>${correcao}</div>`;
+      html += '</div>';
+    }
+    html += '</div>';
+  });
+
+  document.getElementById('feedback-detalhado').innerHTML = html;
+  document.getElementById('modal-feedback').classList.add('aberto');
+}
+
+function fecharFeedback() {
+  document.getElementById('modal-feedback').classList.remove('aberto');
+}
+
+function escapeHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+// Fechar modal clicando fora
+document.getElementById('modal-feedback').addEventListener('click', function(e) {
+  if (e.target === this) fecharFeedback();
+});
+
+/* ═══════ PROTEÇÃO ANTI-COLA ═══════ */
+(function () {
+  const LIMITE_BLOCO = 25;   // nº de caracteres inseridos de uma só vez que caracteriza colagem
+  const MSG = 'Colar não é permitido nesta atividade. Escreva sua resposta.';
+
+  function mostrarToast(mensagem) {
+    let toast = document.getElementById('anti-cola-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'anti-cola-toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = mensagem;
+    toast.style.opacity = '1';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(function () { toast.style.opacity = '0'; }, 2500);
+  }
+
+  function bloquear(e) {
+    e.preventDefault();
+    mostrarToast(MSG);
+    return false;
+  }
+
+  document.querySelectorAll('textarea.campo-discursivo').forEach(function (campo) {
+    const qId = campo.id.replace('resp-', '');
+
+    // contador de caracteres + aviso do mínimo
+    const questao = document.getElementById(qId);
+    const minimo = (questao && questao.dataset.min) ? parseInt(questao.dataset.min, 10) : minimoDe(qId);
+    const cont = document.createElement('div');
+    cont.className = 'contador-chars';
+    cont.id = 'cont-' + qId;
+    cont.innerHTML = '<span class="qtd">0 / ' + minimo + ' caracteres</span><span class="meta">faltam ' + minimo + ' para validar</span>';
+    campo.insertAdjacentElement('afterend', cont);
+
+    // aviso textual abaixo do campo
+    const aviso = cont.nextElementSibling;
+    if (aviso && aviso.classList.contains('aviso-paste')) {
+      aviso.textContent = 'Copiar e colar não é permitido. Mínimo de ' + minimo + ' caracteres para validar a questão.';
+    }
+
+    ['paste','copy','cut','drop','dragover','dragstart','contextmenu'].forEach(function (evt) {
+      campo.addEventListener(evt, bloquear);
+    });
+
+    campo.addEventListener('beforeinput', function (e) {
+      if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop' ||
+          e.inputType === 'insertFromPasteAsQuotation' || e.inputType === 'insertFromYank') {
+        e.preventDefault();
+        mostrarToast(MSG);
+      }
+    });
+
+    // neutraliza o painel de área de transferência do Gboard/Android
+    let valorAnterior = campo.value;
+    campo.addEventListener('input', function (e) {
+      const diferenca = campo.value.length - valorAnterior.length;
+      if (diferenca >= LIMITE_BLOCO && e.inputType !== 'insertReplacementText') {
+        campo.value = valorAnterior;
+        mostrarToast(MSG);
+      } else {
+        valorAnterior = campo.value;
+      }
+      marcarDiscursiva(qId, campo);
+    });
+  });
+
+  // reforço global
+  document.addEventListener('paste', function (e) {
+    if (e.target && e.target.classList && e.target.classList.contains('campo-discursivo')) bloquear(e);
+  });
+  document.addEventListener('drop', function (e) {
+    if (e.target && e.target.classList && e.target.classList.contains('campo-discursivo')) bloquear(e);
+  });
+  document.addEventListener('contextmenu', function (e) {
+    if (e.target && e.target.tagName !== 'INPUT') e.preventDefault();
+  });
+})();
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+.pdf-spinner{width:40px;height:40px;border:4px solid #e8e8f0;border-top-color:#6b2fa0;border-radius:50%;animation:spin .8s linear infinite;margin:16px auto 0}
+@keyframes spin{to{transform:rotate(360deg)}}
+#pdf-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:flex;align-items:center;justify-content:center}
+.pdf-overlay-box{background:white;border-radius:16px;padding:44px 52px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.35);max-width:380px;width:90%}
+.pdf-overlay-box .icon{font-size:2.8rem;margin-bottom:12px}
+.pdf-overlay-box h4{font-family:serif;font-size:1.25rem;font-weight:700;margin-bottom:8px;color:#1a1a2e}
+.pdf-overlay-box p{color:#666;font-size:.88rem;margin-bottom:4px}
+#pdf-progress-bar-wrap{height:6px;background:#e8e8f0;border-radius:4px;margin-top:18px;overflow:hidden}
+#pdf-progress-bar{height:6px;background:#6b2fa0;border-radius:4px;width:0%;transition:width .3s}
+#pdf-progress-text{font-size:.78rem;color:#888;margin-top:6px;font-family:monospace}
+</style>
+<script>
+async function tentarSalvarPDF() {
+  const faltando = TOTAL - totalRespondidas();
+  const al = document.getElementById('alerta-incompleto');
+  if (faltando > 0) {
+    document.getElementById('qtd-faltando').textContent = faltando;
+    al.style.display = 'block';
+    al.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  al.style.display = 'none';
+
+  // Build overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'pdf-overlay';
+  overlay.innerHTML = `<div class="pdf-overlay-box">
+    <div class="icon">📄</div>
+    <h4>Gerando PDF…</h4>
+    <p>Renderizando questões e respostas.</p>
+    <p>Aguarde, isso pode levar alguns instantes.</p>
+    <div id="pdf-progress-bar-wrap"><div id="pdf-progress-bar"></div></div>
+    <div id="pdf-progress-text">0%</div>
+  </div>`;
+  document.body.appendChild(overlay);
+  await sleep(80);
+
+  const setProgress = (pct, msg) => {
+    document.getElementById('pdf-progress-bar').style.width = pct + '%';
+    document.getElementById('pdf-progress-text').textContent = msg || pct + '%';
+  };
+
+  const agora = new Date();
+  const dtStr = agora.toLocaleDateString('pt-BR') + ' às ' +
+                agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+  const carimbo = agora.getFullYear() + '-' +
+                  String(agora.getMonth()+1).padStart(2,'0') + '-' +
+                  String(agora.getDate()).padStart(2,'0') + '_' +
+                  String(agora.getHours()).padStart(2,'0') + 'h' +
+                  String(agora.getMinutes()).padStart(2,'0');
+
+  try {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: 'a4', hotfixes: ['px_scaling'] });
+    const PW = pdf.internal.pageSize.getWidth();
+    const PH = pdf.internal.pageSize.getHeight();
+    const MARGIN = 28;
+    const CONTENT_W = PW - MARGIN * 2;
+    let y = MARGIN;
+
+    // ── Helper: add image to pdf, paginating if needed ──
+    // Troca <img> por um marcador de texto (evita canvas "tainted" com imagens locais)
+    const removerImagens = (el) => {
+      el.querySelectorAll('img').forEach(img => {
+        const legenda = img.getAttribute('alt') || 'imagem';
+        const box = document.createElement('div');
+        box.style.cssText = 'background:#f5f5fa;border:1px dashed #b9b9cc;border-radius:6px;padding:10px 14px;margin:10px 0;font-size:11.5px;color:#666;font-style:italic';
+        box.textContent = '[Imagem: ' + legenda + ' — ver atividade on-line]';
+        img.parentNode.replaceChild(box, img);
+      });
+    };
+
+    const capturar = async (el) => html2canvas(el, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      backgroundColor: '#ffffff',
+      scrollX: 0,
+      scrollY: 0,
+      windowWidth: 900,
+    });
+
+    const addImg = async (el, extraStyle) => {
+      // Temporarily apply extra styles for capture
+      const prev = el.style.cssText;
+      if (extraStyle) el.style.cssText += extraStyle;
+
+      let canvas, dataUrl;
+      try {
+        canvas = await capturar(el);
+        dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+      } catch (secErr) {
+        // Canvas contaminado por imagem local (file://) — refaz sem as imagens
+        console.warn('Imagem local impediu a captura; gerando sem a imagem.', secErr);
+        removerImagens(el);
+        canvas = await capturar(el);
+        dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+      }
+      if (extraStyle) el.style.cssText = prev;
+
+      const imgW = CONTENT_W;
+      const imgH = (canvas.height / canvas.width) * imgW;
+
+      // Paginate
+      if (y + imgH > PH - MARGIN) {
+        pdf.addPage();
+        y = MARGIN;
+      }
+      // If single element taller than a full page, scale to fit
+      if (imgH > PH - MARGIN * 2) {
+        const scaledH = PH - MARGIN * 2;
+        pdf.addImage(dataUrl, 'JPEG', MARGIN, y, CONTENT_W, scaledH);
+        y += scaledH + 6;
+      } else {
+        pdf.addImage(dataUrl, 'JPEG', MARGIN, y, imgW, imgH);
+        y += imgH + 6;
+      }
+    };
+
+    setProgress(5, 'Preparando capa…');
+    await sleep(50);
+
+    // ── COVER PAGE ──
+    const coverEl = document.createElement('div');
+    coverEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;overflow:hidden;border-radius:0';
+    coverEl.innerHTML = `
+      <div style="background:linear-gradient(135deg,#1a1a2e 0%,#6b2fa0 60%,#4a9e3f 100%);padding:48px 52px 42px;color:white">
+        <div style="font-size:32px;font-weight:900;letter-spacing:-0.5px;margin-bottom:6px">Revisa Goiás</div>
+        <div style="font-size:14px;opacity:.8;font-style:italic;margin-bottom:28px">Recompondo e ampliando aprendizagens…</div>
+        <div style="font-size:22px;font-weight:700;margin-bottom:4px">9º Ano — Ciências Humanas</div>
+        <div style="font-size:26px;font-weight:900;background:rgba(255,255,255,.15);display:inline-block;padding:6px 18px;border-radius:8px;margin-top:4px">HISTÓRIA</div>
+        <div style="font-size:16px;margin-top:18px;opacity:.85">3º Bimestre — 2026</div>
+      </div>
+      <div style="background:#f5f5fa;padding:28px 52px 28px">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#6b2fa0;font-weight:700;margin-bottom:8px">Aluno(a)</div>
+        <div style="font-size:22px;font-weight:700;color:#1a1a2e;border-bottom:3px solid #6b2fa0;padding-bottom:8px;display:inline-block;margin-bottom:18px">${nomeAluno}</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">
+            <div style="font-size:22px;font-weight:900;color:#6b2fa0">${TOTAL}</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Questões</div></div>
+          <div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">
+            <div style="font-size:22px;font-weight:900;color:#e67e22">${Object.keys(GABARITOS_CORRETOS).length}</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Objetivas</div></div>
+          <div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:160px">
+            <div style="font-size:13px;font-weight:700;color:#333">${dtStr}</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Gerado em</div></div>
+        </div>
+        <div style="margin-top:16px;font-size:11px;color:#aaa">SEDUC — Secretaria de Estado da Educação de Goiás · Colégio Estadual Rodolfo de Oliveira · 2026</div>
+      </div>`;
+    document.body.appendChild(coverEl);
+    await sleep(60);
+    await addImg(coverEl);
+    document.body.removeChild(coverEl);
+
+    // ── QUESTIONS ──
+    const questoes = Array.from(document.querySelectorAll('.questao'));
+    const total = questoes.length;
+
+    for (let i = 0; i < questoes.length; i++) {
+      const q = questoes[i];
+      const qId = q.id;
+      const num = q.dataset.num;
+      const tipo = q.dataset.tipo;
+      const r = respostas[qId];
+
+      setProgress(Math.round(8 + (i / total) * 82), `Questão ${num} de ${total}…`);
+      await sleep(20);
+
+      // Build a clean render div for this question
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:#fff;padding:0;border-radius:8px;overflow:hidden;border:1px solid #e0e0ee';
+
+      // Header bar
+      const isOK = r && (tipo === 'objetiva' ? r.acertou : true);
+      const isWrong = r && tipo === 'objetiva' && !r.acertou;
+      const noResp = !r;
+      const barBg = noResp ? '#aaa' : isOK ? '#4a9e3f' : '#e74c3c';
+      const barLabel = tipo === 'objetiva' ? 'OBJETIVA' : 'DISSERTATIVA';
+      const statusIcon = noResp ? '—' : isOK ? '✓' : '✗';
+
+      wrap.innerHTML = `<div style="background:${barBg};padding:10px 20px;display:flex;justify-content:space-between;align-items:center">
+        <span style="color:white;font-weight:700;font-size:13px;letter-spacing:.5px">QUESTÃO ${num}  ·  ${barLabel}</span>
+        <span style="color:white;font-size:13px;font-weight:700">${statusIcon}</span>
+      </div>`;
+
+      // Enunciado
+      const enuncEl = q.querySelector('.questao-enunciado');
+      const enuncDiv = document.createElement('div');
+      enuncDiv.style.cssText = 'padding:16px 20px 10px;font-size:13px;line-height:1.65;color:#1a1a2e';
+      if (enuncEl) {
+        // Clone and clean up: remove img for now, keep text/paragraphs
+        const clone = enuncEl.cloneNode(true);
+        // Keep images but resize them
+        clone.querySelectorAll('img').forEach(img => {
+          img.style.maxWidth = '300px';
+          img.style.height = 'auto';
+          img.style.display = 'block';
+          img.style.margin = '10px 0';
+        });
+        enuncDiv.appendChild(clone);
+      }
+      wrap.appendChild(enuncDiv);
+
+      if (tipo === 'objetiva') {
+        // Options
+        const optsDiv = document.createElement('div');
+        optsDiv.style.cssText = 'padding:4px 20px 14px';
+        const opcoes = q.querySelectorAll('.opcao');
+        opcoes.forEach(op => {
+          const letra = op.querySelector('.letra').textContent.trim();
+          const textoOp = Array.from(op.childNodes)
+            .filter(n => !n.classList || !n.classList.contains('letra'))
+            .map(n => n.textContent).join('').trim();
+          const isCorr = op.classList.contains('correta');
+          const isErr = op.classList.contains('errada-sel');
+          const bg = isCorr ? '#edfaeb' : isErr ? '#fdecea' : '#f5f5fa';
+          const border = isCorr ? '2px solid #4a9e3f' : isErr ? '2px solid #e74c3c' : '1px solid #e0e0ee';
+          const mark = isCorr ? ' ✓' : isErr ? ' ✗' : '';
+          const fc = isCorr ? '#2d7a27' : isErr ? '#c0392b' : '#333';
+          optsDiv.innerHTML += `<div style="background:${bg};border:${border};border-radius:6px;padding:8px 14px;margin-bottom:6px;font-size:12.5px;color:${fc};font-weight:${isCorr||isErr?'700':'400'}">
+            <strong>${letra}</strong>) ${textoOp}${mark}
+          </div>`;
+        });
+        wrap.appendChild(optsDiv);
+
+        // Result box
+        if (r) {
+          const resBg = r.acertou ? '#edfaeb' : '#fdecea';
+          const resColor = r.acertou ? '#2d7a27' : '#c0392b';
+          const resTxt = r.acertou
+            ? `✓ Correto! Alternativa ${r.gabarito}.`
+            : `✗ Incorreto. Sua resposta: ${r.escolha}  |  Gabarito: ${r.gabarito}`;
+          const resDiv = document.createElement('div');
+          resDiv.style.cssText = `background:${resBg};padding:10px 20px;font-size:12px;font-weight:700;color:${resColor};border-top:1px solid rgba(0,0,0,.06)`;
+          resDiv.textContent = resTxt;
+          wrap.appendChild(resDiv);
+        }
+
+        // Comment
+        const comm = CORRECCOES[qId];
+        if (comm) {
+          const commDiv = document.createElement('div');
+          commDiv.style.cssText = 'background:#f0f8ff;border-top:1px solid #d0e8ff;padding:12px 20px';
+          commDiv.innerHTML = `<div style="font-size:11px;font-weight:700;color:#1a5ca8;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">📝 Comentário do professor</div>
+            <div style="font-size:12px;color:#1a1a2e;line-height:1.6">${comm}</div>`;
+          wrap.appendChild(commDiv);
+        }
+
+      } else {
+        // Dissertativa
+        const alunoDiv = document.createElement('div');
+        alunoDiv.style.cssText = 'padding:12px 20px;border-top:1px solid #f0f0f0';
+        if (r && r.texto) {
+          alunoDiv.innerHTML = `<div style="font-size:11px;font-weight:700;color:#6b2fa0;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px">✏️ Resposta do aluno</div>
+            <div style="background:#faf8ff;border-left:4px solid #6b2fa0;border-radius:0 6px 6px 0;padding:12px 14px;font-size:12.5px;color:#1a1a2e;line-height:1.7;white-space:pre-wrap;word-break:break-word">${escapeHtml(r.texto)}</div>`;
+        } else {
+          alunoDiv.innerHTML = `<div style="background:#fff8e8;border-left:4px solid #e67e22;border-radius:0 6px 6px 0;padding:10px 14px;font-size:12px;color:#7d5a00;font-style:italic">Questão não respondida.</div>`;
+        }
+        wrap.appendChild(alunoDiv);
+
+        // Expected answer
+        const comm = CORRECCOES[qId];
+        if (comm) {
+          const commDiv = document.createElement('div');
+          commDiv.style.cssText = 'padding:12px 20px;border-top:1px solid #eafaea';
+          commDiv.innerHTML = `<div style="font-size:11px;font-weight:700;color:#2d7a27;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px">✅ Resposta esperada / Comentário do professor</div>
+            <div style="background:#edfaeb;border-left:4px solid #4a9e3f;border-radius:0 6px 6px 0;padding:12px 14px;font-size:12.5px;color:#1a3a1a;line-height:1.7">${comm}</div>`;
+          wrap.appendChild(commDiv);
+        }
+      }
+
+      // Append to body (off-screen) to render
+      wrap.style.position = 'absolute';
+      wrap.style.left = '-9999px';
+      wrap.style.top = '0';
+      document.body.appendChild(wrap);
+      await sleep(30);
+
+      await addImg(wrap);
+      document.body.removeChild(wrap);
+    }
+
+    // ── PAGE NUMBERS ──
+    setProgress(94, 'Finalizando…');
+    await sleep(30);
+    const totalPages = pdf.getNumberOfPages();
+    for (let p = 1; p <= totalPages; p++) {
+      pdf.setPage(p);
+      // Footer strip
+      pdf.setFillColor(245, 245, 250);
+      pdf.rect(0, PH - 22, PW, 22, 'F');
+      // We'll add a simple text using addImage of a tiny canvas for footer
+      // Actually use setFont with latin subset trick
+      // Simple approach: draw footer as canvas
+      const footerEl = document.createElement('div');
+      footerEl.style.cssText = `width:${Math.round(PW)}px;height:22px;background:#f5f5fa;display:flex;align-items:center;justify-content:space-between;padding:0 ${MARGIN}px;font-size:10px;color:#888;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0`;
+      footerEl.innerHTML = `<span>Revisa Goiás · 9º Ano | História | 3º Bimestre 2026 · Aluno(a): ${nomeAluno} · Gerado em ${dtStr}</span><span>Página ${p} de ${totalPages}</span>`;
+      document.body.appendChild(footerEl);
+      const fc = await html2canvas(footerEl, { scale: 2, logging: false, backgroundColor: '#f5f5fa' });
+      document.body.removeChild(footerEl);
+      let fUrl;
+      try { fUrl = fc.toDataURL('image/jpeg', 0.9); } catch (e) { continue; }
+      const fH = (fc.height / fc.width) * PW;
+      pdf.addImage(fUrl, 'JPEG', 0, PH - fH, PW, fH);
+    }
+
+    setProgress(100, 'Salvando…');
+    await sleep(200);
+
+    const safeName = nomeAluno.replace(/[^a-zA-Z0-9_\-À-ɏ]/g, '_');
+    pdf.save(`RevisaGoias_Historia_9ano_${safeName}_${carimbo}.pdf`);
+
+  } catch(err) {
+    console.error(err);
+    alert('Erro ao gerar PDF: ' + err.message +
+      '\n\nDica: se o problema persistir, use o botão do navegador (Ctrl+P / Compartilhar › Imprimir) e escolha "Salvar como PDF".');
+  } finally {
+    const ov = document.getElementById('pdf-overlay');
+    if (ov) document.body.removeChild(ov);
+  }
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+</script>
+
+</body>
+</html>
