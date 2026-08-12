@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O AI-5 e o Endurecimento da Ditadura | CERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f8f0f0;
+    --bg-alt:#f0dedf;
+    --paper:#fffbfb;
+    --ink:#2a1416;
+    --ink-soft:#6b4a4c;
+    --vinho:#7a1f2b;
+    --vinho-dark:#4d1119;
+    --vinho-2:#a8434f;
+    --salvia:#6b7f52;
+    --salvia-light:#cddbc0;
+    --line:#e8ccce;
+    --shadow:0 10px 30px rgba(77,17,25,.16);
+    --radius:14px;
+    --font-title:'Playfair Display', serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-touch-callout:none;
+    user-select:none;
+  }
+  .selecionavel, main{user-select:text;}
+  .campo-resposta{user-select:text;}
+
+  /* ===== CAPA / GATE ===== */
+  #capa{
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(to bottom, #2c0a10, #4d1119, #a8434f);
+    padding:24px;
+  }
+  #capa .grade-centralizada{
+    position:absolute;
+    top:0; bottom:0; left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:896px;
+    pointer-events:none;
+    z-index:0;
+    opacity:.08;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px);
+    background-size:40px 40px;
+  }
+  .capa-card{
+    position:relative;
+    z-index:1;
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    max-width:480px;
+    width:100%;
+    padding:36px 32px;
+    text-align:center;
+  }
+  .capa-card .tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--vinho-dark);
+    background:rgba(122,31,43,.1); padding:5px 12px; border-radius:999px; margin-bottom:14px;
+  }
+  .capa-card h1{font-family:var(--font-title); font-size:1.6rem; margin:0 0 10px; color:var(--vinho-dark);}
+  .capa-card p.desc{color:var(--ink-soft); font-size:.94rem; margin:0 0 22px;}
+  .capa-card input{
+    width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:1rem; margin-bottom:14px;
+  }
+  .capa-card button{
+    width:100%; padding:13px; border:none; border-radius:8px;
+    background:var(--vinho); color:#fff; font-weight:600; font-size:1rem; cursor:pointer;
+    font-family:var(--font-body); transition:filter .15s ease;
+  }
+  .capa-card button:hover{filter:brightness(1.08);}
+  .capa-aviso{font-size:.78rem; color:#a33; margin-top:8px; display:none;}
+
+  /* ===== APP ===== */
+  #app{display:none;}
+  .sticky-header{
+    position:sticky; top:0; z-index:50;
+    background:var(--vinho-dark); color:#f7eaea;
+    padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:8px;
+    font-family:var(--font-mono); font-size:.82rem;
+  }
+  .sticky-header .aluno{font-family:var(--font-body); font-weight:600; font-size:.92rem;}
+  .barra-progresso-trilho{
+    flex:1; min-width:120px; height:8px; background:rgba(255,255,255,.2); border-radius:6px; overflow:hidden; margin:0 14px;
+  }
+  .barra-progresso-fill{height:100%; background:var(--salvia); width:0%; transition:width .3s ease;}
+
+  .wrap{max-width:800px; margin:0 auto; padding:32px 24px 60px;}
+
+  header.topo{margin-bottom:28px;}
+  header.topo .hero-tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.72rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--vinho-dark);
+    background:rgba(122,31,43,.1); padding:5px 12px; border-radius:999px; margin-bottom:12px;
+  }
+  header.topo h1{font-family:var(--font-title); font-size:clamp(1.5rem,4vw,2rem); margin:0 0 8px; color:var(--ink);}
+  header.topo p.sub{color:var(--ink-soft); margin:0; font-size:.98rem;}
+  .descritor-bar{
+    font-family:var(--font-mono); font-size:.76rem; color:var(--ink-soft);
+    background:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:8px 14px; margin-bottom:14px; display:inline-block;
+  }
+  .ficha-id{
+    display:flex; flex-wrap:wrap; gap:10px 26px;
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; margin-top:12px; font-family:var(--font-mono); font-size:.84rem; color:var(--ink);
+  }
+  .ficha-id span b{color:var(--vinho-dark);}
+
+  /* ===== TEXTO DE APOIO ===== */
+  .texto-apoio{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:28px 30px; margin-bottom:30px;
+  }
+  .texto-apoio h2{font-family:var(--font-title); font-size:1.25rem; color:var(--vinho-dark); margin:0 0 4px;}
+  .texto-apoio .fonte-tag{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-bottom:16px; display:block;}
+  .texto-apoio p{margin:0 0 14px; color:var(--ink);}
+  .texto-apoio p:last-of-type{margin-bottom:0;}
+
+  .medidas-lista{
+    background:var(--bg-alt); border-left:3px solid var(--vinho-2); border-radius:0 8px 8px 0;
+    padding:14px 18px 14px 34px; margin:0 0 14px;
+  }
+  .medidas-lista li{margin-bottom:6px; font-size:.94rem;}
+  .medidas-lista li:last-child{margin-bottom:0;}
+
+  .referencia-box{
+    margin-top:20px; padding:14px 16px;
+    background:var(--bg-alt); border-left:3px solid var(--salvia); border-radius:0 8px 8px 0;
+  }
+  .referencia-box .rot{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--vinho-dark); display:block; margin-bottom:6px;
+  }
+  .referencia-box p{margin:0 0 6px; font-size:.86rem; color:var(--ink-soft); font-family:var(--font-mono); line-height:1.6; word-break:break-word;}
+  .referencia-box p:last-child{margin-bottom:0;}
+
+  /* ===== CHARGE / IMAGEM DE APOIO ===== */
+  .charge-apoio{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:28px 30px; margin-bottom:30px;
+  }
+  .charge-apoio h2{font-family:var(--font-title); font-size:1.25rem; color:var(--vinho-dark); margin:0 0 4px;}
+  .charge-apoio .fonte-tag{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-bottom:16px; display:block;}
+  .charge-apoio .charge-img-wrap{text-align:center; margin-bottom:16px;}
+  .charge-apoio .charge-img-wrap img{
+    max-width:100%; height:auto; max-height:760px; border-radius:8px;
+    border:1px solid var(--line); box-shadow:0 6px 18px rgba(77,17,25,.14); background:#fff;
+  }
+  .charge-apoio .legenda{font-size:.88rem; color:var(--ink-soft); margin:0; font-style:italic;}
+
+  /* ===== QUESTOES ===== */
+  .questoes-titulo{
+    font-family:var(--font-title); font-size:1.2rem; color:var(--vinho-dark);
+    margin:0 0 18px; display:flex; align-items:center; gap:10px;
+  }
+  .questao{
+    background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; margin-bottom:18px;
+  }
+  .questao .num-q{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:50%; background:var(--vinho);
+    color:#fff; font-family:var(--font-mono); font-size:.78rem; margin-right:8px; flex-shrink:0;
+  }
+  .questao .enunciado{font-weight:600; color:var(--ink); margin-bottom:12px; display:flex; align-items:flex-start;}
+  .questao textarea{
+    width:100%; min-height:100px; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:.96rem; resize:vertical; color:var(--ink);
+  }
+  .questao textarea:focus{outline:2px solid var(--vinho-2); outline-offset:1px;}
+  .contador-chars{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-top:6px; text-align:right;}
+
+  .comentario-prof{
+    display:none; margin-top:14px; padding:14px 16px;
+    background:#eef3e7; border:1px solid #cddbc0; border-radius:8px; font-size:.9rem; color:#3f4f2f;
+  }
+  .comentario-prof.show{display:block;}
+  .comentario-prof b{display:block; margin-bottom:4px; font-family:var(--font-title); font-size:.92rem;}
+
+  /* ===== ALERTA / FINALIZAR ===== */
+  .alerta-incompleto{
+    display:none; background:#fdf3e2; border:1px solid #f1d9a6; color:#8a5a10;
+    padding:12px 16px; border-radius:8px; font-size:.9rem; margin-bottom:16px;
+  }
+  .alerta-incompleto.show{display:block;}
+
+  .acoes-finais{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;}
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:.94rem; padding:12px 22px;
+    border-radius:8px; border:none; cursor:pointer; transition:filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn-primario{background:var(--vinho); color:#fff;}
+  .btn-secundario{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn-pdf{background:var(--salvia); color:#fff;}
+  .btn[disabled]{opacity:.5; cursor:not-allowed;}
+
+  /* ===== POPUP ===== */
+  .popup-overlay{
+    display:none; position:fixed; inset:0; background:rgba(44,10,16,.6);
+    align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .popup-overlay.show{display:flex;}
+  .popup-card{
+    background:var(--paper); border-radius:var(--radius); box-shadow:var(--shadow);
+    max-width:420px; width:100%; padding:32px 28px; text-align:center;
+  }
+  .popup-card .emoji{font-size:2.4rem; margin-bottom:10px;}
+  .popup-card h3{font-family:var(--font-title); margin:0 0 8px; color:var(--vinho-dark);}
+  .popup-card p{color:var(--ink-soft); font-size:.94rem; margin:0 0 20px;}
+
+  footer.rodape{text-align:center; padding:24px; color:var(--ink-soft); font-family:var(--font-mono); font-size:.8rem;}
+
+  @media (max-width:600px){
+    .wrap{padding:24px 16px 50px;}
+    .texto-apoio, .charge-apoio, .questao{padding:18px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== CAPA ===== -->
+<div id="capa">
+  <div class="grade-centralizada"></div>
+  <div class="capa-card">
+    <span class="tag">9º ano · História · CERO</span>
+    <h1>O AI-5 e o Endurecimento da Ditadura</h1>
+    <p class="desc">Texto de apoio, charge de Ziraldo e questões dissertativas. Preencha os dados para começar.</p>
+    <input type="text" id="nome-aluno" placeholder="Seu nome completo">
+    <input type="text" id="turma-aluno" placeholder="Turma (ex.: 9º A)">
+    <button onclick="iniciarAtividade()">Iniciar atividade</button>
+    <div class="capa-aviso" id="capa-aviso">Por favor, digite seu nome para continuar.</div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+  <div class="sticky-header">
+    <span class="aluno" id="header-nome"></span>
+    <div class="barra-progresso-trilho"><div class="barra-progresso-fill" id="barra-fill"></div></div>
+    <span id="contador-geral">Respondidas: 0/5</span>
+  </div>
+
+  <div class="wrap">
+    <header class="topo selecionavel">
+      <span class="descritor-bar">História / 9º Ano do Ensino Fundamental &nbsp;|&nbsp; (GO-EF09HI19-A) – A Ditadura Militar no Brasil (1964–1985)</span>
+      <span class="hero-tag" style="display:block; margin-top:10px;">Análise de fontes</span>
+      <h1>O AI-5 e o Endurecimento da Ditadura Militar</h1>
+      <p class="sub">Leia o texto e observe a charge com atenção. Depois, responda às cinco questões a seguir.</p>
+      <div class="ficha-id" id="ficha-id">
+        <span><b>NOME:</b> <span id="ficha-nome"></span></span>
+        <span><b>DATA:</b> <span id="ficha-data"></span></span>
+        <span><b>TURMA:</b> <span id="ficha-turma"></span></span>
+      </div>
+    </header>
+
+    <main>
+      <section class="texto-apoio selecionavel">
+        <h2>O AI-5 e o Endurecimento da Ditadura Militar</h2>
+        <span class="fonte-tag">Texto de apoio</span>
+
+        <p>[...] o AI-5, de 13 de dezembro de 1968, foi um instrumento que deu ao regime poderes absolutos e cuja primeira consequência foi o fechamento do Congresso Nacional por quase um ano e o recesso dos mandatos de senadores, deputados e vereadores, que passaram a receber somente a parte fixa de seus subsídios.</p>
+
+        <p>Entre outras medidas do AI-5, destacam-se:</p>
+
+        <ul class="medidas-lista">
+          <li>suspensão de qualquer reunião de cunho político;</li>
+          <li>censura aos meios de comunicação, estendendo-se à música, ao teatro e ao cinema;</li>
+          <li>suspensão do <i>habeas corpus</i> para os chamados crimes políticos;</li>
+          <li>decretação do estado de sítio pelo presidente da República em qualquer dos casos previstos na Constituição;</li>
+          <li>autorização para intervenção em estados e municípios. [...]</li>
+        </ul>
+
+        <div class="referencia-box">
+          <span class="rot">Referência (ABNT NBR 6023)</span>
+          <p>PONTUAL, Helena Daltro. História das Constituições. Disponível em: &lt;www.senado.gov.br/noticias/especiais/constituicao25anos/historia-das-constituicoes.htm&gt;. Acesso em: 9 nov. 2018.</p>
+        </div>
+      </section>
+
+      <h2 class="questoes-titulo">✍️ Questões Dissertativas</h2>
+
+      <div class="questao" data-questao="1">
+        <div class="enunciado"><span class="num-q">1</span> De acordo com o texto, quais foram as principais consequências do AI-5 para o Congresso Nacional e para os mandatos de senadores, deputados e vereadores?</div>
+        <textarea id="resp-1" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          O AI-5 deu ao regime poderes absolutos e, como primeira consequência, fechou o Congresso Nacional por quase um ano. Os mandatos de senadores, deputados e vereadores entraram em recesso: os parlamentares deixaram de exercer suas funções e passaram a receber apenas a parte fixa de seus subsídios. Na prática, o Legislativo foi anulado como espaço de representação e de controle sobre o Executivo.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="2">
+        <div class="enunciado"><span class="num-q">2</span> Cite três medidas previstas pelo AI-5 que restringiam diretamente os direitos e liberdades da população brasileira.</div>
+        <textarea id="resp-2" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Entre as medidas possíveis: a suspensão de qualquer reunião de cunho político, que acabava com a liberdade de reunião e organização; a censura aos meios de comunicação, estendida à música, ao teatro e ao cinema, que atingia a liberdade de expressão e a produção artística; e a suspensão do <i>habeas corpus</i> para crimes políticos, que retirava a principal garantia contra prisões arbitrárias. Também valem a decretação do estado de sítio pelo presidente e a intervenção em estados e municípios.
+        </div>
+      </div>
+
+      <section class="charge-apoio selecionavel">
+        <h2>“O ministro quer dialogar com você”</h2>
+        <span class="fonte-tag">Fonte iconográfica · charge de Ziraldo</span>
+        <div class="charge-img-wrap">
+          <img id="charge-img" src="charge2.webp" alt="Charge de Ziraldo em cinco quadros: um policial recebe ordens de um homem sentado atrás de uma mesa, sai correndo com um cassetete, encontra um homem parado na rua, derruba-o e o espanca no chão e, no último quadro, de pé sobre o corpo caído, diz: O ministro quer dialogar com você.">
+        </div>
+        <p class="legenda">Essa charge de Ziraldo ironiza a truculência do Regime Militar. <i>Correio da Manhã</i>, ano 68, n. 23068, 23 de junho de 1968.</p>
+      </section>
+
+      <div class="questao" data-questao="3">
+        <div class="enunciado"><span class="num-q">3</span> Observe a charge de Ziraldo. Descreva a sequência de ações representada nos quadrinhos, desde o primeiro até o último quadro.</div>
+        <textarea id="resp-3" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          No primeiro quadro, uma autoridade sentada atrás de uma mesa dá ordens a um policial armado com um cassetete. No segundo, o policial sai apressado do gabinete. No terceiro, ele corre na direção de um homem comum, parado na rua. No quarto, derruba esse homem e o espanca com o cassetete. No último quadro, de pé sobre o corpo caído, o policial anuncia: “o ministro quer dialogar com você”.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="4">
+        <div class="enunciado"><span class="num-q">4</span> Na charge, a frase final é “O ministro quer dialogar com você”, dita logo após a violência sofrida pelo personagem. Explique a ironia contida nessa frase e relacione-a com a truculência do regime militar mencionada na legenda.</div>
+        <textarea id="resp-4" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          A ironia está no contraste entre a palavra “dialogar” e a cena mostrada: o convite à conversa chega depois da agressão e a quem já está caído no chão, sem condições de responder. Ziraldo sugere que o “diálogo” oferecido pelo regime era falso — na prática, o governo só se comunicava com a sociedade pela força. A charge critica assim a truculência do Regime Militar, que apresentava uma fachada de negociação enquanto usava a violência policial para calar quem discordava.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="5">
+        <div class="enunciado"><span class="num-q">5</span> Relacione o conteúdo da charge com o texto sobre o AI-5: de que forma a imagem representa, de maneira crítica, a falta de liberdade de expressão e o uso da força que caracterizavam esse período da ditadura?</div>
+        <textarea id="resp-5" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          A charge mostra em imagens aquilo que o texto descreve em termos jurídicos: um poder que não admite contestação. O AI-5 proibiu reuniões políticas, censurou a imprensa e as artes e suspendeu o <i>habeas corpus</i>, deixando o cidadão sem defesa diante da violência do Estado — exatamente a situação do personagem espancado, que não pode reagir nem recorrer a ninguém. Vale notar que a charge é de junho de 1968, meses antes do AI-5: ela já denunciava a truculência que o ato viria a legalizar, e a censura instituída em dezembro tornaria impossível publicar críticas como essa.
+        </div>
+      </div>
+
+      <div class="alerta-incompleto" id="alerta-incompleto">
+        ⚠️ Ainda há questões incompletas (resposta mínima de 60 caracteres). Revise antes de finalizar.
+      </div>
+
+      <div class="acoes-finais">
+        <button class="btn btn-primario" onclick="finalizarAtividade()">Finalizar e ver comentários</button>
+        <button class="btn btn-secundario" onclick="refazerAtividade()">Refazer</button>
+        <button class="btn btn-pdf" onclick="exportarPDF()">Exportar em PDF</button>
+      </div>
+    </main>
+  </div>
+
+  <footer class="rodape">Colégio Estadual Rodolfo de Oliveira · CERO · 2026</footer>
+</div>
+
+<!-- ===== POPUP ===== -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-card">
+    <div class="emoji">🎉</div>
+    <h3>Atividade concluída!</h3>
+    <p>Suas cinco respostas foram registradas. Os comentários do professor já estão disponíveis abaixo de cada questão para você comparar com o que escreveu.</p>
+    <button class="btn btn-primario" onclick="fecharPopup()">Continuar</button>
+  </div>
+</div>
+
+<script>
+/* ===== GATE DE NOME ===== */
+function iniciarAtividade(){
+  const nome = document.getElementById('nome-aluno').value.trim();
+  const turma = document.getElementById('turma-aluno').value.trim();
+  const aviso = document.getElementById('capa-aviso');
+  if(!nome){
+    aviso.style.display = 'block';
+    return;
+  }
+  aviso.style.display = 'none';
+  const hoje = new Date();
+  const dataFormatada = String(hoje.getDate()).padStart(2,'0') + '/' + String(hoje.getMonth()+1).padStart(2,'0') + '/' + hoje.getFullYear();
+  document.getElementById('header-nome').textContent = nome;
+  document.getElementById('ficha-nome').textContent = nome;
+  document.getElementById('ficha-data').textContent = dataFormatada;
+  document.getElementById('ficha-turma').textContent = turma || '—';
+  document.getElementById('capa').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+/* ===== CONTADOR DE CARACTERES E PROGRESSO ===== */
+const textareas = document.querySelectorAll('textarea.dissertativa');
+
+function atualizarProgresso(){
+  let respondidas = 0;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length >= min) respondidas++;
+  });
+  document.getElementById('contador-geral').textContent = 'Respondidas: ' + respondidas + '/' + textareas.length;
+  document.getElementById('barra-fill').style.width = (respondidas / textareas.length * 100) + '%';
+}
+
+textareas.forEach(function(t){
+  const contadorEl = t.parentElement.querySelector('.contador-chars');
+  const min = parseInt(t.dataset.min, 10);
+  t.addEventListener('input', function(){
+    contadorEl.textContent = t.value.length + ' caracteres (mínimo ' + min + ')';
+    atualizarProgresso();
+  });
+});
+
+/* ===== FINALIZAR ===== */
+function finalizarAtividade(){
+  let completo = true;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length < min) completo = false;
+  });
+
+  const alerta = document.getElementById('alerta-incompleto');
+  if(!completo){
+    alerta.classList.add('show');
+    alerta.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  alerta.classList.remove('show');
+
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.add('show');
+  });
+
+  document.getElementById('popup-overlay').classList.add('show');
+}
+
+function fecharPopup(){
+  document.getElementById('popup-overlay').classList.remove('show');
+}
+
+function refazerAtividade(){
+  textareas.forEach(function(t){
+    t.value = '';
+    t.parentElement.querySelector('.contador-chars').textContent = '0 caracteres (mínimo ' + t.dataset.min + ')';
+  });
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.remove('show');
+  });
+  document.getElementById('alerta-incompleto').classList.remove('show');
+  atualizarProgresso();
+  window.scrollTo(0,0);
+}
+
+/* ===== EXPORTAR PDF ===== */
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+function esc(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML.replace(/\n/g, '<br>');
+}
+
+function imagemParaDataURL(imgEl){
+  return new Promise(function(resolve){
+    function converter(){
+      try{
+        const canvas = document.createElement('canvas');
+        canvas.width = imgEl.naturalWidth || imgEl.width;
+        canvas.height = imgEl.naturalHeight || imgEl.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(imgEl, 0, 0);
+        resolve(canvas.toDataURL('image/jpeg', .92));
+      } catch(e){
+        resolve(imgEl.src);
+      }
+    }
+    if(imgEl.complete && imgEl.naturalWidth){
+      converter();
+    } else if(imgEl.complete && !imgEl.naturalWidth){
+      resolve('');
+    } else {
+      imgEl.addEventListener('load', converter, {once:true});
+      imgEl.addEventListener('error', function(){ resolve(''); }, {once:true});
+    }
+  });
+}
+
+async function exportarPDF(){
+  const overlay = document.createElement('div');
+  overlay.id = 'pdf-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(44,10,16,.6);display:flex;align-items:center;justify-content:center;z-index:999;';
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;padding:32px 36px;text-align:center;max-width:300px;box-shadow:0 10px 30px rgba(77,17,25,.3);font-family:\'Source Serif 4\',serif;">' +
+      '<div style="font-size:2rem;margin-bottom:8px;">📄</div>' +
+      '<h4 style="margin:0 0 4px;color:#4d1119;font-family:\'Playfair Display\',serif;">Gerando PDF…</h4>' +
+      '<p style="margin:0 0 14px;color:#6b4a4c;font-size:.86rem;">Aguarde alguns instantes.</p>' +
+      '<div style="background:#f0dedf;border-radius:6px;overflow:hidden;height:8px;">' +
+        '<div id="pdf-prog" style="height:100%;width:0%;background:#7a1f2b;transition:width .2s ease;"></div>' +
+      '</div>' +
+      '<div id="pdf-prog-txt" style="margin-top:8px;font-family:\'JetBrains Mono\',monospace;font-size:.74rem;color:#6b4a4c;">0%</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  await sleep(80);
+  function setP(pct, msg){
+    const pp = document.getElementById('pdf-prog'), pt = document.getElementById('pdf-prog-txt');
+    if(pp) pp.style.width = pct + '%';
+    if(pt) pt.textContent = msg || (pct + '%');
+  }
+
+  try{
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({orientation:'portrait', unit:'px', format:'a4', hotfixes:['px_scaling']});
+    const PW = pdf.internal.pageSize.getWidth(), PH = pdf.internal.pageSize.getHeight();
+    const ML = 28, CW = PW - ML*2;
+    let y = ML;
+
+    async function addImg(el){
+      const canvas = await html2canvas(el, {scale:2, useCORS:true, allowTaint:false, logging:false, backgroundColor:'#ffffff', scrollX:0, scrollY:0, windowWidth:860});
+      const imgW = CW, imgH = (canvas.height / canvas.width) * imgW;
+      let dataUrl;
+      try{
+        dataUrl = canvas.toDataURL('image/jpeg', .92);
+      } catch(taintErr){
+        console.warn('Bloco n\u00e3o p\u00f4de ser exportado (canvas bloqueado pelo navegador):', taintErr);
+        return;
+      }
+      const avail = PH - ML*2;
+      if(imgH <= avail){
+        if(y + imgH > PH - ML){ pdf.addPage(); y = ML; }
+        pdf.addImage(dataUrl, 'JPEG', ML, y, imgW, imgH);
+        y += imgH + 8;
+      } else {
+        const pxPerPdfPt = canvas.width / imgW;
+        let srcY = 0;
+        while(srcY < canvas.height){
+          const availPt = PH - y - ML, sliceH_pt = Math.min(availPt, avail);
+          const sliceH_px = Math.round(sliceH_pt * pxPerPdfPt), actualH_px = Math.min(sliceH_px, canvas.height - srcY);
+          const tmp = document.createElement('canvas');
+          tmp.width = canvas.width; tmp.height = actualH_px;
+          tmp.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, actualH_px, 0, 0, canvas.width, actualH_px);
+          const sliceUrl = tmp.toDataURL('image/jpeg', .92), slicePt = (actualH_px / canvas.width) * imgW;
+          pdf.addImage(sliceUrl, 'JPEG', ML, y, imgW, slicePt);
+          srcY += actualH_px; y += slicePt;
+          if(srcY < canvas.height){ pdf.addPage(); y = ML; }
+        }
+        y += 8;
+      }
+    }
+
+    async function band(tag, txt){
+      const b = document.createElement('div');
+      b.style.cssText = 'width:860px;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      b.innerHTML = '<div style="background:linear-gradient(90deg,#7a1f2b,#4d1119);border-radius:8px;padding:12px 22px;display:flex;align-items:center;gap:12px">' +
+        '<span style="background:rgba(255,255,255,.2);color:#fff;font-weight:700;font-size:12px;letter-spacing:1px;border-radius:20px;padding:3px 12px">' + tag + '</span>' +
+        '<span style="color:#fff;font-size:15px;font-weight:700">' + txt + '</span></div>';
+      document.body.appendChild(b);
+      await sleep(20);
+      await addImg(b);
+      document.body.removeChild(b);
+    }
+
+    const nome = document.getElementById('header-nome').textContent || 'Aluno(a)';
+    const turma = document.getElementById('ficha-turma').textContent || '—';
+    const now = new Date();
+    const dtStr = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+
+    setP(5, 'Preparando capa…'); await sleep(40);
+    const coverEl = document.createElement('div');
+    coverEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;overflow:hidden;position:absolute;left:-9999px;top:0';
+    coverEl.innerHTML =
+      '<div style="background:linear-gradient(135deg,#2c0a10 0%,#7a1f2b 60%,#a8434f 100%);padding:32px 48px 28px;color:white">' +
+        '<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;font-weight:700;margin-bottom:6px">História · 9º Ano do Ensino Fundamental · GO-EF09HI19-A</div>' +
+        '<div style="font-size:26px;font-weight:900;line-height:1.2;margin-bottom:5px">O AI-5 e o Endurecimento da Ditadura Militar</div>' +
+        '<div style="font-size:13px;opacity:.8;font-style:italic">Texto de apoio · charge de Ziraldo · 5 questões dissertativas</div>' +
+      '</div>' +
+      '<div style="background:#f8f0f0;padding:22px 48px 26px;border-bottom:3px solid #cddbc0">' +
+        '<div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#7a1f2b;font-weight:700;margin-bottom:5px">Aluno(a)</div>' +
+        '<div style="font-size:20px;font-weight:700;color:#2a1416;border-bottom:2.5px solid #7a1f2b;padding-bottom:6px;display:inline-block;margin-bottom:16px">' + esc(nome) + '</div>' +
+        '<div style="display:flex;gap:12px;flex-wrap:wrap">' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#7a1f2b">' + esc(turma) + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Turma</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#6b7f52">5</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Dissertativas</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:140px">' +
+            '<div style="font-size:13px;font-weight:700;color:#333">' + dtStr + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Gerado em</div></div>' +
+        '</div>' +
+        '<div style="font-size:9px;color:#bbb;margin-top:14px">Colégio Estadual Rodolfo de Oliveira · Goiás · 2026</div>' +
+      '</div>';
+    document.body.appendChild(coverEl); await sleep(60); await addImg(coverEl); document.body.removeChild(coverEl);
+
+    // TEXTO DE APOIO
+    setP(14, 'Preparando texto de apoio…'); await sleep(20);
+    await band('TEXTO', 'O AI-5 e o Endurecimento da Ditadura Militar');
+    const P = 'font-size:12.5px;color:#2a1416;line-height:1.8;margin:0 0 12px';
+    const textoEl = document.createElement('div');
+    textoEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #e8ccce;border-radius:10px;position:absolute;left:-9999px;top:0';
+    textoEl.innerHTML =
+      '<div style="padding:18px 24px;background:#fffbfb">' +
+        '<p style="' + P + '">[...] o AI-5, de 13 de dezembro de 1968, foi um instrumento que deu ao regime poderes absolutos e cuja primeira consequência foi o fechamento do Congresso Nacional por quase um ano e o recesso dos mandatos de senadores, deputados e vereadores, que passaram a receber somente a parte fixa de seus subsídios.</p>' +
+        '<p style="' + P + '">Entre outras medidas do AI-5, destacam-se:</p>' +
+        '<ul style="background:#f0dedf;border-left:3px solid #a8434f;border-radius:0 8px 8px 0;padding:12px 16px 12px 32px;margin:0 0 12px;font-size:12.5px;color:#2a1416;line-height:1.8">' +
+          '<li>suspensão de qualquer reunião de cunho político;</li>' +
+          '<li>censura aos meios de comunicação, estendendo-se à música, ao teatro e ao cinema;</li>' +
+          '<li>suspensão do <i>habeas corpus</i> para os chamados crimes políticos;</li>' +
+          '<li>decretação do estado de sítio pelo presidente da República em qualquer dos casos previstos na Constituição;</li>' +
+          '<li>autorização para intervenção em estados e municípios. [...]</li>' +
+        '</ul>' +
+        '<div style="font-size:10px;color:#6b4a4c;font-family:monospace;border-top:1px solid #eee;padding-top:10px;line-height:1.6;word-break:break-word">PONTUAL, Helena Daltro. História das Constituições. Disponível em: &lt;www.senado.gov.br/noticias/especiais/constituicao25anos/historia-das-constituicoes.htm&gt;. Acesso em: 9 nov. 2018.</div>' +
+      '</div>';
+    document.body.appendChild(textoEl); await sleep(20); await addImg(textoEl); document.body.removeChild(textoEl);
+
+    const QUESTOES_TEXTO = [
+      { num:'1', id:'resp-1',
+        enunc:'De acordo com o texto, quais foram as principais consequências do AI-5 para o Congresso Nacional e para os mandatos de senadores, deputados e vereadores?',
+        coment:'O AI-5 deu ao regime poderes absolutos e, como primeira consequência, fechou o Congresso Nacional por quase um ano. Os mandatos de senadores, deputados e vereadores entraram em recesso: os parlamentares deixaram de exercer suas funções e passaram a receber apenas a parte fixa de seus subsídios. Na prática, o Legislativo foi anulado como espaço de representação e de controle sobre o Executivo.' },
+      { num:'2', id:'resp-2',
+        enunc:'Cite três medidas previstas pelo AI-5 que restringiam diretamente os direitos e liberdades da população brasileira.',
+        coment:'Entre as medidas possíveis: a suspensão de qualquer reunião de cunho político, que acabava com a liberdade de reunião e organização; a censura aos meios de comunicação, estendida à música, ao teatro e ao cinema, que atingia a liberdade de expressão e a produção artística; e a suspensão do habeas corpus para crimes políticos, que retirava a principal garantia contra prisões arbitrárias. Também valem a decretação do estado de sítio pelo presidente e a intervenção em estados e municípios.' }
+    ];
+
+    async function addQuestaoPDF(q, idx, total){
+      setP(22 + Math.round(idx/total*30), 'Questão ' + q.num + '/' + total + '…'); await sleep(12);
+      const valor = document.getElementById(q.id) ? document.getElementById(q.id).value : '';
+      const qEl = document.createElement('div');
+      qEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #e8ccce;border-radius:10px;position:absolute;left:-9999px;top:0';
+      qEl.innerHTML =
+        '<div style="background:linear-gradient(90deg,#7a1f2b,#4d1119);padding:10px 22px;display:flex;justify-content:space-between;align-items:center">' +
+          '<span style="color:white;font-weight:700;font-size:13px;letter-spacing:.8px">QUESTÃO ' + q.num + '</span>' +
+          '<span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:11px;padding:3px 12px;border-radius:20px;font-weight:600">Dissertativa</span></div>' +
+        '<div style="padding:18px 24px 16px;background:#fffbfb">' +
+          '<div style="font-size:13px;font-weight:700;color:#2a1416;line-height:1.6;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #eee">' + esc(q.enunc) + '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+            '<div style="width:4px;height:15px;background:#7a1f2b;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#7a1f2b;text-transform:uppercase;letter-spacing:1.5px">Resposta do Aluno(a)</div></div>' +
+          '<div style="background:#f9eeee;border:1.5px solid #dbb2b6;border-radius:8px;padding:13px 16px;min-height:50px;margin-bottom:12px">' +
+            '<div style="font-size:12.5px;color:#2a1416;line-height:1.8;white-space:pre-wrap">' + (esc(valor) || '<span style=\"color:#aaa\">(sem resposta)</span>') + '</div></div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">' +
+            '<div style="width:4px;height:15px;background:#6b7f52;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#4f6140;text-transform:uppercase;letter-spacing:1.5px">Comentário do Professor</div></div>' +
+          '<div style="background:#eef3e7;border:1.5px solid #cddbc0;border-radius:8px;padding:13px 16px">' +
+            '<div style="font-size:12px;color:#3f4f2f;line-height:1.8">' + esc(q.coment) + '</div></div>' +
+        '</div>';
+      document.body.appendChild(qEl); await sleep(12); await addImg(qEl); document.body.removeChild(qEl);
+    }
+
+    for(let i=0; i<QUESTOES_TEXTO.length; i++){
+      await addQuestaoPDF(QUESTOES_TEXTO[i], i, 5);
+    }
+
+    // CHARGE
+    setP(55, 'Preparando charge…'); await sleep(20);
+    await band('CHARGE', 'Ziraldo — Correio da Manhã, 23 de junho de 1968');
+    const chargeImgEl = document.getElementById('charge-img');
+    const chargeDataUrl = await imagemParaDataURL(chargeImgEl);
+    const chargeEl = document.createElement('div');
+    chargeEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #e8ccce;border-radius:10px;position:absolute;left:-9999px;top:0';
+    chargeEl.innerHTML =
+      '<div style="padding:18px 24px;background:#fffbfb">' +
+        (chargeDataUrl && chargeDataUrl.indexOf('data:') === 0
+          ? '<div style="text-align:center;margin-bottom:14px"><img src="' + chargeDataUrl + '" style="max-width:260px;max-height:700px;border-radius:8px;border:1px solid #e8ccce"></div>'
+          : '<div style="text-align:center;margin-bottom:14px;padding:14px;background:#f0dedf;border-radius:8px;font-size:11px;color:#6b4a4c">(Imagem da charge dispon\u00edvel na vers\u00e3o online da atividade)</div>') +
+        '<p style="font-size:11.5px;color:#6b4a4c;font-style:italic;line-height:1.7;margin:0">Essa charge de Ziraldo ironiza a truculência do Regime Militar. Correio da Manhã, ano 68, n. 23068, 23 de junho de 1968.</p>' +
+      '</div>';
+    document.body.appendChild(chargeEl); await sleep(20); await addImg(chargeEl); document.body.removeChild(chargeEl);
+
+    // QUESTOES 3-5 (charge e relação com o texto)
+    const QUESTOES_CHARGE = [
+      { num:'3', id:'resp-3',
+        enunc:'Observe a charge de Ziraldo. Descreva a sequência de ações representada nos quadrinhos, desde o primeiro até o último quadro.',
+        coment:'No primeiro quadro, uma autoridade sentada atrás de uma mesa dá ordens a um policial armado com um cassetete. No segundo, o policial sai apressado do gabinete. No terceiro, ele corre na direção de um homem comum, parado na rua. No quarto, derruba esse homem e o espanca com o cassetete. No último quadro, de pé sobre o corpo caído, o policial anuncia: “o ministro quer dialogar com você”.' },
+      { num:'4', id:'resp-4',
+        enunc:'Na charge, a frase final é “O ministro quer dialogar com você”, dita logo após a violência sofrida pelo personagem. Explique a ironia contida nessa frase e relacione-a com a truculência do regime militar mencionada na legenda.',
+        coment:'A ironia está no contraste entre a palavra “dialogar” e a cena mostrada: o convite à conversa chega depois da agressão e a quem já está caído no chão, sem condições de responder. Ziraldo sugere que o “diálogo” oferecido pelo regime era falso — na prática, o governo só se comunicava com a sociedade pela força. A charge critica assim a truculência do Regime Militar, que apresentava uma fachada de negociação enquanto usava a violência policial para calar quem discordava.' },
+      { num:'5', id:'resp-5',
+        enunc:'Relacione o conteúdo da charge com o texto sobre o AI-5: de que forma a imagem representa, de maneira crítica, a falta de liberdade de expressão e o uso da força que caracterizavam esse período da ditadura?',
+        coment:'A charge mostra em imagens aquilo que o texto descreve em termos jurídicos: um poder que não admite contestação. O AI-5 proibiu reuniões políticas, censurou a imprensa e as artes e suspendeu o habeas corpus, deixando o cidadão sem defesa diante da violência do Estado — exatamente a situação do personagem espancado, que não pode reagir nem recorrer a ninguém. Vale notar que a charge é de junho de 1968, meses antes do AI-5: ela já denunciava a truculência que o ato viria a legalizar, e a censura instituída em dezembro tornaria impossível publicar críticas como essa.' }
+    ];
+
+    for(let i=0; i<QUESTOES_CHARGE.length; i++){
+      await addQuestaoPDF(QUESTOES_CHARGE[i], 2+i, 5);
+    }
+
+    // RODAPE EM TODAS AS PAGINAS
+    setP(92, 'Finalizando…'); await sleep(30);
+    const totalPages = pdf.getNumberOfPages();
+    for(let p=1; p<=totalPages; p++){
+      pdf.setPage(p);
+      const fEl = document.createElement('div');
+      fEl.style.cssText = 'width:' + Math.round(CW) + 'px;height:22px;background:#f8f0f0;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:10px;color:#888;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      fEl.innerHTML = '<span>O AI-5 e o Endurecimento da Ditadura Militar · ' + esc(nome) + '</span><span>Página ' + p + ' de ' + totalPages + '</span>';
+      document.body.appendChild(fEl);
+      const fc = await html2canvas(fEl, {scale:2, logging:false, backgroundColor:'#f8f0f0'});
+      document.body.removeChild(fEl);
+      const fUrl = fc.toDataURL('image/jpeg', .9), fH = (fc.height / fc.width) * CW;
+      pdf.setFillColor(248,240,240); pdf.rect(ML, PH-fH, CW, fH, 'F');
+      pdf.addImage(fUrl, 'JPEG', ML, PH-fH, CW, fH);
+    }
+
+    setP(100, 'Salvando…'); await sleep(200);
+    const safeName = nome.replace(/[^a-zA-Z0-9_\-]/g, '_');
+    pdf.save('AI5_Endurecimento_Ditadura_' + safeName + '.pdf');
+
+  } catch(err){
+    console.error(err);
+    alert('Erro ao gerar PDF: ' + err.message);
+  } finally {
+    const ov = document.getElementById('pdf-overlay');
+    if(ov) document.body.removeChild(ov);
+  }
+}
+
+/* ===== PROTEÇÃO ANTI-COLA ===== */
+(function () {
+  const CAMPOS_PROTEGIDOS = document.querySelectorAll('textarea.dissertativa, .campo-resposta');
+  const LIMITE_BLOCO = 25;
+
+  function bloquear(e) {
+    e.preventDefault();
+    mostrarToast('Colar não permitido nesta atividade.');
+  }
+
+  CAMPOS_PROTEGIDOS.forEach(function (campo) {
+    ['paste', 'copy', 'cut', 'drop', 'dragover', 'contextmenu'].forEach(function (evt) {
+      campo.addEventListener(evt, bloquear);
+    });
+
+    campo.addEventListener('beforeinput', function (e) {
+      if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') {
+        e.preventDefault();
+        mostrarToast('Colar não permitido nesta atividade.');
+      }
+    });
+
+    let valorAnterior = campo.value;
+    campo.addEventListener('input', function (e) {
+      const diferenca = campo.value.length - valorAnterior.length;
+      if (diferenca >= LIMITE_BLOCO && e.inputType !== 'insertReplacementText') {
+        campo.value = valorAnterior;
+        mostrarToast('Colar não permitido nesta atividade.');
+      } else {
+        valorAnterior = campo.value;
+      }
+    });
+  });
+
+  function mostrarToast(mensagem) {
+    let toast = document.getElementById('anti-cola-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'anti-cola-toast';
+      toast.style.cssText =
+        'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);' +
+        'background:#333;color:#fff;padding:10px 20px;border-radius:8px;' +
+        'font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = mensagem;
+    toast.style.opacity = '1';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(function () {
+      toast.style.opacity = '0';
+    }, 2500);
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ditadura e Democracia | CERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#eef6f6;
+    --bg-alt:#dbecec;
+    --paper:#fbfefe;
+    --ink:#12292b;
+    --ink-soft:#4c6a6c;
+    --teal:#0f5c63;
+    --teal-dark:#0b3f45;
+    --teal-2:#2b8f99;
+    --cobre:#b06a2c;
+    --cobre-light:#e6cbaa;
+    --line:#c9e2e2;
+    --shadow:0 10px 30px rgba(11,63,69,.16);
+    --radius:14px;
+    --font-title:'Playfair Display', serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-touch-callout:none;
+    user-select:none;
+  }
+  .selecionavel, main{user-select:text;}
+  .campo-resposta{user-select:text;}
+
+  /* ===== CAPA / GATE ===== */
+  #capa{
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(to bottom, #062b30, #0b3f45, #2b8f99);
+    padding:24px;
+  }
+  #capa .grade-centralizada{
+    position:absolute;
+    top:0; bottom:0; left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:896px;
+    pointer-events:none;
+    z-index:0;
+    opacity:.08;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.5) 39px, rgba(255,255,255,.5) 40px);
+    background-size:40px 40px;
+  }
+  .capa-card{
+    position:relative;
+    z-index:1;
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    max-width:480px;
+    width:100%;
+    padding:36px 32px;
+    text-align:center;
+  }
+  .capa-card .tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--teal-dark);
+    background:rgba(15,92,99,.1); padding:5px 12px; border-radius:999px; margin-bottom:14px;
+  }
+  .capa-card h1{font-family:var(--font-title); font-size:1.6rem; margin:0 0 10px; color:var(--teal-dark);}
+  .capa-card p.desc{color:var(--ink-soft); font-size:.94rem; margin:0 0 22px;}
+  .capa-card input{
+    width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:1rem; margin-bottom:14px;
+  }
+  .capa-card button{
+    width:100%; padding:13px; border:none; border-radius:8px;
+    background:var(--teal); color:#fff; font-weight:600; font-size:1rem; cursor:pointer;
+    font-family:var(--font-body); transition:filter .15s ease;
+  }
+  .capa-card button:hover{filter:brightness(1.08);}
+  .capa-aviso{font-size:.78rem; color:#a33; margin-top:8px; display:none;}
+
+  /* ===== APP ===== */
+  #app{display:none;}
+  .sticky-header{
+    position:sticky; top:0; z-index:50;
+    background:var(--teal-dark); color:#e6f7f7;
+    padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:8px;
+    font-family:var(--font-mono); font-size:.82rem;
+  }
+  .sticky-header .aluno{font-family:var(--font-body); font-weight:600; font-size:.92rem;}
+  .barra-progresso-trilho{
+    flex:1; min-width:120px; height:8px; background:rgba(255,255,255,.2); border-radius:6px; overflow:hidden; margin:0 14px;
+  }
+  .barra-progresso-fill{height:100%; background:var(--cobre); width:0%; transition:width .3s ease;}
+
+  .wrap{max-width:800px; margin:0 auto; padding:32px 24px 60px;}
+
+  header.topo{margin-bottom:28px;}
+  header.topo .hero-tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.72rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--teal-dark);
+    background:rgba(15,92,99,.1); padding:5px 12px; border-radius:999px; margin-bottom:12px;
+  }
+  header.topo h1{font-family:var(--font-title); font-size:clamp(1.5rem,4vw,2rem); margin:0 0 8px; color:var(--ink);}
+  header.topo p.sub{color:var(--ink-soft); margin:0; font-size:.98rem;}
+  .descritor-bar{
+    font-family:var(--font-mono); font-size:.76rem; color:var(--ink-soft);
+    background:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:8px 14px; margin-bottom:14px; display:inline-block;
+  }
+  .ficha-id{
+    display:flex; flex-wrap:wrap; gap:10px 26px;
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; margin-top:12px; font-family:var(--font-mono); font-size:.84rem; color:var(--ink);
+  }
+  .ficha-id span b{color:var(--teal-dark);}
+
+  /* ===== TEXTO DE APOIO ===== */
+  .texto-apoio{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:28px 30px; margin-bottom:30px;
+  }
+  .texto-apoio h2{font-family:var(--font-title); font-size:1.25rem; color:var(--teal-dark); margin:0 0 4px;}
+  .texto-apoio .fonte-tag{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-bottom:16px; display:block;}
+  .texto-apoio p{margin:0 0 14px; color:var(--ink);}
+  .texto-apoio p:last-of-type{margin-bottom:0;}
+
+  .conceito-box{
+    background:var(--bg-alt); border-left:3px solid var(--teal-2); border-radius:0 8px 8px 0;
+    padding:14px 18px; margin:0 0 16px;
+  }
+  .conceito-box .rot{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--teal-dark); display:block; margin-bottom:6px;
+  }
+  .conceito-box p{margin:0; font-size:.94rem;}
+
+  .referencia-box{
+    margin-top:20px; padding:14px 16px;
+    background:var(--bg-alt); border-left:3px solid var(--cobre); border-radius:0 8px 8px 0;
+  }
+  .referencia-box .rot{
+    font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--teal-dark); display:block; margin-bottom:6px;
+  }
+  .referencia-box p{margin:0 0 6px; font-size:.86rem; color:var(--ink-soft); font-family:var(--font-mono); line-height:1.6;}
+  .referencia-box p:last-child{margin-bottom:0;}
+
+  /* ===== TABELA COMPARATIVA ===== */
+  .tabela-wrap{overflow-x:auto; margin-top:6px;}
+  table.comparativa{
+    width:100%; border-collapse:collapse; font-size:.92rem; min-width:480px;
+  }
+  table.comparativa thead th{
+    background:var(--teal-dark); color:#eafafa; font-family:var(--font-title);
+    font-size:1rem; padding:11px 14px; text-align:left; border:1px solid var(--teal-dark);
+  }
+  table.comparativa tbody td{
+    border:1px solid var(--line); padding:10px 14px; vertical-align:top; color:var(--ink);
+  }
+  table.comparativa tbody tr:nth-child(even) td{background:var(--bg-alt);}
+  table.comparativa tbody td:first-child{border-left:3px solid var(--teal-2);}
+  table.comparativa tbody td:last-child{border-left:3px solid var(--cobre);}
+
+  /* ===== QUESTOES ===== */
+  .questoes-titulo{
+    font-family:var(--font-title); font-size:1.2rem; color:var(--teal-dark);
+    margin:0 0 18px; display:flex; align-items:center; gap:10px;
+  }
+  .questao{
+    background:var(--paper); border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; margin-bottom:18px;
+  }
+  .questao .num-q{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:50%; background:var(--teal);
+    color:#fff; font-family:var(--font-mono); font-size:.78rem; margin-right:8px; flex-shrink:0;
+  }
+  .questao .enunciado{font-weight:600; color:var(--ink); margin-bottom:12px; display:flex; align-items:flex-start;}
+  .questao textarea{
+    width:100%; min-height:100px; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-body); font-size:.96rem; resize:vertical; color:var(--ink);
+  }
+  .questao textarea:focus{outline:2px solid var(--teal-2); outline-offset:1px;}
+  .contador-chars{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin-top:6px; text-align:right;}
+
+  .comentario-prof{
+    display:none; margin-top:14px; padding:14px 16px;
+    background:#fbf1e4; border:1px solid #e6cbaa; border-radius:8px; font-size:.9rem; color:#6d4114;
+  }
+  .comentario-prof.show{display:block;}
+  .comentario-prof b{display:block; margin-bottom:4px; font-family:var(--font-title); font-size:.92rem;}
+
+  /* ===== ALERTA / FINALIZAR ===== */
+  .alerta-incompleto{
+    display:none; background:#fdf3e2; border:1px solid #f1d9a6; color:#8a5a10;
+    padding:12px 16px; border-radius:8px; font-size:.9rem; margin-bottom:16px;
+  }
+  .alerta-incompleto.show{display:block;}
+
+  .acoes-finais{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;}
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:.94rem; padding:12px 22px;
+    border-radius:8px; border:none; cursor:pointer; transition:filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn-primario{background:var(--teal); color:#fff;}
+  .btn-secundario{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn-pdf{background:var(--cobre); color:#fff;}
+  .btn[disabled]{opacity:.5; cursor:not-allowed;}
+
+  /* ===== POPUP ===== */
+  .popup-overlay{
+    display:none; position:fixed; inset:0; background:rgba(6,43,48,.6);
+    align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .popup-overlay.show{display:flex;}
+  .popup-card{
+    background:var(--paper); border-radius:var(--radius); box-shadow:var(--shadow);
+    max-width:420px; width:100%; padding:32px 28px; text-align:center;
+  }
+  .popup-card .emoji{font-size:2.4rem; margin-bottom:10px;}
+  .popup-card h3{font-family:var(--font-title); margin:0 0 8px; color:var(--teal-dark);}
+  .popup-card p{color:var(--ink-soft); font-size:.94rem; margin:0 0 20px;}
+
+  footer.rodape{text-align:center; padding:24px; color:var(--ink-soft); font-family:var(--font-mono); font-size:.8rem;}
+
+  @media (max-width:600px){
+    .wrap{padding:24px 16px 50px;}
+    .texto-apoio, .questao{padding:18px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== CAPA ===== -->
+<div id="capa">
+  <div class="grade-centralizada"></div>
+  <div class="capa-card">
+    <span class="tag">9º ano · História · CERO</span>
+    <h1>Ditadura e Democracia</h1>
+    <p class="desc">Dois modos de organizar o poder. Texto de apoio, quadro comparativo e questões dissertativas. Preencha os dados para começar.</p>
+    <input type="text" id="nome-aluno" placeholder="Seu nome completo">
+    <input type="text" id="turma-aluno" placeholder="Turma (ex.: 9º A)">
+    <button onclick="iniciarAtividade()">Iniciar atividade</button>
+    <div class="capa-aviso" id="capa-aviso">Por favor, digite seu nome para continuar.</div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+  <div class="sticky-header">
+    <span class="aluno" id="header-nome"></span>
+    <div class="barra-progresso-trilho"><div class="barra-progresso-fill" id="barra-fill"></div></div>
+    <span id="contador-geral">Respondidas: 0/6</span>
+  </div>
+
+  <div class="wrap">
+    <header class="topo selecionavel">
+      <span class="descritor-bar">História / 9º Ano do Ensino Fundamental &nbsp;|&nbsp; (GO-EF09HI19-A) – A Ditadura Militar no Brasil (1964–1985)</span>
+      <span class="hero-tag" style="display:block; margin-top:10px;">Conceitos-chave</span>
+      <h1>Ditadura e Democracia: dois modos de organizar o poder</h1>
+      <p class="sub">Leia o texto e observe o quadro comparativo com atenção. Depois, responda às seis questões a seguir.</p>
+      <div class="ficha-id" id="ficha-id">
+        <span><b>NOME:</b> <span id="ficha-nome"></span></span>
+        <span><b>DATA:</b> <span id="ficha-data"></span></span>
+        <span><b>TURMA:</b> <span id="ficha-turma"></span></span>
+      </div>
+    </header>
+
+    <main>
+      <section class="texto-apoio selecionavel">
+        <h2>O que é democracia?</h2>
+        <span class="fonte-tag">Texto conceitual</span>
+
+        <div class="conceito-box">
+          <span class="rot">Definição</span>
+          <p>Democracia é o regime político em que o poder pertence ao conjunto dos cidadãos, que o exercem diretamente ou por meio de representantes eleitos.</p>
+        </div>
+
+        <p>Mais do que apenas “votar de tempos em tempos”, a democracia é um processo que precisa ser construído e ampliado continuamente: ela garante liberdade de expressão, de imprensa e de organização, respeita as diferenças de opinião, religião, cor e gênero, e assegura aos cidadãos o direito de lutar por mais direitos, mesmo quando o regime ainda apresenta falhas ou limitações.</p>
+
+        <p>Por isso, dizemos que a democracia caminha sempre ao lado da liberdade e da tolerância: ela não é um estado perfeito e definitivo, mas um caminho em constante aperfeiçoamento.</p>
+      </section>
+
+      <h2 class="questoes-titulo">✍️ Questões Dissertativas</h2>
+
+      <div class="questao" data-questao="1">
+        <div class="enunciado"><span class="num-q">1</span> Explique, com suas palavras, por que a democracia é descrita como um “processo contínuo” e não como um estado definitivo e perfeito.</div>
+        <textarea id="resp-1" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Porque a democracia precisa ser construída e ampliada todos os dias: mesmo onde já existe, ela apresenta falhas e limitações que só são corrigidas quando os cidadãos continuam lutando por novos direitos. Nenhum regime democrático nasce completo — ele se aperfeiçoa à medida que mais pessoas passam a ter voz, liberdade e direitos garantidos.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>O que é ditadura?</h2>
+        <span class="fonte-tag">Texto conceitual</span>
+
+        <div class="conceito-box">
+          <span class="rot">Definição</span>
+          <p>Ditadura é a forma de governo em que a maior parte do poder político se concentra nas mãos de uma única pessoa ou de um pequeno grupo, sem que a população tenha meios legítimos de controlá-lo ou substituí-lo por eleições livres.</p>
+        </div>
+
+        <p>Nas ditaduras, é comum haver forte repressão a quem discorda do governo, além da restrição ou supressão de direitos e liberdades básicas, como a liberdade de imprensa, de reunião e de expressão.</p>
+
+        <p>Uma ditadura pode ser liderada por militares — chamada de ditadura militar —, mas também pode contar com forte participação de civis, como ocorreu no Brasil a partir de 1964, quando o regime instaurado é classificado por muitos historiadores como uma <b>ditadura civil-militar</b>, já que setores da sociedade civil, e não apenas os militares, apoiaram e ajudaram a sustentar o governo.</p>
+      </section>
+
+      <div class="questao" data-questao="2">
+        <div class="enunciado"><span class="num-q">2</span> De acordo com o texto, quais são as principais características de um regime ditatorial? Cite pelo menos três direitos ou liberdades que costumam ser restringidos nesse tipo de regime.</div>
+        <textarea id="resp-2" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          O poder político fica concentrado em uma única pessoa ou em um pequeno grupo, sem que a população possa controlá-lo ou substituí-lo por eleições livres, e quem discorda do governo sofre forte repressão. Entre os direitos restringidos ou suprimidos estão a liberdade de imprensa, a liberdade de reunião e a liberdade de expressão.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="3">
+        <div class="enunciado"><span class="num-q">3</span> O texto afirma que o regime instaurado no Brasil em 1964 é classificado por muitos historiadores como uma “ditadura civil-militar”. Explique o que essa expressão significa e por que ela é usada em vez de “ditadura militar”.</div>
+        <textarea id="resp-3" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          A expressão indica que o regime não foi sustentado apenas pelas Forças Armadas: setores civis — como empresários, parte da imprensa, da Igreja e das classes médias — apoiaram o golpe e ajudaram a manter o governo. Dizer apenas “ditadura militar” daria a impressão de que a responsabilidade foi exclusiva dos militares, escondendo a participação desses grupos da sociedade civil.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>Comparando os dois regimes</h2>
+        <span class="fonte-tag">Quadro comparativo</span>
+        <div class="tabela-wrap">
+          <table class="comparativa">
+            <thead>
+              <tr><th>Democracia</th><th>Ditadura</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Poder exercido pelo povo, diretamente ou por representantes eleitos</td>
+                <td>Poder concentrado em uma pessoa ou pequeno grupo</td>
+              </tr>
+              <tr>
+                <td>Eleições livres e periódicas</td>
+                <td>Eleições suprimidas, controladas ou inexistentes</td>
+              </tr>
+              <tr>
+                <td>Liberdade de imprensa e de expressão</td>
+                <td>Censura e forte repressão à oposição</td>
+              </tr>
+              <tr>
+                <td>Direitos e liberdades garantidos e ampliáveis</td>
+                <td>Direitos e liberdades restringidos ou suprimidos</td>
+              </tr>
+              <tr>
+                <td>Convivência entre diferentes opiniões e grupos</td>
+                <td>Perseguição a quem discorda do governo</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="questao" data-questao="4">
+        <div class="enunciado"><span class="num-q">4</span> Compare democracia e ditadura em relação a dois aspectos: a forma como o poder é exercido e a possibilidade de a população discordar do governo sem sofrer perseguição.</div>
+        <textarea id="resp-4" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Na democracia o poder é exercido pelo povo, de forma direta ou por representantes escolhidos em eleições livres e periódicas; na ditadura ele se concentra em uma pessoa ou pequeno grupo, com eleições controladas ou inexistentes. Quanto à discordância, a democracia permite a convivência entre opiniões diferentes e garante a liberdade de expressão e de imprensa, enquanto a ditadura recorre à censura e persegue quem critica o governo.
+        </div>
+      </div>
+
+      <section class="texto-apoio selecionavel">
+        <h2>Por que isso importa hoje?</h2>
+        <span class="fonte-tag">Texto conceitual</span>
+
+        <p>Compreender esses conceitos ajuda a entender momentos importantes da história brasileira e mundial, como o período de 1964 a 1985, quando o Brasil viveu sob um regime ditatorial, ou o período de 1945 a 1964, quando o país experimentou uma fase de vida democrática, com liberdade de imprensa e disputas eleitorais entre diferentes projetos de nação.</p>
+
+        <p>Também ajuda a refletir sobre outros contextos, como as ditaduras da Guerra Fria na América Latina, o nazifascismo na Europa e os processos de redemocratização vividos por diversos países ao longo do século XX. Conhecer as diferenças entre democracia e ditadura é essencial para valorizar os direitos conquistados e para exercer, no presente, uma cidadania ativa e consciente.</p>
+
+        <div class="referencia-box">
+          <span class="rot">Referências (texto adaptado a partir de) — ABNT NBR 6023</span>
+          <p>AZEVEDO, Gislane; CALBENTE, Leandro; SERIACOPI, Reinaldo. A Conquista: História — 9º ano. Manual do Professor. 1. ed. São Paulo, 2022.</p>
+          <p>BOULOS JÚNIOR, Alfredo. História, Sociedade &amp; Cidadania — 9º ano. Manual do Professor. 1. ed. São Paulo: Editora FTD, 2022.</p>
+        </div>
+      </section>
+
+      <div class="questao" data-questao="5">
+        <div class="enunciado"><span class="num-q">5</span> O período de 1945 a 1964 é apresentado no texto como uma fase de “experiência democrática” no Brasil. Com base no que você estudou, cite uma característica desse período que demonstra a existência de liberdade política.</div>
+        <textarea id="resp-5" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Entre outras respostas possíveis, o aluno pode citar: a realização de eleições livres e periódicas para presidente e para o Congresso; a existência de vários partidos disputando o poder (PSD, UDN, PTB) e de projetos diferentes de nação; a liberdade de imprensa, com jornais e revistas criticando abertamente os governos; ou a atuação legal de sindicatos e movimentos sociais reivindicando direitos.
+        </div>
+      </div>
+
+      <div class="questao" data-questao="6">
+        <div class="enunciado"><span class="num-q">6</span> Na sua opinião, por que é importante que os cidadãos de um país compreendam a diferença entre democracia e ditadura? Relacione sua resposta com a ideia de “cidadania ativa e consciente” mencionada no texto.</div>
+        <textarea id="resp-6" class="campo-resposta dissertativa" data-min="60" placeholder="Escreva sua resposta aqui..."></textarea>
+        <div class="contador-chars">0 caracteres (mínimo 60)</div>
+        <div class="comentario-prof">
+          <b>Comentário do professor</b>
+          Não há uma única resposta correta — espera-se que o aluno perceba que reconhecer essa diferença permite identificar ameaças aos direitos e não confundir autoritarismo com solução para os problemas do país. A cidadania ativa e consciente supõe informar-se, participar, votar com responsabilidade, cobrar dos governantes e defender liberdades que foram conquistadas com muita luta e que podem ser perdidas.
+        </div>
+      </div>
+
+      <div class="alerta-incompleto" id="alerta-incompleto">
+        ⚠️ Ainda há questões incompletas (resposta mínima de 60 caracteres). Revise antes de finalizar.
+      </div>
+
+      <div class="acoes-finais">
+        <button class="btn btn-primario" onclick="finalizarAtividade()">Finalizar e ver comentários</button>
+        <button class="btn btn-secundario" onclick="refazerAtividade()">Refazer</button>
+        <button class="btn btn-pdf" onclick="exportarPDF()">Exportar em PDF</button>
+      </div>
+    </main>
+  </div>
+
+  <footer class="rodape">Colégio Estadual Rodolfo de Oliveira · CERO · 2026</footer>
+</div>
+
+<!-- ===== POPUP ===== -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-card">
+    <div class="emoji">🎉</div>
+    <h3>Atividade concluída!</h3>
+    <p>Suas seis respostas foram registradas. Os comentários do professor já estão disponíveis abaixo de cada questão para você comparar com o que escreveu.</p>
+    <button class="btn btn-primario" onclick="fecharPopup()">Continuar</button>
+  </div>
+</div>
+
+<script>
+/* ===== GATE DE NOME ===== */
+function iniciarAtividade(){
+  const nome = document.getElementById('nome-aluno').value.trim();
+  const turma = document.getElementById('turma-aluno').value.trim();
+  const aviso = document.getElementById('capa-aviso');
+  if(!nome){
+    aviso.style.display = 'block';
+    return;
+  }
+  aviso.style.display = 'none';
+  const hoje = new Date();
+  const dataFormatada = String(hoje.getDate()).padStart(2,'0') + '/' + String(hoje.getMonth()+1).padStart(2,'0') + '/' + hoje.getFullYear();
+  document.getElementById('header-nome').textContent = nome;
+  document.getElementById('ficha-nome').textContent = nome;
+  document.getElementById('ficha-data').textContent = dataFormatada;
+  document.getElementById('ficha-turma').textContent = turma || '—';
+  document.getElementById('capa').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+/* ===== CONTADOR DE CARACTERES E PROGRESSO ===== */
+const textareas = document.querySelectorAll('textarea.dissertativa');
+
+function atualizarProgresso(){
+  let respondidas = 0;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length >= min) respondidas++;
+  });
+  document.getElementById('contador-geral').textContent = 'Respondidas: ' + respondidas + '/' + textareas.length;
+  document.getElementById('barra-fill').style.width = (respondidas / textareas.length * 100) + '%';
+}
+
+textareas.forEach(function(t){
+  const contadorEl = t.parentElement.querySelector('.contador-chars');
+  const min = parseInt(t.dataset.min, 10);
+  t.addEventListener('input', function(){
+    contadorEl.textContent = t.value.length + ' caracteres (mínimo ' + min + ')';
+    atualizarProgresso();
+  });
+});
+
+/* ===== FINALIZAR ===== */
+function finalizarAtividade(){
+  let completo = true;
+  textareas.forEach(function(t){
+    const min = parseInt(t.dataset.min, 10);
+    if(t.value.trim().length < min) completo = false;
+  });
+
+  const alerta = document.getElementById('alerta-incompleto');
+  if(!completo){
+    alerta.classList.add('show');
+    alerta.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  alerta.classList.remove('show');
+
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.add('show');
+  });
+
+  document.getElementById('popup-overlay').classList.add('show');
+}
+
+function fecharPopup(){
+  document.getElementById('popup-overlay').classList.remove('show');
+}
+
+function refazerAtividade(){
+  textareas.forEach(function(t){
+    t.value = '';
+    t.parentElement.querySelector('.contador-chars').textContent = '0 caracteres (mínimo ' + t.dataset.min + ')';
+  });
+  document.querySelectorAll('.comentario-prof').forEach(function(c){
+    c.classList.remove('show');
+  });
+  document.getElementById('alerta-incompleto').classList.remove('show');
+  atualizarProgresso();
+  window.scrollTo(0,0);
+}
+
+/* ===== EXPORTAR PDF ===== */
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+function esc(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML.replace(/\n/g, '<br>');
+}
+
+async function exportarPDF(){
+  const overlay = document.createElement('div');
+  overlay.id = 'pdf-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(6,43,48,.6);display:flex;align-items:center;justify-content:center;z-index:999;';
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;padding:32px 36px;text-align:center;max-width:300px;box-shadow:0 10px 30px rgba(11,63,69,.3);font-family:\'Source Serif 4\',serif;">' +
+      '<div style="font-size:2rem;margin-bottom:8px;">📄</div>' +
+      '<h4 style="margin:0 0 4px;color:#0b3f45;font-family:\'Playfair Display\',serif;">Gerando PDF…</h4>' +
+      '<p style="margin:0 0 14px;color:#4c6a6c;font-size:.86rem;">Aguarde alguns instantes.</p>' +
+      '<div style="background:#dbecec;border-radius:6px;overflow:hidden;height:8px;">' +
+        '<div id="pdf-prog" style="height:100%;width:0%;background:#0f5c63;transition:width .2s ease;"></div>' +
+      '</div>' +
+      '<div id="pdf-prog-txt" style="margin-top:8px;font-family:\'JetBrains Mono\',monospace;font-size:.74rem;color:#4c6a6c;">0%</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  await sleep(80);
+  function setP(pct, msg){
+    const pp = document.getElementById('pdf-prog'), pt = document.getElementById('pdf-prog-txt');
+    if(pp) pp.style.width = pct + '%';
+    if(pt) pt.textContent = msg || (pct + '%');
+  }
+
+  try{
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({orientation:'portrait', unit:'px', format:'a4', hotfixes:['px_scaling']});
+    const PW = pdf.internal.pageSize.getWidth(), PH = pdf.internal.pageSize.getHeight();
+    const ML = 28, CW = PW - ML*2;
+    let y = ML;
+
+    async function addImg(el){
+      const canvas = await html2canvas(el, {scale:2, useCORS:true, allowTaint:false, logging:false, backgroundColor:'#ffffff', scrollX:0, scrollY:0, windowWidth:860});
+      const imgW = CW, imgH = (canvas.height / canvas.width) * imgW;
+      let dataUrl;
+      try{
+        dataUrl = canvas.toDataURL('image/jpeg', .92);
+      } catch(taintErr){
+        console.warn('Bloco n\u00e3o p\u00f4de ser exportado (canvas bloqueado pelo navegador):', taintErr);
+        return;
+      }
+      const avail = PH - ML*2;
+      if(imgH <= avail){
+        if(y + imgH > PH - ML){ pdf.addPage(); y = ML; }
+        pdf.addImage(dataUrl, 'JPEG', ML, y, imgW, imgH);
+        y += imgH + 8;
+      } else {
+        const pxPerPdfPt = canvas.width / imgW;
+        let srcY = 0;
+        while(srcY < canvas.height){
+          const availPt = PH - y - ML, sliceH_pt = Math.min(availPt, avail);
+          const sliceH_px = Math.round(sliceH_pt * pxPerPdfPt), actualH_px = Math.min(sliceH_px, canvas.height - srcY);
+          const tmp = document.createElement('canvas');
+          tmp.width = canvas.width; tmp.height = actualH_px;
+          tmp.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, actualH_px, 0, 0, canvas.width, actualH_px);
+          const sliceUrl = tmp.toDataURL('image/jpeg', .92), slicePt = (actualH_px / canvas.width) * imgW;
+          pdf.addImage(sliceUrl, 'JPEG', ML, y, imgW, slicePt);
+          srcY += actualH_px; y += slicePt;
+          if(srcY < canvas.height){ pdf.addPage(); y = ML; }
+        }
+        y += 8;
+      }
+    }
+
+    async function band(tag, txt){
+      const b = document.createElement('div');
+      b.style.cssText = 'width:860px;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      b.innerHTML = '<div style="background:linear-gradient(90deg,#0f5c63,#0b3f45);border-radius:8px;padding:12px 22px;display:flex;align-items:center;gap:12px">' +
+        '<span style="background:rgba(255,255,255,.2);color:#fff;font-weight:700;font-size:12px;letter-spacing:1px;border-radius:20px;padding:3px 12px">' + tag + '</span>' +
+        '<span style="color:#fff;font-size:15px;font-weight:700">' + txt + '</span></div>';
+      document.body.appendChild(b);
+      await sleep(20);
+      await addImg(b);
+      document.body.removeChild(b);
+    }
+
+    async function addBloco(html){
+      const el = document.createElement('div');
+      el.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #c9e2e2;border-radius:10px;position:absolute;left:-9999px;top:0';
+      el.innerHTML = '<div style="padding:18px 24px;background:#fdfefe">' + html + '</div>';
+      document.body.appendChild(el); await sleep(20); await addImg(el); document.body.removeChild(el);
+    }
+
+    const P = 'font-size:12.5px;color:#12292b;line-height:1.8;margin:0 0 12px';
+    const DEF = 'background:#dbecec;border-left:3px solid #2b8f99;border-radius:0 8px 8px 0;padding:12px 16px;margin:0 0 14px;font-size:12.5px;color:#12292b;line-height:1.8';
+
+    const nome = document.getElementById('header-nome').textContent || 'Aluno(a)';
+    const turma = document.getElementById('ficha-turma').textContent || '—';
+    const now = new Date();
+    const dtStr = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+
+    setP(5, 'Preparando capa…'); await sleep(40);
+    const coverEl = document.createElement('div');
+    coverEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;overflow:hidden;position:absolute;left:-9999px;top:0';
+    coverEl.innerHTML =
+      '<div style="background:linear-gradient(135deg,#062b30 0%,#0f5c63 60%,#2b8f99 100%);padding:32px 48px 28px;color:white">' +
+        '<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.7;font-weight:700;margin-bottom:6px">História · 9º Ano do Ensino Fundamental · GO-EF09HI19-A</div>' +
+        '<div style="font-size:26px;font-weight:900;line-height:1.2;margin-bottom:5px">Ditadura e Democracia: dois modos de organizar o poder</div>' +
+        '<div style="font-size:13px;opacity:.8;font-style:italic">Texto conceitual · quadro comparativo · 6 questões dissertativas</div>' +
+      '</div>' +
+      '<div style="background:#eef6f6;padding:22px 48px 26px;border-bottom:3px solid #e6cbaa">' +
+        '<div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#0f5c63;font-weight:700;margin-bottom:5px">Aluno(a)</div>' +
+        '<div style="font-size:20px;font-weight:700;color:#12292b;border-bottom:2.5px solid #0f5c63;padding-bottom:6px;display:inline-block;margin-bottom:16px">' + esc(nome) + '</div>' +
+        '<div style="display:flex;gap:12px;flex-wrap:wrap">' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#0f5c63">' + esc(turma) + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Turma</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:84px">' +
+            '<div style="font-size:22px;font-weight:900;color:#b06a2c">6</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Dissertativas</div></div>' +
+          '<div style="background:white;border-radius:8px;padding:12px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);min-width:140px">' +
+            '<div style="font-size:13px;font-weight:700;color:#333">' + dtStr + '</div>' +
+            '<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:2px">Gerado em</div></div>' +
+        '</div>' +
+        '<div style="font-size:9px;color:#bbb;margin-top:14px">Colégio Estadual Rodolfo de Oliveira · Goiás · 2026</div>' +
+      '</div>';
+    document.body.appendChild(coverEl); await sleep(60); await addImg(coverEl); document.body.removeChild(coverEl);
+
+    // TEXTO 1
+    setP(12, 'Preparando texto…'); await sleep(20);
+    await band('TEXTO', 'O que é democracia?');
+    await addBloco(
+      '<div style="' + DEF + '"><b>Definição:</b> Democracia é o regime político em que o poder pertence ao conjunto dos cidadãos, que o exercem diretamente ou por meio de representantes eleitos.</div>' +
+      '<p style="' + P + '">Mais do que apenas “votar de tempos em tempos”, a democracia é um processo que precisa ser construído e ampliado continuamente: ela garante liberdade de expressão, de imprensa e de organização, respeita as diferenças de opinião, religião, cor e gênero, e assegura aos cidadãos o direito de lutar por mais direitos, mesmo quando o regime ainda apresenta falhas ou limitações.</p>' +
+      '<p style="' + P + '">Por isso, dizemos que a democracia caminha sempre ao lado da liberdade e da tolerância: ela não é um estado perfeito e definitivo, mas um caminho em constante aperfeiçoamento.</p>'
+    );
+
+    // TEXTO 2
+    setP(20, 'Preparando texto…'); await sleep(20);
+    await band('TEXTO', 'O que é ditadura?');
+    await addBloco(
+      '<div style="' + DEF + '"><b>Definição:</b> Ditadura é a forma de governo em que a maior parte do poder político se concentra nas mãos de uma única pessoa ou de um pequeno grupo, sem que a população tenha meios legítimos de controlá-lo ou substituí-lo por eleições livres.</div>' +
+      '<p style="' + P + '">Nas ditaduras, é comum haver forte repressão a quem discorda do governo, além da restrição ou supressão de direitos e liberdades básicas, como a liberdade de imprensa, de reunião e de expressão.</p>' +
+      '<p style="' + P + '">Uma ditadura pode ser liderada por militares — chamada de ditadura militar —, mas também pode contar com forte participação de civis, como ocorreu no Brasil a partir de 1964, quando o regime instaurado é classificado por muitos historiadores como uma <b>ditadura civil-militar</b>, já que setores da sociedade civil, e não apenas os militares, apoiaram e ajudaram a sustentar o governo.</p>'
+    );
+
+    // QUADRO COMPARATIVO
+    setP(28, 'Preparando quadro comparativo…'); await sleep(20);
+    await band('QUADRO', 'Comparando os dois regimes');
+    const LINHAS = [
+      ['Poder exercido pelo povo, diretamente ou por representantes eleitos', 'Poder concentrado em uma pessoa ou pequeno grupo'],
+      ['Eleições livres e periódicas', 'Eleições suprimidas, controladas ou inexistentes'],
+      ['Liberdade de imprensa e de expressão', 'Censura e forte repressão à oposição'],
+      ['Direitos e liberdades garantidos e ampliáveis', 'Direitos e liberdades restringidos ou suprimidos'],
+      ['Convivência entre diferentes opiniões e grupos', 'Perseguição a quem discorda do governo']
+    ];
+    let tabHtml = '<table style="width:100%;border-collapse:collapse;font-size:12px">' +
+      '<tr><th style="background:#0b3f45;color:#eafafa;padding:9px 12px;text-align:left;border:1px solid #0b3f45;font-size:13px">Democracia</th>' +
+      '<th style="background:#0b3f45;color:#eafafa;padding:9px 12px;text-align:left;border:1px solid #0b3f45;font-size:13px">Ditadura</th></tr>';
+    LINHAS.forEach(function(l, i){
+      const bg = i % 2 === 1 ? '#dbecec' : '#ffffff';
+      tabHtml += '<tr>' +
+        '<td style="border:1px solid #c9e2e2;border-left:3px solid #2b8f99;padding:9px 12px;color:#12292b;line-height:1.6;background:' + bg + ';vertical-align:top">' + l[0] + '</td>' +
+        '<td style="border:1px solid #c9e2e2;border-left:3px solid #b06a2c;padding:9px 12px;color:#12292b;line-height:1.6;background:' + bg + ';vertical-align:top">' + l[1] + '</td></tr>';
+    });
+    tabHtml += '</table>';
+    await addBloco(tabHtml);
+
+    // TEXTO 3
+    setP(34, 'Preparando texto…'); await sleep(20);
+    await band('TEXTO', 'Por que isso importa hoje?');
+    await addBloco(
+      '<p style="' + P + '">Compreender esses conceitos ajuda a entender momentos importantes da história brasileira e mundial, como o período de 1964 a 1985, quando o Brasil viveu sob um regime ditatorial, ou o período de 1945 a 1964, quando o país experimentou uma fase de vida democrática, com liberdade de imprensa e disputas eleitorais entre diferentes projetos de nação.</p>' +
+      '<p style="' + P + '">Também ajuda a refletir sobre outros contextos, como as ditaduras da Guerra Fria na América Latina, o nazifascismo na Europa e os processos de redemocratização vividos por diversos países ao longo do século XX. Conhecer as diferenças entre democracia e ditadura é essencial para valorizar os direitos conquistados e para exercer, no presente, uma cidadania ativa e consciente.</p>' +
+      '<div style="font-size:10px;color:#4c6a6c;font-family:monospace;border-top:1px solid #eee;padding-top:10px;line-height:1.6">Texto adaptado a partir de: AZEVEDO, Gislane; CALBENTE, Leandro; SERIACOPI, Reinaldo. A Conquista: História — 9º ano. Manual do Professor. 1. ed. São Paulo, 2022. · BOULOS JÚNIOR, Alfredo. História, Sociedade &amp; Cidadania — 9º ano. Manual do Professor. 1. ed. São Paulo: Editora FTD, 2022.</div>'
+    );
+
+    // QUESTOES
+    await band('QUESTÕES', 'Questões Dissertativas — Respostas e Orientações');
+
+    const QUESTOES = [
+      { num:'1', id:'resp-1',
+        enunc:'Explique, com suas palavras, por que a democracia é descrita como um “processo contínuo” e não como um estado definitivo e perfeito.',
+        coment:'Porque a democracia precisa ser construída e ampliada todos os dias: mesmo onde já existe, ela apresenta falhas e limitações que só são corrigidas quando os cidadãos continuam lutando por novos direitos. Nenhum regime democrático nasce completo — ele se aperfeiçoa à medida que mais pessoas passam a ter voz, liberdade e direitos garantidos.' },
+      { num:'2', id:'resp-2',
+        enunc:'De acordo com o texto, quais são as principais características de um regime ditatorial? Cite pelo menos três direitos ou liberdades que costumam ser restringidos nesse tipo de regime.',
+        coment:'O poder político fica concentrado em uma única pessoa ou em um pequeno grupo, sem que a população possa controlá-lo ou substituí-lo por eleições livres, e quem discorda do governo sofre forte repressão. Entre os direitos restringidos ou suprimidos estão a liberdade de imprensa, a liberdade de reunião e a liberdade de expressão.' },
+      { num:'3', id:'resp-3',
+        enunc:'O texto afirma que o regime instaurado no Brasil em 1964 é classificado por muitos historiadores como uma “ditadura civil-militar”. Explique o que essa expressão significa e por que ela é usada em vez de “ditadura militar”.',
+        coment:'A expressão indica que o regime não foi sustentado apenas pelas Forças Armadas: setores civis — como empresários, parte da imprensa, da Igreja e das classes médias — apoiaram o golpe e ajudaram a manter o governo. Dizer apenas “ditadura militar” daria a impressão de que a responsabilidade foi exclusiva dos militares, escondendo a participação desses grupos da sociedade civil.' },
+      { num:'4', id:'resp-4',
+        enunc:'Compare democracia e ditadura em relação a dois aspectos: a forma como o poder é exercido e a possibilidade de a população discordar do governo sem sofrer perseguição.',
+        coment:'Na democracia o poder é exercido pelo povo, de forma direta ou por representantes escolhidos em eleições livres e periódicas; na ditadura ele se concentra em uma pessoa ou pequeno grupo, com eleições controladas ou inexistentes. Quanto à discordância, a democracia permite a convivência entre opiniões diferentes e garante a liberdade de expressão e de imprensa, enquanto a ditadura recorre à censura e persegue quem critica o governo.' },
+      { num:'5', id:'resp-5',
+        enunc:'O período de 1945 a 1964 é apresentado no texto como uma fase de “experiência democrática” no Brasil. Com base no que você estudou, cite uma característica desse período que demonstra a existência de liberdade política.',
+        coment:'Entre outras respostas possíveis, o aluno pode citar: a realização de eleições livres e periódicas para presidente e para o Congresso; a existência de vários partidos disputando o poder (PSD, UDN, PTB) e de projetos diferentes de nação; a liberdade de imprensa, com jornais e revistas criticando abertamente os governos; ou a atuação legal de sindicatos e movimentos sociais reivindicando direitos.' },
+      { num:'6', id:'resp-6',
+        enunc:'Na sua opinião, por que é importante que os cidadãos de um país compreendam a diferença entre democracia e ditadura? Relacione sua resposta com a ideia de “cidadania ativa e consciente” mencionada no texto.',
+        coment:'Não há uma única resposta correta — espera-se que o aluno perceba que reconhecer essa diferença permite identificar ameaças aos direitos e não confundir autoritarismo com solução para os problemas do país. A cidadania ativa e consciente supõe informar-se, participar, votar com responsabilidade, cobrar dos governantes e defender liberdades que foram conquistadas com muita luta e que podem ser perdidas.' }
+    ];
+
+    async function addQuestaoPDF(q, idx, total){
+      setP(40 + Math.round(idx/total*50), 'Questão ' + q.num + '/' + total + '…'); await sleep(12);
+      const valor = document.getElementById(q.id) ? document.getElementById(q.id).value : '';
+      const qEl = document.createElement('div');
+      qEl.style.cssText = 'width:860px;font-family:Arial,sans-serif;background:white;overflow:hidden;border:1px solid #c9e2e2;border-radius:10px;position:absolute;left:-9999px;top:0';
+      qEl.innerHTML =
+        '<div style="background:linear-gradient(90deg,#0f5c63,#0b3f45);padding:10px 22px;display:flex;justify-content:space-between;align-items:center">' +
+          '<span style="color:white;font-weight:700;font-size:13px;letter-spacing:.8px">QUESTÃO ' + q.num + '</span>' +
+          '<span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:11px;padding:3px 12px;border-radius:20px;font-weight:600">Dissertativa</span></div>' +
+        '<div style="padding:18px 24px 16px;background:#fdfefe">' +
+          '<div style="font-size:13px;font-weight:700;color:#12292b;line-height:1.6;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #eee">' + esc(q.enunc) + '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+            '<div style="width:4px;height:15px;background:#0f5c63;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#0f5c63;text-transform:uppercase;letter-spacing:1.5px">Resposta do Aluno(a)</div></div>' +
+          '<div style="background:#eaf5f5;border:1.5px solid #a9d4d4;border-radius:8px;padding:13px 16px;min-height:50px;margin-bottom:12px">' +
+            '<div style="font-size:12.5px;color:#12292b;line-height:1.8;white-space:pre-wrap">' + (esc(valor) || '<span style=\"color:#aaa\">(sem resposta)</span>') + '</div></div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">' +
+            '<div style="width:4px;height:15px;background:#b06a2c;border-radius:2px"></div>' +
+            '<div style="font-size:10px;font-weight:700;color:#8d5320;text-transform:uppercase;letter-spacing:1.5px">Comentário do Professor</div></div>' +
+          '<div style="background:#fbf1e4;border:1.5px solid #e6cbaa;border-radius:8px;padding:13px 16px">' +
+            '<div style="font-size:12px;color:#6d4114;line-height:1.8">' + esc(q.coment) + '</div></div>' +
+        '</div>';
+      document.body.appendChild(qEl); await sleep(12); await addImg(qEl); document.body.removeChild(qEl);
+    }
+
+    for(let i=0; i<QUESTOES.length; i++){
+      await addQuestaoPDF(QUESTOES[i], i, 6);
+    }
+
+    // RODAPE EM TODAS AS PAGINAS
+    setP(92, 'Finalizando…'); await sleep(30);
+    const totalPages = pdf.getNumberOfPages();
+    for(let p=1; p<=totalPages; p++){
+      pdf.setPage(p);
+      const fEl = document.createElement('div');
+      fEl.style.cssText = 'width:' + Math.round(CW) + 'px;height:22px;background:#eef6f6;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:10px;color:#888;font-family:Arial,sans-serif;position:absolute;left:-9999px;top:0';
+      fEl.innerHTML = '<span>Ditadura e Democracia · ' + esc(nome) + '</span><span>Página ' + p + ' de ' + totalPages + '</span>';
+      document.body.appendChild(fEl);
+      const fc = await html2canvas(fEl, {scale:2, logging:false, backgroundColor:'#eef6f6'});
+      document.body.removeChild(fEl);
+      const fUrl = fc.toDataURL('image/jpeg', .9), fH = (fc.height / fc.width) * CW;
+      pdf.setFillColor(238,246,246); pdf.rect(ML, PH-fH, CW, fH, 'F');
+      pdf.addImage(fUrl, 'JPEG', ML, PH-fH, CW, fH);
+    }
+
+    setP(100, 'Salvando…'); await sleep(200);
+    const safeName = nome.replace(/[^a-zA-Z0-9_\-]/g, '_');
+    pdf.save('Ditadura_e_Democracia_' + safeName + '.pdf');
+
+  } catch(err){
+    console.error(err);
+    alert('Erro ao gerar PDF: ' + err.message);
+  } finally {
+    const ov = document.getElementById('pdf-overlay');
+    if(ov) document.body.removeChild(ov);
+  }
+}
+
+/* ===== PROTEÇÃO ANTI-COLA ===== */
+(function () {
+  const CAMPOS_PROTEGIDOS = document.querySelectorAll('textarea.dissertativa, .campo-resposta');
+  const LIMITE_BLOCO = 25;
+
+  function bloquear(e) {
+    e.preventDefault();
+    mostrarToast('Colar não permitido nesta atividade.');
+  }
+
+  CAMPOS_PROTEGIDOS.forEach(function (campo) {
+    ['paste', 'copy', 'cut', 'drop', 'dragover', 'contextmenu'].forEach(function (evt) {
+      campo.addEventListener(evt, bloquear);
+    });
+
+    campo.addEventListener('beforeinput', function (e) {
+      if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') {
+        e.preventDefault();
+        mostrarToast('Colar não permitido nesta atividade.');
+      }
+    });
+
+    let valorAnterior = campo.value;
+    campo.addEventListener('input', function (e) {
+      const diferenca = campo.value.length - valorAnterior.length;
+      if (diferenca >= LIMITE_BLOCO && e.inputType !== 'insertReplacementText') {
+        campo.value = valorAnterior;
+        mostrarToast('Colar não permitido nesta atividade.');
+      } else {
+        valorAnterior = campo.value;
+      }
+    });
+  });
+
+  function mostrarToast(mensagem) {
+    let toast = document.getElementById('anti-cola-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'anti-cola-toast';
+      toast.style.cssText =
+        'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);' +
+        'background:#333;color:#fff;padding:10px 20px;border-radius:8px;' +
+        'font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = mensagem;
+    toast.style.opacity = '1';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(function () {
+      toast.style.opacity = '0';
+    }, 2500);
+  }
+})();
+</script>
+
+</body>
+</html>
