@@ -655,6 +655,9 @@
     font-family:var(--font-body); font-size:.9rem; cursor:pointer;
   }
   .ficha-rodape button:hover{filter:brightness(1.1);}
+  .ficha-acoes{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+  .ficha-rodape .btn-pdf{background:var(--gold); color:#fff;}
+  .ficha-rodape .btn-pdf[disabled]{opacity:.6; cursor:progress;}
   @media (max-width:720px){
     .ficha-fundo{padding:0;}
     .ficha-cx{max-width:100%; min-height:100%; border-radius:0; display:flex; flex-direction:column;}
@@ -664,9 +667,109 @@
     .ficha-rodape{position:sticky; bottom:0; padding:12px 16px calc(12px + env(safe-area-inset-bottom)); justify-content:center;}
     .ficha-rodape span{display:none;}
     .ficha-rodape button{width:100%; min-height:46px;}
+    .ficha-acoes{width:100%; flex-direction:column; align-items:stretch; gap:8px;}
     .ficha-btn{padding:14px 16px;}
   }
   @media print{.ficha-btn, .ficha-fundo{display:none !important;}}
+</style>
+
+<style>
+  /* ===== RESUMO FINAL EM CARROSSEL (MODELO POSTAGEM) ===== */
+  .ig-secao{ margin:34px 0 10px; }
+  .ig-secao > .ig-chamada{
+    text-align:center; font-family:var(--font-mono); font-size:.72rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--ink-soft); margin:0 0 14px;
+  }
+  .ig-post{
+    max-width:470px; margin:0 auto; background:var(--paper);
+    border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .ig-topo{ display:flex; align-items:center; gap:10px; padding:11px 13px; border-bottom:1px solid var(--line); }
+  .ig-avatar{
+    flex:0 0 auto; width:38px; height:38px; border-radius:50%;
+    background:linear-gradient(135deg,var(--accent-dark),var(--accent) 55%,var(--gold));
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-title); font-weight:700; font-size:.9rem; letter-spacing:.02em;
+    border:2px solid var(--paper); box-shadow:0 0 0 2px var(--gold);
+  }
+  .ig-ident{ flex:1; min-width:0; line-height:1.3; }
+  .ig-ident .ig-user{
+    display:flex; align-items:center; gap:5px;
+    font-family:var(--font-mono); font-size:.82rem; font-weight:600; color:var(--ink);
+  }
+  .ig-ident .ig-user svg{ width:13px; height:13px; fill:var(--accent); flex:0 0 auto; }
+  .ig-ident .ig-local{ font-size:.72rem; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ig-topo .ig-tag{
+    flex:0 0 auto; font-family:var(--font-mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--accent-dark); background:var(--bg-alt); border:1px solid var(--line);
+    padding:4px 9px; border-radius:999px;
+  }
+
+  .ig-janela{ position:relative; background:var(--ink); overflow:hidden; }
+  .ig-trilho{ display:flex; transition:transform .32s cubic-bezier(.22,.61,.36,1); will-change:transform; }
+  .ig-slide{ flex:0 0 100%; margin:0; }
+  .ig-slide img{
+    display:block; width:100%; height:auto; aspect-ratio:1024/1536; object-fit:cover;
+    cursor:zoom-in; -webkit-user-drag:none;
+  }
+  .ig-slide figcaption{ display:none; }
+
+  .ig-contador{
+    position:absolute; top:10px; right:10px; z-index:2;
+    background:rgba(20,16,12,.72); color:#fff; font-family:var(--font-mono);
+    font-size:.68rem; padding:4px 9px; border-radius:999px; letter-spacing:.05em;
+  }
+  .ig-seta{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:2;
+    width:32px; height:32px; border-radius:50%; border:0; cursor:pointer;
+    background:rgba(255,253,247,.9); color:var(--accent-dark);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.05rem; line-height:1; box-shadow:0 2px 8px rgba(0,0,0,.25);
+  }
+  .ig-seta:hover{ background:#fff; }
+  .ig-seta[disabled]{ opacity:0; pointer-events:none; }
+  .ig-seta.esq{ left:9px; }
+  .ig-seta.dir{ right:9px; }
+
+  .ig-acoes{ display:flex; align-items:center; gap:14px; padding:11px 13px 4px; }
+  .ig-acoes button{
+    background:transparent; border:0; padding:0; cursor:pointer; color:var(--ink);
+    display:flex; align-items:center; line-height:0;
+  }
+  .ig-acoes button svg{ width:23px; height:23px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+  .ig-acoes button.ativo{ color:var(--accent); }
+  .ig-acoes button.ativo svg{ fill:currentColor; }
+  .ig-acoes .ig-salvar{ margin-left:auto; }
+  .ig-pontos{ display:flex; justify-content:center; gap:5px; padding:6px 13px 2px; }
+  .ig-ponto{
+    width:6px; height:6px; border-radius:50%; background:var(--line); border:0; padding:0; cursor:pointer;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .ig-ponto.ativo{ background:var(--accent); transform:scale(1.25); }
+
+  .ig-corpo{ padding:4px 13px 15px; }
+  .ig-curtidas{ font-family:var(--font-mono); font-size:.74rem; color:var(--ink-soft); margin:6px 0 8px; }
+  .ig-legenda{ font-size:.93rem; line-height:1.6; color:var(--ink); margin:0; }
+  .ig-legenda strong{ font-family:var(--font-mono); font-size:.82rem; margin-right:6px; }
+  .ig-hash{ display:block; margin-top:7px; font-family:var(--font-mono); font-size:.72rem; color:var(--steel); }
+  .ig-rodape-post{
+    margin-top:11px; padding-top:9px; border-top:1px solid var(--line);
+    font-family:var(--font-mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);
+    display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;
+  }
+  .ig-dica{ text-align:center; font-size:.76rem; font-style:italic; color:var(--ink-soft); margin:10px 0 0; }
+
+  @media (max-width:520px){
+    .ig-post{ max-width:100%; }
+    .ig-topo .ig-tag{ display:none; }
+  }
+  @media print{
+    .ig-seta, .ig-acoes, .ig-pontos, .ig-contador, .ig-dica{ display:none !important; }
+    .ig-trilho{ display:block; transform:none !important; }
+    .ig-slide{ page-break-inside:avoid; margin-bottom:10px; }
+    .ig-post{ max-width:100%; box-shadow:none; }
+  }
 </style>
 </head>
 <body>
@@ -1303,6 +1406,100 @@
       <figcaption>Síntese do tema: da consolidação dos regimes totalitários (1922–1933) à emergência da ordem bipolar da Guerra Fria, passando pela guerra-relâmpago, os pontos de virada decisivos e o colapso das potências do Eixo em 1945.</figcaption>
     </figure>
 
+
+    <!-- ===== RESUMO FINAL EM CARROSSEL (MODELO POSTAGEM) ===== -->
+    <section class="ig-secao selecionavel" id="resumo-carrossel">
+      <p class="ig-chamada">Resumo final do tema &middot; deslize os 9 cards</p>
+
+      <article class="ig-post">
+        <header class="ig-topo">
+          <div class="ig-avatar">CERO</div>
+          <div class="ig-ident">
+            <span class="ig-user">historia.cero
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5l2.6 2.2 3.4-.3.6 3.4 2.9 1.9-1.5 3.1 1.5 3.1-2.9 1.9-.6 3.4-3.4-.3L12 22.5l-2.6-2.2-3.4.3-.6-3.4-2.9-1.9L4 12l-1.5-3.1L5.4 7l.6-3.4 3.4.3L12 1.5zm-1.1 13.9l5.6-5.6-1.4-1.4-4.2 4.2-2-2-1.4 1.4 3.4 3.4z"/></svg>
+            </span>
+            <span class="ig-local">Prof. Claudio &middot; 9&ordm; ano EF &middot; GO-EF09HI13-A</span>
+          </div>
+          <span class="ig-tag">9 cards</span>
+        </header>
+
+        <div class="ig-janela" id="ig-janela">
+          <span class="ig-contador" id="ig-contador">1/9</span>
+          <button class="ig-seta esq" id="ig-anterior" type="button" aria-label="Card anterior" disabled>&#10094;</button>
+          <button class="ig-seta dir" id="ig-proximo" type="button" aria-label="Pr&oacute;ximo card">&#10095;</button>
+          <div class="ig-trilho" id="ig-trilho">
+          <figure class="ig-slide">
+            <img src="tema1/fichamento1.webp" alt="Resumo visual do tópico 1: O que é um Estado Totalitário?" loading="lazy" onclick="abrirLightbox(this)">
+            <figcaption>Resumo do tópico 1 — O que é um Estado Totalitário?</figcaption>
+          </figure>
+          <figure class="ig-slide">
+            <img src="tema1/fichamento2.webp" alt="Resumo visual do tópico 2: O contexto de ascensão" loading="lazy" onclick="abrirLightbox(this)">
+            <figcaption>Resumo do tópico 2 — O contexto de ascensão</figcaption>
+          </figure>
+          <figure class="ig-slide">
+            <img src="tema1/fichamento3.webp" alt="Resumo visual do tópico 3: O Fascismo Italiano" loading="lazy" onclick="abrirLightbox(this)">
+            <figcaption>Resumo do tópico 3 — O Fascismo Italiano</figcaption>
+          </figure>
+          <figure class="ig-slide">
+            <img src="tema1/fichamento4.webp" alt="Resumo visual do tópico 4: O Nazismo Alemão" loading="lazy" onclick="abrirLightbox(this)">
+            <figcaption>Resumo do tópico 4 — O Nazismo Alemão</figcaption>
+          </figure>
+          <figure class="ig-slide">
+            <img src="tema1/fichamento5.webp" alt="Resumo visual do tópico 5: O Stalinismo na União Soviética" loading="lazy" onclick="abrirLightbox(this)">
+            <figcaption>Resumo do tópico 5 — O Stalinismo na União Soviética</figcaption>
+          </figure>
+          <figure class="ig-slide">
+            <img src="tema1/fichamento6.webp" alt="Resumo visual do tópico 6: O Militarismo Japonês" loading="lazy" onclick="abrirLightbox(this)">
+            <figcaption>Resumo do tópico 6 — O Militarismo Japonês</figcaption>
+          </figure>
+          <figure class="ig-slide">
+            <img src="tema1/fichamento7.webp" alt="Resumo visual do tópico 7: Política expansionista: o caminho até a guerra" loading="lazy" onclick="abrirLightbox(this)">
+            <figcaption>Resumo do tópico 7 — Política expansionista: o caminho até a guerra</figcaption>
+          </figure>
+          <figure class="ig-slide">
+            <img src="tema1/fichamento8.webp" alt="Resumo visual do tópico 8: Como as ideologias guiaram o conflito" loading="lazy" onclick="abrirLightbox(this)">
+            <figcaption>Resumo do tópico 8 — Como as ideologias guiaram o conflito</figcaption>
+          </figure>
+          <figure class="ig-slide">
+            <img src="tema1/fichamento9.webp" alt="Resumo visual do tópico 9: A Queda dos Regimes Totalitários" loading="lazy" onclick="abrirLightbox(this)">
+            <figcaption>Resumo do tópico 9 — A Queda dos Regimes Totalitários</figcaption>
+          </figure>
+          </div>
+        </div>
+
+        <div class="ig-acoes">
+          <button type="button" id="ig-curtir" aria-label="Curtir">
+            <svg viewBox="0 0 24 24"><path d="M20.8 5.6a5 5 0 00-7.1 0L12 7.3l-1.7-1.7a5 5 0 10-7.1 7.1l8.8 8.8 8.8-8.8a5 5 0 000-7.1z"/></svg>
+          </button>
+          <button type="button" aria-label="Comentar" onclick="document.getElementById('jd-wrap').scrollIntoView({behavior:'smooth'});">
+            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 01-9 8.4 9 9 0 01-3.9-.9L3 20.5l1.6-4.9A8.4 8.4 0 013 11.5a8.4 8.4 0 019-8.4 8.4 8.4 0 019 8.4z"/></svg>
+          </button>
+          <button type="button" aria-label="Imprimir ou salvar em PDF" title="Imprimir ou salvar em PDF" onclick="window.print();">
+            <svg viewBox="0 0 24 24"><path d="M21.5 2.5L11 13"/><path d="M21.5 2.5l-6.6 19-3.9-8.5-8.5-3.9 19-6.6z"/></svg>
+          </button>
+          <button type="button" class="ig-salvar" id="ig-salvar" aria-label="Salvar">
+            <svg viewBox="0 0 24 24"><path d="M18.5 21.5L12 16.8l-6.5 4.7v-17a1 1 0 011-1h11a1 1 0 011 1v17z"/></svg>
+          </button>
+        </div>
+
+        <div class="ig-pontos" id="ig-pontos"></div>
+
+        <div class="ig-corpo">
+          <p class="ig-curtidas" id="ig-curtidas">Card <strong id="ig-num">1</strong> de 9 &middot; toque na imagem para ampliar</p>
+          <p class="ig-legenda">
+            <strong>historia.cero</strong><span id="ig-legenda-txt"></span>
+            <span class="ig-hash">#regimestotalitarios #segundaguerramundial #historia9ano #cero</span>
+          </p>
+          <div class="ig-rodape-post">
+            <span>Col&eacute;gio Estadual Rodolfo de Oliveira</span>
+            <span>Regimes Totalit&aacute;rios e a 2&ordf; Guerra</span>
+          </div>
+        </div>
+      </article>
+
+      <p class="ig-dica">Use as setas, os pontinhos ou arraste para o lado para percorrer o resumo de cada t&oacute;pico.</p>
+    </section>
+
     <div class="atividades-box selecionavel">
       <span class="eyebrow">Revisão</span>
       <h4>📋 Revisão Geral do Tema</h4>
@@ -1596,13 +1793,207 @@ iniciarJogoArrastar();
     <div class="ficha-corpo" id="fichaCorpo"></div>
     <div class="ficha-rodape">
       <span>Col&eacute;gio Estadual Rodolfo de Oliveira &middot; CERO &middot; 2026</span>
-      <button id="fecharFicha2">Voltar ao conte&uacute;do</button>
+      <div class="ficha-acoes">
+        <button type="button" class="btn-pdf" id="baixarFicha">&#11015; Baixar em PDF</button>
+        <button type="button" id="fecharFicha2">Voltar ao conte&uacute;do</button>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
 /* ===== RESUMOS DOS TOPICOS ===== */
+
+/* ---------- gerador de PDF (sem biblioteca externa) ---------- */
+var PDFicha = (function(){
+  var LARG = 595.28, ALT = 841.89;          /* A4 em pontos */
+  var MARG_X = 52, MARG_TOPO = 54, MARG_BASE = 58;
+  var WIN = {
+    0x20AC:0x80,0x201A:0x82,0x0192:0x83,0x201E:0x84,0x2026:0x85,0x2020:0x86,0x2021:0x87,
+    0x02C6:0x88,0x2030:0x89,0x0160:0x8A,0x2039:0x8B,0x0152:0x8C,0x017D:0x8E,
+    0x2018:0x91,0x2019:0x92,0x201C:0x93,0x201D:0x94,0x2022:0x95,0x2013:0x96,0x2014:0x97,
+    0x02DC:0x98,0x2122:0x99,0x0161:0x9A,0x203A:0x9B,0x0153:0x9C,0x017E:0x9E,0x0178:0x9F
+  };
+  var medidor = null, limpador = null;
+
+  /* remove marcacao HTML e resolve entidades (&eacute;, <em>, etc.) */
+  function semHtml(t){
+    var s = String(t);
+    if(s.indexOf('<') === -1 && s.indexOf('&') === -1) return s;
+    if(!limpador) limpador = document.createElement('div');
+    limpador.innerHTML = s;
+    return limpador.textContent || limpador.innerText || '';
+  }
+  function normalizar(t){
+    return semHtml(t)
+      .replace(/\u2192/g,'->').replace(/\u2190/g,'<-')
+      .replace(/\u00a0/g,' ').replace(/\u2212/g,'-');
+  }
+  /* converte para bytes WinAnsi e escapa o que o PDF exige */
+  function paraPdf(t){
+    var s = '', i, c, b;
+    t = normalizar(t);
+    for(i=0;i<t.length;i++){
+      c = t.charCodeAt(i);
+      b = (c < 256) ? c : (WIN[c] || 0x3F);
+      if(b===0x28 || b===0x29 || b===0x5C) s += '\\';
+      s += String.fromCharCode(b);
+    }
+    return s;
+  }
+  function largura(txt, tam, negrito){
+    if(!medidor){
+      try{ medidor = document.createElement('canvas').getContext('2d'); }
+      catch(e){ medidor = false; }
+    }
+    if(medidor){
+      medidor.font = (negrito?'bold ':'') + tam + 'px Helvetica, Arial, sans-serif';
+      return medidor.measureText(normalizar(txt)).width;
+    }
+    return normalizar(txt).length * tam * 0.5;   /* estimativa de emergencia */
+  }
+  function quebrar(txt, tam, negrito, max){
+    var palavras = normalizar(txt).split(/\s+/), linhas = [], atual = '';
+    palavras.forEach(function(p){
+      var teste = atual ? atual + ' ' + p : p;
+      if(largura(teste, tam, negrito) <= max || !atual){ atual = teste; }
+      else { linhas.push(atual); atual = p; }
+    });
+    if(atual) linhas.push(atual);
+    return linhas;
+  }
+
+  /* dados: {rotulo, titulo, subtitulo, rodape, blocos:[[titulo,[itens]]]} */
+  function construir(dados){
+    var paginas = [], fluxo = [], y = 0;
+    var maxL = LARG - MARG_X*2;
+
+    function novaPagina(){ fluxo = []; paginas.push(fluxo); y = ALT - MARG_TOPO; }
+    function espaco(h){ if(y - h < MARG_BASE) novaPagina(); }
+    function texto(t, x, tam, negrito, cinza){
+      fluxo.push({t:t, x:x, y:y, tam:tam, b:negrito, g:cinza});
+    }
+    function linhaH(x1, x2, esp){
+      fluxo.push({linha:true, x1:x1, x2:x2, y:y, esp:esp||0.6});
+    }
+
+    novaPagina();
+
+    /* cabecalho, so na primeira pagina */
+    texto(String(dados.rotulo||'').toUpperCase(), MARG_X, 8.5, false, 0.45); y -= 15;
+    quebrar(dados.titulo||'', 18, true, maxL).forEach(function(l){
+      texto(l, MARG_X, 18, true, 0.08); y -= 22;
+    });
+    y -= 1;
+    quebrar(dados.subtitulo||'', 9, false, maxL).forEach(function(l){
+      texto(l, MARG_X, 9, false, 0.42); y -= 12;
+    });
+    y -= 6; linhaH(MARG_X, LARG-MARG_X, 1); y -= 20;
+
+    (dados.blocos||[]).forEach(function(bl){
+      var tituloBloco = quebrar(bl[0], 10.5, true, maxL);
+      espaco(tituloBloco.length*14 + 26);
+      tituloBloco.forEach(function(l){ texto(l, MARG_X, 10.5, true, 0.12); y -= 14; });
+      y -= 2; linhaH(MARG_X, LARG-MARG_X, 0.5); y -= 13;
+
+      (bl[1]||[]).forEach(function(item){
+        var recuo = MARG_X + 14;
+        var linhas = quebrar(item, 10, false, maxL - 14);
+        espaco(15);
+        texto('\u2022', MARG_X + 2, 10, false, 0.35);
+        linhas.forEach(function(l, i){
+          if(i > 0) espaco(14);
+          texto(l, recuo, 10, false, 0.12);
+          y -= 13.6;
+        });
+        y -= 3.4;
+      });
+      y -= 10;
+    });
+
+    return paginas;
+  }
+
+  function montarConteudo(itens, num, total, rodape){
+    var op = [], atualG = null;
+    itens.forEach(function(it){
+      if(it.linha){
+        op.push('0.75 0.75 0.75 RG ' + it.esp + ' w ' +
+                it.x1.toFixed(2) + ' ' + it.y.toFixed(2) + ' m ' +
+                it.x2.toFixed(2) + ' ' + it.y.toFixed(2) + ' l S');
+        atualG = null;
+        return;
+      }
+      if(it.g !== atualG){ op.push(it.g + ' ' + it.g + ' ' + it.g + ' rg'); atualG = it.g; }
+      op.push('BT /' + (it.b ? 'F2' : 'F1') + ' ' + it.tam + ' Tf ' +
+              it.x.toFixed(2) + ' ' + it.y.toFixed(2) + ' Td (' + paraPdf(it.t) + ') Tj ET');
+    });
+    /* rodape de cada pagina */
+    op.push('0.5 0.5 0.5 rg');
+    op.push('BT /F1 7.5 Tf ' + MARG_X + ' ' + (MARG_BASE - 22) + ' Td (' + paraPdf(rodape) + ') Tj ET');
+    var pg = 'Pagina ' + num + ' de ' + total;
+    op.push('BT /F1 7.5 Tf ' + (LARG - MARG_X - largura(pg, 7.5, false)).toFixed(2) +
+            ' ' + (MARG_BASE - 22) + ' Td (' + paraPdf(pg) + ') Tj ET');
+    return op.join('\n');
+  }
+
+  function gerar(dados){
+    var paginas = construir(dados);
+    var total = paginas.length;
+    var objs = [];                    /* objs[i] = conteudo do objeto i+1 */
+    var idPaginas = 2;
+    var idFonte1 = 3, idFonte2 = 4;
+    var primeiraPag = 5;
+
+    var kids = [], i;
+    for(i=0;i<total;i++) kids.push((primeiraPag + i*2) + ' 0 R');
+
+    objs[0] = '<< /Type /Catalog /Pages ' + idPaginas + ' 0 R >>';
+    objs[1] = '<< /Type /Pages /Count ' + total + ' /Kids [' + kids.join(' ') + '] >>';
+    objs[2] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
+    objs[3] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
+
+    for(i=0;i<total;i++){
+      var idP = primeiraPag + i*2, idC = idP + 1;
+      var fluxo = montarConteudo(paginas[i], i+1, total, dados.rodape || '');
+      objs[idP-1] = '<< /Type /Page /Parent ' + idPaginas + ' 0 R /MediaBox [0 0 ' +
+                    LARG.toFixed(2) + ' ' + ALT.toFixed(2) + '] /Resources << /Font << /F1 ' +
+                    idFonte1 + ' 0 R /F2 ' + idFonte2 + ' 0 R >> >> /Contents ' + idC + ' 0 R >>';
+      objs[idC-1] = '<< /Length ' + fluxo.length + ' >>\nstream\n' + fluxo + '\nendstream';
+    }
+
+    var saida = '%PDF-1.4\n%\u00e2\u00e3\u00cf\u00d3\n', deslocamentos = [];
+    for(i=0;i<objs.length;i++){
+      deslocamentos.push(saida.length);
+      saida += (i+1) + ' 0 obj\n' + objs[i] + '\nendobj\n';
+    }
+    var inicioXref = saida.length;
+    saida += 'xref\n0 ' + (objs.length+1) + '\n0000000000 65535 f \n';
+    for(i=0;i<objs.length;i++){
+      saida += ('0000000000' + deslocamentos[i]).slice(-10) + ' 00000 n \n';
+    }
+    saida += 'trailer\n<< /Size ' + (objs.length+1) + ' /Root 1 0 R /Title (' +
+             paraPdf(dados.titulo||'Fichamento') + ') >>\nstartxref\n' + inicioXref + '\n%%EOF';
+
+    var bytes = new Uint8Array(saida.length);
+    for(i=0;i<saida.length;i++) bytes[i] = saida.charCodeAt(i) & 0xFF;
+    return bytes;
+  }
+
+  function baixar(dados, nomeArquivo){
+    var bytes = gerar(dados);
+    var blob = new Blob([bytes], {type:'application/pdf'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = nomeArquivo; a.style.display = 'none';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 1500);
+  }
+
+  return {gerar:gerar, baixar:baixar};
+})();
+
+
 const FICHAS = {"conceito": {"num": "1", "titulo": "O que é um Estado Totalitário?", "blocos": [["O que define o totalitarismo", ["Estado totalitário: regime que tenta controlar <em>totalmente</em> a vida das pessoas — política, economia, cultura, educação e vida privada.", "Diferença para a ditadura \"comum\": a ditadura reprime a oposição; o totalitarismo quer moldar mentes, formando cidadãos fiéis desde a infância (escolas, juventudes partidárias, imprensa)."]], ["As seis características em comum", ["Partido único, com um líder concentrando as decisões (Führer, Duce, Secretário-Geral, imperador).", "Culto à personalidade: o líder é apresentado pela propaganda como \"salvador\" quase infalível.", "Propaganda estatal massiva sobre jornais, rádio, cinema e livros escolares.", "Polícia política e vigilância constante contra qualquer discordância.", "Nacionalismo exacerbado (ou ideologia de classe, no caso soviético) para justificar sacrifícios.", "Economia controlada pelo Estado, voltada ao rearmamento e à guerra."]], ["Para guardar", ["Hannah Arendt, em <em>Origens do totalitarismo</em> (1951), é a principal referência para entender como esses regimes controlaram milhões de pessoas — inclusive com apoio de parte delas.", "Serão estudados quatro regimes: fascismo (Itália), nazismo (Alemanha), stalinismo (URSS) e militarismo (Japão). Ideologias diferentes, lados opostos na guerra — mesmo projeto de controle absoluto."]]]}, "ascensao": {"num": "2", "titulo": "O Contexto de Ascensão: por que a Europa se voltou ao autoritarismo?", "blocos": [["As três crises que abriram caminho", ["Herança da 1ª Guerra: o Tratado de Versalhes (1919) impôs à Alemanha perda de territórios e colônias, redução das Forças Armadas e pesadas indenizações — sentido como humilhação nacional.", "Crise de 1929: a quebra da Bolsa de Nova York interrompeu empréstimos e investimentos dos EUA na Europa, gerando desemprego em massa e fome, e minando a confiança nos governos liberais.", "Medo do comunismo: depois da Revolução Russa de 1917, classe média e grande burguesia passaram a apoiar saídas autoritárias como \"escudo\" contra a revolução socialista."]], ["O resultado", ["Forte polarização política: de um lado, trabalhadores e intelectuais que culpavam o capitalismo e defendiam a revolução; de outro, conservadores que apoiaram regimes totalitários.", "Nesse cenário instalaram-se o fascismo na Itália e o nazismo na Alemanha. Os regimes totalitários não surgiram do nada: aproveitaram crises que as democracias liberais não conseguiram resolver."]]]}, "fascismo": {"num": "3", "titulo": "O Fascismo Italiano", "blocos": [["O contexto italiano", ["Após a 1ª Guerra: empresas fechadas, desemprego alto e o trauma de cerca de 500 mil mortos e 400 mil mutilados, sem as compensações territoriais que muitos italianos esperavam.", "Ex-combatentes, desempregados e ex-socialistas fundaram o <em>Fasci di Combattimento</em>, grupo paramilitar liderado por Benito Mussolini, que combatia ao mesmo tempo comunistas, democracia liberal e organizações operárias."]], ["A tomada do poder (1922)", ["Marcha sobre Roma, outubro de 1922: os Camisas Negras ocuparam pontos estratégicos e marcharam à capital.", "Pressionado, o rei Vítor Emanuel III convocou Mussolini como primeiro-ministro — logo chamado de Duce (\"o Condutor\")."]], ["Como governou", ["Extinguiu os partidos de oposição, censurou a imprensa e criou polícia política.", "Lema: \"Tudo pelo Estado, nada fora do Estado, nada contra o Estado\" — a superioridade do Estado sobre o indivíduo.", "Economia corporativista: patrões e trabalhadores em \"corporações\" sob o Estado, eliminando greves e sindicatos independentes.", "Usou a memória da Roma Antiga para justificar o sonho de um \"novo Império Romano\", que levou à invasão da Etiópia em 1935."]]]}, "nazismo": {"num": "4", "titulo": "O Nazismo Alemão", "blocos": [["Da República de Weimar ao Partido Nazista", ["1918: proclamada a República de Weimar, governo democrático que assinou o Tratado de Versalhes; as indenizações geraram enorme dívida, sobretudo com os EUA.", "1919: fundado o Partido Nacional Socialista dos Trabalhadores Alemães, que pregava a superioridade da \"raça ariana\" (classificação sem base científica) e culpava pela crise três inimigos: as potências vencedoras, os comunistas e os judeus."]], ["A chegada ao poder (1932–1933)", ["Com a crise de 1929, o desemprego industrial alemão chegou a 44% da população economicamente ativa, e o discurso de Hitler ganhou apoiadores prometendo reforma agrária, nacionalização e salários dignos.", "Julho de 1932: vitória nazista nas eleições para o Reichstag. Janeiro de 1933: Hitler assume a chefia do governo.", "O incêndio do Reichstag serviu de pretexto para o estado de emergência, a dissolução do Parlamento e a prisão de lideranças de esquerda; todos os partidos, exceto o nazista, foram proibidos."]], ["A ideologia e o racismo de Estado", ["Pangermanismo: incorporar ao Estado alemão todos os territórios europeus habitados por populações de origem alemã.", "Espaço vital (<em>Lebensraum</em>): dominar povos considerados \"inferiores\" para garantir território, sobretudo no Leste Europeu.", "Leis de Nuremberg (1935): retiraram a cidadania dos judeus alemães e proibiram o convívio com \"arianos puros\" — primeiro passo institucional rumo ao Holocausto, o extermínio de cerca de seis milhões de judeus.", "A partir de 1935, rearmamento aberto: criação da Luftwaffe e serviço militar obrigatório, rompendo Versalhes."]]]}, "stalinismo": {"num": "5", "titulo": "O Stalinismo na União Soviética", "blocos": [["A consolidação do poder", ["Após a morte de Lênin (1924), Josef Stálin consolidou o poder na URSS com partido único, planejamento econômico centralizado, coletivização forçada da agricultura e industrialização acelerada.", "A ditadura stalinista durou até a morte de Stálin, em 1953."]], ["Os mecanismos de controle", ["Partido único: qualquer suspeita de oposição levava aos Gulags, campos de trabalho forçado, muitos na Sibéria.", "Opressão às nacionalidades: povos não russos, como os ucranianos, obrigados a adotar o idioma russo e as regras de Moscou.", "Burocracia privilegiada: a <em>nomenklatura</em> — dirigentes do partido, militares e técnicos — concentrava benefícios.", "Culto à personalidade: Stálin apresentado como \"grande irmão\" e \"pai do povo\".", "Expurgos dos anos 1930: julgamentos forjados, com opositores torturados até confessar crimes que não cometeram e depois executados."]], ["O ponto essencial", ["A URSS lutou contra a Alemanha nazista (integrando os Aliados a partir de 1941), mas isso não torna o regime soviético democrático.", "O totalitarismo não é exclusividade de um lado político: pode surgir tanto da extrema-direita quanto de regimes que se apresentam como revolucionários de esquerda."]]]}, "japao": {"num": "6", "titulo": "O Militarismo Japonês", "blocos": [["Raízes do militarismo", ["O expansionismo vinha do fim do século XIX: a Revolução Meiji (1868) promoveu industrialização acelerada e transformou o Japão em potência militar na Ásia.", "Nos anos 1930, os militares assumiram o controle do governo em nome do imperador Hirohito, tratado pela propaganda como figura quase divina.", "O regime combinava disciplina militar extrema, culto ao imperador e expansão territorial justificada pela busca de matérias-primas e mercados."]], ["A expansão e a aliança do Eixo", ["Setembro de 1931: invasão da Manchúria, no norte da China.", "1936: pacto com a Alemanha contra a expansão do comunismo soviético.", "1937: novo ataque à China, com extrema violência contra civis.", "1940: o ultranacionalista Fumimaro Konoe consolida o militarismo; o Japão assina o Pacto Tripartite com Alemanha e Itália, formando o Eixo.", "Dezembro de 1941: o ataque a Pearl Harbor amplia o conflito ao Pacífico e traz os EUA para a guerra."]]]}, "expansionismo": {"num": "7", "titulo": "Política Expansionista: o caminho até a guerra", "blocos": [["Linha do tempo (1931–1941)", ["1931: Japão invade a Manchúria; a Liga das Nações condena, mas não impede.", "1935–1936: a Itália invade a Etiópia e ocupa Adis Abeba.", "Março de 1936: a Alemanha remilitariza a Renânia, desmilitarizada por Versalhes.", "1938: <em>Anschluss</em> — anexação da Áustria.", "1938: Conferência de Munique — França e Inglaterra aceitam a anexação dos Sudetos (política de apaziguamento); meses depois a Alemanha ocupa toda a Tchecoslováquia.", "Abril de 1939: a Itália anexa a Albânia.", "23 de agosto de 1939: Pacto de Não Agressão (Molotov-Ribbentrop), com acordo secreto para dividir a Polônia.", "1º e 17 de setembro de 1939: alemães invadem a Polônia pelo oeste, soviéticos pelo leste; Reino Unido e França declaram guerra — começa a Segunda Guerra Mundial.", "Dezembro de 1941: Pearl Harbor; os EUA entram na guerra, que se torna global."]], ["Conceito e conclusão", ["Blitzkrieg (guerra-relâmpago): tanques Panzer e a Luftwaffe abrem caminho, a infantaria ocupa — assim caíram Polônia, Dinamarca, Noruega, Holanda, Bélgica e França até maio de 1940.", "Cada avanço foi tolerado ou mal contido pelas democracias, que temiam um novo grande conflito. A hesitação, sobretudo o apaziguamento anglo-francês, deu tempo e confiança aos regimes totalitários."]]]}, "ideologia-guerra": {"num": "8", "titulo": "Como as ideologias guiaram o conflito", "blocos": [["Por que a guerra foi tão violenta contra civis", ["As ideologias totalitárias não apenas motivaram a guerra: definiram <em>como</em> ela foi travada.", "Frente Oriental: a invasão da URSS em 1941 (Operação Barbarossa) foi conduzida como \"guerra de extermínio\", pois os povos eslavos eram tidos como racialmente inferiores — daí o número de mortes muito superior ao de qualquer outra frente."]], ["Do racismo de Estado ao extermínio", ["A perseguição sistemática aos judeus, iniciada com as Leis de Nuremberg, culminou em 1941-1942 na \"Solução Final\": campos como Auschwitz-Birkenau, construídos para o assassinato em massa.", "No Pacífico, o militarismo japonês produziu campanhas de extrema brutalidade contra civis e prisioneiros nos territórios ocupados da Ásia.", "Conclusão: entender as ideologias totalitárias é a chave para compreender por que esse conflito foi mais destrutivo e mais marcado por crimes contra civis do que qualquer guerra anterior."]]]}, "queda": {"num": "9", "titulo": "A Queda dos Regimes Totalitários", "blocos": [["O fim de cada regime", ["Itália: Mussolini é deposto em 1943 após derrotas militares e a invasão aliada; capturado e executado por partisans em abril de 1945.", "Alemanha: cercado em Berlim pelo Exército Vermelho, Hitler se suicida em 30 de abril de 1945; a rendição incondicional vem dias depois.", "Japão: após os bombardeios atômicos de Hiroshima e Nagasaki, rende-se em agosto de 1945, encerrando a guerra.", "URSS: o stalinismo não caiu — saiu fortalecido, controlando boa parte do Leste Europeu; Stálin governou até 1953."]], ["Legado", ["Tribunal de Nuremberg (1945–1946): marco jurídico ao responsabilizar indivíduos por \"crimes contra a humanidade\", conceito que ainda orienta o Direito Internacional.", "A derrota do Eixo não encerrou o autoritarismo: o pós-guerra viu um novo bloco sob influência soviética, e a disputa entre capitalismo e socialismo definiria as décadas seguintes na Guerra Fria."]]]}};
 
 (function(){
@@ -1611,8 +2002,11 @@ const FICHAS = {"conceito": {"num": "1", "titulo": "O que é um Estado Totalitá
   var tit   = document.getElementById('fichaTitulo');
   var rot   = document.getElementById('fichaRot');
 
+  var fichaAtual = null;
+
   function abrir(id){
     var f = FICHAS[id]; if(!f) return;
+    fichaAtual = f;
     rot.innerHTML = 'Resumo &middot; T\u00f3pico ' + f.num;
     tit.textContent = f.titulo;
     corpo.innerHTML = f.blocos.map(function(b){
@@ -1627,6 +2021,41 @@ const FICHAS = {"conceito": {"num": "1", "titulo": "O que é um Estado Totalitá
     document.body.style.overflow = '';
   }
 
+  /* ---------- baixar o fichamento em PDF ---------- */
+  var btnPdf = document.getElementById('baixarFicha');
+
+  function nomeArquivo(rotulo, titulo){
+    var base = rotulo + ' - ' + titulo;
+    if(base.normalize) base = base.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    return base.replace(/[^a-zA-Z0-9\- ]+/g,' ').replace(/\s+/g,'-').replace(/-+/g,'-')
+               .replace(/^-|-$/g,'').toLowerCase() + '.pdf';
+  }
+
+  if(btnPdf){
+    btnPdf.addEventListener('click', function(){
+      if(!fichaAtual || typeof PDFicha === 'undefined') return;
+      var rotulo = rot.textContent, titulo = fichaAtual.titulo;
+      btnPdf.disabled = true;
+      var textoAntes = btnPdf.innerHTML;
+      btnPdf.innerHTML = 'Gerando\u2026';
+      setTimeout(function(){
+        try{
+          PDFicha.baixar({
+            rotulo: rotulo,
+            titulo: titulo,
+            subtitulo: 'Hist\u00f3ria \u00b7 9\u00ba ano \u00b7 Ensino Fundamental \u00b7 Descritor GO-EF09HI13-A \u00b7 Prof. Claudio',
+            rodape: 'Col\u00e9gio Estadual Rodolfo de Oliveira \u00b7 CERO \u00b7 2026 \u00b7 Regimes Totalit\u00e1rios e a Segunda Guerra Mundial',
+            blocos: fichaAtual.blocos
+          }, nomeArquivo(rotulo, titulo));
+        } catch(e){
+          alert('N\u00e3o foi poss\u00edvel gerar o PDF neste navegador.');
+        }
+        btnPdf.disabled = false;
+        btnPdf.innerHTML = textoAntes;
+      }, 30);
+    });
+  }
+
   document.querySelectorAll('.ficha-btn').forEach(function(b){
     b.addEventListener('click', function(){ abrir(b.dataset.ficha); });
   });
@@ -1639,5 +2068,92 @@ const FICHAS = {"conceito": {"num": "1", "titulo": "O que é um Estado Totalitá
 })();
 </script>
 
+
+<script>
+/* ===== CARROSSEL DO RESUMO FINAL (MODELO POSTAGEM) ===== */
+(function(){
+  var trilho = document.getElementById('ig-trilho');
+  if (!trilho) return;
+  var slides = trilho.querySelectorAll('.ig-slide');
+  var total = slides.length;
+  var atual = 0;
+
+  var LEGENDAS = [
+    { t: "O que é um Estado Totalitário?", c: "TÓPICO 1 — O totalitarismo não é só repressão: é o controle total da vida, com partido único, culto ao líder, propaganda, polícia política, nacionalismo exacerbado e economia dirigida. Hannah Arendt, em <em>Origens do totalitarismo</em> (1951), é a chave para entender como esses regimes obtiveram apoio popular." },
+    { t: "O contexto de ascensão", c: "TÓPICO 2 — Três crises abriram caminho ao autoritarismo: a herança da 1ª Guerra e o Tratado de Versalhes (1919), a quebra da Bolsa de Nova York em 1929 e o medo do comunismo após a Revolução Russa. O resultado foi a polarização política e o enfraquecimento das democracias liberais." },
+    { t: "O Fascismo Italiano", c: "TÓPICO 3 — Do desemprego do pós-guerra aos <em>Fasci di Combattimento</em>: a Marcha sobre Roma (outubro de 1922) levou Mussolini ao poder. Fim dos partidos de oposição, censura, economia corporativista e o sonho de um “novo Império Romano” que resultou na invasão da Etiópia em 1935." },
+    { t: "O Nazismo Alemão", c: "TÓPICO 4 — Da República de Weimar ao NSDAP: com a crise de 1929 e o desemprego em massa, Hitler chega à chefia do governo em janeiro de 1933. Pangermanismo, espaço vital, Leis de Nuremberg (1935) e rearmamento compõem o racismo de Estado que levaria ao Holocausto." },
+    { t: "O Stalinismo na União Soviética", c: "TÓPICO 5 — Após a morte de Lênin (1924), Stálin consolidou partido único, coletivização forçada e industrialização acelerada. Gulags, opressão às nacionalidades, <em>nomenklatura</em>, culto à personalidade e os expurgos dos anos 1930: o totalitarismo não é exclusividade de um lado político." },
+    { t: "O Militarismo Japonês", c: "TÓPICO 6 — Da Revolução Meiji (1868) ao domínio dos militares nos anos 1930, em nome do imperador Hirohito. Manchúria (1931), ataque à China (1937), Pacto Tripartite (1940) e Pearl Harbor (dezembro de 1941): disciplina, culto ao imperador e expansão territorial." },
+    { t: "Política expansionista: o caminho até a guerra", c: "TÓPICO 7 — Linha do tempo de 1931 a 1941: Manchúria, Etiópia, Renânia, <em>Anschluss</em>, Munique e o apaziguamento anglo-francês, o Pacto Molotov-Ribbentrop e a invasão da Polônia em 1º de setembro de 1939. Cada avanço tolerado deu tempo e confiança aos regimes totalitários." },
+    { t: "Como as ideologias guiaram o conflito", c: "TÓPICO 8 — As ideologias não só motivaram a guerra: definiram como ela foi travada. A Operação Barbarossa (1941) foi conduzida como guerra de extermínio, e o racismo de Estado levou à “Solução Final”. No Pacífico, o militarismo japonês produziu campanhas de extrema brutalidade contra civis." },
+    { t: "A Queda dos Regimes Totalitários", c: "TÓPICO 9 — Mussolini deposto e executado (1943–1945), Hitler suicida-se em 30 de abril de 1945, o Japão rende-se em agosto após Hiroshima e Nagasaki. O stalinismo, porém, sai fortalecido. O Tribunal de Nuremberg funda os “crimes contra a humanidade” e começa a Guerra Fria." }
+  ];
+
+  var contador = document.getElementById('ig-contador');
+  var numero   = document.getElementById('ig-num');
+  var texto    = document.getElementById('ig-legenda-txt');
+  var pontos   = document.getElementById('ig-pontos');
+  var btnAnt   = document.getElementById('ig-anterior');
+  var btnProx  = document.getElementById('ig-proximo');
+
+  for (var i = 0; i < total; i++){
+    (function(idx){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'ig-ponto' + (idx === 0 ? ' ativo' : '');
+      b.setAttribute('aria-label', 'Ir para o card ' + (idx + 1));
+      b.addEventListener('click', function(){ ir(idx); });
+      pontos.appendChild(b);
+    })(i);
+  }
+
+  function ir(indice){
+    atual = Math.max(0, Math.min(total - 1, indice));
+    trilho.style.transform = 'translateX(' + (-atual * 100) + '%)';
+    contador.textContent = (atual + 1) + '/' + total;
+    numero.textContent = (atual + 1);
+    texto.innerHTML = ' ' + LEGENDAS[atual].c;
+    btnAnt.disabled = (atual === 0);
+    btnProx.disabled = (atual === total - 1);
+    var ps = pontos.querySelectorAll('.ig-ponto');
+    for (var k = 0; k < ps.length; k++){
+      ps[k].classList.toggle('ativo', k === atual);
+    }
+  }
+
+  btnAnt.addEventListener('click', function(){ ir(atual - 1); });
+  btnProx.addEventListener('click', function(){ ir(atual + 1); });
+
+  /* arrastar / deslizar */
+  var x0 = null, y0 = null;
+  var janela = document.getElementById('ig-janela');
+  janela.addEventListener('touchstart', function(e){
+    x0 = e.changedTouches[0].clientX; y0 = e.changedTouches[0].clientY;
+  }, {passive:true});
+  janela.addEventListener('touchend', function(e){
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    var dy = e.changedTouches[0].clientY - y0;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) ir(atual + (dx < 0 ? 1 : -1));
+    x0 = null; y0 = null;
+  }, {passive:true});
+
+  /* teclado quando o carrossel esta visivel e focado */
+  janela.setAttribute('tabindex', '0');
+  janela.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight'){ ir(atual + 1); }
+    if (e.key === 'ArrowLeft'){ ir(atual - 1); }
+  });
+
+  /* botoes de curtir e salvar (apenas visual) */
+  var curtir = document.getElementById('ig-curtir');
+  var salvar = document.getElementById('ig-salvar');
+  curtir.addEventListener('click', function(){ curtir.classList.toggle('ativo'); });
+  salvar.addEventListener('click', function(){ salvar.classList.toggle('ativo'); });
+
+  ir(0);
+})();
+</script>
 </body>
 </html>
