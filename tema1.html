@@ -681,11 +681,15 @@
     text-transform:uppercase; color:var(--ink-soft); margin:0 0 14px;
   }
   .ig-post{
-    max-width:470px; margin:0 auto; background:var(--paper);
+    max-width:940px; margin:0 auto; background:var(--paper);
     border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
     overflow:hidden;
+    display:grid; grid-template-columns:minmax(0,1fr) 360px; align-items:stretch;
   }
-  .ig-topo{ display:flex; align-items:center; gap:10px; padding:11px 13px; border-bottom:1px solid var(--line); }
+  .ig-midia{ display:flex; flex-direction:column; background:var(--ink); min-width:0; }
+  .ig-lado{ display:flex; flex-direction:column; min-width:0; min-height:0; border-left:1px solid var(--line); background:var(--paper); }
+
+  .ig-topo{ display:flex; align-items:center; gap:10px; padding:12px 14px; border-bottom:1px solid var(--line); flex:0 0 auto; }
   .ig-avatar{
     flex:0 0 auto; width:38px; height:38px; border-radius:50%;
     background:linear-gradient(135deg,var(--accent-dark),var(--accent) 55%,var(--gold));
@@ -699,16 +703,16 @@
     font-family:var(--font-mono); font-size:.82rem; font-weight:600; color:var(--ink);
   }
   .ig-ident .ig-user svg{ width:13px; height:13px; fill:var(--accent); flex:0 0 auto; }
-  .ig-ident .ig-local{ font-size:.72rem; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ig-ident .ig-local{ display:block; font-size:.71rem; color:var(--ink-soft); }
   .ig-topo .ig-tag{
-    flex:0 0 auto; font-family:var(--font-mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase;
+    flex:0 0 auto; font-family:var(--font-mono); font-size:.6rem; letter-spacing:.1em; text-transform:uppercase;
     color:var(--accent-dark); background:var(--bg-alt); border:1px solid var(--line);
-    padding:4px 9px; border-radius:999px;
+    padding:4px 8px; border-radius:999px;
   }
 
-  .ig-janela{ position:relative; background:var(--ink); overflow:hidden; }
-  .ig-trilho{ display:flex; transition:transform .32s cubic-bezier(.22,.61,.36,1); will-change:transform; }
-  .ig-slide{ flex:0 0 100%; margin:0; }
+  .ig-janela{ position:relative; background:var(--ink); overflow:hidden; flex:1 1 auto; }
+  .ig-trilho{ display:flex; height:100%; transition:transform .32s cubic-bezier(.22,.61,.36,1); will-change:transform; }
+  .ig-slide{ flex:0 0 100%; margin:0; display:flex; align-items:center; justify-content:center; }
   .ig-slide img{
     display:block; width:100%; height:auto; aspect-ratio:1024/1536; object-fit:cover;
     cursor:zoom-in; -webkit-user-drag:none;
@@ -732,7 +736,24 @@
   .ig-seta.esq{ left:9px; }
   .ig-seta.dir{ right:9px; }
 
-  .ig-acoes{ display:flex; align-items:center; gap:14px; padding:11px 13px 4px; }
+  .ig-pontos{ display:flex; justify-content:center; gap:5px; padding:9px 12px; background:var(--ink); flex:0 0 auto; }
+  .ig-ponto{
+    width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.32); border:0; padding:0; cursor:pointer;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .ig-ponto.ativo{ background:var(--gold); transform:scale(1.3); }
+
+  .ig-corpo{ padding:15px 15px 18px; overflow-y:auto; flex:1 1 auto; min-height:0; }
+  .ig-titulo-card{
+    font-family:var(--font-mono); font-size:.66rem; letter-spacing:.11em; text-transform:uppercase;
+    color:var(--accent-dark); margin:0 0 10px; line-height:1.5;
+  }
+  .ig-legenda{ font-size:.93rem; line-height:1.62; color:var(--ink); margin:0; }
+  .ig-legenda strong{ font-family:var(--font-mono); font-size:.82rem; margin-right:6px; }
+  .ig-hash{ display:block; margin-top:9px; font-family:var(--font-mono); font-size:.72rem; color:var(--steel); }
+  .ig-curtidas{ font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft); margin:14px 0 0; }
+
+  .ig-acoes{ display:flex; align-items:center; gap:14px; padding:11px 15px; border-top:1px solid var(--line); flex:0 0 auto; }
   .ig-acoes button{
     background:transparent; border:0; padding:0; cursor:pointer; color:var(--ink);
     display:flex; align-items:center; line-height:0;
@@ -741,34 +762,33 @@
   .ig-acoes button.ativo{ color:var(--accent); }
   .ig-acoes button.ativo svg{ fill:currentColor; }
   .ig-acoes .ig-salvar{ margin-left:auto; }
-  .ig-pontos{ display:flex; justify-content:center; gap:5px; padding:6px 13px 2px; }
-  .ig-ponto{
-    width:6px; height:6px; border-radius:50%; background:var(--line); border:0; padding:0; cursor:pointer;
-    transition:background .15s ease, transform .15s ease;
-  }
-  .ig-ponto.ativo{ background:var(--accent); transform:scale(1.25); }
 
-  .ig-corpo{ padding:4px 13px 15px; }
-  .ig-curtidas{ font-family:var(--font-mono); font-size:.74rem; color:var(--ink-soft); margin:6px 0 8px; }
-  .ig-legenda{ font-size:.93rem; line-height:1.6; color:var(--ink); margin:0; }
-  .ig-legenda strong{ font-family:var(--font-mono); font-size:.82rem; margin-right:6px; }
-  .ig-hash{ display:block; margin-top:7px; font-family:var(--font-mono); font-size:.72rem; color:var(--steel); }
   .ig-rodape-post{
-    margin-top:11px; padding-top:9px; border-top:1px solid var(--line);
-    font-family:var(--font-mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);
-    display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;
+    padding:10px 15px 12px; border-top:1px solid var(--line); background:var(--bg-alt); flex:0 0 auto;
+    font-family:var(--font-mono); font-size:.62rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);
+    display:flex; flex-direction:column; gap:3px;
   }
   .ig-dica{ text-align:center; font-size:.76rem; font-style:italic; color:var(--ink-soft); margin:10px 0 0; }
 
+  @media (max-width:860px){
+    .ig-post{ grid-template-columns:1fr; max-width:470px; }
+    .ig-midia{ order:2; }
+    .ig-lado{ display:contents; }
+    .ig-topo{ order:1; }
+    .ig-acoes{ order:3; border-top:0; }
+    .ig-corpo{ order:4; overflow:visible; padding-top:0; }
+    .ig-rodape-post{ order:5; }
+  }
   @media (max-width:520px){
     .ig-post{ max-width:100%; }
     .ig-topo .ig-tag{ display:none; }
   }
   @media print{
     .ig-seta, .ig-acoes, .ig-pontos, .ig-contador, .ig-dica{ display:none !important; }
-    .ig-trilho{ display:block; transform:none !important; }
-    .ig-slide{ page-break-inside:avoid; margin-bottom:10px; }
-    .ig-post{ max-width:100%; box-shadow:none; }
+    .ig-post{ display:block; max-width:100%; box-shadow:none; }
+    .ig-lado{ display:block; border-left:0; }
+    .ig-trilho{ display:block; transform:none !important; height:auto; }
+    .ig-slide{ display:block; page-break-inside:avoid; margin-bottom:10px; }
   }
 </style>
 </head>
@@ -1412,22 +1432,12 @@
       <p class="ig-chamada">Resumo final do tema &middot; deslize os 9 cards</p>
 
       <article class="ig-post">
-        <header class="ig-topo">
-          <div class="ig-avatar">CERO</div>
-          <div class="ig-ident">
-            <span class="ig-user">historia.cero
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5l2.6 2.2 3.4-.3.6 3.4 2.9 1.9-1.5 3.1 1.5 3.1-2.9 1.9-.6 3.4-3.4-.3L12 22.5l-2.6-2.2-3.4.3-.6-3.4-2.9-1.9L4 12l-1.5-3.1L5.4 7l.6-3.4 3.4.3L12 1.5zm-1.1 13.9l5.6-5.6-1.4-1.4-4.2 4.2-2-2-1.4 1.4 3.4 3.4z"/></svg>
-            </span>
-            <span class="ig-local">Prof. Claudio &middot; 9&ordm; ano EF &middot; GO-EF09HI13-A</span>
-          </div>
-          <span class="ig-tag">9 cards</span>
-        </header>
-
-        <div class="ig-janela" id="ig-janela">
-          <span class="ig-contador" id="ig-contador">1/9</span>
-          <button class="ig-seta esq" id="ig-anterior" type="button" aria-label="Card anterior" disabled>&#10094;</button>
-          <button class="ig-seta dir" id="ig-proximo" type="button" aria-label="Pr&oacute;ximo card">&#10095;</button>
-          <div class="ig-trilho" id="ig-trilho">
+        <div class="ig-midia">
+          <div class="ig-janela" id="ig-janela">
+            <span class="ig-contador" id="ig-contador">1/9</span>
+            <button class="ig-seta esq" id="ig-anterior" type="button" aria-label="Card anterior" disabled>&#10094;</button>
+            <button class="ig-seta dir" id="ig-proximo" type="button" aria-label="Pr&oacute;ximo card">&#10095;</button>
+            <div class="ig-trilho" id="ig-trilho">
           <figure class="ig-slide">
             <img src="tema1/fichamento1.webp" alt="Resumo visual do tópico 1: O que é um Estado Totalitário?" loading="lazy" onclick="abrirLightbox(this)">
             <figcaption>Resumo do tópico 1 — O que é um Estado Totalitário?</figcaption>
@@ -1464,35 +1474,50 @@
             <img src="tema1/fichamento9.webp" alt="Resumo visual do tópico 9: A Queda dos Regimes Totalitários" loading="lazy" onclick="abrirLightbox(this)">
             <figcaption>Resumo do tópico 9 — A Queda dos Regimes Totalitários</figcaption>
           </figure>
+            </div>
           </div>
+          <div class="ig-pontos" id="ig-pontos"></div>
         </div>
 
-        <div class="ig-acoes">
-          <button type="button" id="ig-curtir" aria-label="Curtir">
-            <svg viewBox="0 0 24 24"><path d="M20.8 5.6a5 5 0 00-7.1 0L12 7.3l-1.7-1.7a5 5 0 10-7.1 7.1l8.8 8.8 8.8-8.8a5 5 0 000-7.1z"/></svg>
-          </button>
-          <button type="button" aria-label="Comentar" onclick="document.getElementById('jd-wrap').scrollIntoView({behavior:'smooth'});">
-            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 01-9 8.4 9 9 0 01-3.9-.9L3 20.5l1.6-4.9A8.4 8.4 0 013 11.5a8.4 8.4 0 019-8.4 8.4 8.4 0 019 8.4z"/></svg>
-          </button>
-          <button type="button" aria-label="Imprimir ou salvar em PDF" title="Imprimir ou salvar em PDF" onclick="window.print();">
-            <svg viewBox="0 0 24 24"><path d="M21.5 2.5L11 13"/><path d="M21.5 2.5l-6.6 19-3.9-8.5-8.5-3.9 19-6.6z"/></svg>
-          </button>
-          <button type="button" class="ig-salvar" id="ig-salvar" aria-label="Salvar">
-            <svg viewBox="0 0 24 24"><path d="M18.5 21.5L12 16.8l-6.5 4.7v-17a1 1 0 011-1h11a1 1 0 011 1v17z"/></svg>
-          </button>
-        </div>
+        <div class="ig-lado">
+          <header class="ig-topo">
+            <div class="ig-avatar">CERO</div>
+            <div class="ig-ident">
+              <span class="ig-user">historia.cero
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5l2.6 2.2 3.4-.3.6 3.4 2.9 1.9-1.5 3.1 1.5 3.1-2.9 1.9-.6 3.4-3.4-.3L12 22.5l-2.6-2.2-3.4.3-.6-3.4-2.9-1.9L4 12l-1.5-3.1L5.4 7l.6-3.4 3.4.3L12 1.5zm-1.1 13.9l5.6-5.6-1.4-1.4-4.2 4.2-2-2-1.4 1.4 3.4 3.4z"/></svg>
+              </span>
+              <span class="ig-local">Prof. Claudio &middot; 9&ordm; ano EF &middot; GO-EF09HI13-A</span>
+            </div>
+            <span class="ig-tag">9 cards</span>
+          </header>
 
-        <div class="ig-pontos" id="ig-pontos"></div>
+          <div class="ig-corpo">
+            <p class="ig-titulo-card" id="ig-titulo-card">T&oacute;pico 1</p>
+            <p class="ig-legenda">
+              <strong>historia.cero</strong><span id="ig-legenda-txt"></span>
+              <span class="ig-hash">#regimestotalitarios #segundaguerramundial #historia9ano #cero</span>
+            </p>
+            <p class="ig-curtidas" id="ig-curtidas">Card <strong id="ig-num">1</strong> de 9 &middot; toque na imagem para ampliar</p>
+          </div>
 
-        <div class="ig-corpo">
-          <p class="ig-curtidas" id="ig-curtidas">Card <strong id="ig-num">1</strong> de 9 &middot; toque na imagem para ampliar</p>
-          <p class="ig-legenda">
-            <strong>historia.cero</strong><span id="ig-legenda-txt"></span>
-            <span class="ig-hash">#regimestotalitarios #segundaguerramundial #historia9ano #cero</span>
-          </p>
+          <div class="ig-acoes">
+            <button type="button" id="ig-curtir" aria-label="Curtir">
+              <svg viewBox="0 0 24 24"><path d="M20.8 5.6a5 5 0 00-7.1 0L12 7.3l-1.7-1.7a5 5 0 10-7.1 7.1l8.8 8.8 8.8-8.8a5 5 0 000-7.1z"/></svg>
+            </button>
+            <button type="button" aria-label="Ir para o gloss&aacute;rio" title="Ir para o gloss&aacute;rio" onclick="document.getElementById('jd-wrap').scrollIntoView({behavior:'smooth'});">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 01-9 8.4 9 9 0 01-3.9-.9L3 20.5l1.6-4.9A8.4 8.4 0 013 11.5a8.4 8.4 0 019-8.4 8.4 8.4 0 019 8.4z"/></svg>
+            </button>
+            <button type="button" aria-label="Imprimir ou salvar em PDF" title="Imprimir ou salvar em PDF" onclick="window.print();">
+              <svg viewBox="0 0 24 24"><path d="M21.5 2.5L11 13"/><path d="M21.5 2.5l-6.6 19-3.9-8.5-8.5-3.9 19-6.6z"/></svg>
+            </button>
+            <button type="button" class="ig-salvar" id="ig-salvar" aria-label="Salvar">
+              <svg viewBox="0 0 24 24"><path d="M18.5 21.5L12 16.8l-6.5 4.7v-17a1 1 0 011-1h11a1 1 0 011 1v17z"/></svg>
+            </button>
+          </div>
+
           <div class="ig-rodape-post">
-            <span>Col&eacute;gio Estadual Rodolfo de Oliveira</span>
-            <span>Regimes Totalit&aacute;rios e a 2&ordf; Guerra</span>
+            <span>Col&eacute;gio Estadual Rodolfo de Oliveira &middot; CERO</span>
+            <span>Regimes Totalit&aacute;rios e a 2&ordf; Guerra Mundial</span>
           </div>
         </div>
       </article>
@@ -2094,6 +2119,7 @@ const FICHAS = {"conceito": {"num": "1", "titulo": "O que é um Estado Totalitá
   var numero   = document.getElementById('ig-num');
   var texto    = document.getElementById('ig-legenda-txt');
   var pontos   = document.getElementById('ig-pontos');
+  var titulo   = document.getElementById('ig-titulo-card');
   var btnAnt   = document.getElementById('ig-anterior');
   var btnProx  = document.getElementById('ig-proximo');
 
@@ -2114,6 +2140,7 @@ const FICHAS = {"conceito": {"num": "1", "titulo": "O que é um Estado Totalitá
     contador.textContent = (atual + 1) + '/' + total;
     numero.textContent = (atual + 1);
     texto.innerHTML = ' ' + LEGENDAS[atual].c;
+    if (titulo) titulo.textContent = 'T\u00f3pico ' + (atual + 1) + ' \u2014 ' + LEGENDAS[atual].t;
     btnAnt.disabled = (atual === 0);
     btnProx.disabled = (atual === total - 1);
     var ps = pontos.querySelectorAll('.ig-ponto');
