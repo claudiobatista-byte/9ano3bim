@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ditadura Militar no Brasil (1964–1985) | CERO</title>
+<meta name="description" content="Material de estudo de História do 9º ano sobre a Ditadura Militar no Brasil (1964–1985): golpe civil-militar, atos institucionais, milagre econômico, resistência, a ditadura em Goiás e a redemocratização. Descritor GO-EF09HI19-A.">
+<meta name="author" content="Colégio Estadual Rodolfo de Oliveira — CERO">
+<meta name="theme-color" content="#5c3a2e">
+<meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -379,7 +383,6 @@
     color:var(--accent-dark); cursor:pointer; transition:background .15s ease;
   }
   .ampliar-btn:hover{background:var(--gold-light);}
-  .ampliar-btn .lupa{font-size:.9rem;}
 
   /* ===== SAIBA MAIS / TEXTO DE APOIO (MINI-BOXES FLUTUANTES) ===== */
   .saibamais-flutuante{
@@ -417,6 +420,9 @@
   }
   .saiba-mais-secao p{margin:0 0 14px; font-size:.9rem;}
   .saibamais-item--link{max-width:420px;}
+  /* dentro do box "Para saber mais", os cards acompanham a largura da caixa */
+  .saiba-mais-secao .saibamais-item{width:100%; max-width:none; box-sizing:border-box;}
+  .saiba-mais-secao .saibamais-item + .saibamais-item{margin-top:12px;}
 
   /* ===== LINK PARA OUVIR A CANCAO ===== */
   .audio-link{
@@ -430,44 +436,6 @@
   .audio-link:hover{background:var(--accent-dark);}
   .audio-link .audio-ico{font-size:.6rem; line-height:1;}
   @media print{ .audio-link{display:none !important;} }
-
-  /* ===== CARROSSEL DE IMAGENS ===== */
-  .carrossel{
-    position:relative; clear:both;
-    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
-    box-shadow:var(--shadow); padding:14px 14px 12px; margin:24px 0 8px;
-  }
-  .carrossel-topo{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;}
-  .carrossel-rotulo{font-family:var(--font-mono); font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gold);}
-  .carrossel-contador{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-soft);}
-  .carrossel-janela{overflow:hidden; border-radius:8px;}
-  .carrossel-trilho{display:flex; transition:transform .35s ease; touch-action:pan-y;}
-  .carrossel-slide{flex:0 0 100%; margin:0; padding:0 2px; box-sizing:border-box;}
-  .carrossel-slide img{display:block; width:100%; height:300px; object-fit:contain; background:var(--bg-alt); border:1px solid var(--line); border-radius:8px; cursor:zoom-in;}
-  .carrossel-slide figcaption{margin-top:10px; min-height:44px; text-align:center; font-family:var(--font-body); font-style:italic; font-size:.84rem; color:var(--ink-soft); line-height:1.5;}
-  .carrossel-seta{
-    position:absolute; top:calc(50% - 14px); transform:translateY(-50%);
-    width:38px; height:38px; border-radius:50%;
-    background:rgba(255,255,255,.94); border:1px solid var(--gold); color:var(--accent-dark);
-    font-size:1.4rem; line-height:1; font-weight:700; cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 2px 10px rgba(0,0,0,.18); transition:background .15s ease;
-  }
-  .carrossel-seta:hover{background:var(--gold-light);}
-  .carrossel-seta--ant{left:6px;}
-  .carrossel-seta--prox{right:6px;}
-  .carrossel-pontos{display:flex; justify-content:center; gap:8px; margin-top:10px;}
-  .carrossel-ponto{
-    width:9px; height:9px; padding:0; border-radius:50%;
-    background:var(--line); border:1px solid var(--line); cursor:pointer; transition:background .15s ease, transform .15s ease;
-  }
-  .carrossel-ponto.ativo{background:var(--gold); border-color:var(--gold); transform:scale(1.3);}
-  .carrossel-dica{margin:8px 0 0 !important; text-align:center; font-family:var(--font-mono); font-size:.66rem; color:var(--ink-soft);}
-  @media (max-width:640px){
-    .carrossel-slide img{height:210px;}
-    .carrossel-seta{width:32px; height:32px; font-size:1.2rem;}
-    .carrossel-slide figcaption{font-size:.8rem;}
-  }
 
   /* ===== GATILHO DE GALERIA (abre no lightbox) ===== */
   .galeria-gatilho{margin:24px 0 8px; clear:both;}
@@ -488,6 +456,25 @@
     .galeria-abrir img{width:60px; height:60px;}
   }
 
+  /* ===== MOSAICO DE CHARGES (abre no lightbox) ===== */
+  .charges-bloco{background:var(--paper); border:1px solid var(--line); border-left:4px solid var(--gold); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px 18px 16px; margin:26px 0; clear:both;}
+  .charges-bloco h4{margin:0 0 4px; font-family:var(--font-title); font-size:1.02rem; color:var(--ink);}
+  .charges-rotulo{display:block; margin-bottom:10px; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; color:var(--gold);}
+  .charges-bloco > p{margin:0 0 14px; font-size:.9rem;}
+  .charges-grade{display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;}
+  .charges-item{padding:0; border:1px solid var(--line); border-radius:8px; background:#fff; cursor:zoom-in; overflow:hidden; transition:border-color .15s ease, transform .15s ease;}
+  .charges-item:hover{border-color:var(--gold); transform:translateY(-2px);}
+  .charges-item img{display:block; width:100%; height:130px; object-fit:contain; background:#fff; padding:6px;}
+  .charges-item span{display:block; padding:6px 8px 8px; font-family:var(--font-mono); font-size:.64rem; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-soft); text-align:center; border-top:1px solid var(--line);}
+  .charges-dica{margin:12px 0 0; text-align:center; font-family:var(--font-body); font-style:italic; font-size:.85rem; color:var(--ink-soft);}
+  .charges-fonte{margin:14px 0 0; padding-top:12px; border-top:1px dashed var(--line); font-size:.76rem; line-height:1.55; color:var(--ink-soft);}
+  .charges-fonte strong{display:block; font-family:var(--font-mono); font-size:.64rem; letter-spacing:.08em; text-transform:uppercase; color:var(--gold); margin-bottom:6px;}
+  .charges-fonte a{color:var(--accent-dark); word-break:break-word;}
+  @media (max-width:640px){
+    .charges-grade{grid-template-columns:repeat(2, 1fr); gap:10px;}
+    .charges-item img{height:110px;}
+  }
+
   /* ===== POP-UP DE TEXTO DE APOIO ===== */
   .modal-overlay{display:none; position:fixed; inset:0; z-index:9999; background:rgba(20,14,8,.78); align-items:center; justify-content:center; padding:24px;}
   .modal-overlay.aberto{display:flex;}
@@ -496,7 +483,7 @@
     box-shadow:0 20px 50px rgba(0,0,0,.45); max-width:640px; max-height:82vh; overflow-y:auto;
     padding:30px 30px 26px; user-select:text;
   }
-  .modal-fechar{position:absolute; top:14px; right:14px; width:36px; height:36px; border-radius:50%; background:var(--bg-alt); border:1px solid var(--line); color:var(--accent-dark); font-size:1.15rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1;}
+  .modal-fechar{position:absolute; top:14px; right:14px; width:36px; height:36px; border-radius:50%; background:var(--bg-alt); border:1px solid var(--line); color:var(--accent-dark); font-size:1.15rem; font-weight:700; cursor:display; display:flex; align-items:center; justify-content:center; line-height:1;}
   .modal-eyebrow{display:inline-block; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:8px;}
   .modal-caixa h3{font-family:var(--font-title); font-size:1.28rem; color:var(--ink); margin:0 0 14px; padding-right:30px;}
   .modal-caixa p{font-family:var(--font-body); font-size:.98rem; color:var(--ink-soft); margin:0 0 14px;}
@@ -533,9 +520,7 @@
     .atv-acoes{margin-left:0; min-width:0; align-self:stretch;}
     .modal-caixa{padding:24px 20px 20px;}
   }
-</style>
 
-<style>
   /* ===== BOX DE RESUMO DO TOPICO (FICHAMENTO) ===== */
   .ficha-btn{
     display:flex; align-items:center; gap:12px; width:100%; text-align:left; cursor:pointer;
@@ -600,6 +585,9 @@
     font-family:var(--font-body); font-size:.9rem; cursor:pointer;
   }
   .ficha-rodape button:hover{filter:brightness(1.1);}
+  .ficha-acoes{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+  .ficha-rodape .btn-pdf{background:var(--gold); color:#fff;}
+  .ficha-rodape .btn-pdf[disabled]{opacity:.6; cursor:progress;}
   @media (max-width:720px){
     .ficha-fundo{padding:0;}
     .ficha-cx{max-width:100%; min-height:100%; border-radius:0; display:flex; flex-direction:column;}
@@ -609,9 +597,38 @@
     .ficha-rodape{position:sticky; bottom:0; padding:12px 16px calc(12px + env(safe-area-inset-bottom)); justify-content:center;}
     .ficha-rodape span{display:none;}
     .ficha-rodape button{width:100%; min-height:46px;}
+    .ficha-acoes{width:100%; flex-direction:column; align-items:stretch; gap:8px;}
     .ficha-btn{padding:14px 16px;}
   }
   @media print{.ficha-btn, .ficha-fundo{display:none !important;}}
+
+  /* ===== FOCO VISIVEL (navegacao por teclado) ===== */
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
+    outline:3px solid var(--gold); outline-offset:3px; border-radius:6px;
+  }
+
+  /* ===== MOVIMENTO REDUZIDO ===== */
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{
+      animation-duration:.01ms !important; animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+    }
+  }
+
+  /* ===== IMPRESSAO: abre todo o conteudo e limpa a interface ===== */
+  @media print{
+    body{background:#fff; user-select:auto;}
+    .acc-body{max-height:none !important; overflow:visible !important;}
+    .acc-head .chev, .mini-trilha, .jogo-trilha-card, .rodape-nav,
+    .modal-overlay, .lightbox-overlay, .galeria-gatilho, .figura-acao,
+    .saibamais-flutuante, .jd-status, .jd-alerta{display:none !important;}
+    .acc, .secao, .citacao, figure, .goias-box, .termo-box, .alerta-box{
+      break-inside:avoid; page-break-inside:avoid; box-shadow:none;
+    }
+    .secao{break-before:auto;}
+    a[href^="http"]::after{content:" (" attr(href) ")"; font-size:.7rem; word-break:break-all;}
+  }
 </style>
 </head>
 <body>
@@ -662,6 +679,25 @@
     </ul>
   </div>
 
+  <!-- VIDEOAULA RESUMO -->
+  <div class="atv-card atv-card--video selecionavel">
+    <div class="atv-icone">&#9654;</div>
+    <div class="atv-conteudo">
+      <span class="eyebrow">Videoaula &middot; YouTube</span>
+      <h4>Resumo do tema em vídeo</h4>
+      <p>Assista ao resumo da Ditadura Militar no Brasil (1964&ndash;1985) antes de começar a leitura, ou use-o como revisão depois de estudar as seções.</p>
+    </div>
+    <div class="atv-acoes">
+      <a class="atv-btn" href="https://youtu.be/GebUOLLAGVA" target="_blank" rel="noopener">Assistir a videoaula</a>
+    </div>
+  </div>
+
+  <!-- SLIDE 1 -->
+  <figure class="figura-charge">
+    <img decoding="async" src="tema3/slide1.webp" alt="Infográfico: O Brasil Sob a Ditadura Civil-Militar (1964–1985)" onclick="abrirLightbox(this)" loading="lazy">
+    <figcaption>Abre o tema com a imagem que resume os 21 anos do regime: de um lado, a perda da democracia e os anos de chumbo; do outro, a reconquista do país pelas ruas, na campanha das Diretas Já.</figcaption>
+  </figure>
+
   <main>
 
     <!-- 1. CONTEXTO DE INSTABILIDADE -->
@@ -670,38 +706,38 @@
         <span class="num">1</span>
         <h2>O Contexto de Instabilidade Política</h2>
       </div>
-      <button class="ficha-btn" data-ficha="contexto">
+      <button type="button" class="ficha-btn" data-ficha="contexto">
         <span class="ico">1</span>
-        <span class="txt"><strong>Resumo do t&oacute;pico 1</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="txt"><b>Resumo do t&oacute;pico 1</b><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
         <span class="seta" aria-hidden="true">&#8250;</span>
       </button>
       <p class="secao-intro">O golpe de 1964 não surgiu do nada: foi o desfecho de uma crise que já vinha se acumulando havia anos.</p>
 
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           Do impasse político ao golpe
           <span class="chev">▾</span>
         </button>
         <div class="acc-body" data-acc-body>
           <div class="acc-body-inner">
             <div class="saibamais-flutuante">
-              <button class="saibamais-item" onclick="abrirModal('modal-golpe-preventivo')">
-                <span class="sm-rotulo">&#128220; Texto de apoio</span>
+              <button type="button" class="saibamais-item" onclick="abrirModal('modal-golpe-preventivo')">
+                <span class="sm-rotulo">Texto de apoio</span>
                 <span class="sm-titulo">1964 foi um golpe preventivo?</span>
               </button>
-              <button class="saibamais-item" onclick="abrirModal('modal-democracia-ditadura')">
-                <span class="sm-rotulo">&#128218; Definindo conceitos</span>
+              <button type="button" class="saibamais-item" onclick="abrirModal('modal-democracia-ditadura')">
+                <span class="sm-rotulo">Definindo conceitos</span>
                 <span class="sm-titulo">Democracia e Ditadura</span>
               </button>
             </div>
             <figure class="figura-charge figura-charge--float">
-              <img src="tema3/charge1.webp" alt="Charge de Lan: João Goulart equilibra-se numa corda esticada sobre lanças, foices e martelos" onclick="abrirLightbox(this)" loading="lazy">
+              <img decoding="async" src="tema3/charge1.webp" alt="Charge de Lan: João Goulart equilibra-se numa corda esticada sobre lanças, foices e martelos" onclick="abrirLightbox(this)" loading="lazy">
               <figcaption>
-                Charge de Lan, publicada no <em>Jornal do Brasil</em>. Jango aparece equilibrando-se, de braços abertos, sobre uma corda esticada — e logo abaixo dele um emaranhado de lanças, baíonetas, foices e martelos. De um lado, o “veto” das armas; do outro, a pressão das esquerdas pelas reformas de base. Qualquer passo em falso significava a queda.
+                Charge de Lan, publicada no <em>Jornal do Brasil</em>. Jango aparece equilibrando-se, de braços abertos, sobre uma corda esticada — e logo abaixo dele um emaranhado de lanças, baionetas, foices e martelos. De um lado, o “veto” das armas; do outro, a pressão das esquerdas pelas reformas de base. Qualquer passo em falso significava a queda.
               </figcaption>
               <div class="figura-acao">
-                <button class="ampliar-btn" onclick="abrirModal('modal-goulart-disputas')">
-                  <span class="lupa">&#128269;</span> Ler o texto de apoio
+                <button type="button" class="ampliar-btn" onclick="abrirModal('modal-goulart-disputas')">
+                  Ler o texto de apoio
                 </button>
               </div>
             </figure>
@@ -709,12 +745,23 @@
             <p>Para setores conservadores, empresários e políticos da UDN, essas reformas representavam um avanço perigoso do "comunismo" sobre o país — mesmo Jango não sendo comunista. Para grupos populares, sindicatos, estudantes e camponeses organizados, as reformas eram uma resposta necessária às desigualdades sociais brasileiras.</p>
             <p>Esse clima de radicalização, somado à Guerra Fria (que fazia os Estados Unidos temerem a expansão de governos de esquerda na América Latina), criou as condições para que, em 31 de março de 1964, um movimento das Forças Armadas — apoiado por políticos civis de oposição — depusesse Jango. Em 1º de abril de 1964, a Presidência foi declarada vaga. Começava um regime que duraria <strong>21 anos</strong>.</p>
             <div class="termo-box">
-              
               <div><b>Semelhanças e diferenças com hoje</b><p>Ao estudar esse período, vale perguntar: quais discursos e tensões daquela época ainda aparecem no debate político atual? E quais mudanças na sociedade brasileira tornam impossível uma repetição idêntica dos acontecimentos de 1964? Comparar permanências e rupturas é uma das habilidades centrais deste tema.</p></div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- SLIDE 3 -->
+      <figure class="figura-charge">
+        <img decoding="async" src="tema3/slide3.webp" alt="Infográfico: A Crise de 1964 e o Fim de Uma Era" onclick="abrirLightbox(this)" loading="lazy">
+        <figcaption>Resume a engrenagem que levou ao golpe: o estopim das reformas de base no governo Jango, o temor do avanço comunista sob a Guerra Fria e a ruptura de 31 de março de 1964, quando as Forças Armadas depuseram o presidente e iniciaram um regime que duraria 21 anos.</figcaption>
+      </figure>
+
+      <!-- SLIDE 2 -->
+      <figure class="figura-charge">
+        <img decoding="async" src="tema3/slide2.webp" alt="Infográfico: Conceitos Fundamentais em Disputa — Democracia x Ditadura" onclick="abrirLightbox(this)" loading="lazy">
+        <figcaption>Compara, lado a lado, a origem do poder, as liberdades básicas e os direitos e escolhas garantidos (ou suprimidos) em cada regime — a base conceitual para a Atividade 1, a seguir.</figcaption>
+      </figure>
 
       <!-- ATIVIDADE 1 -->
       <div class="atv-card selecionavel">
@@ -737,29 +784,29 @@
         <span class="num">2</span>
         <h2>A Institucionalização do Regime: Governo Castelo Branco</h2>
       </div>
-      <button class="ficha-btn" data-ficha="castelo-branco">
+      <button type="button" class="ficha-btn" data-ficha="castelo-branco">
         <span class="ico">2</span>
-        <span class="txt"><strong>Resumo do t&oacute;pico 2</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="txt"><b>Resumo do t&oacute;pico 2</b><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
         <span class="seta" aria-hidden="true">&#8250;</span>
       </button>
       <p class="secao-intro">O primeiro presidente militar organizou juridicamente o novo regime — e deu início a uma sequência de mudanças que concentrariam cada vez mais poder no Executivo.</p>
 
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           Atos Institucionais e a nova Constituição (1964–1967)
           <span class="chev">▾</span>
         </button>
         <div class="acc-body" data-acc-body>
           <div class="acc-body-inner">
             <figure class="figura-charge figura-charge--float">
-              <img src="tema3/golpe1.webp" alt="Tanques do Exército em rua do Rio de Janeiro cercados por civis, em 1º de abril de 1964" onclick="abrirLightbox(this)" loading="lazy">
+              <img decoding="async" src="tema3/golpe1.webp" alt="Tanques do Exército em rua do Rio de Janeiro cercados por civis, em 1º de abril de 1964" onclick="abrirLightbox(this)" loading="lazy">
               <figcaption>
                 Tanques do Exército a caminho do Palácio das Laranjeiras, no Rio de Janeiro, em 1º de abril de 1964. <span class="figura-credito">Arquivo / Agência O Globo</span>
               </figcaption>
             </figure>
             <div class="saibamais-flutuante" style="clear:right">
-              <button class="saibamais-item" onclick="abrirModal('modal-ato-institucional')">
-                <span class="sm-rotulo">&#128220; Texto de apoio</span>
+              <button type="button" class="saibamais-item" onclick="abrirModal('modal-ato-institucional')">
+                <span class="sm-rotulo">Texto de apoio</span>
                 <span class="sm-titulo">Ato Institucional</span>
               </button>
             </div>
@@ -778,6 +825,12 @@
           </div>
         </div>
       </div>
+
+      <!-- SLIDE 4 -->
+      <figure class="figura-charge">
+        <img decoding="async" src="tema3/slide4.webp" alt="Infográfico: A Legalização do Autoritarismo — Governo Castelo Branco" onclick="abrirLightbox(this)" loading="lazy">
+        <figcaption>Sintetiza o AI-1, a Doutrina de Segurança Nacional e os Inquéritos Policiais Militares (IPMs) — os instrumentos com que Castelo Branco institucionalizou o regime sob a fachada de uma "falsa democracia".</figcaption>
+      </figure>
 
       <!-- ATIVIDADE 2 -->
       <div class="atv-card selecionavel">
@@ -800,29 +853,29 @@
         <span class="num">3</span>
         <h2>O Endurecimento: Costa e Silva e o AI-5</h2>
       </div>
-      <button class="ficha-btn" data-ficha="ai5">
+      <button type="button" class="ficha-btn" data-ficha="ai5">
         <span class="ico">3</span>
-        <span class="txt"><strong>Resumo do t&oacute;pico 3</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="txt"><b>Resumo do t&oacute;pico 3</b><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
         <span class="seta" aria-hidden="true">&#8250;</span>
       </button>
       <p class="secao-intro">Diante do crescimento das manifestações contrárias ao regime, os militares reagiriam com o mais duro de todos os Atos Institucionais.</p>
 
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           A Passeata dos Cem Mil e o Ato Institucional nº 5
           <span class="chev">▾</span>
         </button>
         <div class="acc-body" data-acc-body>
           <div class="acc-body-inner">
             <figure class="figura-charge figura-charge--float">
-              <img src="tema3/passeata.webp" alt="Multidão na Passeata dos Cem Mil, no Rio de Janeiro, com a faixa “Abaixo a Ditadura, Povo no Poder”" onclick="abrirLightbox(this)" loading="lazy">
+              <img decoding="async" src="tema3/passeata.webp" alt="Multidão na Passeata dos Cem Mil, no Rio de Janeiro, com a faixa “Abaixo a Ditadura, Povo no Poder”" onclick="abrirLightbox(this)" loading="lazy">
               <figcaption>
                 A “Passeata dos Cem Mil”, registrada pelo fotógrafo Evandro Teixeira no Rio de Janeiro, em 26 de junho de 1968. A manifestação, com a faixa “Abaixo a Ditadura, Povo no Poder”, foi o maior ato popular contra o regime militar até então, unindo diversos setores da sociedade na luta pela democracia.
               </figcaption>
             </figure>
             <div class="saibamais-flutuante" style="clear:right">
-              <button class="saibamais-item" onclick="abrirModal('modal-esquecimento-ai5')">
-                <span class="sm-rotulo">&#128220; Texto de apoio</span>
+              <button type="button" class="saibamais-item" onclick="abrirModal('modal-esquecimento-ai5')">
+                <span class="sm-rotulo">Texto de apoio</span>
                 <span class="sm-titulo">O esquecimento do AI-5 na memória dos brasileiros</span>
               </button>
             </div>
@@ -841,6 +894,12 @@
           </div>
         </div>
       </div>
+
+      <!-- SLIDE 5 -->
+      <figure class="figura-charge">
+        <img decoding="async" src="tema3/slide5.webp" alt="Infográfico: O Golpe Dentro do Golpe — AI-5 (1968)" onclick="abrirLightbox(this)" loading="lazy">
+        <figcaption>Mostra o pretexto (o crescimento da oposição popular), o instrumento (o Ato Institucional nº 5, de 13 de dezembro de 1968) e as consequências imediatas: fechamento do Congresso, fim do habeas corpus para crimes políticos e censura prévia oficializada.</figcaption>
+      </figure>
 
       <!-- ATIVIDADE 3 -->
       <div class="atv-card selecionavel">
@@ -863,15 +922,15 @@
         <span class="num">4</span>
         <h2>Os "Anos de Chumbo": Governo Médici</h2>
       </div>
-      <button class="ficha-btn" data-ficha="medici">
+      <button type="button" class="ficha-btn" data-ficha="medici">
         <span class="ico">4</span>
-        <span class="txt"><strong>Resumo do t&oacute;pico 4</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="txt"><b>Resumo do t&oacute;pico 4</b><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
         <span class="seta" aria-hidden="true">&#8250;</span>
       </button>
       <p class="secao-intro">O período mais repressivo da história republicana brasileira coincidiu, contraditoriamente, com um forte crescimento econômico.</p>
 
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           O "milagre econômico"
           <span class="chev">▾</span>
         </button>
@@ -879,13 +938,12 @@
           <div class="acc-body-inner">
             <p>Sob o general <strong>Emílio Garrastazu Médici</strong> (1969–1974), o Brasil viveu um período de forte crescimento conhecido como <strong>"milagre econômico"</strong>. Entre seus motivos estavam o aumento da produção industrial, o crescimento das exportações, a expansão do crédito para as classes médias e empréstimos obtidos no exterior. O governo também investiu pesadamente em rodovias, usinas hidrelétricas e comunicações — a ponte Rio-Niterói, inaugurada em 1974, é um símbolo dessas obras.</p>
             <div class="termo-box">
-              
               <div><b>Milagre econômico</b><p>A expressão "milagre econômico" foi usada pela primeira vez para descrever a rápida recuperação da Alemanha Ocidental na década de 1950. Na década seguinte, a mesma expressão foi usada para caracterizar o crescimento japonês. Na década de 1970, a expressão passou a ser aplicada ao crescimento econômico como sinônimo de grande crescimento econômico &mdash; e também como instrumento de propaganda do governo.</p></div>
             </div>
             <p>Esse crescimento, porém, teve um custo social alto: para conter a inflação, o governo praticou o <strong>arrocho salarial</strong>, mantendo os salários baixos enquanto sindicatos e associações de trabalhadores permaneciam sob vigilância policial constante. E o "milagre" foi passageiro: dependia de um mercado externo favorável e de empréstimos internacionais. Quando o preço do petróleo disparou na década de 1970, a economia brasileira sentiu o impacto, e a inflação e a dívida externa voltaram a crescer.</p>
             <p>Os números do período ajudam a entender por que o governo falava em "milagre" &mdash; e também o que a propaganda oficial deixava de fora. Observe a tabela abaixo e compare o ritmo de crescimento da economia com o que acontecia, ao mesmo tempo, com os preços e com os salários dos trabalhadores.</p>
             <figure class="figura-charge">
-              <img src="tema3/tabela.webp" alt="Tabela com indicadores da economia brasileira durante o período do &quot;milagre econômico&quot;" onclick="abrirLightbox(this)" loading="lazy">
+              <img decoding="async" src="tema3/tabela.webp" alt="Tabela com indicadores da economia brasileira durante o período do &quot;milagre econômico&quot;" onclick="abrirLightbox(this)" loading="lazy">
               <figcaption>
                 Indicadores da economia brasileira no período do "milagre econômico" (1969&ndash;1974). Os dados mostram o forte crescimento da produção e das exportações no mesmo momento em que o arrocho salarial e a inflação corroíam o poder de compra da maior parte da população &mdash; ou seja, o crescimento não foi repartido de forma igual entre os brasileiros.
               </figcaption>
@@ -894,8 +952,14 @@
         </div>
       </div>
 
+      <!-- SLIDE 6 -->
+      <figure class="figura-charge">
+        <img decoding="async" src="tema3/slide6.webp" alt="Infográfico: O Paradoxo de Médici (1969–1974)" onclick="abrirLightbox(this)" loading="lazy">
+        <figcaption>Contrasta o "milagre econômico" — PIB a 10% ao ano, obras faraônicas como a ponte Rio-Niterói e a expansão do crédito — com a realidade dura do arrocho salarial, da dependência de empréstimos externos e do fim do direito de greve.</figcaption>
+      </figure>
+
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           O aparato repressivo do Estado
           <span class="chev">▾</span>
         </button>
@@ -912,11 +976,31 @@
               <h4>Saiba mais</h4>
               <p>O especial <em>Confissões do DOI-Codi</em>, do jornal <em>O Estado de S. Paulo</em>, reúne depoimentos, documentos e infográficos sobre o funcionamento do principal órgão de repressão da ditadura. Vale a leitura para entender, a partir das fontes, como esse aparato agia na prática.</p>
               <a class="saibamais-item saibamais-item--link" href="https://infograficos.estadao.com.br/especiais/confissoes-do-doi-codi/" target="_blank" rel="noopener noreferrer">
-                <span class="sm-rotulo">&#128279; Reportagem especial</span>
+                <span class="sm-rotulo">Reportagem especial</span>
                 <span class="sm-titulo">Confiss&otilde;es do DOI-Codi &mdash; Estad&atilde;o</span>
               </a>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 7 -->
+      <figure class="figura-charge">
+        <img decoding="async" src="tema3/slide7.webp" alt="Infográfico: Os Anos de Chumbo e a Máquina de Repressão" onclick="abrirLightbox(this)" loading="lazy">
+        <figcaption>Encadeia os três elos do aparato repressivo: o SNI (espionagem e dossiês), o DOPS (o braço ostensivo, com prisões arbitrárias) e o DOI-Codi — o "porão do regime", centro clandestino de tortura sistemática.</figcaption>
+      </figure>
+
+      <!-- ATIVIDADE 4 -->
+      <div class="atv-card selecionavel">
+        <div class="atv-icone">04</div>
+        <div class="atv-conteudo">
+          <span class="eyebrow">Atividade 4 &middot; Textos de apoio</span>
+          <h4>Os &ldquo;Anos de Chumbo&rdquo;: Governo M&eacute;dici</h4>
+          <p>Dois blocos de leitura &mdash; o &ldquo;milagre econ&ocirc;mico&rdquo; e suas contradi&ccedil;&otilde;es (arrocho salarial, obras de propaganda e choque do petr&oacute;leo) e o aparato repressivo do Estado (SNI, DOPS e DOI-Codi). 10 quest&otilde;es dissertativas com coment&aacute;rios do professor.</p>
+        </div>
+        <div class="atv-acoes">
+          <a class="atv-btn" href="tema3/atv4.html" target="_blank" rel="noopener">Abrir atividade</a>
+          <a class="atv-btn secundario" href="https://drive.google.com/file/d/1LPylCLYht_tCuDcj8xMoXLRnzOWyHzdV/view?usp=sharing" target="_blank" rel="noopener">Vers&atilde;o em PDF</a>
         </div>
       </div>
     </section>
@@ -927,16 +1011,16 @@
         <span class="num">5</span>
         <h2>Movimentos de Resist&ecirc;ncia &agrave; Ditadura</h2>
       </div>
-      <button class="ficha-btn" data-ficha="resistencia">
+      <button type="button" class="ficha-btn" data-ficha="resistencia">
         <span class="ico">5</span>
-        <span class="txt"><strong>Resumo do t&oacute;pico 5</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="txt"><b>Resumo do t&oacute;pico 5</b><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
         <span class="seta" aria-hidden="true">&#8250;</span>
       </button>
-      <p class="secao-intro">Diante da repress&atilde;o, diferentes setores da sociedade brasileira resistiram &mdash; pelas armas, pela arte e pela organiza&ccedil;&atilde;o pol&iacute;tica de povos hist&oacute;ricamente silenciados.</p>
+      <p class="secao-intro">Diante da repress&atilde;o, diferentes setores da sociedade brasileira resistiram &mdash; pelas armas, pela arte e pela organiza&ccedil;&atilde;o pol&iacute;tica de povos historicamente silenciados.</p>
 
       <!-- BOX 1 -->
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           1. A luta armada
           <span class="chev">&#9662;</span>
         </button>
@@ -947,9 +1031,9 @@
 
             <div class="galeria-gatilho">
               <button type="button" class="galeria-abrir" onclick="abrirGaleria('luta-armada', 0)">
-                <img src="tema3/g1.webp" alt="Imagem da galeria sobre a luta armada contra a ditadura militar" loading="lazy">
+                <img decoding="async" src="tema3/g1.webp" alt="Imagem da galeria sobre a luta armada contra a ditadura militar" loading="lazy">
                 <span class="galeria-abrir-txt">
-                  <span class="galeria-abrir-titulo">Ver galeria de imagens (6 fotos)</span>
+                  <span class="galeria-abrir-titulo">Ver reportagem</span>
                   <span class="galeria-abrir-sub">Revista Isto&Eacute; 1663 &middot; 15/08/2001</span>
                 </span>
               </button>
@@ -960,7 +1044,7 @@
 
       <!-- BOX 2 -->
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           2. Resist&ecirc;ncia cultural e censura
           <span class="chev">&#9662;</span>
         </button>
@@ -969,7 +1053,6 @@
             <p>Ao lado da luta armada, existiu uma ampla resist&ecirc;ncia pac&iacute;fica: abaixo-assinados, protestos de rua, oposi&ccedil;&atilde;o parlamentar, jornais alternativos, pe&ccedil;as de teatro e festivais de m&uacute;sica popular brasileira desafiavam a censura, mesmo sob risco de persegui&ccedil;&atilde;o.</p>
             <p>O compositor <strong>Geraldo Vandr&eacute;</strong> tornou-se s&iacute;mbolo dessa resist&ecirc;ncia com a can&ccedil;&atilde;o &ldquo;Pra n&atilde;o dizer que n&atilde;o falei das flores&rdquo; <a class="audio-link" href="https://youtu.be/KdvsXn8oVPY?si=43NgPhPc1JVPX4zb" target="_blank" rel="noopener noreferrer"><span class="audio-ico" aria-hidden="true">&#9654;</span> Ou&ccedil;a a can&ccedil;&atilde;o</a>, apresentada em 1968 e depois proibida pelos militares, que o for&ccedil;aram ao ex&iacute;lio. O jornal <strong>O Pasquim</strong>, lan&ccedil;ado em 1969 em rea&ccedil;&atilde;o ao AI-5, usava o humor para driblar a censura &mdash; em 1970, censores chegaram a ser instalados dentro da pr&oacute;pria reda&ccedil;&atilde;o do jornal, e parte de sua equipe foi presa pelo DOI-Codi.</p>
             <div class="termo-box">
-              
               <div><b>Censura pr&eacute;via</b><p>Diferente da censura que pune depois da publica&ccedil;&atilde;o, a censura pr&eacute;via exigia que jornais, livros, m&uacute;sicas e programas de TV fossem aprovados por censores do governo <em>antes</em> de chegar ao p&uacute;blico &mdash; muitas vezes deixando espa&ccedil;os em branco ou trechos cortados como forma de protesto silencioso.</p></div>
             </div>
           </div>
@@ -978,7 +1061,7 @@
 
       <!-- BOX 3 -->
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           3. Resist&ecirc;ncia ind&iacute;gena e negra
           <span class="chev">&#9662;</span>
         </button>
@@ -986,31 +1069,47 @@
           <div class="acc-body-inner">
             <p>A resist&ecirc;ncia &agrave; ditadura tamb&eacute;m veio de povos que j&aacute; enfrentavam, h&aacute; s&eacute;culos, outras formas de viol&ecirc;ncia. Os projetos de ocupa&ccedil;&atilde;o estrat&eacute;gica da Amaz&ocirc;nia &mdash; estradas, garimpos e grandes obras apresentados como parte do &ldquo;Brasil Grande&rdquo; &mdash; atingiram diretamente os territ&oacute;rios ind&iacute;genas. Ao mesmo tempo, o movimento negro se organizava nas cidades contra o racismo e pela redemocratiza&ccedil;&atilde;o.</p>
 
+            <p>Nos anos 1970, a abertura de estradas na Amaz&ocirc;nia levou epidemias e viol&ecirc;ncia armada a povos como os <strong>Waimiri-Atroari</strong>, que resistiram &agrave; passagem da rodovia por seu territ&oacute;rio. Nas cidades, a organiza&ccedil;&atilde;o do movimento negro contra o racismo culminou no ato realizado nas escadarias do Teatro Municipal de S&atilde;o Paulo, em 1978, quando nasceu o <strong>Movimento Negro Unificado (MNU)</strong>. Suas reivindica&ccedil;&otilde;es &mdash; entre elas o ensino da hist&oacute;ria da &Aacute;frica e do negro nas escolas &mdash; abriram caminho para conquistas posteriores, como a <strong>Lei n&ordm; 10.639/03</strong>.</p>
+
             <div class="saiba-mais-secao">
               <h4>Para saber mais</h4>
-              <p><strong>Resist&ecirc;ncia ind&iacute;gena e negra durante a ditadura civil-militar.</strong> No texto a seguir, o yanomami Davi Kopenawa expressa a vis&atilde;o de um ind&iacute;gena sobre o projeto dos governos militares de ocupa&ccedil;&atilde;o estrat&eacute;gica da regi&atilde;o amaz&ocirc;nica.</p>
-
-              <blockquote class="citacao">
-                <p>&ldquo;[...] Eu tinha ouvido gente da Funai contar que, para abrir o trecho que liga Manaus a Boa Vista, os soldados tinham atirado nos Waimiri-Atroari e jogado bombas em sua floresta. Eles eram guerreiros valorosos. N&atilde;o queriam que a estrada atravessasse suas terras. Atacaram os postos da Funai para que os brancos n&atilde;o entrassem onde eles viviam. Foi isso que deixou os militares enfurecidos. [...] Muitos foram [...] as mulheres, crian&ccedil;as e velhos que morreram entre n&oacute;s por causa da estrada. N&atilde;o foram mortos pelos soldados, &eacute; verdade. Mas foram as fuma&ccedil;as e epidemia trazidas pelos oper&aacute;rios que os devoraram. [...] &lsquo;Esse caminho dos brancos &eacute; muito ruim! Os seres da epidemia <em>xawarari</em> v&ecirc;m seguindo por ele, atr&aacute;s das m&aacute;quinas dos caminh&otilde;es. [...] Ter&atilde;o aberto a estrada para silenciar a floresta de nossa presen&ccedil;a? Para aqui construir suas casas, sobre os rastros das nossas? [...]&rsquo;&rdquo;</p>
-                <span class="citacao-nota">Funai: Funda&ccedil;&atilde;o Nacional do &Iacute;ndio, criada em 1967. Sucedeu o SPI.</span>
-                <span class="citacao-fonte">KOPENAWA, Davi; ALBERT, Bruce. <em>A queda do c&eacute;u</em>: palavras de um xam&atilde; yanomami. S&atilde;o Paulo: Companhia das Letras, 2015. p. 306.</span>
-              </blockquote>
-
-              <p>O Movimento Negro tamb&eacute;m se engajou na defesa da democracia e por melhores condi&ccedil;&otilde;es de vida.</p>
-
-              <blockquote class="citacao">
-                <p>&ldquo;[...] Numa manifesta&ccedil;&atilde;o ocorrida em 1978, v&aacute;rios grupos negros reuniram-se nas escadarias do Teatro Municipal de S&atilde;o Paulo para protestar, entre outras coisas, contra a discrimina&ccedil;&atilde;o sofrida por quatro atletas juvenis negros, expulsos do Clube de Regatas Tiet&ecirc;, em S&atilde;o Paulo, sem nenhuma justificativa. Durante esse ato p&uacute;blico, ocorreu a unifica&ccedil;&atilde;o das v&aacute;rias organiza&ccedil;&otilde;es negras, nascendo assim o Movimento Negro Unificado (MNU), cujo Programa de A&ccedil;&atilde;o defendia:</p>
-                <p>a) Desmistifica&ccedil;&atilde;o da democracia racial brasileira;<br>
-                b) Organiza&ccedil;&atilde;o pol&iacute;tica da popula&ccedil;&atilde;o negra;<br>
-                c) Forma&ccedil;&atilde;o de um amplo leque de alian&ccedil;as na luta contra o racismo;<br>
-                d) Organiza&ccedil;&atilde;o nos sindicatos e partidos pol&iacute;ticos;<br>
-                e) Luta pela introdu&ccedil;&atilde;o da Hist&oacute;ria da &Aacute;frica e do Negro no Brasil nos curr&iacute;culos escolares [...].&rdquo;</p>
-                <span class="citacao-fonte">DOMINGUES, Petr&ocirc;nio. Movimento negro brasileiro: alguns apontamentos hist&oacute;ricos. <em>Tempo</em>, v. 12, n. 23, p. 100-122, 2007. Dispon&iacute;vel em: <a href="http://www.scielo.br/scielo.php?script=sci_arttext&amp;pid=S1413-77042007000200007&amp;lng=en&amp;nrm=iso" target="_blank" rel="noopener noreferrer">scielo.br</a>. Acesso em: 24 nov. 2018.</span>
-              </blockquote>
-
-              <p>Essas reivindica&ccedil;&otilde;es do MNU s&atilde;o uma prova de que as lutas da comunidade negra foram decisivas para as conquistas posteriores, como, por exemplo, a <strong>Lei n&ordm; 10.639/03</strong>, que estabelece a obrigatoriedade do ensino de hist&oacute;ria e cultura afro-brasileira no Ensino Fundamental e M&eacute;dio.</p>
+              <p>Leia os dois documentos que dão voz a essas resistências: o relato do xamã yanomami Davi Kopenawa sobre a estrada Manaus&ndash;Boa Vista e o histórico da fundação do MNU, do historiador Petrônio Domingues.</p>
+              <button type="button" class="saibamais-item saibamais-item--link" onclick="abrirModal('modal-kopenawa-estrada')">
+                <span class="sm-rotulo">Documento &middot; Resist&ecirc;ncia ind&iacute;gena</span>
+                <span class="sm-titulo">&ldquo;Esse caminho dos brancos &eacute; muito ruim&rdquo; &mdash; Davi Kopenawa e os Waimiri-Atroari</span>
+              </button>
+              <button type="button" class="saibamais-item saibamais-item--link" onclick="abrirModal('modal-mnu-1978')">
+                <span class="sm-rotulo">Documento &middot; Resist&ecirc;ncia negra</span>
+                <span class="sm-titulo">1978: o nascimento do Movimento Negro Unificado e seu Programa de A&ccedil;&atilde;o</span>
+              </button>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 9 -->
+      <figure class="figura-charge">
+        <img decoding="async" src="tema3/slide9.webp" alt="Infográfico: O Custo do Brasil Grande e o Despertar Urbano" onclick="abrirLightbox(this)" loading="lazy">
+        <figcaption>Traz a fala do líder yanomami Davi Kopenawa sobre os povos originários dizimados pelas rodovias do "Brasil Grande" e registra a fundação do Movimento Negro Unificado (MNU), em 1978 — a semente da atual Lei nº 10.639/03.</figcaption>
+      </figure>
+
+      <!-- SLIDE 8 -->
+      <figure class="figura-charge">
+        <img decoding="async" src="tema3/slide8.webp" alt="Infográfico: As Múltiplas Faces da Resistência" onclick="abrirLightbox(this)" loading="lazy">
+        <figcaption>Reúne as quatro frentes de resistência estudadas nesta seção: a luta armada, a resistência cultural (MPB e imprensa alternativa), a resistência negra e a resistência indígena.</figcaption>
+      </figure>
+
+      <!-- ATIVIDADE 5 -->
+      <div class="atv-card selecionavel">
+        <div class="atv-icone">05</div>
+        <div class="atv-conteudo">
+          <span class="eyebrow">Atividade 5 &middot; Textos de apoio</span>
+          <h4>Movimentos de Resistência à Ditadura Militar</h4>
+          <p>Três frentes de oposição: a luta armada (ALN, VPR, MR-8 e Araguaia), a resistência cultural e a censura prévia (Geraldo Vandré e O Pasquim), e as lutas indígenas e do Movimento Negro Unificado (MNU). 10 questões dissertativas com comentários do professor.</p>
+        </div>
+        <div class="atv-acoes">
+          <a class="atv-btn" href="tema3/atv5.html" target="_blank" rel="noopener">Abrir atividade</a>
+          <a class="atv-btn secundario" href="https://drive.google.com/file/d/1md_JtjNbfmm8SoOjFX0iU2t-oVtn33Ew/view?usp=sharing" target="_blank" rel="noopener">Versão em PDF</a>
         </div>
       </div>
     </section>
@@ -1023,57 +1122,130 @@
       </div>
     </div>
 
-    <!-- 6. GEISEL: ABERTURA -->
+   <!-- 6. GEISEL: ABERTURA -->
     <section class="secao" id="geisel">
       <div class="secao-titulo">
         <span class="num">6</span>
         <h2>Geisel e a Abertura "Lenta, Gradual e Segura"</h2>
       </div>
-      <button class="ficha-btn" data-ficha="geisel">
+      <button type="button" class="ficha-btn" data-ficha="geisel">
         <span class="ico">6</span>
-        <span class="txt"><strong>Resumo do t&oacute;pico 6</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="txt"><b>Resumo do t&oacute;pico 6</b><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
         <span class="seta" aria-hidden="true">&#8250;</span>
       </button>
       <p class="secao-intro">O primeiro passo rumo à democracia veio, paradoxalmente, de dentro do próprio regime militar.</p>
 
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           Uma abertura com avanços e recuos
           <span class="chev">▾</span>
         </button>
         <div class="acc-body" data-acc-body>
           <div class="acc-body-inner">
+            <div class="saibamais-flutuante" style="clear:right">
+              <button type="button" class="saibamais-item" onclick="abrirModal('modal-democracia-relativa')">
+                <span class="sm-rotulo">Texto de apoio</span>
+                <span class="sm-titulo">&ldquo;A democracia relativa&rdquo;: os anos Geisel</span>
+              </button>
+            </div>
+
             <p>O general <strong>Ernesto Geisel</strong> (1974–1979) pertencia a um grupo de militares favorável à devolução gradual do poder aos civis, prometendo uma "abertura democrática lenta, gradual e segura". Sob seu governo, a censura sobre os meios de comunicação diminuiu e, em 1974, ocorreram eleições diretas para senadores e deputados — nas quais a oposição (MDB) teve uma vitória expressiva sobre o partido do governo (Arena), o que assustou os militares mais radicais.</p>
             <p>A abertura, porém, teve tropeços graves: em 1975 e 1976, o jornalista Vladimir Herzog e o operário Manuel Fiel Filho morreram sob tortura nas dependências do Exército em São Paulo, escandalizando parte da sociedade. Em 1976, Geisel decretou a <strong>Lei Falcão</strong>, restringindo a propaganda eleitoral na TV e no rádio, e, em 1977, criou os chamados <strong>"senadores biônicos"</strong> — um terço do Senado passou a ser escolhido diretamente pelo presidente.</p>
             <p>Ainda assim, pressionado por problemas econômicos e pela mobilização social, o governo revogou o <strong>AI-5</strong> em outubro de 1978, encerrando seus instrumentos mais duros de repressão. No mesmo ano, foi fundado o <strong>Movimento Negro Unificado (MNU)</strong>, que teria papel importante na luta pela redemocratização e segue ativo até hoje.</p>
+
           </div>
         </div>
       </div>
+
+      <!-- SLIDE 11 -->
+      <figure class="figura-charge">
+        <img decoding="async" src="tema3/slide11.webp" alt="Infográfico: O Início do Fim — A Abertura Lenta, Gradual e Segura" onclick="abrirLightbox(this)" loading="lazy">
+        <figcaption>Mostra o plano de Geisel (1974–1979), os recuos autoritários — as mortes sob tortura de Vladimir Herzog e Manuel Fiel Filho — e o avanço inevitável que levou à revogação do AI-5 em outubro de 1978.</figcaption>
+      </figure>
     </section>
 
-    <!-- 7. FIGUEIREDO E ANISTIA -->
+
+
+   <!-- 7. FIGUEIREDO E ANISTIA -->
     <section class="secao" id="figueiredo">
       <div class="secao-titulo">
         <span class="num">7</span>
         <h2>Figueiredo, a Anistia e o Fim do Bipartidarismo</h2>
       </div>
-      <button class="ficha-btn" data-ficha="figueiredo">
+      <button type="button" class="ficha-btn" data-ficha="figueiredo">
         <span class="ico">7</span>
-        <span class="txt"><strong>Resumo do t&oacute;pico 7</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="txt"><b>Resumo do t&oacute;pico 7</b><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
         <span class="seta" aria-hidden="true">&#8250;</span>
       </button>
       <p class="secao-intro">A pressão popular pela redemocratização se intensifica — mas a anistia viria acompanhada de um preço controverso.</p>
 
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           A Lei da Anistia de 1979
           <span class="chev">▾</span>
         </button>
         <div class="acc-body" data-acc-body>
           <div class="acc-body-inner">
+            <!-- CARD LATERAL: ESPECIAL SENADO -->
+            <div class="saibamais-flutuante">
+              <a class="saibamais-item" href="https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura" target="_blank" rel="noopener noreferrer">
+                <span class="sm-rotulo">Especial Senado</span>
+                <span class="sm-titulo">H&aacute; 40 anos, Lei da Anistia preparou caminho para fim da ditadura</span>
+              </a>
+            </div>
+
             <p>No governo do general <strong>João Baptista Figueiredo</strong> (1979–1985), sindicatos, empresários, setores religiosos e artistas se uniram na exigência de redemocratização. Em 1979, greves envolveram milhões de trabalhadores em todo o país, com destaque para a greve dos metalúrgicos de São Bernardo do Campo (SP), liderada por Luiz Inácio da Silva, o Lula — e a repressão continuava forte: o operário Santo Dias foi morto pela polícia durante uma dessas greves.</p>
             <p>Ainda em 1979, foi aprovada a <strong>Lei da Anistia</strong>, que permitiu o retorno de exilados políticos ao Brasil e devolveu direitos políticos a pessoas cassadas pelo regime. Em contrapartida — e esse é um dos pontos mais debatidos até hoje —, a lei também absolveu os militares acusados de tortura e assassinato, sem que fossem julgados por esses crimes.</p>
+
             <p>No mesmo ano, terminou o <strong>bipartidarismo</strong> (o sistema de apenas dois partidos, Arena e MDB), permitindo a criação de novas legendas, como o PT (Partido dos Trabalhadores), o PMDB, o PDT e o PDS. Em 1982, o país voltou a ter eleições diretas para governador.</p>
+
+            <!-- MOSAICO DE CHARGES SOBRE A ANISTIA (imagens hospedadas no Senado Notícias) -->
+            <div class="charges-bloco">
+              <span class="charges-rotulo">Acervo Senado &middot; Documentos visuais</span>
+              <h4>A anistia vista pelos chargistas</h4>
+              <p>Entre 1978 e 1979, a imprensa alternativa &mdash; sobretudo <em>O Pasquim</em> e a revista <em>Movimento</em> &mdash; usou o humor gr&aacute;fico para criticar os limites da anistia proposta pelo governo. Observe como cada desenho trata do que a lei perdoava, do que ela deixava de fora e de quem saiu ganhando com o &ldquo;esquecimento&rdquo;.</p>
+
+              <div class="charges-grade">
+                <button type="button" class="charges-item" onclick="abrirGaleria('charges-anistia', 0)">
+                  <img decoding="async" loading="lazy" src="https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura/charges/pag.-256-glauco-movimento-16-a-22.06.79.png/@@images/image/imagem_materia" alt="Charge de Glauco sobre a anistia, revista Movimento, junho de 1979">
+                  <span>Glauco &middot; 1979</span>
+                </button>
+                <button type="button" class="charges-item" onclick="abrirGaleria('charges-anistia', 1)">
+                  <img decoding="async" loading="lazy" src="https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura/charges/pag.-263-henfil.png/@@images/image/imagem_materia" alt="Charge de Henfil sobre a anistia">
+                  <span>Henfil</span>
+                </button>
+                <button type="button" class="charges-item" onclick="abrirGaleria('charges-anistia', 2)">
+                  <img decoding="async" loading="lazy" src="https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura/charges/pag.-270-luiz-ge-o-pasquim-03-a-09.08.79.png/@@images/image/imagem_materia" alt="Charge de Luiz G&ecirc; sobre a anistia, jornal O Pasquim, agosto de 1979">
+                  <span>Luiz G&ecirc; &middot; 1979</span>
+                </button>
+                <button type="button" class="charges-item" onclick="abrirGaleria('charges-anistia', 3)">
+                  <img decoding="async" loading="lazy" src="https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura/charges/pag.-274-o-nani-o-pasquim-08-a-14.12.78.jpg/@@images/image/imagem_materia" alt="Charge de Nani sobre a anistia, jornal O Pasquim, dezembro de 1978">
+                  <span>Nani &middot; 1978</span>
+                </button>
+                <button type="button" class="charges-item" onclick="abrirGaleria('charges-anistia', 4)">
+                  <img decoding="async" loading="lazy" src="https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura/charges/pag.-276-nani-o-pasquim-16-a-22.03.79.png/@@images/image/imagem_materia" alt="Charge de Nani sobre a anistia, jornal O Pasquim, mar&ccedil;o de 1979">
+                  <span>Nani &middot; 1979</span>
+                </button>
+                <button type="button" class="charges-item" onclick="abrirGaleria('charges-anistia', 5)">
+                  <img decoding="async" loading="lazy" src="https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura/charges/pag.-287-ziraldo-o-pasquim-07-a-13.09.79.png/@@images/image/imagem_materia" alt="Charge de Ziraldo sobre a anistia, jornal O Pasquim, setembro de 1979">
+                  <span>Ziraldo &middot; 1979</span>
+                </button>
+              </div>
+
+              <p class="charges-dica">Clique nas imagens e veja as charges sobre a anistia publicadas na &eacute;poca.</p>
+
+              <p class="charges-fonte">
+                <strong>Cr&eacute;ditos e fonte</strong>
+                Imagens reproduzidas do especial <em>H&aacute; 40 anos, Lei da Anistia preparou caminho para fim da ditadura</em>, da s&eacute;rie <em>Arquivo S</em> (Ag&ecirc;ncia Senado). Reportagem de Ricardo Westin, com pesquisa hist&oacute;rica do Arquivo do Senado; pesquisa fotogr&aacute;fica de Ana Volpe e Pillar Pedreira. Reprodu&ccedil;&atilde;o autorizada mediante cita&ccedil;&atilde;o da Ag&ecirc;ncia Senado. Charges originalmente publicadas em <em>O Pasquim</em> (1978&ndash;1979) e na revista <em>Movimento</em> (1979); direitos dos respectivos autores.<br>
+                WESTIN, Ricardo. <em>H&aacute; 40 anos, Lei da Anistia preparou caminho para fim da ditadura</em>. Ag&ecirc;ncia Senado, Bras&iacute;lia, 5 ago. 2019. Dispon&iacute;vel em: <a href="https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura" target="_blank" rel="noopener noreferrer">https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura</a>. Acesso em: 12 ago. 2026.
+              </p>
+            </div>
+
+            <!-- SLIDE 12 -->
+            <figure class="figura-charge" style="clear:both">
+              <img decoding="async" src="tema3/slide12.webp" alt="Infográfico: Governo Figueiredo — Crise, Greves e a Anistia (1979–1985)" onclick="abrirLightbox(this)" loading="lazy">
+              <figcaption>Reúne a explosão operária das greves do ABC Paulista, o fim do bipartidarismo (com a criação de PMDB, PT, PDT e PDS) e a complexa Lei da Anistia de 1979, que permitiu a volta dos exilados mas também anistiou os torturadores do regime.</figcaption>
+            </figure>
           </div>
         </div>
       </div>
@@ -1085,15 +1257,15 @@
         <span class="num">8</span>
         <h2>Diretas Já! e o Fim do Regime Militar</h2>
       </div>
-      <button class="ficha-btn" data-ficha="diretas-ja">
+      <button type="button" class="ficha-btn" data-ficha="diretas-ja">
         <span class="ico">8</span>
-        <span class="txt"><strong>Resumo do t&oacute;pico 8</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="txt"><b>Resumo do t&oacute;pico 8</b><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
         <span class="seta" aria-hidden="true">&#8250;</span>
       </button>
       <p class="secao-intro">A maior mobilização popular da história recente do Brasil não conseguiu, de imediato, o que pedia — mas selou o destino da ditadura.</p>
 
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           A campanha das Diretas Já
           <span class="chev">▾</span>
         </button>
@@ -1104,6 +1276,22 @@
             <div class="cita">
               Mesmo derrotada no Congresso em 1984, a campanha das Diretas Já mostrou a força da mobilização popular e pavimentou o caminho para a Constituição de 1988 e para a primeira eleição direta para presidente em quase 30 anos, realizada em 1989.
             </div>
+
+            <div class="saiba-mais-secao">
+              <h4>Saiba mais</h4>
+              <p>Assista ao vídeo que registra a emoção e a magnitude da campanha "Diretas Já", um momento histórico de luta pela redemocratização do país.</p>
+              <a class="saibamais-item saibamais-item--link" href="https://youtu.be/bhAdhCvWJ9Y?si=DEoH9srFH7hhJQ_l" target="_blank" rel="noopener noreferrer">
+                <span class="sm-rotulo">Folha de S.Paulo (YouTube)</span>
+                <span class="sm-titulo">Diretas J&aacute; foi o maior movimento de massa da hist&oacute;ria do Brasil</span>
+              </a>
+            </div>
+
+            <!-- SLIDE 13 -->
+            <figure class="figura-charge">
+              <img decoding="async" src="tema3/slide13.webp" alt="Infográfico: A Catarse Nacional — A Campanha Diretas Já (1983–1984)" onclick="abrirLightbox(this)" loading="lazy">
+              <figcaption>Resume a maior mobilização popular do período, o resultado agridoce da derrota da emenda Dante de Oliveira por apenas 22 votos e a queda política do regime, selada com a vitória de Tancredo Neves no Colégio Eleitoral em 1985.</figcaption>
+            </figure>
+
           </div>
         </div>
       </div>
@@ -1115,15 +1303,15 @@
         <span class="num">9</span>
         <h2>A Ditadura em Goiás: de 1964 à Abertura Política</h2>
       </div>
-      <button class="ficha-btn" data-ficha="goias-ditadura">
+      <button type="button" class="ficha-btn" data-ficha="goias-ditadura">
         <span class="ico">9</span>
-        <span class="txt"><strong>Resumo do t&oacute;pico 9</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="txt"><b>Resumo do t&oacute;pico 9</b><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
         <span class="seta" aria-hidden="true">&#8250;</span>
       </button>
       <p class="secao-intro">Goiás não ficou de fora desse processo: o estado teve seu próprio governador deposto logo nos primeiros meses do regime — e viveu quase duas décadas sem eleições diretas para o governo estadual.</p>
 
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           A Intervenção Federal em Goiás (1964)
           <span class="chev">▾</span>
         </button>
@@ -1141,7 +1329,7 @@
       </div>
 
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           Quase 20 anos sem eleições diretas
           <span class="chev">▾</span>
         </button>
@@ -1150,7 +1338,6 @@
             <p>Em outubro de 1965, Goiás ainda elegeu seu governador pelo voto direto: <strong>Otávio Lage de Siqueira</strong> (UDN), aliado do regime, venceu por uma margem apertada e governou de 1966 a 1971. Foi a <strong>última eleição direta para governador em Goiás por quase 20 anos</strong> — o mesmo aconteceu em praticamente todo o país, já que o regime militar passou a escolher os governadores de forma indireta, por meio das Assembleias Legislativas controladas pela Arena, o partido da situação.</p>
             <p>Depois de Otávio Lage, se sucederam no Palácio das Esmeraldas outros governadores indiretos alinhados à ditadura, como Leonino Di Ramos Caiado, Irapuan Costa Júnior e Ary Ribeiro Valadão — todos escolhidos sem que a população goiana pudesse votar diretamente para o cargo.</p>
             <div class="termo-box">
-              
               <div><b>O AI-5 chega à política municipal</b><p>O próprio AI-5 foi usado para cassar políticos goianos: em outubro de 1969, o prefeito de Goiânia, Iris Rezende, teve seu mandato cassado e seus direitos políticos suspensos por dez anos. Ele só voltaria à vida pública já no fim da ditadura, tornando-se, em 1982, o primeiro governador de Goiás eleito diretamente em quase duas décadas.</p></div>
             </div>
           </div>
@@ -1158,7 +1345,7 @@
       </div>
 
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           Repressão na UFG e resistência estudantil
           <span class="chev">▾</span>
         </button>
@@ -1171,7 +1358,7 @@
       </div>
 
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           A abertura política chega a Goiás
           <span class="chev">▾</span>
         </button>
@@ -1182,6 +1369,12 @@
           </div>
         </div>
       </div>
+
+      <!-- SLIDE 10 -->
+      <figure class="figura-charge">
+        <img decoding="async" src="tema3/slide10.webp" alt="Infográfico: O Contexto Regional — A Ditadura em Goiás" onclick="abrirLightbox(this)" loading="lazy">
+        <figcaption>Situa, numa linha do tempo regional, a intervenção de 1964 (queda de Mauro Borges), a vigilância constante do DOPS-GO sobre a UFG, a cassação do prefeito Iris Rezende pelo AI-5 em 1969 e a retomada, em 1982, quando ele é eleito governador com 66,7% dos votos.</figcaption>
+      </figure>
     </section>
 
     <!-- 10. LINHA DO TEMPO -->
@@ -1190,15 +1383,15 @@
         <span class="num">10</span>
         <h2>Linha do Tempo: os Presidentes Militares</h2>
       </div>
-      <button class="ficha-btn" data-ficha="linha-tempo">
+      <button type="button" class="ficha-btn" data-ficha="linha-tempo">
         <span class="ico">10</span>
-        <span class="txt"><strong>Resumo do t&oacute;pico 10</strong><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
+        <span class="txt"><b>Resumo do t&oacute;pico 10</b><em>Ideias-chave, conceitos e dados em t&oacute;picos</em></span>
         <span class="seta" aria-hidden="true">&#8250;</span>
       </button>
       <p class="secao-intro">Uma visão geral dos 21 anos de regime militar, do golpe à redemocratização.</p>
 
       <div class="acc" data-acc>
-        <button class="acc-head" data-acc-head>
+        <button type="button" class="acc-head" data-acc-head>
           De 1964 a 1985
           <span class="chev">▾</span>
         </button>
@@ -1222,13 +1415,34 @@
               <div class="lt-item"><span class="lt-ano">1984</span><p>Campanha Diretas Já mobiliza milhões, mas a emenda é derrotada no Congresso.</p></div>
               <div class="lt-item"><span class="lt-ano">1985</span><p>Eleição indireta de Tancredo Neves; sua morte leva Sarney à Presidência, encerrando o regime militar.</p></div>
             </div>
+
+            <!-- INSERÇÃO DA IMAGEM SOLICITADA AO FINAL DO TÓPICO 10, NO MESMO MODELO DA TEMA 1 -->
+            <figure class="figura-charge" style="margin-top: 30px;">
+              <img decoding="async" src="tema3/linha-do-tempo.webp" alt="Ditadura Militar no Brasil: Uma Linha do Tempo (1964-1985)" onclick="abrirLightbox(this)" loading="lazy">
+              <figcaption>
+                Linha do tempo visual resumindo os 21 anos do regime militar no Brasil, destacando os governantes, atos institucionais, marcos econômicos e o processo de redemocratização.
+              </figcaption>
+            </figure>
+
+            <!-- SLIDE 14 -->
+            <figure class="figura-charge">
+              <img decoding="async" src="tema3/slide14.webp" alt="Infográfico: Síntese Histórica — 21 Anos em Perspectiva" onclick="abrirLightbox(this)" loading="lazy">
+              <figcaption>Uma segunda síntese, em seis marcos: 1964 (golpe), 1968 (AI-5), 1969–1974 (Médici), 1978–1979 (revogação do AI-5 e Lei da Anistia), 1984 (Diretas Já) e 1985 (fim do regime militar).</figcaption>
+            </figure>
+
+            <!-- SLIDE 15 -->
+            <figure class="figura-charge">
+              <img decoding="async" src="tema3/slide15.webp" alt="Infográfico: O Legado — Memória, Verdade e Cidadania Ativa" onclick="abrirLightbox(this)" loading="lazy">
+              <figcaption>Fecha o tema com a reflexão sobre o legado do período: a democracia não é destino, é construção; a história funciona como vacina contra a repetição de erros sistêmicos; e permanências como a desigualdade social convivem, hoje, com rupturas como a liberdade de voto e de expressão plena.</figcaption>
+            </figure>
+
           </div>
         </div>
       </div>
     </section>
 
     <!-- CALLOUT GLOSSARIO -->
-    <div class="jogo-trilha-card" onclick="document.getElementById('jd-wrap').scrollIntoView({behavior:'smooth'})">
+    <div class="jogo-trilha-card" role="button" tabindex="0" data-ir-para="jd-wrap">
       <div>
         <h4>Ditadura Militar: teste seus conceitos</h4>
         <p>Complete as frases sobre o regime militar, a repressão, a resistência e a redemocratização no jogo interativo abaixo.</p>
@@ -1242,9 +1456,9 @@
       <div class="jd-alerta" id="jd-alerta"></div>
       <div id="jd-frases"></div>
       <div class="jd-status">
-        <span>Respondidas: <strong id="jd-respondidas">0</strong>/8</span>
-        <button class="jd-btn-verificar" id="jd-btn-verificar" onclick="verificarRespostas()">Verificar respostas</button>
-        <button class="jd-btn-restart" onclick="iniciarJogoArrastar()">Reiniciar</button>
+        <span>Respondidas: <strong id="jd-respondidas">0</strong>/<span id="jd-total">8</span></span>
+        <button type="button" class="jd-btn-verificar" id="jd-btn-verificar" onclick="verificarRespostas()">Verificar respostas</button>
+        <button type="button" class="jd-btn-restart" onclick="iniciarJogoArrastar()">Reiniciar</button>
       </div>
       <div class="jd-vitoria" id="jd-vitoria"></div>
     </section>
@@ -1256,9 +1470,9 @@
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-golpe-preventivo" onclick="fecharModal(event, 'modal-golpe-preventivo')">
+<div class="modal-overlay" id="modal-golpe-preventivo" role="dialog" aria-modal="true" aria-hidden="true" onclick="fecharModal(event, 'modal-golpe-preventivo')">
   <div class="modal-caixa">
-    <button class="modal-fechar" onclick="fecharModal(event, 'modal-golpe-preventivo')" aria-label="Fechar">&#10005;</button>
+    <button type="button" class="modal-fechar" onclick="fecharModal(event, 'modal-golpe-preventivo')" aria-label="Fechar">&#10005;</button>
     <span class="modal-eyebrow">Texto de apoio</span>
     <h3>1964 foi um golpe preventivo?</h3>
     <p>Diversos estudiosos defendem que o processo que deu origem à ditadura civil-militar no Brasil, em 1964, pode ser entendido como um “processo político preventivo”. Entre eles, estão o sociólogo Florestan Fernandes e os historiadores Jacob Gorender, Caio Navarro de Toledo e Lucilia de Almeida Neves Delgado.</p>
@@ -1268,9 +1482,9 @@
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-democracia-ditadura" onclick="fecharModal(event, 'modal-democracia-ditadura')">
+<div class="modal-overlay" id="modal-democracia-ditadura" role="dialog" aria-modal="true" aria-hidden="true" onclick="fecharModal(event, 'modal-democracia-ditadura')">
   <div class="modal-caixa">
-    <button class="modal-fechar" onclick="fecharModal(event, 'modal-democracia-ditadura')" aria-label="Fechar">&#10005;</button>
+    <button type="button" class="modal-fechar" onclick="fecharModal(event, 'modal-democracia-ditadura')" aria-label="Fechar">&#10005;</button>
     <span class="modal-eyebrow">Definindo conceitos</span>
     <h3>Democracia e Ditadura</h3>
     <p><strong>Democracia</strong> é o regime político em que o poder pertence ao conjunto dos cidadãos, exercido diretamente ou por representantes eleitos. Ela garante liberdade de expressão, de imprensa e de organização, respeita as diferenças de opinião, religião, cor e gênero, e permite que os direitos sejam ampliados ao longo do tempo, mesmo diante de falhas ou limitações.</p>
@@ -1279,23 +1493,23 @@
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-goulart-disputas" onclick="fecharModal(event, 'modal-goulart-disputas')">
+<div class="modal-overlay" id="modal-goulart-disputas" role="dialog" aria-modal="true" aria-hidden="true" onclick="fecharModal(event, 'modal-goulart-disputas')">
   <div class="modal-caixa">
-    <button class="modal-fechar" onclick="fecharModal(event, 'modal-goulart-disputas')" aria-label="Fechar">&#10005;</button>
+    <button type="button" class="modal-fechar" onclick="fecharModal(event, 'modal-goulart-disputas')" aria-label="Fechar">&#10005;</button>
     <span class="modal-eyebrow">Texto de apoio</span>
     <h3>O Governo Goulart e as Disputas Ideológicas</h3>
     <p>João Goulart é muitas vezes apresentado como um político inábil, tanto por setores da esquerda quanto pela direita. Muitos inclusive o culpam pelo desfecho trágico do seu governo. Mas, analisando de perto o contexto e as opções políticas a seu dispor, é possível perceber a complexidade da empreitada que havia caído no colo do presidente.</p>
     <p>Jango tinha em suas mãos um projeto reformista ousado, porém estava cercado por um congresso extremamente conservador, por uma mídia hostil e por um exército golpista. Para piorar, estava sendo pressionado pela esquerda, para impor as reformas, independente da opinião do legislativo; e pela direita, que temia um golpe comunista. De fora, os EUA asfixiavam o país financeiramente enquanto fortaleciam a oposição nos estados.</p>
     <p>Para piorar, o PTB estava rachado. De um lado, a ala mais radical, comandada por lideranças como Leonel Brizola e Miguel Arraes, queria o que ficou conhecido como <strong>reformas na lei ou na marra</strong>. Esse grupo, que era reforçado pelos movimentos sociais e pelo PCB, não aceitava qualquer tipo de acordo com o centro. Ou as reformas passavam ou elas seriam impostas.</p>
-    <p>O problema era que na lei, havia o veto do Congresso, e na marra, havia o “veto” dos militares. Mas nada parecia importar, eles queriam as reformas a qualquer custo. Pressionavam o executivo sem, contudo, mostrar como tais políticas seriam implementadas. A batata quente estava nas mãos do presidente, era ele quem deveria decidir.</p>
+    <p>O problema era que na lei, havia o veto do Congresso, e na marra, havia o “veto” dos militares. Mais nada parecia importar, eles queriam as reformas a qualquer custo. Pressionavam o executivo sem, contudo, mostrar como tais políticas seriam implementadas. A batata quente estava nas mãos do presidente, era ele quem deveria decidir.</p>
     <p class="modal-fonte">MIGOWSKI, Eduardo. <em>História: assim caiu João Goulart</em>. Instituto Humanitas Unisinos (IHU), São Leopoldo, 28 jul. 2017. Acesso em: 30 jul. 2026.</p>
   </div>
 </div>
 
-<div class="lightbox-overlay" id="lightbox-overlay" onclick="fecharLightbox(event)">
-  <button class="lightbox-fechar" onclick="fecharLightbox(event)" aria-label="Fechar">&#10005;</button>
-  <button class="lightbox-nav lightbox-nav--ant" id="lightbox-ant" onclick="navegarGaleria(-1, event)" aria-label="Imagem anterior">&#8249;</button>
-  <button class="lightbox-nav lightbox-nav--prox" id="lightbox-prox" onclick="navegarGaleria(1, event)" aria-label="Pr&oacute;xima imagem">&#8250;</button>
+<div class="lightbox-overlay" id="lightbox-overlay" role="dialog" aria-modal="true" aria-label="Imagem ampliada" aria-hidden="true" onclick="fecharLightbox(event)">
+  <button type="button" class="lightbox-fechar" onclick="fecharLightbox(event)" aria-label="Fechar">&#10005;</button>
+  <button type="button" class="lightbox-nav lightbox-nav--ant" id="lightbox-ant" onclick="navegarGaleria(-1, event)" aria-label="Imagem anterior">&#8249;</button>
+  <button type="button" class="lightbox-nav lightbox-nav--prox" id="lightbox-prox" onclick="navegarGaleria(1, event)" aria-label="Pr&oacute;xima imagem">&#8250;</button>
   <div class="lightbox-conteudo" id="lightbox-conteudo">
     <img id="lightbox-img" src="" alt="" onclick="alternarZoom(event)">
     <p class="lightbox-legenda" id="lightbox-legenda"></p>
@@ -1304,9 +1518,9 @@
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-ato-institucional" onclick="fecharModal(event, 'modal-ato-institucional')">
+<div class="modal-overlay" id="modal-ato-institucional" role="dialog" aria-modal="true" aria-hidden="true" onclick="fecharModal(event, 'modal-ato-institucional')">
   <div class="modal-caixa">
-    <button class="modal-fechar" onclick="fecharModal(event, 'modal-ato-institucional')" aria-label="Fechar">&#10005;</button>
+    <button type="button" class="modal-fechar" onclick="fecharModal(event, 'modal-ato-institucional')" aria-label="Fechar">&#10005;</button>
     <span class="modal-eyebrow">Texto de apoio</span>
     <h3>Ato Institucional</h3>
     <p>Em 9 de abril, logo após o golpe de 1964, os novos donos do poder publicaram o <strong>Ato Institucional nº 1</strong>, cujo preâmbulo deixava claro as intenções do regime que estava sendo implantado. Deixava claro que a revolução não buscaria no Parlamento a sua legitimação, como também limitava drasticamente seus poderes. O controle do Judiciário e a suspensão dos direitos fundamentais foram uma forma de abrir caminho para a implantação da <strong>Doutrina de Segurança Nacional</strong>.</p>
@@ -1316,9 +1530,9 @@
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-esquecimento-ai5" onclick="fecharModal(event, 'modal-esquecimento-ai5')">
+<div class="modal-overlay" id="modal-esquecimento-ai5" role="dialog" aria-modal="true" aria-hidden="true" onclick="fecharModal(event, 'modal-esquecimento-ai5')">
   <div class="modal-caixa">
-    <button class="modal-fechar" onclick="fecharModal(event, 'modal-esquecimento-ai5')" aria-label="Fechar">&#10005;</button>
+    <button type="button" class="modal-fechar" onclick="fecharModal(event, 'modal-esquecimento-ai5')" aria-label="Fechar">&#10005;</button>
     <span class="modal-eyebrow">Texto de apoio</span>
     <h3>O esquecimento do AI-5 na memória dos brasileiros</h3>
     <p><strong>8 em cada 10 brasileiros nunca ouviram falar do AI-5</strong></p>
@@ -1331,58 +1545,88 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="modal-kopenawa-estrada" role="dialog" aria-modal="true" aria-hidden="true" onclick="fecharModal(event, 'modal-kopenawa-estrada')">
+  <div class="modal-caixa">
+    <button type="button" class="modal-fechar" onclick="fecharModal(event, 'modal-kopenawa-estrada')" aria-label="Fechar">&#10005;</button>
+    <span class="modal-eyebrow">Documento &middot; Resist&ecirc;ncia ind&iacute;gena</span>
+    <h3>A estrada Manaus&ndash;Boa Vista e os Waimiri-Atroari</h3>
+    <p>No trecho a seguir, o xam&atilde; yanomami Davi Kopenawa expressa a vis&atilde;o de um ind&iacute;gena sobre o projeto dos governos militares de ocupa&ccedil;&atilde;o estrat&eacute;gica da regi&atilde;o amaz&ocirc;nica.</p>
+    <blockquote class="citacao">
+      <p>&ldquo;[...] Eu tinha ouvido gente da Funai contar que, para abrir o trecho que liga Manaus a Boa Vista, os soldados tinham atirado nos Waimiri-Atroari e jogado bombas em sua floresta. Eles eram guerreiros valorosos. N&atilde;o queriam que a estrada atravessasse suas terras. Atacaram os postos da Funai para que os brancos n&atilde;o entrassem onde eles viviam. Foi isso que deixou os militares enfurecidos. [...] Muitos foram [...] as mulheres, crian&ccedil;as e velhos que morreram entre n&oacute;s por causa da estrada. N&atilde;o foram mortos pelos soldados, &eacute; verdade. Mas foram as fuma&ccedil;as e epidemia trazidas pelos oper&aacute;rios que os devoraram. [...] &lsquo;Esse caminho dos brancos &eacute; muito ruim! Os seres da epidemia <em>xawarari</em> v&ecirc;m seguindo por ele, atr&aacute;s das m&aacute;quinas dos caminh&otilde;es. [...] Ter&atilde;o aberto a estrada para silenciar a floresta de nossa presen&ccedil;a? Para aqui construir suas casas, sobre os rastros das nossas? [...]&rsquo;&rdquo;</p>
+      <span class="citacao-nota">Funai: Funda&ccedil;&atilde;o Nacional do &Iacute;ndio, criada em 1967. Sucedeu o SPI.</span>
+    </blockquote>
+    <p class="modal-fonte">KOPENAWA, Davi; ALBERT, Bruce. <em>A queda do c&eacute;u</em>: palavras de um xam&atilde; yanomami. S&atilde;o Paulo: Companhia das Letras, 2015. p. 306.</p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-mnu-1978" role="dialog" aria-modal="true" aria-hidden="true" onclick="fecharModal(event, 'modal-mnu-1978')">
+  <div class="modal-caixa">
+    <button type="button" class="modal-fechar" onclick="fecharModal(event, 'modal-mnu-1978')" aria-label="Fechar">&#10005;</button>
+    <span class="modal-eyebrow">Documento &middot; Resist&ecirc;ncia negra</span>
+    <h3>1978: o nascimento do Movimento Negro Unificado</h3>
+    <p>O Movimento Negro tamb&eacute;m se engajou na defesa da democracia e por melhores condi&ccedil;&otilde;es de vida.</p>
+    <blockquote class="citacao">
+      <p>&ldquo;[...] Numa manifesta&ccedil;&atilde;o ocorrida em 1978, v&aacute;rios grupos negros reuniram-se nas escadarias do Teatro Municipal de S&atilde;o Paulo para protestar, entre outras coisas, contra a discrimina&ccedil;&atilde;o sofrida por quatro atletas juvenis negros, expulsos do Clube de Regatas Tiet&ecirc;, em S&atilde;o Paulo, sem nenhuma justificativa. Durante esse ato p&uacute;blico, ocorreu a unifica&ccedil;&atilde;o das v&aacute;rias organiza&ccedil;&otilde;es negras, nascendo assim o Movimento Negro Unificado (MNU), cujo Programa de A&ccedil;&atilde;o defendia:</p>
+      <p>a) Desmistifica&ccedil;&atilde;o da democracia racial brasileira;<br>
+      b) Organiza&ccedil;&atilde;o pol&iacute;tica da popula&ccedil;&atilde;o negra;<br>
+      c) Forma&ccedil;&atilde;o de um amplo leque de alian&ccedil;as na luta contra o racismo;<br>
+      d) Organiza&ccedil;&atilde;o nos sindicatos e partidos pol&iacute;ticos;<br>
+      e) Luta pela introdu&ccedil;&atilde;o da Hist&oacute;ria da &Aacute;frica e do Negro no Brasil nos curr&iacute;culos escolares [...].&rdquo;</p>
+    </blockquote>
+    <p class="modal-fonte">DOMINGUES, Petr&ocirc;nio. Movimento negro brasileiro: alguns apontamentos hist&oacute;ricos. <em>Tempo</em>, v. 12, n. 23, p. 100-122, 2007. Dispon&iacute;vel em: <a href="http://www.scielo.br/scielo.php?script=sci_arttext&amp;pid=S1413-77042007000200007&amp;lng=en&amp;nrm=iso" target="_blank" rel="noopener noreferrer">scielo.br</a>. Acesso em: 24 nov. 2018.</p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-democracia-relativa" role="dialog" aria-modal="true" aria-hidden="true" onclick="fecharModal(event, 'modal-democracia-relativa')">
+  <div class="modal-caixa">
+    <button type="button" class="modal-fechar" onclick="fecharModal(event, 'modal-democracia-relativa')" aria-label="Fechar">&#10005;</button>
+    <span class="modal-eyebrow">Texto de apoio</span>
+    <h3>&ldquo;A democracia relativa&rdquo;: os anos Geisel</h3>
+    <p>Em janeiro de 1974, Geisel foi eleito presidente da República pelo Colégio Eleitoral (400 contra 76 e 21 abstenções). [...] Ao contrário de Castelo, Costa e Silva e Médici, Geisel não falou em volta à democracia em seu discurso de posse. Em pronunciamento econômico, fez muitos elogios à “Revolução” e às suas realizações econômicas e políticas, reconhecendo que foi “dramaticamente nascida de um dissenso dilacerador”, mas que era hora de perseguir um “generoso consenso nacional”. [...] Mas não demorou muito para que o tema da “distensão” se consolidasse, ainda que carecesse de uma efetiva agenda política.</p>
+    <p>O discurso na reunião do Ministério, em 19 de março de 1974, definiu o “gradualismo” como estratégia de distensão. [...] Mas avisou que os “instrumentos excepcionais” para manter a segurança continuariam como “potencial de ação repressiva” para evitar desvios à rota traçada. Apesar dos sinais de busca de diálogo, a transição para a democracia estava claramente subordinada à segurança do regime que, na ótica dos seus estrategistas, passava pelo rearranjo institucional e pelo diálogo seletivo com a sociedade civil. Esse projeto incluía eventuais recursos a medidas liberalizantes, mas não significava efetivamente “retorno à democracia”, ainda que no médio e longo prazos.</p>
+    <p class="modal-fonte">NAPOLITANO, Marcos. <em>1964: história do regime militar brasileiro</em>. São Paulo: Contexto, 2014. p. 237-239.</p>
+  </div>
+</div>
+
 <footer class="rodape">
   Colégio Estadual Rodolfo de Oliveira · CERO · 2026
 </footer>
 
 <script>
 /* ===== ACCORDION ===== */
-document.querySelectorAll('[data-acc-head]').forEach(function(head){
+document.querySelectorAll('[data-acc-head]').forEach(function(head, i){
+  var item = head.closest('[data-acc]');
+  var body = item.querySelector('[data-acc-body]');
+  if(!body.id){ body.id = 'acc-body-' + (i + 1); }
+  head.setAttribute('aria-expanded', 'false');
+  head.setAttribute('aria-controls', body.id);
   head.addEventListener('click', function(){
-    var item = head.closest('[data-acc]');
-    var body = item.querySelector('[data-acc-body]');
     var isOpen = item.classList.contains('open');
-    if(isOpen){
-      item.classList.remove('open');
-      body.style.maxHeight = null;
-    } else {
-      item.classList.add('open');
-      body.style.maxHeight = body.scrollHeight + 'px';
-    }
+    item.classList.toggle('open', !isOpen);
+    head.setAttribute('aria-expanded', String(!isOpen));
+    body.style.maxHeight = isOpen ? null : body.scrollHeight + 'px';
   });
 });
-/* ===== CARROSSEL DE IMAGENS ===== */
-document.querySelectorAll('[data-carrossel]').forEach(function(car){
-  var trilho = car.querySelector('[data-trilho]');
-  var slides = car.querySelectorAll('[data-slide]');
-  var pontos = car.querySelectorAll('[data-ponto]');
-  var contador = car.querySelector('[data-contador]');
-  var atual = 0;
-  function ir(i){
-    atual = (i + slides.length) % slides.length;
-    trilho.style.transform = 'translateX(' + (-atual * 100) + '%)';
-    pontos.forEach(function(p, k){ p.classList.toggle('ativo', k === atual); });
-    if(contador){ contador.textContent = (atual + 1) + ' / ' + slides.length; }
-  }
-  car.querySelector('[data-ant]').addEventListener('click', function(){ ir(atual - 1); });
-  car.querySelector('[data-prox]').addEventListener('click', function(){ ir(atual + 1); });
-  pontos.forEach(function(p, k){ p.addEventListener('click', function(){ ir(k); }); });
-  /* arrastar / deslizar */
-  var x0 = null;
-  car.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
-  car.addEventListener('touchend', function(e){
-    if(x0 === null) return;
-    var dx = e.changedTouches[0].clientX - x0;
-    if(Math.abs(dx) > 45){ ir(dx < 0 ? atual + 1 : atual - 1); }
-    x0 = null;
+
+/* recalcula a altura dos acordeoes abertos (rotacao de tela, redimensionamento,
+   fontes ou imagens que carregam depois) */
+function recalcularAcordeoes(){
+  document.querySelectorAll('[data-acc].open [data-acc-body]').forEach(function(body){
+    body.style.maxHeight = body.scrollHeight + 'px';
   });
-  ir(0);
+}
+var recalcTimer = null;
+window.addEventListener('resize', function(){
+  clearTimeout(recalcTimer);
+  recalcTimer = setTimeout(recalcularAcordeoes, 120);
 });
+window.addEventListener('orientationchange', function(){ setTimeout(recalcularAcordeoes, 220); });
+if (document.fonts && document.fonts.ready){ document.fonts.ready.then(recalcularAcordeoes); }
 /* ===== LIGHTBOX DE IMAGENS ===== */
 /* Galerias que podem ser navegadas dentro do pop-up (imagem, com bibliografia como legenda) */
 const GALERIAS = {
   'luta-armada': {
-    fonte: 'Revista Isto\u00c9, n\u00ba 1663, 15/08/2001.',
+    fonte: 'Revista IstoÉ, nº 1663, 15/08/2001.',
     imagens: [
       { src:'tema3/g1.webp', alt:'Imagem da galeria sobre a luta armada contra a ditadura militar' },
       { src:'tema3/g2.webp', alt:'Imagem da galeria sobre a luta armada contra a ditadura militar' },
@@ -1390,6 +1634,29 @@ const GALERIAS = {
       { src:'tema3/g4.webp', alt:'Imagem da galeria sobre a luta armada contra a ditadura militar' },
       { src:'tema3/g5.webp', alt:'Imagem da galeria sobre a luta armada contra a ditadura militar' },
       { src:'tema3/g6.webp', alt:'Imagem da galeria sobre a luta armada contra a ditadura militar' }
+    ]
+  },
+  'charges-anistia': {
+    fonte: 'Charges sobre a Lei da Anistia. Reprodução: Agência Senado / Arquivo do Senado.',
+    imagens: [
+      { src:'https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura/charges/pag.-256-glauco-movimento-16-a-22.06.79.png/@@images/image',
+        alt:'Charge de Glauco sobre a anistia, revista Movimento, junho de 1979',
+        legenda:'Charge de Glauco, publicada na revista Movimento, em junho de 1979. Reprodução: Agência Senado.' },
+      { src:'https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura/charges/pag.-263-henfil.png/@@images/image',
+        alt:'Charge de Henfil sobre a anistia',
+        legenda:'Charge de Henfil. Reprodução: Agência Senado.' },
+      { src:'https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura/charges/pag.-270-luiz-ge-o-pasquim-03-a-09.08.79.png/@@images/image',
+        alt:'Charge de Luiz Gê sobre a anistia, jornal O Pasquim, agosto de 1979',
+        legenda:'Charge de Luiz Gê, publicada no jornal O Pasquim, em agosto de 1979. Reprodução: Agência Senado.' },
+      { src:'https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura/charges/pag.-274-o-nani-o-pasquim-08-a-14.12.78.jpg/@@images/image',
+        alt:'Charge de Nani sobre a anistia, jornal O Pasquim, dezembro de 1978',
+        legenda:'Charge de Nani, publicada no jornal O Pasquim, em dezembro de 1978. Reprodução: Agência Senado.' },
+      { src:'https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura/charges/pag.-276-nani-o-pasquim-16-a-22.03.79.png/@@images/image',
+        alt:'Charge de Nani sobre a anistia, jornal O Pasquim, março de 1979',
+        legenda:'Charge de Nani, publicada no jornal O Pasquim, em março de 1979. Reprodução: Agência Senado.' },
+      { src:'https://www12.senado.leg.br/noticias/especiais/arquivo-s/ha-40-anos-lei-de-anistia-preparou-caminho-para-fim-da-ditadura/charges/pag.-287-ziraldo-o-pasquim-07-a-13.09.79.png/@@images/image',
+        alt:'Charge de Ziraldo sobre a anistia, jornal O Pasquim, setembro de 1979',
+        legenda:'Charge de Ziraldo, publicada no jornal O Pasquim, em setembro de 1979. Reprodução: Agência Senado.' }
     ]
   }
 };
@@ -1400,7 +1667,10 @@ function abrirGaleria(nome, indice){
   galeriaAtual = nome;
   galeriaIndice = indice;
   mostrarImagemGaleria();
-  document.getElementById('lightbox-overlay').classList.add('aberto');
+  const ov = document.getElementById('lightbox-overlay');
+  travarFundo();
+  ov.classList.add('aberto');
+  ov.setAttribute('aria-hidden', 'false');
 }
 
 function mostrarImagemGaleria(){
@@ -1414,7 +1684,7 @@ function mostrarImagemGaleria(){
   const setas = document.querySelectorAll('.lightbox-nav');
   imgGrande.src = item.src;
   imgGrande.alt = item.alt;
-  legenda.textContent = galeria.fonte;
+  legenda.textContent = item.legenda || galeria.fonte;
   conteudo.classList.remove('zoom-ativo');
   imgGrande.style.width = '';
   conteudo.scrollLeft = 0;
@@ -1459,7 +1729,9 @@ function abrirLightbox(imgEl){
   conteudo.scrollLeft = 0;
   conteudo.scrollTop = 0;
   dica.textContent = 'Toque na imagem para ampliar';
+  travarFundo();
   overlay.classList.add('aberto');
+  overlay.setAttribute('aria-hidden', 'false');
 }
 function alternarZoom(e){
   e.stopPropagation();
@@ -1515,18 +1787,26 @@ function alternarZoom(e){
 })();
 function fecharLightbox(e){
   if (e.target.id === 'lightbox-overlay' || e.target.closest('.lightbox-fechar')){
-    document.getElementById('lightbox-overlay').classList.remove('aberto');
-    document.getElementById('lightbox-conteudo').classList.remove('zoom-ativo');
-    document.getElementById('lightbox-img').style.width = '';
-    galeriaAtual = null;
+    fecharCamadaImagem();
   }
+}
+function fecharCamadaImagem(){
+  const ov = document.getElementById('lightbox-overlay');
+  ov.classList.remove('aberto');
+  ov.setAttribute('aria-hidden', 'true');
+  document.getElementById('lightbox-conteudo').classList.remove('zoom-ativo');
+  document.getElementById('lightbox-img').style.width = '';
+  galeriaAtual = null;
+  destravarFundo();
 }
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape'){
-    document.getElementById('lightbox-overlay').classList.remove('aberto');
-    document.getElementById('lightbox-conteudo').classList.remove('zoom-ativo');
-    document.getElementById('lightbox-img').style.width = '';
-    document.querySelectorAll('.modal-overlay.aberto').forEach(m => m.classList.remove('aberto'));
+    fecharCamadaImagem();
+    document.querySelectorAll('.modal-overlay.aberto').forEach(m => {
+      m.classList.remove('aberto');
+      m.setAttribute('aria-hidden', 'true');
+    });
+    destravarFundo();
   }
   if (document.getElementById('lightbox-overlay').classList.contains('aberto') && galeriaAtual !== null){
     if (e.key === 'ArrowLeft'){ navegarGaleria(-1); }
@@ -1534,7 +1814,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 /* recalcula a altura do acordeão aberto quando uma imagem interna termina de carregar */
-document.querySelectorAll('.figura-charge img').forEach(function(img){
+document.querySelectorAll('[data-acc-body] img').forEach(function(img){
   img.addEventListener('load', function(){
     const body = this.closest('[data-acc-body]');
     const item = body ? body.closest('[data-acc]') : null;
@@ -1544,14 +1824,46 @@ document.querySelectorAll('.figura-charge img').forEach(function(img){
   });
 });
 
+/* atalho do card "teste seus conceitos" (mouse e teclado) */
+document.querySelectorAll('[data-ir-para]').forEach(function(el){
+  function ir(){
+    var alvo = document.getElementById(el.dataset.irPara);
+    if (alvo) alvo.scrollIntoView({behavior:'smooth'});
+  }
+  el.addEventListener('click', ir);
+  el.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); ir(); }
+  });
+});
+
 
 /* ===== POP-UP DE TEXTO DE APOIO ===== */
+/* trava a rolagem do fundo enquanto houver qualquer camada aberta */
+let focoAnterior = null;
+function travarFundo(){
+  focoAnterior = document.activeElement;
+  document.body.style.overflow = 'hidden';
+}
+function destravarFundo(){
+  if (document.querySelector('.modal-overlay.aberto, .lightbox-overlay.aberto, .ficha-fundo.ativo')) return;
+  document.body.style.overflow = '';
+  if (focoAnterior && focoAnterior.focus){ focoAnterior.focus(); focoAnterior = null; }
+}
 function abrirModal(id){
-  document.getElementById(id).classList.add('aberto');
+  const m = document.getElementById(id);
+  if (!m) return;
+  travarFundo();
+  m.classList.add('aberto');
+  m.setAttribute('aria-hidden', 'false');
+  const fechar = m.querySelector('.modal-fechar');
+  if (fechar) fechar.focus();
 }
 function fecharModal(e, id){
   if (e.target.id === id || e.target.closest('.modal-fechar')){
-    document.getElementById(id).classList.remove('aberto');
+    const m = document.getElementById(id);
+    m.classList.remove('aberto');
+    m.setAttribute('aria-hidden', 'true');
+    destravarFundo();
   }
 }
 
@@ -1669,6 +1981,8 @@ window.iniciarJogoArrastar = function(){
     });
   });
 
+  const totalEl = document.getElementById('jd-total');
+  if (totalEl) totalEl.textContent = ITENS.length;
   atualizarContador();
 };
 
@@ -1741,19 +2055,213 @@ iniciarJogoArrastar();
         <span class="rot" id="fichaRot">Resumo do t&oacute;pico</span>
         <h3 id="fichaTitulo"></h3>
       </div>
-      <button class="ficha-fechar" id="fecharFicha" aria-label="Fechar">&times;</button>
+      <button type="button" class="ficha-fechar" id="fecharFicha" aria-label="Fechar">&times;</button>
     </div>
     <div class="ficha-corpo" id="fichaCorpo"></div>
     <div class="ficha-rodape">
       <span>Col&eacute;gio Estadual Rodolfo de Oliveira &middot; CERO &middot; 2026</span>
-      <button id="fecharFicha2">Voltar ao conte&uacute;do</button>
+      <div class="ficha-acoes">
+        <button type="button" class="btn-pdf" id="baixarFicha">&#11015; Baixar em PDF</button>
+        <button type="button" id="fecharFicha2">Voltar ao conte&uacute;do</button>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
 /* ===== RESUMOS DOS TOPICOS ===== */
-const FICHAS = {"contexto": {"num": "1", "titulo": "O Contexto de Instabilidade Política", "blocos": [["A crise do início dos anos 1960", ["Forte polarização política: João Goulart enfrentava inflação alta, economia em desaceleração e pressão de diversos setores.", "Março de 1964: anúncio das reformas de base — reforma agrária, tributária, eleitoral e educacional.", "Para conservadores, empresários e a UDN, as reformas eram um avanço perigoso do \"comunismo\", mesmo Jango não sendo comunista.", "Para grupos populares, sindicatos, estudantes e camponeses, eram resposta necessária às desigualdades sociais."]], ["Do impasse ao golpe", ["A radicalização somou-se à Guerra Fria, com os EUA temendo a expansão de governos de esquerda na América Latina.", "31 de março de 1964: um movimento das Forças Armadas, apoiado por políticos civis, depõe Jango.", "1º de abril de 1964: a Presidência é declarada vaga. Começa um regime que duraria 21 anos."]], ["Habilidade central do tema", ["Comparar permanências e rupturas: quais discursos e tensões daquela época ainda aparecem no debate político atual, e quais mudanças na sociedade tornam impossível uma repetição idêntica de 1964."]]]}, "castelo-branco": {"num": "2", "titulo": "A Institucionalização do Regime: Governo Castelo Branco", "blocos": [["A institucionalização do regime (1964–1967)", ["O marechal Humberto de Alencar Castelo Branco foi o primeiro militar na Presidência, com reconhecimento imediato dos EUA e apoio de grandes empresários.", "Nova Constituição de 1967: fortaleceu a Presidência da República e enfraqueceu o Legislativo e o Judiciário.", "Lei de Segurança Nacional: permitia tratar opositores como \"inimigos da pátria\".", "Rompimento das relações com Cuba, único país socialista da América Latina.", "Revogação da lei que limitava a remessa de lucros das multinacionais, revertendo a política nacionalista anterior."]], ["Trabalhadores e sindicatos", ["Muitos trabalhadores perderam a estabilidade no emprego e sofreram intervenção do governo em seus sindicatos.", "Diferente de outras ditaduras latino-americanas, os sindicatos brasileiros não foram extintos: o imposto sindical foi mantido, garantindo sobrevivência formal sob forte controle estatal."]], ["A repressão desde as primeiras semanas", ["Segundo Chiavenato, as prisões foram tantas que o Maracanã virou presídio, navios da Marinha receberam centenas de \"subversivos\" e os quartéis lotaram.", "Os abusos chegaram a ser denunciados pela imprensa; o governo prometia investigar, enquanto a violência se incorporava ao cotidiano."]]]}, "ai5": {"num": "3", "titulo": "O Endurecimento: Costa e Silva e o AI-5", "blocos": [["1968: as manifestações e o pretexto", ["No governo do marechal Costa e Silva (1967–1969) cresceram os protestos contra o regime.", "Junho de 1968: Passeata dos Cem Mil no Rio de Janeiro, contra a morte do estudante secundarista Edson Luís pela polícia.", "O discurso do deputado Márcio Moreira Alves, criticando a violência contra estudantes, serviu de pretexto para a reação do regime."]], ["O AI-5 (13 de dezembro de 1968)", ["Prisão de milhares de pessoas sem necessidade de justificativa.", "Censura prévia a jornais, livros, músicas, teatro, cinema e televisão.", "Fechamento do Congresso Nacional por quase um ano e cassação de mandatos de centenas de políticos.", "Suspensão do habeas corpus para crimes políticos e afastamento de juízes.", "Decretação do estado de sítio e intervenção em estados e municípios."]], ["1969", ["Costa e Silva deixa a Presidência por motivos de saúde; uma junta militar governa por cerca de dois meses.", "Nesse período foi aprovada emenda constitucional que chegou a incluir pena de morte e prisão perpétua para casos de \"subversão\"."]]]}, "medici": {"num": "4", "titulo": "Os \"Anos de Chumbo\": Governo Médici", "blocos": [["O \"milagre econômico\" (1969–1974)", ["Sob o general Emílio Garrastazu Médici, o país viveu forte crescimento, impulsionado por aumento da produção industrial, exportações, expansão do crédito às classes médias e empréstimos externos.", "Grandes obras em rodovias, hidrelétricas e comunicações — a ponte Rio-Niterói (1974) é o símbolo do período.", "Custo social: arrocho salarial para conter a inflação, com sindicatos e associações sob vigilância policial constante.", "O \"milagre\" foi passageiro: dependia de mercado externo favorável e de empréstimos; com a alta do petróleo nos anos 1970, inflação e dívida externa voltaram a crescer."]], ["O aparato repressivo — os \"anos de chumbo\"", ["SNI (Serviço Nacional de Informações): coordenava a espionagem e o monitoramento de opositores.", "DOPS (Delegacias de Ordem Política e Social): polícia estadual voltada à repressão política.", "DOI-Codi: principal centro de prisão, interrogatório e tortura, criado a partir da antiga Oban.", "A repressão invadia universidades e perseguia professores, jornalistas, artistas, estudantes e religiosos; suspeitos de \"subversão\" podiam ser presos, torturados e mortos, muitas vezes sem que a família soubesse do paradeiro."]]]}, "resistencia": {"num": "5", "titulo": "Movimentos de Resistência à Ditadura", "blocos": [["A luta armada", ["Organizações que defendiam derrubar o regime pelas armas e instaurar o socialismo: ALN (Carlos Marighella), VPR (Carlos Lamarca) e MR-8.", "Realizavam assaltos a bancos para financiar as ações e sequestros de diplomatas para trocá-los por presos políticos — como o do embaixador dos EUA, Charles Elbrick, em 1969, trocado por 15 presos.", "Guerrilha do Araguaia: foco guerrilheiro na região amazônica, duramente reprimido pelo Exército.", "Até 1974 praticamente todos os focos haviam sido destruídos, com seus integrantes presos ou mortos."]], ["Resistência cultural e censura", ["Resistência pacífica: abaixo-assinados, protestos de rua, oposição parlamentar, jornais alternativos, teatro e festivais de música popular.", "Geraldo Vandré tornou-se símbolo com \"Pra não dizer que não falei das flores\" (1968), proibida pelos militares, que o forçaram ao exílio.", "O Pasquim, lançado em 1969 em reação ao AI-5, usava o humor para driblar a censura; em 1970 censores foram instalados na redação e parte da equipe foi presa pelo DOI-Codi.", "Censura prévia: diferente da punição posterior, exigia aprovação dos censores antes da publicação — deixando espaços em branco e trechos cortados como protesto silencioso."]], ["Resist\u00eancia ind\u00edgena e negra", ["Os projetos de ocupa\u00e7\u00e3o da Amaz\u00f4nia (estradas, garimpos e grandes obras) atingiram diretamente os territ\u00f3rios ind\u00edgenas.", "Davi Kopenawa relata o ataque aos Waimiri-Atroari na abertura da estrada Manaus\u2013Boa Vista e as epidemias trazidas pelos oper\u00e1rios (A queda do c\u00e9u, 2015).", "1978: nas escadarias do Teatro Municipal de S\u00e3o Paulo, o protesto contra a expuls\u00e3o de quatro atletas negros do Clube de Regatas Tiet\u00ea unificou v\u00e1rias organiza\u00e7\u00f5es no Movimento Negro Unificado (MNU).", "Programa de A\u00e7\u00e3o do MNU: desmistificar a democracia racial, organizar politicamente a popula\u00e7\u00e3o negra, formar alian\u00e7as contra o racismo, atuar em sindicatos e partidos e incluir Hist\u00f3ria da \u00c1frica e do Negro nos curr\u00edculos.", "Essa luta foi decisiva para conquistas posteriores, como a Lei n\u00ba 10.639/03."]]]}, "geisel": {"num": "6", "titulo": "Geisel e a Abertura \"Lenta, Gradual e Segura\"", "blocos": [["A abertura \"lenta, gradual e segura\" (1974–1979)", ["Ernesto Geisel pertencia ao grupo militar favorável à devolução gradual do poder aos civis.", "A censura sobre os meios de comunicação diminuiu e, em 1974, houve eleições diretas para senadores e deputados, com vitória expressiva do MDB sobre a Arena — o que assustou os militares mais radicais."]], ["Avanços e recuos", ["1975 e 1976: o jornalista Vladimir Herzog e o operário Manuel Fiel Filho morreram sob tortura em dependências do Exército em São Paulo, escandalizando parte da sociedade.", "1976: Lei Falcão, restringindo a propaganda eleitoral na TV e no rádio.", "1977: \"senadores biônicos\" — um terço do Senado passou a ser escolhido pelo presidente.", "Outubro de 1978: revogação do AI-5, encerrando os instrumentos mais duros de repressão.", "1978: fundação do Movimento Negro Unificado (MNU), importante na luta pela redemocratização e ativo até hoje."]]]}, "figueiredo": {"num": "7", "titulo": "Figueiredo, a Anistia e o Fim do Bipartidarismo", "blocos": [["Pressão popular e greves (1979)", ["No governo do general João Baptista Figueiredo (1979–1985), sindicatos, empresários, setores religiosos e artistas se uniram pela redemocratização.", "Greves envolveram milhões de trabalhadores, com destaque para os metalúrgicos de São Bernardo do Campo, liderados por Luiz Inácio da Silva, o Lula.", "A repressão continuava: o operário Santo Dias foi morto pela polícia durante uma dessas greves."]], ["A Lei da Anistia e a reforma partidária", ["1979: a Lei da Anistia permitiu o retorno dos exilados e devolveu direitos políticos aos cassados.", "Ponto até hoje debatido: a lei também absolveu militares acusados de tortura e assassinato, sem julgamento.", "Fim do bipartidarismo (Arena e MDB), com a criação de novas legendas — PT, PMDB, PDT e PDS.", "1982: volta das eleições diretas para governador."]]]}, "diretas-ja": {"num": "8", "titulo": "Diretas Já! e o Fim do Regime Militar", "blocos": [["A campanha das Diretas Já", ["Entre 1979 e 1984 o país viveu grave crise econômica, com inflação alta e dívidas elevadas — a \"década perdida\".", "A campanha Diretas Já!, a partir da emenda do deputado Dante de Oliveira, pedia eleições diretas para presidente e reuniu milhões de pessoas em todo o país."]], ["O desfecho (1984–1985)", ["Abril de 1984: a emenda das diretas foi derrotada no Congresso por poucos votos.", "1985: eleição indireta por Colégio Eleitoral; Tancredo Neves venceu o candidato do governo, mas morreu antes da posse.", "Assumiu o vice José Sarney, marcando o fim formal do regime militar e o início da Nova República.", "Mesmo derrotada, a campanha mostrou a força da mobilização popular e pavimentou o caminho para a Constituição de 1988 e para a eleição direta de 1989."]]]}, "goias-ditadura": {"num": "9", "titulo": "A Ditadura em Goiás: de 1964 à Abertura Política", "blocos": [["A intervenção federal em Goiás (1964)", ["O governador era Mauro Borges Teixeira, filho de Pedro Ludovico Teixeira. Não era de esquerda, mas tivera atritos com o governo federal — como na disputa sobre as jazidas de níquel — e era visto com desconfiança por militares e pela UDN.", "Acusado de manter uma suposta \"base de subversão\" no governo estadual e na UFG, foi deposto em 26 de novembro de 1964 por intervenção federal decretada por Castelo Branco.", "O STF chegou a determinar que ele só poderia ser julgado pela Assembleia Legislativa de Goiás, e não por tribunal militar — o que não impediu a deposição.", "Assumiu o coronel Carlos de Meira Mattos por 45 dias, até a eleição indireta do marechal Emílio Ribas Júnior."]], ["Quase 20 anos sem eleições diretas", ["Outubro de 1965: Otávio Lage de Siqueira (UDN), aliado do regime, vence por margem apertada a última eleição direta para governador em Goiás por quase duas décadas.", "Seguiram-se governadores indiretos alinhados à ditadura: Leonino Di Ramos Caiado, Irapuan Costa Júnior e Ary Ribeiro Valadão.", "Outubro de 1969: o AI-5 foi usado para cassar o prefeito de Goiânia, Iris Rezende, com suspensão de direitos políticos por dez anos."]], ["Repressão na UFG e a abertura em Goiás", ["A UFG foi vigiada de perto pelo DOPS-GO, que produzia dossiês sobre professores, estudantes e movimentos sociais.", "Março de 1968: o presidente do Centro Acadêmico XI de Maio, da Faculdade de Direito da UFG, foi preso pela polícia.", "No início dos anos 1980, os estudantes da UFG conquistaram o direito à eleição direta para reitor.", "1982: Iris Rezende, o político cassado pelo AI-5 treze anos antes, venceu a eleição para governador com 66,72% dos votos — marco estadual do fim da ditadura."]]]}, "linha-tempo": {"num": "10", "titulo": "Linha do Tempo: os Presidentes Militares", "blocos": [["Os presidentes militares", ["Castelo Branco (1964–1967); Costa e Silva (1967–1969); Junta Militar (1969); Médici (1969–1974); Geisel (1974–1979); Figueiredo (1979–1985)."]], ["Marcos dos 21 anos", ["1º de abril de 1964: golpe civil-militar depõe João Goulart e inicia o regime.", "1967: nova Constituição fortalece o Executivo.", "Dezembro de 1968: decretado o AI-5, o instrumento mais autoritário do regime.", "1969–1974: governo Médici, com o \"milagre econômico\" e o auge da repressão.", "Outubro de 1978: revogação do AI-5, sob Geisel.", "1979: Lei da Anistia e fim do bipartidarismo.", "1984: a campanha Diretas Já mobiliza milhões, mas a emenda é derrotada no Congresso.", "1985: eleição indireta de Tancredo Neves; sua morte leva Sarney à Presidência, encerrando o regime militar."]]]}};
+
+/* ---------- gerador de PDF (sem biblioteca externa) ---------- */
+var PDFicha = (function(){
+  var LARG = 595.28, ALT = 841.89;          /* A4 em pontos */
+  var MARG_X = 52, MARG_TOPO = 54, MARG_BASE = 58;
+  var WIN = {
+    0x20AC:0x80,0x201A:0x82,0x0192:0x83,0x201E:0x84,0x2026:0x85,0x2020:0x86,0x2021:0x87,
+    0x02C6:0x88,0x2030:0x89,0x0160:0x8A,0x2039:0x8B,0x0152:0x8C,0x017D:0x8E,
+    0x2018:0x91,0x2019:0x92,0x201C:0x93,0x201D:0x94,0x2022:0x95,0x2013:0x96,0x2014:0x97,
+    0x02DC:0x98,0x2122:0x99,0x0161:0x9A,0x203A:0x9B,0x0153:0x9C,0x017E:0x9E,0x0178:0x9F
+  };
+  var medidor = null, limpador = null;
+
+  /* remove marcacao HTML e resolve entidades (&eacute;, <em>, etc.) */
+  function semHtml(t){
+    var s = String(t);
+    if(s.indexOf('<') === -1 && s.indexOf('&') === -1) return s;
+    if(!limpador) limpador = document.createElement('div');
+    limpador.innerHTML = s;
+    return limpador.textContent || limpador.innerText || '';
+  }
+  function normalizar(t){
+    return semHtml(t)
+      .replace(/\u2192/g,'->').replace(/\u2190/g,'<-')
+      .replace(/\u00a0/g,' ').replace(/\u2212/g,'-');
+  }
+  /* converte para bytes WinAnsi e escapa o que o PDF exige */
+  function paraPdf(t){
+    var s = '', i, c, b;
+    t = normalizar(t);
+    for(i=0;i<t.length;i++){
+      c = t.charCodeAt(i);
+      b = (c < 256) ? c : (WIN[c] || 0x3F);
+      if(b===0x28 || b===0x29 || b===0x5C) s += '\\';
+      s += String.fromCharCode(b);
+    }
+    return s;
+  }
+  function largura(txt, tam, negrito){
+    if(!medidor){
+      try{ medidor = document.createElement('canvas').getContext('2d'); }
+      catch(e){ medidor = false; }
+    }
+    if(medidor){
+      medidor.font = (negrito?'bold ':'') + tam + 'px Helvetica, Arial, sans-serif';
+      return medidor.measureText(normalizar(txt)).width;
+    }
+    return normalizar(txt).length * tam * 0.5;   /* estimativa de emergencia */
+  }
+  function quebrar(txt, tam, negrito, max){
+    var palavras = normalizar(txt).split(/\s+/), linhas = [], atual = '';
+    palavras.forEach(function(p){
+      var teste = atual ? atual + ' ' + p : p;
+      if(largura(teste, tam, negrito) <= max || !atual){ atual = teste; }
+      else { linhas.push(atual); atual = p; }
+    });
+    if(atual) linhas.push(atual);
+    return linhas;
+  }
+
+  /* dados: {rotulo, titulo, subtitulo, rodape, blocos:[[titulo,[itens]]]} */
+  function construir(dados){
+    var paginas = [], fluxo = [], y = 0;
+    var maxL = LARG - MARG_X*2;
+
+    function novaPagina(){ fluxo = []; paginas.push(fluxo); y = ALT - MARG_TOPO; }
+    function espaco(h){ if(y - h < MARG_BASE) novaPagina(); }
+    function texto(t, x, tam, negrito, cinza){
+      fluxo.push({t:t, x:x, y:y, tam:tam, b:negrito, g:cinza});
+    }
+    function linhaH(x1, x2, esp){
+      fluxo.push({linha:true, x1:x1, x2:x2, y:y, esp:esp||0.6});
+    }
+
+    novaPagina();
+
+    /* cabecalho, so na primeira pagina */
+    texto(String(dados.rotulo||'').toUpperCase(), MARG_X, 8.5, false, 0.45); y -= 15;
+    quebrar(dados.titulo||'', 18, true, maxL).forEach(function(l){
+      texto(l, MARG_X, 18, true, 0.08); y -= 22;
+    });
+    y -= 1;
+    quebrar(dados.subtitulo||'', 9, false, maxL).forEach(function(l){
+      texto(l, MARG_X, 9, false, 0.42); y -= 12;
+    });
+    y -= 6; linhaH(MARG_X, LARG-MARG_X, 1); y -= 20;
+
+    (dados.blocos||[]).forEach(function(bl){
+      var tituloBloco = quebrar(bl[0], 10.5, true, maxL);
+      espaco(tituloBloco.length*14 + 26);
+      tituloBloco.forEach(function(l){ texto(l, MARG_X, 10.5, true, 0.12); y -= 14; });
+      y -= 2; linhaH(MARG_X, LARG-MARG_X, 0.5); y -= 13;
+
+      (bl[1]||[]).forEach(function(item){
+        var recuo = MARG_X + 14;
+        var linhas = quebrar(item, 10, false, maxL - 14);
+        espaco(15);
+        texto('\u2022', MARG_X + 2, 10, false, 0.35);
+        linhas.forEach(function(l, i){
+          if(i > 0) espaco(14);
+          texto(l, recuo, 10, false, 0.12);
+          y -= 13.6;
+        });
+        y -= 3.4;
+      });
+      y -= 10;
+    });
+
+    return paginas;
+  }
+
+  function montarConteudo(itens, num, total, rodape){
+    var op = [], atualG = null;
+    itens.forEach(function(it){
+      if(it.linha){
+        op.push('0.75 0.75 0.75 RG ' + it.esp + ' w ' +
+                it.x1.toFixed(2) + ' ' + it.y.toFixed(2) + ' m ' +
+                it.x2.toFixed(2) + ' ' + it.y.toFixed(2) + ' l S');
+        atualG = null;
+        return;
+      }
+      if(it.g !== atualG){ op.push(it.g + ' ' + it.g + ' ' + it.g + ' rg'); atualG = it.g; }
+      op.push('BT /' + (it.b ? 'F2' : 'F1') + ' ' + it.tam + ' Tf ' +
+              it.x.toFixed(2) + ' ' + it.y.toFixed(2) + ' Td (' + paraPdf(it.t) + ') Tj ET');
+    });
+    /* rodape de cada pagina */
+    op.push('0.5 0.5 0.5 rg');
+    op.push('BT /F1 7.5 Tf ' + MARG_X + ' ' + (MARG_BASE - 22) + ' Td (' + paraPdf(rodape) + ') Tj ET');
+    var pg = 'Pagina ' + num + ' de ' + total;
+    op.push('BT /F1 7.5 Tf ' + (LARG - MARG_X - largura(pg, 7.5, false)).toFixed(2) +
+            ' ' + (MARG_BASE - 22) + ' Td (' + paraPdf(pg) + ') Tj ET');
+    return op.join('\n');
+  }
+
+  function gerar(dados){
+    var paginas = construir(dados);
+    var total = paginas.length;
+    var objs = [];                    /* objs[i] = conteudo do objeto i+1 */
+    var idPaginas = 2;
+    var idFonte1 = 3, idFonte2 = 4;
+    var primeiraPag = 5;
+
+    var kids = [], i;
+    for(i=0;i<total;i++) kids.push((primeiraPag + i*2) + ' 0 R');
+
+    objs[0] = '<< /Type /Catalog /Pages ' + idPaginas + ' 0 R >>';
+    objs[1] = '<< /Type /Pages /Count ' + total + ' /Kids [' + kids.join(' ') + '] >>';
+    objs[2] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
+    objs[3] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
+
+    for(i=0;i<total;i++){
+      var idP = primeiraPag + i*2, idC = idP + 1;
+      var fluxo = montarConteudo(paginas[i], i+1, total, dados.rodape || '');
+      objs[idP-1] = '<< /Type /Page /Parent ' + idPaginas + ' 0 R /MediaBox [0 0 ' +
+                    LARG.toFixed(2) + ' ' + ALT.toFixed(2) + '] /Resources << /Font << /F1 ' +
+                    idFonte1 + ' 0 R /F2 ' + idFonte2 + ' 0 R >> >> /Contents ' + idC + ' 0 R >>';
+      objs[idC-1] = '<< /Length ' + fluxo.length + ' >>\nstream\n' + fluxo + '\nendstream';
+    }
+
+    var saida = '%PDF-1.4\n%\u00e2\u00e3\u00cf\u00d3\n', deslocamentos = [];
+    for(i=0;i<objs.length;i++){
+      deslocamentos.push(saida.length);
+      saida += (i+1) + ' 0 obj\n' + objs[i] + '\nendobj\n';
+    }
+    var inicioXref = saida.length;
+    saida += 'xref\n0 ' + (objs.length+1) + '\n0000000000 65535 f \n';
+    for(i=0;i<objs.length;i++){
+      saida += ('0000000000' + deslocamentos[i]).slice(-10) + ' 00000 n \n';
+    }
+    saida += 'trailer\n<< /Size ' + (objs.length+1) + ' /Root 1 0 R /Title (' +
+             paraPdf(dados.titulo||'Fichamento') + ') >>\nstartxref\n' + inicioXref + '\n%%EOF';
+
+    var bytes = new Uint8Array(saida.length);
+    for(i=0;i<saida.length;i++) bytes[i] = saida.charCodeAt(i) & 0xFF;
+    return bytes;
+  }
+
+  function baixar(dados, nomeArquivo){
+    var bytes = gerar(dados);
+    var blob = new Blob([bytes], {type:'application/pdf'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = nomeArquivo; a.style.display = 'none';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 1500);
+  }
+
+  return {gerar:gerar, baixar:baixar};
+})();
+
+
+const FICHAS = {"contexto": {"num": "1", "titulo": "O Contexto de Instabilidade Política", "blocos": [["A crise do início dos anos 1960", ["Forte polarização política: João Goulart enfrentava inflação alta, economia em desaceleração e pressão de diversos setores.", "Março de 1964: anúncio das reformas de base — reforma agrária, tributária, eleitoral e educacional.", "Para conservadores, empresários e a UDN, as reformas eram um avanço perigoso do \"comunismo\", mesmo Jango não sendo comunista.", "Para grupos populares, sindicatos, estudantes e camponeses, eram resposta necessária às desigualdades sociais."]], ["Do impasse ao golpe", ["A radicalização somou-se à Guerra Fria, com os EUA temendo a expansão de governos de esquerda na América Latina.", "31 de março de 1964: um movimento das Forças Armadas, apoiado por políticos civis, depõe Jango.", "1º de abril de 1964: a Presidência é declarada vaga. Começa um regime que duraria 21 anos."]], ["Habilidade central do tema", ["Comparar permanências e rupturas: quais discursos e tensões daquela época ainda aparecem no debate político atual, e quais mudanças na sociedade tornam impossível uma repetição idêntica de 1964."]]]}, "castelo-branco": {"num": "2", "titulo": "A Institucionalização do Regime: Governo Castelo Branco", "blocos": [["A institucionalização do regime (1964–1967)", ["O marechal Humberto de Alencar Castelo Branco foi o primeiro militar na Presidência, com reconhecimento imediato dos EUA e apoio de grandes empresários.", "Nova Constituição de 1967: fortaleceu a Presidência da República e enfraqueceu o Legislativo e o Judiciário.", "Lei de Segurança Nacional: permitia tratar opositores como \"inimigos da pátria\".", "Rompimento das relações com Cuba, único país socialista da América Latina.", "Revogação da lei que limitava a remessa de lucros das multinacionais, revertendo a política nacionalista anterior."]], ["Trabalhadores e sindicatos", ["Muitos trabalhadores perderam a estabilidade no emprego e sofreram intervenção do governo em seus sindicatos.", "Diferente de outras ditaduras latino-americanas, os sindicatos brasileiros não foram extintos: o imposto sindical foi mantido, garantindo sobrevivência formal sob forte controle estatal."]], ["A repressão desde as primeiras semanas", ["Segundo Chiavenato, as prisões foram tantas que o Maracanã virou presídio, navios da Marinha receberam centenas de \"subversivos\" e os quartéis lotaram.", "Os abusos chegaram a ser denunciados pela imprensa; o governo prometia investigar, enquanto a violência se incorporava ao cotidiano."]]]}, "ai5": {"num": "3", "titulo": "O Endurecimento: Costa e Silva e o AI-5", "blocos": [["1968: as manifestações e o pretexto", ["No governo do marechal Costa e Silva (1967–1969) cresceram os protestos contra o regime.", "Junho de 1968: Passeata dos Cem Mil no Rio de Janeiro, contra a morte do estudante secundarista Edson Luís pela polícia.", "O discurso do deputado Márcio Moreira Alves, criticando a violência contra estudantes, serviu de pretexto para a reação do regime."]], ["O AI-5 (13 de dezembro de 1968)", ["Prisão de milhares de pessoas sem necessidade de justificativa.", "Censura prévia a jornais, livros, músicas, teatro, cinema e televisão.", "Fechamento do Congresso Nacional por quase um ano e cassação de mandatos de centenas de políticos.", "Suspensão do habeas corpus para crimes políticos e afastamento de juízes.", "Decretação do estado de sítio e intervenção em estados e municípios."]], ["1969", ["Costa e Silva deixa a Presidência por motivos de saúde; uma junta militar governa por cerca de dois meses.", "Nesse período foi aprovada emenda constitucional que chegou a incluir pena de morte e prisão perpétua para casos de \"subversão\"."]]]}, "medici": {"num": "4", "titulo": "Os \"Anos de Chumbo\": Governo Médici", "blocos": [["O \"milagre econômico\" (1969–1974)", ["Sob o general Emílio Garrastazu Médici, o país viveu forte crescimento, impulsionado por aumento da produção industrial, exportações, expansão do crédito às classes médias e empréstimos externos.", "Grandes obras em rodovias, hidrelétricas e comunicações — a ponte Rio-Niterói (1974) é o símbolo do período.", "Custo social: arrocho salarial para conter a inflação, com sindicatos e associações sob vigilância policial constante.", "O \"milagre\" foi passageiro: dependia de mercado externo favorável e de empréstimos; com a alta do petróleo nos anos 1970, inflação e dívida externa voltaram a crescer."]], ["O aparato repressivo — os \"anos de chumbo\"", ["SNI (Serviço Nacional de Informações): coordenava a espionagem e o monitoramento de opositores.", "DOPS (Delegacias de Ordem Política e Social): polícia estadual voltada à repressão política.", "DOI-Codi: principal centro de prisão, interrogatório e tortura, criado a partir da antiga Oban.", "A repressão invadia universidades e perseguia professores, jornalistas, artistas, estudantes e religiosos; suspeitos de \"subversão\" podiam ser presos, torturados e mortos, muitas vezes sem que a família soubesse do paradeiro."]]]}, "resistencia": {"num": "5", "titulo": "Movimentos de Resistência à Ditadura", "blocos": [["A luta armada", ["Organizações que defendiam derrubar o regime pelas armas e instaurar o socialismo: ALN (Carlos Marighella), VPR (Carlos Lamarca) e MR-8.", "Realizavam assaltos a bancos para financiar as ações e sequestros de diplomatas para trocá-los por presos políticos — como o do embaixador dos EUA, Charles Elbrick, em 1969, trocado por 15 presos.", "Guerrilha do Araguaia: foco guerrilheiro na região amazônica, duramente reprimido pelo Exército.", "Até 1974 praticamente todos os focos haviam sido destruídos, com seus integrantes presos ou mortos."]], ["Resistência cultural e censura", ["Resistência pacífica: abaixo-assinados, protestos de rua, oposição parlamentar, jornais alternativos, teatro e festivais de música popular.", "Geraldo Vandré tornou-se símbolo com \"Pra não dizer que não falei das flores\" (1968), proibida pelos militares, que o forçaram ao exílio.", "O Pasquim, lançado em 1969 em reação ao AI-5, usava o humor para driblar a censura; em 1970 censores foram instalados na redação e parte da equipe foi presa pelo DOI-Codi.", "Censura prévia: diferente da punição posterior, exigia aprovação dos censores antes da publicação — deixando espaços em branco e trechos cortados como protesto silencioso."]], ["Resistência indígena e negra", ["Os projetos de ocupação da Amazônia (estradas, garimpos e grandes obras) atingiram diretamente os territórios indígenas.", "Davi Kopenawa relata o ataque aos Waimiri-Atroari na abertura da estrada Manaus–Boa Vista e as epidemias trazidas pelos operários (A queda do céu, 2015).", "1978: nas escadarias do Teatro Municipal de São Paulo, o protesto contra a expulsão de quatro atletas negros do Clube de Regatas Tietê unificou várias organizações no Movimento Negro Unificado (MNU).", "Programa de Ação do MNU: desmistificar a democracia racial, organizar politicamente a população negra, formar alianças contra o racismo, atuar em sindicatos e partidos e incluir História da África e do Negro nos currículos.", "Essa luta foi decisiva para conquistas posteriores, como a Lei nº 10.639/03."]]]}, "geisel": {"num": "6", "titulo": "Geisel e a Abertura \"Lenta, Gradual e Segura\"", "blocos": [["A abertura \"lenta, gradual e segura\" (1974–1979)", ["Ernesto Geisel pertencia ao grupo militar favorável à devolução gradual do poder aos civis.", "A censura sobre os meios de comunicação diminuiu e, em 1974, houve eleições diretas para senadores e deputados, com vitória expressiva do MDB sobre a Arena — o que assustou os militares mais radicais."]], ["Avanços e recuos", ["1975 e 1976: o jornalista Vladimir Herzog e o operário Manuel Fiel Filho morreram sob tortura em dependências do Exército em São Paulo, escandalizando parte da sociedade.", "1976: Lei Falcão, restringindo a propaganda eleitoral na TV e no rádio.", "1977: \"senadores biônicos\" — um terço do Senado passou a ser escolhido pelo presidente.", "Outubro de 1978: revogação do AI-5, encerrando os instrumentos mais duros de repressão.", "1978: fundação do Movimento Negro Unificado (MNU), importante na luta pela redemocratização e ativo até hoje."]]]}, "figueiredo": {"num": "7", "titulo": "Figueiredo, a Anistia e o Fim do Bipartidarismo", "blocos": [["Pressão popular e greves (1979)", ["No governo do general João Baptista Figueiredo (1979–1985), sindicatos, empresários, setores religiosos e artistas se uniram pela redemocratização.", "Greves envolveram milhões de trabalhadores, com destaque para os metalúrgicos de São Bernardo do Campo, liderados por Luiz Inácio da Silva, o Lula.", "A repressão continuava: o operário Santo Dias foi morto pela polícia durante uma dessas greves."]], ["A Lei da Anistia e a reforma partidária", ["1979: a Lei da Anistia permitiu o retorno dos exilados e devolveu direitos políticos aos cassados.", "Ponto até hoje debatido: a lei também absolveu militares acusados de tortura e assassinato, sem julgamento.", "Fim do bipartidarismo (Arena e MDB), com a criação de novas legendas — PT, PMDB, PDT e PDS.", "1982: volta das eleições diretas para governador."]]]}, "diretas-ja": {"num": "8", "titulo": "Diretas Já! e o Fim do Regime Militar", "blocos": [["A campanha das Diretas Já", ["Entre 1979 e 1984 o país viveu grave crise econômica, com inflação alta e dívidas elevadas — a \"década perdida\".", "A campanha Diretas Já!, a partir da emenda do deputado Dante de Oliveira, pedia eleições diretas para presidente e reuniu milhões de pessoas em todo o país."]], ["O desfecho (1984–1985)", ["Abril de 1984: a emenda das diretas foi derrotada no Congresso por poucos votos.", "1985: eleição indireta por Colégio Eleitoral; Tancredo Neves venceu o candidato do governo, mas morreu antes da posse.", "Assumiu o vice José Sarney, marcando o fim formal do regime militar e o início da Nova República.", "Mesmo derrotada, a campanha mostrou a força da mobilização popular e pavimentou o caminho para a Constituição de 1988 e para a eleição direta de 1989."]]]}, "goias-ditadura": {"num": "9", "titulo": "A Ditadura em Goiás: de 1964 à Abertura Política", "blocos": [["A intervenção federal em Goiás (1964)", ["O governador era Mauro Borges Teixeira, filho de Pedro Ludovico Teixeira. Não era de esquerda, mas tivera atritos com o governo federal — como na disputa sobre as jazidas de níquel — e era visto com desconfiança por militares e pela UDN.", "Acusado de manter uma suposta \"base de subversão\" no governo estadual e na UFG, foi deposto em 26 de novembro de 1964 por intervenção federal decretada por Castelo Branco.", "O STF chegou a determinar que ele só poderia ser julgado pela Assembleia Legislativa de Goiás, e não por tribunal militar — o que não impediu a deposição.", "Assumiu o coronel Carlos de Meira Mattos por 45 dias, até a eleição indireta do marechal Emílio Ribas Júnior."]], ["Quase 20 anos sem eleições diretas", ["Outubro de 1965: Otávio Lage de Siqueira (UDN), aliado do regime, vence por margem apertada a última eleição direta para governador em Goiás por quase duas décadas.", "Seguiram-se governadores indiretos alinhados à ditadura: Leonino Di Ramos Caiado, Irapuan Costa Júnior e Ary Ribeiro Valadão.", "Outubro de 1969: o AI-5 foi usado para cassar o prefeito de Goiânia, Iris Rezende, com suspensão de direitos políticos por dez anos."]], ["Repressão na UFG e a abertura em Goiás", ["A UFG foi vigiada de perto pelo DOPS-GO, que produzia dossiês sobre professores, estudantes e movimentos sociais.", "Março de 1968: o presidente do Centro Acadêmico XI de Maio, da Faculdade de Direito da UFG, foi preso pela polícia.", "No início dos anos 1980, os estudantes da UFG conquistaram o direito à eleição direta para reitor.", "1982: Iris Rezende, o político cassado pelo AI-5 treze anos antes, venceu a eleição para governador com 66,72% dos votos — marco estadual do fim da ditadura."]]]}, "linha-tempo": {"num": "10", "titulo": "Linha do Tempo: os Presidentes Militares", "blocos": [["Os presidentes militares", ["Castelo Branco (1964–1967); Costa e Silva (1967–1969); Junta Militar (1969); Médici (1969–1974); Geisel (1974–1979); Figueiredo (1979–1985)."]], ["Marcos dos 21 anos", ["1º de abril de 1964: golpe civil-militar depõe João Goulart e inicia o regime.", "1967: nova Constituição fortalece o Executivo.", "Dezembro de 1968: decretado o AI-5, o instrumento mais autoritário do regime.", "1969–1974: governo Médici, com o \"milagre econômico\" e o auge da repressão.", "Outubro de 1978: revogação do AI-5, sob Geisel.", "1979: Lei da Anistia e fim do bipartidarismo.", "1984: a campanha Diretas Já mobiliza milhões, mas a emenda é derrotada no Congresso.", "1985: eleição indireta de Tancredo Neves; sua morte leva Sarney à Presidência, encerrando o regime militar."]]]}};
 
 (function(){
   var fundo = document.getElementById('modalFicha');
@@ -1761,20 +2269,58 @@ const FICHAS = {"contexto": {"num": "1", "titulo": "O Contexto de Instabilidade 
   var tit   = document.getElementById('fichaTitulo');
   var rot   = document.getElementById('fichaRot');
 
+  var fichaAtual = null;
+
   function abrir(id){
     var f = FICHAS[id]; if(!f) return;
-    rot.innerHTML = 'Resumo &middot; T\u00f3pico ' + f.num;
+    fichaAtual = f;
+    rot.innerHTML = 'Resumo &middot; Tópico ' + f.num;
     tit.textContent = f.titulo;
     corpo.innerHTML = f.blocos.map(function(b){
       return '<h4>' + b[0] + '</h4><ul>' + b[1].map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>';
     }).join('');
     fundo.classList.add('ativo');
-    document.body.style.overflow = 'hidden';
+    if (typeof travarFundo === 'function'){ travarFundo(); } else { document.body.style.overflow = 'hidden'; }
     corpo.scrollTop = 0; fundo.scrollTop = 0;
   }
   function fechar(){
     fundo.classList.remove('ativo');
-    document.body.style.overflow = '';
+    if (typeof destravarFundo === 'function'){ destravarFundo(); } else { document.body.style.overflow = ''; }
+  }
+
+  /* ---------- baixar o fichamento em PDF ---------- */
+  var btnPdf = document.getElementById('baixarFicha');
+
+  function nomeArquivo(rotulo, titulo){
+    var base = rotulo + ' - ' + titulo;
+    if(base.normalize) base = base.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    return base.replace(/[^a-zA-Z0-9\- ]+/g,' ').replace(/\s+/g,'-').replace(/-+/g,'-')
+               .replace(/^-|-$/g,'').toLowerCase() + '.pdf';
+  }
+
+  if(btnPdf){
+    btnPdf.addEventListener('click', function(){
+      if(!fichaAtual || typeof PDFicha === 'undefined') return;
+      var rotulo = rot.textContent, titulo = fichaAtual.titulo;
+      btnPdf.disabled = true;
+      var textoAntes = btnPdf.innerHTML;
+      btnPdf.innerHTML = 'Gerando\u2026';
+      setTimeout(function(){
+        try{
+          PDFicha.baixar({
+            rotulo: rotulo,
+            titulo: titulo,
+            subtitulo: 'Hist\u00f3ria \u00b7 9\u00ba ano \u00b7 Ensino Fundamental \u00b7 Descritor GO-EF09HI19-A \u00b7 Prof. Claudio',
+            rodape: 'Col\u00e9gio Estadual Rodolfo de Oliveira \u00b7 CERO \u00b7 2026 \u00b7 Ditadura Militar no Brasil (1964\u20131985)',
+            blocos: fichaAtual.blocos
+          }, nomeArquivo(rotulo, titulo));
+        } catch(e){
+          alert('N\u00e3o foi poss\u00edvel gerar o PDF neste navegador.');
+        }
+        btnPdf.disabled = false;
+        btnPdf.innerHTML = textoAntes;
+      }, 30);
+    });
   }
 
   document.querySelectorAll('.ficha-btn').forEach(function(b){
