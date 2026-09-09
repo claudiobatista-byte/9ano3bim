@@ -162,6 +162,50 @@
         </div>
     </main>
 
+    <!-- Seção da Imagem de Revisão -->
+    <section class="container mx-auto px-4 py-12 max-w-4xl relative z-10">
+        <div class="text-center mb-6">
+            <span class="bg-brand-cian text-[#0A1930] text-[10px] md:text-xs font-bold uppercase px-3 py-1 rounded-full inline-block mb-4 shadow">
+                Material de apoio
+            </span>
+            <h2 class="text-2xl md:text-3xl font-titulo font-extrabold mb-2 leading-tight">
+                Infográfico de Revisão
+            </h2>
+            <p class="text-sm md:text-base text-gray-300 max-w-xl mx-auto font-sans font-light">
+                Toque na imagem para ampliar ou use o botão abaixo para baixar o arquivo.
+            </p>
+        </div>
+
+        <div class="bg-white/5 border border-[#3E8ED0]/30 rounded-2xl p-3 md:p-5 shadow-xl">
+            <button type="button" id="btn-abrir-zoom" class="block w-full group cursor-zoom-in" aria-label="Ampliar imagem de revisão">
+                <img src="img/revisao.webp" alt="Infográfico de revisão — Brasil e o Mundo no Século XX, 9º Ano" class="w-full h-auto rounded-xl border border-white/10 transition-transform duration-300 group-hover:scale-[1.01]" loading="lazy">
+            </button>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-5">
+                <button type="button" id="btn-abrir-zoom-2" class="font-sans inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-[#3E8ED0]/50 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                    Ampliar imagem
+                </button>
+                <a href="img/revisao.webp" download="revisao.webp" id="btn-baixar-imagem" class="font-sans inline-flex items-center gap-2 bg-brand-cian hover:brightness-110 text-[#0A1930] text-sm font-bold px-5 py-2.5 rounded-full transition-all duration-200 shadow">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Baixar imagem
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Zoom da Imagem -->
+    <div id="modal-zoom" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 p-4" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+        <button type="button" id="btn-fechar-zoom" aria-label="Fechar" class="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <a href="img/revisao.webp" download="revisao.webp" id="btn-baixar-imagem-modal" class="absolute top-4 left-4 md:top-6 md:left-6 font-sans inline-flex items-center gap-2 bg-brand-cian hover:brightness-110 text-[#0A1930] text-xs md:text-sm font-bold px-4 py-2 rounded-full transition-all duration-200 shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Baixar
+        </a>
+        <img src="img/revisao.webp" alt="Infográfico de revisão — Brasil e o Mundo no Século XX, 9º Ano (ampliado)" class="max-w-full max-h-full w-auto h-auto object-contain rounded-lg shadow-2xl cursor-zoom-out">
+    </div>
+
     <!-- Rodapé integrado -->
     <footer class="py-6 text-center text-xs relative z-10 mt-8">
         <div class="container mx-auto px-4 font-sans opacity-80 space-y-1">
@@ -169,6 +213,40 @@
             <p class="text-[11px] text-[#8EC5F2] opacity-70">SEDUC-GO · Material de apoio — uso em sala de aula</p>
         </div>
     </footer>
+
+    <script>
+        (function () {
+            const modal = document.getElementById('modal-zoom');
+            const abrirBtns = [document.getElementById('btn-abrir-zoom'), document.getElementById('btn-abrir-zoom-2')];
+            const fecharBtn = document.getElementById('btn-fechar-zoom');
+            const modalImg = modal ? modal.querySelector('img') : null;
+
+            function abrirModal() {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+            function fecharModal() {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+
+            abrirBtns.forEach(function (btn) {
+                if (btn) btn.addEventListener('click', abrirModal);
+            });
+            if (fecharBtn) fecharBtn.addEventListener('click', fecharModal);
+            if (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) fecharModal();
+                });
+            }
+            if (modalImg) modalImg.addEventListener('click', fecharModal);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) fecharModal();
+            });
+        })();
+    </script>
 
 </body>
 </html>
